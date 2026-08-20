@@ -1,0 +1,12 @@
+title: Circuit Problem EE NU
+description: Electrical Circuit Problem Solving Hub
+theme: null
+plugins: []
+include:
+  - .nojekyll
+exclude:
+  - '*.m'
+  - '*.py'
+  - '*.pdf'
+  - '*.xls'
+  - '*.csv'
