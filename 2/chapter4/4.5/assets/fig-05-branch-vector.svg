@@ -1,0 +1,39 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 720" role="img" aria-label="การประกอบเวกเตอร์แรงดันกิ่งโจทย์ 4.5" font-family="'Noto Sans Thai','Sarabun','IBM Plex Sans Thai','Segoe UI',sans-serif">
+<title>การประกอบเวกเตอร์แรงดันกิ่งโจทย์ 4.5</title><defs><marker id="arr-ink" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0 L10 5 L0 10 Z" fill="#172033"/></marker><marker id="arr-blue" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0 L10 5 L0 10 Z" fill="#2563eb"/></marker><marker id="arr-red" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0 L10 5 L0 10 Z" fill="#dc2626"/></marker><marker id="arr-green" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0 L10 5 L0 10 Z" fill="#059669"/></marker><marker id="arr-purple" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0 L10 5 L0 10 Z" fill="#7c3aed"/></marker><marker id="arr-amber" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0 L10 5 L0 10 Z" fill="#b45309"/></marker><marker id="arr-cyan" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0 L10 5 L0 10 Z" fill="#0891b2"/></marker><marker id="arr-pink" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0 L10 5 L0 10 Z" fill="#db2777"/></marker></defs>
+<rect width="1200" height="720" fill="#ffffff"/>
+<text x="54.0" y="55.0" font-size="29" fill="#172033" text-anchor="start" font-weight="800" font-family="'Noto Sans Thai','Sarabun','IBM Plex Sans Thai','Segoe UI',sans-serif">ประกอบเวกเตอร์แรงดันกิ่ง</text>
+<text x="54.0" y="86.0" font-size="16" fill="#64748b" text-anchor="start" font-weight="400" font-family="'Noto Sans Thai','Sarabun','IBM Plex Sans Thai','Segoe UI',sans-serif">คูณทีละแถว แล้วลบเวกเตอร์ตำแหน่งเดียวกัน</text>
+<line x1="54" y1="105" x2="1146" y2="105" stroke="#cbd5e1" stroke-width="1.5" stroke-linecap="round"/>
+<rect x="55" y="145" width="335" height="470" rx="18" fill="#f8fafc" stroke="#cbd5e1" stroke-width="1.5"/>
+<rect x="85" y="175" width="160" height="38" rx="19" fill="#2563eb" stroke="#2563eb" stroke-width="1"/>
+<text x="165.0" y="200.0" font-size="15" fill="#ffffff" text-anchor="middle" font-weight="700" font-family="'Noto Sans Thai','Sarabun','IBM Plex Sans Thai','Segoe UI',sans-serif">ก้อนตัวต้านทาน</text>
+<text x="222.0" y="260.0" font-size="28" fill="#2563eb" text-anchor="middle" font-weight="700" font-family="'STIX Two Math','Cambria Math','Times New Roman',serif">Zᵦ iᵦ</text>
+<text x="222.0" y="318.0" font-size="23" fill="#172033" text-anchor="middle" font-weight="400" font-family="'STIX Two Math','Cambria Math','Times New Roman',serif">[ R₃j₁ ]</text>
+<text x="222.0" y="355.0" font-size="23" fill="#172033" text-anchor="middle" font-weight="400" font-family="'STIX Two Math','Cambria Math','Times New Roman',serif">[ R₂j₁ ]</text>
+<text x="222.0" y="392.0" font-size="23" fill="#172033" text-anchor="middle" font-weight="400" font-family="'STIX Two Math','Cambria Math','Times New Roman',serif">[ −R₁j₁ ]</text>
+<text x="85.0" y="475.0" font-size="16" fill="#64748b" text-anchor="start" font-weight="400" font-family="'Noto Sans Thai','Sarabun','IBM Plex Sans Thai','Segoe UI',sans-serif">แถว 1: R₃·j₁</text>
+<text x="85.0" y="506.0" font-size="16" fill="#64748b" text-anchor="start" font-weight="400" font-family="'Noto Sans Thai','Sarabun','IBM Plex Sans Thai','Segoe UI',sans-serif">แถว 2: R₂·j₁</text>
+<text x="85.0" y="537.0" font-size="16" fill="#64748b" text-anchor="start" font-weight="400" font-family="'Noto Sans Thai','Sarabun','IBM Plex Sans Thai','Segoe UI',sans-serif">แถว 3: R₁·(−j₁)</text>
+<text x="425.0" y="385.0" font-size="42" fill="#dc2626" text-anchor="middle" font-weight="800" font-family="'STIX Two Math','Cambria Math','Times New Roman',serif">−</text>
+<rect x="455" y="145" width="335" height="470" rx="18" fill="#f8fafc" stroke="#cbd5e1" stroke-width="1.5"/>
+<rect x="485" y="175" width="145" height="38" rx="19" fill="#7c3aed" stroke="#7c3aed" stroke-width="1"/>
+<text x="557.5" y="200.0" font-size="15" fill="#ffffff" text-anchor="middle" font-weight="700" font-family="'Noto Sans Thai','Sarabun','IBM Plex Sans Thai','Segoe UI',sans-serif">ก้อนแหล่งจ่าย</text>
+<text x="622.0" y="260.0" font-size="28" fill="#7c3aed" text-anchor="middle" font-weight="700" font-family="'STIX Two Math','Cambria Math','Times New Roman',serif">Zᵦ iₛᵦ</text>
+<text x="622.0" y="318.0" font-size="23" fill="#172033" text-anchor="middle" font-weight="400" font-family="'STIX Two Math','Cambria Math','Times New Roman',serif">[ 0 ]</text>
+<text x="622.0" y="355.0" font-size="23" fill="#172033" text-anchor="middle" font-weight="400" font-family="'STIX Two Math','Cambria Math','Times New Roman',serif">[ αR₂iₓ ]</text>
+<text x="622.0" y="392.0" font-size="23" fill="#172033" text-anchor="middle" font-weight="400" font-family="'STIX Two Math','Cambria Math','Times New Roman',serif">[ R₁I₀ ]</text>
+<text x="485.0" y="475.0" font-size="16" fill="#64748b" text-anchor="start" font-weight="400" font-family="'Noto Sans Thai','Sarabun','IBM Plex Sans Thai','Segoe UI',sans-serif">กิ่ง 1: ไม่มี source</text>
+<text x="485.0" y="506.0" font-size="16" fill="#64748b" text-anchor="start" font-weight="400" font-family="'Noto Sans Thai','Sarabun','IBM Plex Sans Thai','Segoe UI',sans-serif">กิ่ง 2: CCCS αiₓ</text>
+<text x="485.0" y="537.0" font-size="16" fill="#64748b" text-anchor="start" font-weight="400" font-family="'Noto Sans Thai','Sarabun','IBM Plex Sans Thai','Segoe UI',sans-serif">กิ่ง 3: source I₀</text>
+<text x="825.0" y="385.0" font-size="42" fill="#059669" text-anchor="middle" font-weight="800" font-family="'STIX Two Math','Cambria Math','Times New Roman',serif">=</text>
+<rect x="855" y="145" width="290" height="470" rx="18" fill="#ecfdf5" stroke="#059669" stroke-width="1.5"/>
+<rect x="885" y="175" width="120" height="38" rx="19" fill="#059669" stroke="#059669" stroke-width="1"/>
+<text x="945.0" y="200.0" font-size="15" fill="#ffffff" text-anchor="middle" font-weight="700" font-family="'Noto Sans Thai','Sarabun','IBM Plex Sans Thai','Segoe UI',sans-serif">ผลลัพธ์ vᵦ</text>
+<text x="1000.0" y="270.0" font-size="28" fill="#059669" text-anchor="middle" font-weight="700" font-family="'STIX Two Math','Cambria Math','Times New Roman',serif">vᵦ</text>
+<text x="1000.0" y="330.0" font-size="21" fill="#172033" text-anchor="middle" font-weight="400" font-family="'STIX Two Math','Cambria Math','Times New Roman',serif">[ R₃j₁ ]</text>
+<text x="1000.0" y="370.0" font-size="21" fill="#172033" text-anchor="middle" font-weight="400" font-family="'STIX Two Math','Cambria Math','Times New Roman',serif">[ R₂(j₁−αiₓ) ]</text>
+<text x="1000.0" y="410.0" font-size="21" fill="#172033" text-anchor="middle" font-weight="400" font-family="'STIX Two Math','Cambria Math','Times New Roman',serif">[ −R₁(j₁+I₀) ]</text>
+<text x="885.0" y="500.0" font-size="16" fill="#64748b" text-anchor="start" font-weight="600" font-family="'Noto Sans Thai','Sarabun','IBM Plex Sans Thai','Segoe UI',sans-serif">= [v₁  v₂  v₃]ᵀ</text>
+<text x="885.0" y="531.0" font-size="16" fill="#64748b" text-anchor="start" font-weight="600" font-family="'Noto Sans Thai','Sarabun','IBM Plex Sans Thai','Segoe UI',sans-serif">ตรงกับ scalar ทุกกิ่ง</text>
+<text x="600.0" y="670.0" font-size="26" fill="#172033" text-anchor="middle" font-weight="700" font-family="'STIX Two Math','Cambria Math','Times New Roman',serif">vᵦ = Zᵦ iᵦ − Zᵦ iₛᵦ</text>
+</svg>

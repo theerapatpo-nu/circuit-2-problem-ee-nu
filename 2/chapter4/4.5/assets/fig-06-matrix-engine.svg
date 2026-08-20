@@ -1,0 +1,32 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 830" role="img" aria-label="เครื่องยนต์เมทริกซ์ของโจทย์ 4.5" font-family="'Noto Sans Thai','Sarabun','IBM Plex Sans Thai','Segoe UI',sans-serif">
+<title>เครื่องยนต์เมทริกซ์ของโจทย์ 4.5</title><defs><marker id="arr-ink" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0 L10 5 L0 10 Z" fill="#172033"/></marker><marker id="arr-blue" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0 L10 5 L0 10 Z" fill="#2563eb"/></marker><marker id="arr-red" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0 L10 5 L0 10 Z" fill="#dc2626"/></marker><marker id="arr-green" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0 L10 5 L0 10 Z" fill="#059669"/></marker><marker id="arr-purple" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0 L10 5 L0 10 Z" fill="#7c3aed"/></marker><marker id="arr-amber" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0 L10 5 L0 10 Z" fill="#b45309"/></marker><marker id="arr-cyan" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0 L10 5 L0 10 Z" fill="#0891b2"/></marker><marker id="arr-pink" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0 L10 5 L0 10 Z" fill="#db2777"/></marker></defs>
+<rect width="1200" height="830" fill="#ffffff"/>
+<text x="54.0" y="55.0" font-size="29" fill="#172033" text-anchor="start" font-weight="800" font-family="'Noto Sans Thai','Sarabun','IBM Plex Sans Thai','Segoe UI',sans-serif">Matrix Engine: ทุกสัมประสิทธิ์มีที่มา</text>
+<text x="54.0" y="86.0" font-size="16" fill="#64748b" text-anchor="start" font-weight="400" font-family="'Noto Sans Thai','Sarabun','IBM Plex Sans Thai','Segoe UI',sans-serif">สามก้อนจาก lecture แล้วปิดระบบด้วย control equation</text>
+<line x1="54" y1="105" x2="1146" y2="105" stroke="#cbd5e1" stroke-width="1.5" stroke-linecap="round"/>
+<rect x="50" y="135" width="1100" height="185" rx="18" fill="#f8fafc" stroke="#cbd5e1" stroke-width="1.5"/>
+<rect x="75" y="158" width="160" height="38" rx="19" fill="#2563eb" stroke="#2563eb" stroke-width="1"/>
+<text x="155.0" y="183.0" font-size="15" fill="#ffffff" text-anchor="middle" font-weight="700" font-family="'Noto Sans Thai','Sarabun','IBM Plex Sans Thai','Segoe UI',sans-serif">1  LOOP MATRIX</text>
+<text x="220.0" y="235.0" font-size="21" fill="#172033" text-anchor="middle" font-weight="600" font-family="'STIX Two Math','Cambria Math','Times New Roman',serif">BZᵦBᵀ</text>
+<text x="220.0" y="282.0" font-size="21" fill="#2563eb" text-anchor="middle" font-weight="700" font-family="'STIX Two Math','Cambria Math','Times New Roman',serif">= R₁+R₂+R₃ = Rₜ</text>
+<rect x="405" y="158" width="160" height="38" rx="19" fill="#7c3aed" stroke="#7c3aed" stroke-width="1"/>
+<text x="485.0" y="183.0" font-size="15" fill="#ffffff" text-anchor="middle" font-weight="700" font-family="'Noto Sans Thai','Sarabun','IBM Plex Sans Thai','Segoe UI',sans-serif">2  CCCS TERM</text>
+<text x="550.0" y="235.0" font-size="21" fill="#172033" text-anchor="middle" font-weight="600" font-family="'STIX Two Math','Cambria Math','Times New Roman',serif">BZᵦ[0 αiₓ 0]ᵀ</text>
+<text x="550.0" y="282.0" font-size="21" fill="#7c3aed" text-anchor="middle" font-weight="700" font-family="'STIX Two Math','Cambria Math','Times New Roman',serif">= +αR₂iₓ</text>
+<rect x="760" y="158" width="160" height="38" rx="19" fill="#b45309" stroke="#b45309" stroke-width="1"/>
+<text x="840.0" y="183.0" font-size="15" fill="#ffffff" text-anchor="middle" font-weight="700" font-family="'Noto Sans Thai','Sarabun','IBM Plex Sans Thai','Segoe UI',sans-serif">3  I₀ TERM</text>
+<text x="905.0" y="235.0" font-size="21" fill="#172033" text-anchor="middle" font-weight="600" font-family="'STIX Two Math','Cambria Math','Times New Roman',serif">BZᵦ[0 0 I₀]ᵀ</text>
+<text x="905.0" y="282.0" font-size="21" fill="#b45309" text-anchor="middle" font-weight="700" font-family="'STIX Two Math','Cambria Math','Times New Roman',serif">= −R₁I₀</text>
+<line x1="600" y1="335" x2="600" y2="390" stroke="#0891b2" stroke-width="4" stroke-linecap="round" marker-end="url(#arr-cyan)"/>
+<rect x="130" y="405" width="940" height="285" rx="22" fill="#eff6ff" stroke="#2563eb" stroke-width="2"/>
+<rect x="165" y="435" width="185" height="38" rx="19" fill="#2563eb" stroke="#2563eb" stroke-width="1"/>
+<text x="257.5" y="460.0" font-size="15" fill="#ffffff" text-anchor="middle" font-weight="700" font-family="'Noto Sans Thai','Sarabun','IBM Plex Sans Thai','Segoe UI',sans-serif">AUGMENTED SYSTEM</text>
+<text x="600.0" y="540.0" font-size="31" fill="#172033" text-anchor="middle" font-weight="700" font-family="'STIX Two Math','Cambria Math','Times New Roman',serif">[ Rₜ    −αR₂ ] [ j₁ ]   =   [ −R₁I₀ ]</text>
+<text x="600.0" y="594.0" font-size="31" fill="#172033" text-anchor="middle" font-weight="700" font-family="'STIX Two Math','Cambria Math','Times New Roman',serif">[ −1       1  ] [ iₓ ]       [   I₀    ]</text>
+<line x1="180" y1="625" x2="1020" y2="625" stroke="#cbd5e1" stroke-width="1.5" stroke-linecap="round"/>
+<text x="600.0" y="667.0" font-size="25" fill="#dc2626" text-anchor="middle" font-weight="800" font-family="'STIX Two Math','Cambria Math','Times New Roman',serif">det = D = Rₜ − αR₂</text>
+<rect x="170" y="730" width="395" height="58" rx="14" fill="#ecfdf5" stroke="#059669" stroke-width="1.5"/>
+<text x="367.0" y="767.0" font-size="22" fill="#059669" text-anchor="middle" font-weight="700" font-family="'STIX Two Math','Cambria Math','Times New Roman',serif">j₁=(αR₂−R₁)I₀ / D</text>
+<rect x="635" y="730" width="395" height="58" rx="14" fill="#faf5ff" stroke="#7c3aed" stroke-width="1.5"/>
+<text x="832.0" y="767.0" font-size="22" fill="#7c3aed" text-anchor="middle" font-weight="700" font-family="'STIX Two Math','Cambria Math','Times New Roman',serif">iₓ=(R₂+R₃)I₀ / D</text>
+</svg>
