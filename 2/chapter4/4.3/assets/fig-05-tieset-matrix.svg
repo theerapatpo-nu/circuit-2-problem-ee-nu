@@ -1,0 +1,73 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 940 640" width="940" height="640"
+     font-family="'Sarabun','Noto Sans Thai','IBM Plex Sans Thai',-apple-system,'Segoe UI',sans-serif" role="img" aria-label="เมทริกซ์ tie-set และการแปลงตัวแปร">
+  <title>เมทริกซ์ tie-set และการแปลงตัวแปร</title>
+  <defs>
+    <marker id="ah" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M0,0 L10,5 L0,10 z" fill="context-stroke"/>
+    </marker>
+    <marker id="ahs" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="5" markerHeight="5" orient="auto-start-reverse">
+      <path d="M0,0 L10,5 L0,10 z" fill="context-stroke"/>
+    </marker>
+  </defs>
+  <rect width="940" height="640" fill="#ffffff"/>
+<text x="470.0" y="38" font-size="20" fill="#16181d" text-anchor="middle" font-weight="700" font-style="normal" font-family="'Sarabun','Noto Sans Thai','IBM Plex Sans Thai',-apple-system,'Segoe UI',sans-serif" >รูปที่ 5 — เมทริกซ์วงรอบพื้นฐาน B และการแปลงตัวแปรทั้งสองทิศทาง</text>
+<rect x="40" y="78" width="430" height="236" rx="12" fill="#ffffff" stroke="#e2e8f0" stroke-width="1.5"/>
+<text x="62" y="108" font-size="16" fill="#16181d" text-anchor="start" font-weight="700" font-style="normal" font-family="'Sarabun','Noto Sans Thai','IBM Plex Sans Thai',-apple-system,'Segoe UI',sans-serif" >① กฎเครื่องหมายของ b<tspan font-size="10.9" baseline-shift="sub">1k</tspan></text>
+<rect x="52" y="122" width="406" height="34" rx="7" fill="#eef2ff"/>
+<text x="62" y="145" font-size="14" fill="#3730a3" text-anchor="start" font-weight="700" font-style="normal" font-family="'Sarabun','Noto Sans Thai','IBM Plex Sans Thai',-apple-system,'Segoe UI',sans-serif" >กิ่ง k</text>
+<text x="200" y="145" font-size="14" fill="#3730a3" text-anchor="start" font-weight="700" font-style="normal" font-family="'Sarabun','Noto Sans Thai','IBM Plex Sans Thai',-apple-system,'Segoe UI',sans-serif" >ทิศเทียบกับ j₁</text>
+<text x="440" y="145" font-size="14" fill="#3730a3" text-anchor="end" font-weight="700" font-style="normal" font-family="'Sarabun','Noto Sans Thai','IBM Plex Sans Thai',-apple-system,'Segoe UI',sans-serif" >b<tspan font-size="9.5" baseline-shift="sub">1k</tspan></text>
+<rect x="52" y="156" width="406" height="40" fill="#ffffff"/>
+<text x="62" y="182" font-size="14.5" fill="#c0392b" text-anchor="start" font-weight="600" font-style="normal" font-family="'Sarabun','Noto Sans Thai','IBM Plex Sans Thai',-apple-system,'Segoe UI',sans-serif" >1  (ลิงก์)</text>
+<text x="200" y="182" font-size="14.5" fill="#16181d" text-anchor="start" font-weight="400" font-style="normal" font-family="'Sarabun','Noto Sans Thai','IBM Plex Sans Thai',-apple-system,'Segoe UI',sans-serif" >ทางเดียวกัน</text>
+<text x="440" y="182" font-size="16" fill="#c0392b" text-anchor="end" font-weight="700" font-style="normal" font-family="'Sarabun','Noto Sans Thai','IBM Plex Sans Thai',-apple-system,'Segoe UI',sans-serif" >+1</text>
+<rect x="52" y="196" width="406" height="40" fill="#fafafa"/>
+<text x="62" y="222" font-size="14.5" fill="#111827" text-anchor="start" font-weight="600" font-style="normal" font-family="'Sarabun','Noto Sans Thai','IBM Plex Sans Thai',-apple-system,'Segoe UI',sans-serif" >2  (ทวิก)</text>
+<text x="200" y="222" font-size="14.5" fill="#16181d" text-anchor="start" font-weight="400" font-style="normal" font-family="'Sarabun','Noto Sans Thai','IBM Plex Sans Thai',-apple-system,'Segoe UI',sans-serif" >สวนทาง</text>
+<text x="440" y="222" font-size="16" fill="#111827" text-anchor="end" font-weight="700" font-style="normal" font-family="'Sarabun','Noto Sans Thai','IBM Plex Sans Thai',-apple-system,'Segoe UI',sans-serif" >−1</text>
+<text x="62" y="268" font-size="13.5" fill="#6b7280" text-anchor="start" font-weight="400" font-style="normal" font-family="'Sarabun','Noto Sans Thai','IBM Plex Sans Thai',-apple-system,'Segoe UI',sans-serif" >กิ่งที่ไม่อยู่ในวงรอบจะได้ 0 (โจทย์นี้ไม่มี)</text>
+<text x="62" y="292" font-size="13.5" fill="#6b7280" text-anchor="start" font-weight="400" font-style="normal" font-family="'Sarabun','Noto Sans Thai','IBM Plex Sans Thai',-apple-system,'Segoe UI',sans-serif" >ทุกกิ่งอยู่ในวงรอบเดียวกันหมด เพราะมีเพียง 2 กิ่ง</text>
+<rect x="500" y="78" width="400" height="236" rx="12" fill="#ffffff" stroke="#e2e8f0" stroke-width="1.5"/>
+<text x="522" y="108" font-size="16" fill="#16181d" text-anchor="start" font-weight="700" font-style="normal" font-family="'Sarabun','Noto Sans Thai','IBM Plex Sans Thai',-apple-system,'Segoe UI',sans-serif" >② เมทริกซ์วงรอบพื้นฐาน (1 × 2)</text>
+<text x="672" y="152" font-size="13.5" fill="#c0392b" text-anchor="middle" font-weight="600" font-style="normal" font-family="'Sarabun','Noto Sans Thai','IBM Plex Sans Thai',-apple-system,'Segoe UI',sans-serif" >กิ่ง 1</text>
+<text x="762" y="152" font-size="13.5" fill="#111827" text-anchor="middle" font-weight="600" font-style="normal" font-family="'Sarabun','Noto Sans Thai','IBM Plex Sans Thai',-apple-system,'Segoe UI',sans-serif" >กิ่ง 2</text>
+<text x="608" y="194" font-size="20" fill="#16181d" text-anchor="end" font-weight="400" font-style="italic" font-family="'Latin Modern Math','Cambria Math','Times New Roman',Georgia,serif">B =</text>
+<path d="M 631 168 L 622 168 L 622 216 L 631 216" fill="none" stroke="#16181d" stroke-width="2.2"/>
+<path d="M 803 168 L 812 168 L 812 216 L 803 216" fill="none" stroke="#16181d" stroke-width="2.2"/>
+<text x="672" y="201" font-size="20" fill="#c0392b" text-anchor="middle" font-weight="700" font-style="normal" font-family="'Sarabun','Noto Sans Thai','IBM Plex Sans Thai',-apple-system,'Segoe UI',sans-serif" >+1</text>
+<text x="762" y="201" font-size="20" fill="#111827" text-anchor="middle" font-weight="700" font-style="normal" font-family="'Sarabun','Noto Sans Thai','IBM Plex Sans Thai',-apple-system,'Segoe UI',sans-serif" >−1</text>
+<text x="522" y="252" font-size="13.5" fill="#6b7280" text-anchor="start" font-weight="400" font-style="normal" font-family="'Sarabun','Noto Sans Thai','IBM Plex Sans Thai',-apple-system,'Segoe UI',sans-serif" >มีแถวเดียว เพราะมีลิงก์เดียว ⇒ วงรอบอิสระ 1 วง</text>
+<text x="522" y="276" font-size="13.5" fill="#6b7280" text-anchor="start" font-weight="400" font-style="normal" font-family="'Sarabun','Noto Sans Thai','IBM Plex Sans Thai',-apple-system,'Segoe UI',sans-serif" >เรียงหลักตามเลขกิ่ง 1, 2</text>
+<rect x="40" y="336" width="430" height="262" rx="12" fill="#eff6ff" stroke="#1d4ed8" stroke-width="1.5"/>
+<text x="62" y="366" font-size="16" fill="#1d4ed8" text-anchor="start" font-weight="700" font-style="normal" font-family="'Sarabun','Noto Sans Thai','IBM Plex Sans Thai',-apple-system,'Segoe UI',sans-serif" >③ กระแสกิ่งจากกระแสวงรอบ</text>
+<text x="150" y="404" font-size="20" fill="#16181d" text-anchor="middle" font-weight="400" font-style="italic" font-family="'Latin Modern Math','Cambria Math','Times New Roman',Georgia,serif">i<tspan font-size="13.2" baseline-shift="sub" font-style="normal">b</tspan> = B<tspan font-size="13.2" baseline-shift="super" font-style="normal">⊤</tspan> j</text>
+<path d="M 129 430 L 120 430 L 120 502 L 129 502" fill="none" stroke="#16181d" stroke-width="2.2"/>
+<path d="M 191 430 L 200 430 L 200 502 L 191 502" fill="none" stroke="#16181d" stroke-width="2.2"/>
+<text x="160" y="462" font-size="18" fill="#16181d" text-anchor="middle" font-weight="400" font-style="italic" font-family="'Latin Modern Math','Cambria Math','Times New Roman',Georgia,serif">i<tspan font-size="11.9" baseline-shift="sub" font-style="normal">1</tspan></text>
+<text x="160" y="494" font-size="18" fill="#16181d" text-anchor="middle" font-weight="400" font-style="italic" font-family="'Latin Modern Math','Cambria Math','Times New Roman',Georgia,serif">i<tspan font-size="11.9" baseline-shift="sub" font-style="normal">2</tspan></text>
+<text x="226" y="470" font-size="20" fill="#16181d" text-anchor="middle" font-weight="400" font-style="italic" font-family="'Latin Modern Math','Cambria Math','Times New Roman',Georgia,serif">=</text>
+<path d="M 261 430 L 252 430 L 252 502 L 261 502" fill="none" stroke="#16181d" stroke-width="2.2"/>
+<path d="M 313 430 L 322 430 L 322 502 L 313 502" fill="none" stroke="#16181d" stroke-width="2.2"/>
+<text x="287" y="462" font-size="18" fill="#c0392b" text-anchor="middle" font-weight="700" font-style="normal" font-family="'Sarabun','Noto Sans Thai','IBM Plex Sans Thai',-apple-system,'Segoe UI',sans-serif" >+1</text>
+<text x="287" y="494" font-size="18" fill="#111827" text-anchor="middle" font-weight="700" font-style="normal" font-family="'Sarabun','Noto Sans Thai','IBM Plex Sans Thai',-apple-system,'Segoe UI',sans-serif" >−1</text>
+<text x="352" y="470" font-size="20" fill="#c0392b" text-anchor="middle" font-weight="700" font-style="italic" font-family="'Latin Modern Math','Cambria Math','Times New Roman',Georgia,serif">j<tspan font-size="13.2" baseline-shift="sub" font-style="normal">1</tspan></text>
+<rect x="60" y="524" width="390" height="58" rx="9" fill="#ffffff" stroke="#1d4ed8" stroke-width="1.6"/>
+<text x="140" y="550" font-size="18" fill="#c0392b" text-anchor="middle" font-weight="600" font-style="italic" font-family="'Latin Modern Math','Cambria Math','Times New Roman',Georgia,serif">i<tspan font-size="11.9" baseline-shift="sub" font-style="normal">1</tspan> = + j<tspan font-size="11.9" baseline-shift="sub" font-style="normal">1</tspan></text>
+<text x="330" y="550" font-size="18" fill="#111827" text-anchor="middle" font-weight="600" font-style="italic" font-family="'Latin Modern Math','Cambria Math','Times New Roman',Georgia,serif">i<tspan font-size="11.9" baseline-shift="sub" font-style="normal">2</tspan> = - j<tspan font-size="11.9" baseline-shift="sub" font-style="normal">1</tspan></text>
+<text x="255" y="572" font-size="12.5" fill="#6b7280" text-anchor="middle" font-weight="400" font-style="normal" font-family="'Sarabun','Noto Sans Thai','IBM Plex Sans Thai',-apple-system,'Segoe UI',sans-serif" >กระแสทุกกิ่งขึ้นกับตัวแปรเดียว</text>
+<rect x="500" y="336" width="400" height="262" rx="12" fill="#ecfdf5" stroke="#047857" stroke-width="1.5"/>
+<text x="522" y="366" font-size="16" fill="#047857" text-anchor="start" font-weight="700" font-style="normal" font-family="'Sarabun','Noto Sans Thai','IBM Plex Sans Thai',-apple-system,'Segoe UI',sans-serif" >④ สมการวงรอบ (KVL)</text>
+<text x="700" y="404" font-size="20" fill="#16181d" text-anchor="middle" font-weight="400" font-style="italic" font-family="'Latin Modern Math','Cambria Math','Times New Roman',Georgia,serif">B v<tspan font-size="13.2" baseline-shift="sub" font-style="normal">b</tspan> = 0</text>
+<path d="M 565 446 L 556 446 L 556 494 L 565 494" fill="none" stroke="#16181d" stroke-width="2.2"/>
+<path d="M 691 446 L 700 446 L 700 494 L 691 494" fill="none" stroke="#16181d" stroke-width="2.2"/>
+<text x="596" y="478" font-size="18" fill="#c0392b" text-anchor="middle" font-weight="700" font-style="normal" font-family="'Sarabun','Noto Sans Thai','IBM Plex Sans Thai',-apple-system,'Segoe UI',sans-serif" >+1</text>
+<text x="664" y="478" font-size="18" fill="#111827" text-anchor="middle" font-weight="700" font-style="normal" font-family="'Sarabun','Noto Sans Thai','IBM Plex Sans Thai',-apple-system,'Segoe UI',sans-serif" >−1</text>
+<path d="M 723 430 L 714 430 L 714 502 L 723 502" fill="none" stroke="#16181d" stroke-width="2.2"/>
+<path d="M 775 430 L 784 430 L 784 502 L 775 502" fill="none" stroke="#16181d" stroke-width="2.2"/>
+<text x="749" y="462" font-size="18" fill="#16181d" text-anchor="middle" font-weight="400" font-style="italic" font-family="'Latin Modern Math','Cambria Math','Times New Roman',Georgia,serif">v<tspan font-size="11.9" baseline-shift="sub" font-style="normal">1</tspan></text>
+<text x="749" y="494" font-size="18" fill="#16181d" text-anchor="middle" font-weight="400" font-style="italic" font-family="'Latin Modern Math','Cambria Math','Times New Roman',Georgia,serif">v<tspan font-size="11.9" baseline-shift="sub" font-style="normal">2</tspan></text>
+<text x="800" y="478" font-size="20" fill="#16181d" text-anchor="start" font-weight="400" font-style="normal" font-family="'Sarabun','Noto Sans Thai','IBM Plex Sans Thai',-apple-system,'Segoe UI',sans-serif" >= 0</text>
+<rect x="520" y="524" width="360" height="58" rx="9" fill="#ffffff" stroke="#047857" stroke-width="1.6"/>
+<text x="700" y="552" font-size="19" fill="#047857" text-anchor="middle" font-weight="600" font-style="italic" font-family="'Latin Modern Math','Cambria Math','Times New Roman',Georgia,serif">v<tspan font-size="12.5" baseline-shift="sub" font-style="normal">1</tspan> - v<tspan font-size="12.5" baseline-shift="sub" font-style="normal">2</tspan> = 0</text>
+<text x="700" y="574" font-size="12.5" fill="#6b7280" text-anchor="middle" font-weight="400" font-style="normal" font-family="'Sarabun','Noto Sans Thai','IBM Plex Sans Thai',-apple-system,'Segoe UI',sans-serif" >แรงดันสองกิ่งเท่ากันเสมอ</text>
+</svg>

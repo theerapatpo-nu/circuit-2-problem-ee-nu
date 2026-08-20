@@ -1,0 +1,586 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Circuit Analysis II Hub - ภาควิชาวิศวกรรมไฟฟ้า มหาวิทยาลัยนเรศวร">
+  <title>Circuit 2 Hub | ทฤษฎีและการวิเคราะห์วงจรไฟฟ้า 2</title>
+  
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Sarabun:wght@300;400;500;600;700&family=Fira+Code:wght@400;500&display=swap" rel="stylesheet">
+  
+  <!-- Favicon -->
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Cdefs%3E%3ClinearGradient id='g' x1='0%25' y1='0%25' x2='100%25' y2='100%25'%3E%3Cstop offset='0%25' stop-color='%236366f1'/%3E%3Cstop offset='100%25' stop-color='%2338bdf8'/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect width='64' height='64' rx='16' fill='url(%23g)'/%3E%3Cpath d='M32 12 L50 48 L14 48 Z' fill='none' stroke='white' stroke-width='5' stroke-linejoin='round'/%3E%3Ccircle cx='32' cy='32' r='5' fill='%2338bdf8'/%3E%3C/svg%3E">
+
+  <style>
+    :root {
+      --font-display: 'Plus Jakarta Sans', 'Sarabun', sans-serif;
+      --font-body: 'Sarabun', -apple-system, BlinkMacSystemFont, sans-serif;
+      --font-mono: 'Fira Code', monospace;
+      
+      --bg: #090d16;
+      --bg-surface: #0f172a;
+      --bg-surface-elevated: #1e293b;
+      --bg-glass: rgba(15, 23, 42, 0.78);
+      --border: rgba(255, 255, 255, 0.1);
+      --border-focus: rgba(99, 102, 241, 0.5);
+      
+      --text: #f8fafc;
+      --text-muted: #94a3b8;
+      --text-subtle: #64748b;
+      
+      --primary: #6366f1;
+      --primary-light: #818cf8;
+      --primary-glow: rgba(99, 102, 241, 0.25);
+      
+      --accent: #38bdf8;
+      --accent-glow: rgba(56, 189, 248, 0.2);
+      --emerald: #10b981;
+      --amber: #f59e0b;
+      --purple: #a855f7;
+      
+      --radius-sm: 8px;
+      --radius-md: 14px;
+      --radius-lg: 20px;
+      --radius-xl: 28px;
+      
+      --shadow-sm: 0 2px 8px rgba(0,0,0,0.3);
+      --shadow-md: 0 10px 30px rgba(0,0,0,0.4);
+      --shadow-glow: 0 0 50px rgba(99, 102, 241, 0.2);
+    }
+
+    [data-theme="light"] {
+      --bg: #f8fafc;
+      --bg-surface: #ffffff;
+      --bg-surface-elevated: #f1f5f9;
+      --bg-glass: rgba(255, 255, 255, 0.88);
+      --border: rgba(0, 0, 0, 0.08);
+      --border-focus: rgba(99, 102, 241, 0.4);
+      
+      --text: #0f172a;
+      --text-muted: #475569;
+      --text-subtle: #94a3b8;
+      
+      --shadow-sm: 0 2px 8px rgba(0,0,0,0.06);
+      --shadow-md: 0 10px 30px rgba(0,0,0,0.08);
+      --shadow-glow: 0 0 50px rgba(99, 102, 241, 0.12);
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: var(--font-body);
+      background-color: var(--bg);
+      color: var(--text);
+      line-height: 1.65;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      transition: background-color 0.3s ease, color 0.3s ease;
+    }
+
+    .ambient-glow {
+      position: fixed;
+      width: 700px;
+      height: 700px;
+      border-radius: 50%;
+      background: radial-gradient(circle, var(--primary-glow) 0%, transparent 70%);
+      top: -200px;
+      right: -100px;
+      pointer-events: none;
+      z-index: 0;
+      filter: blur(80px);
+    }
+
+    /* Navbar */
+    .navbar {
+      position: sticky;
+      top: 0;
+      z-index: 50;
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      background: var(--bg-glass);
+      border-bottom: 1px solid var(--border);
+      padding: 14px 24px;
+    }
+
+    .nav-container {
+      max-width: 1200px;
+      margin: 0 auto;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .breadcrumbs {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 0.9rem;
+      color: var(--text-muted);
+    }
+
+    .breadcrumbs a {
+      color: var(--text-muted);
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      transition: color 0.2s ease;
+    }
+
+    .breadcrumbs a:hover {
+      color: var(--primary-light);
+    }
+
+    .breadcrumbs span.current {
+      color: var(--text);
+      font-weight: 600;
+    }
+
+    .nav-actions {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .btn-icon {
+      background: var(--bg-surface);
+      border: 1px solid var(--border);
+      color: var(--text);
+      padding: 8px 14px;
+      border-radius: var(--radius-md);
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 0.88rem;
+      font-family: var(--font-body);
+      transition: all 0.2s ease;
+      text-decoration: none;
+    }
+
+    .btn-icon:hover {
+      background: var(--bg-surface-elevated);
+      border-color: var(--primary-light);
+      transform: translateY(-1px);
+    }
+
+    /* Main Container */
+    .main-content {
+      position: relative;
+      z-index: 1;
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 40px 24px 80px;
+      flex: 1;
+      width: 100%;
+    }
+
+    /* Hero Banner */
+    .hero-banner {
+      background: linear-gradient(135deg, rgba(30, 41, 59, 0.7), rgba(15, 23, 42, 0.9));
+      border: 1px solid var(--border);
+      border-radius: var(--radius-xl);
+      padding: 40px 36px;
+      margin-bottom: 48px;
+      position: relative;
+      overflow: hidden;
+      box-shadow: var(--shadow-sm);
+    }
+
+    [data-theme="light"] .hero-banner {
+      background: linear-gradient(135deg, #ffffff, #f1f5f9);
+    }
+
+    .hero-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: rgba(99, 102, 241, 0.15);
+      border: 1px solid rgba(99, 102, 241, 0.3);
+      color: var(--primary-light);
+      padding: 4px 12px;
+      border-radius: 999px;
+      font-size: 0.82rem;
+      font-weight: 600;
+      margin-bottom: 16px;
+    }
+
+    .hero-title {
+      font-family: var(--font-display);
+      font-size: clamp(1.8rem, 4vw, 2.5rem);
+      font-weight: 800;
+      letter-spacing: -0.02em;
+      margin-bottom: 12px;
+    }
+
+    .hero-desc {
+      color: var(--text-muted);
+      font-size: 1.05rem;
+      max-width: 760px;
+      line-height: 1.6;
+    }
+
+    /* Chapter Grid */
+    .section-title-wrap {
+      margin-bottom: 24px;
+    }
+
+    .section-title-wrap h3 {
+      font-family: var(--font-display);
+      font-size: 1.4rem;
+      font-weight: 700;
+      letter-spacing: -0.01em;
+    }
+
+    .chapter-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(360px, 1fr));
+      gap: 24px;
+      margin-bottom: 48px;
+    }
+
+    .chapter-card {
+      background: var(--bg-surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-xl);
+      padding: 30px 28px;
+      display: flex;
+      flex-direction: column;
+      transition: all 0.25s ease;
+      box-shadow: var(--shadow-sm);
+      position: relative;
+    }
+
+    .chapter-card:hover {
+      border-color: rgba(99, 102, 241, 0.4);
+      transform: translateY(-4px);
+      box-shadow: var(--shadow-md);
+    }
+
+    .chapter-card.highlight {
+      border-color: rgba(99, 102, 241, 0.35);
+      background: linear-gradient(180deg, var(--bg-surface) 0%, rgba(30, 41, 59, 0.4) 100%);
+    }
+
+    .card-badge-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 18px;
+    }
+
+    .chapter-num {
+      font-family: var(--font-mono);
+      font-size: 0.85rem;
+      font-weight: 700;
+      color: var(--accent);
+      background: rgba(56, 189, 248, 0.1);
+      border: 1px solid rgba(56, 189, 248, 0.25);
+      padding: 4px 10px;
+      border-radius: var(--radius-sm);
+    }
+
+    .badge-active {
+      font-size: 0.75rem;
+      font-weight: 700;
+      color: #10b981;
+      background: rgba(16, 185, 129, 0.12);
+      border: 1px solid rgba(16, 185, 129, 0.3);
+      padding: 4px 10px;
+      border-radius: 999px;
+    }
+
+    .chapter-title {
+      font-family: var(--font-display);
+      font-size: 1.35rem;
+      font-weight: 700;
+      margin-bottom: 10px;
+      letter-spacing: -0.01em;
+    }
+
+    .chapter-desc {
+      color: var(--text-muted);
+      font-size: 0.92rem;
+      margin-bottom: 22px;
+      flex: 1;
+    }
+
+    .chapter-links {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      padding-top: 18px;
+      border-top: 1px solid var(--border);
+    }
+
+    .btn-link {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 10px 14px;
+      background: var(--bg-surface-elevated);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-md);
+      color: var(--text);
+      text-decoration: none;
+      font-size: 0.88rem;
+      font-weight: 500;
+      transition: all 0.2s ease;
+    }
+
+    .btn-link:hover {
+      background: rgba(99, 102, 241, 0.15);
+      border-color: var(--primary-light);
+      color: var(--primary-light);
+      transform: translateX(3px);
+    }
+
+    .btn-link.primary {
+      background: linear-gradient(135deg, #4f46e5, #6366f1);
+      color: white;
+      border: none;
+      font-weight: 600;
+      box-shadow: 0 4px 12px rgba(79, 70, 229, 0.3);
+    }
+
+    .btn-link.primary:hover {
+      background: linear-gradient(135deg, #4338ca, #4f46e5);
+      transform: translateX(3px);
+      box-shadow: 0 6px 16px rgba(79, 70, 229, 0.4);
+    }
+
+    /* Footer */
+    footer {
+      border-top: 1px solid var(--border);
+      background: var(--bg-surface);
+      padding: 36px 24px;
+      margin-top: auto;
+    }
+
+    .footer-inner {
+      max-width: 1200px;
+      margin: 0 auto;
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+      align-items: center;
+      text-align: center;
+    }
+
+    @media (min-width: 768px) {
+      .footer-inner {
+        flex-direction: row;
+        justify-content: space-between;
+        text-align: left;
+      }
+    }
+
+    .footer-copy {
+      font-size: 0.85rem;
+      color: var(--text-muted);
+    }
+
+    .footer-links {
+      display: flex;
+      gap: 16px;
+      list-style: none;
+    }
+
+    .footer-links a {
+      color: var(--text-muted);
+      text-decoration: none;
+      font-size: 0.85rem;
+      transition: color 0.2s ease;
+    }
+
+    .footer-links a:hover {
+      color: var(--primary-light);
+    }
+  </style>
+</head>
+<body>
+  <div class="ambient-glow"></div>
+
+  <!-- Navbar -->
+  <nav class="navbar">
+    <div class="nav-container">
+      <div class="breadcrumbs">
+        <a href="../index.html">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path><polyline points="9 22 9 12 15 12 15 22"></polyline></svg>
+          Portal
+        </a>
+        <span>/</span>
+        <span class="current">⚡ Circuit 2 Hub</span>
+      </div>
+      <div class="nav-actions">
+        <button class="btn-icon" id="themeToggle" type="button" aria-label="สลับธีม">
+          <svg id="moonIcon" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path></svg>
+          <span id="themeLabel">Dark</span>
+        </button>
+        <a href="../index.html" class="btn-icon">
+          ← กลับหน้าแรก
+        </a>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Main Content -->
+  <main class="main-content">
+    <div class="hero-banner">
+      <div class="hero-badge">
+        303212 · Network Topology & Analysis
+      </div>
+      <h2 class="hero-title">Circuit Analysis II Hub</h2>
+      <p class="hero-desc">
+        แหล่งรวมโจทย์ แบบฝึกหัด เอกสารบรรยาย และเครื่องมือวิเคราะห์เชิงทฤษฎีกราฟและโทโพโลยีวงจรไฟฟ้า คัดสรรสำหรับนิสิตวิศวกรรมไฟฟ้า มหาวิทยาลัยนเรศวร
+      </p>
+    </div>
+
+    <div class="section-title-wrap">
+      <h3>เลือกบทและหัวข้อการศึกษา (Chapters & Topics)</h3>
+    </div>
+
+    <div class="chapter-grid">
+      <!-- Chapter 4 -->
+      <div class="chapter-card highlight">
+        <div class="card-badge-row">
+          <span class="chapter-num">CHAPTER 4</span>
+          <span class="badge-active">2 โจทย์พร้อมเฉลยละเอียด</span>
+        </div>
+        <h4 class="chapter-title">บทที่ 4 — การวิเคราะห์วงรอบ (Loop / Tie-set Analysis)</h4>
+        <p class="chapter-desc">
+          การเลือกทรี (Tree) และโค-ทรี (Links), เมทริกซ์วงรอบหลักมูล B, สมการเฉพาะกิ่งแบบ Thévenin/Norton, สมการรอบ B Z_b Bᵀ j และการคำนวณแรงดัน/กระแสกิ่ง
+        </p>
+        <div class="chapter-links">
+          <a href="chapter4/index.html" class="btn-link primary">
+            <span>📖 เข้าสู่หน้ารวมบทที่ 4 (Chapter 4 Hub)</span>
+            <span>→</span>
+          </a>
+          <a href="chapter4/4.4/index.html" class="btn-link">
+            <span>✨ ข้อ [4.4] — Fundamental Tie-set 3 กิ่ง</span>
+            <span>→</span>
+          </a>
+          <a href="chapter4/4.3/index.html" class="btn-link">
+            <span>📊 ข้อ [4.3] — สมการรอบ Dipole 2 กิ่ง</span>
+            <span>→</span>
+          </a>
+          <a href="chapter4/lecture/303212S1Y2569lec04_5048.pdf" target="_blank" class="btn-link">
+            <span>📄 เอกสารบรรยายบทที่ 4 (Lecture PDF)</span>
+            <span>↗</span>
+          </a>
+        </div>
+      </div>
+
+      <!-- Chapter 1 -->
+      <div class="chapter-card">
+        <div class="card-badge-row">
+          <span class="chapter-num">CHAPTER 1</span>
+          <span class="badge-active">Fundamental Cutset</span>
+        </div>
+        <h4 class="chapter-title">บทที่ 1 — สมการเซตตัด (Cutset Equations)</h4>
+        <p class="chapter-desc">
+          ทฤษฎีกราฟพื้นฐาน, เมทริกซ์การต่อถึงกัน (Incidence Matrix), Spanning Trees, Matrix Tree Theorem และสมการเซตตัดหลักมูล (Fundamental Cutsets)
+        </p>
+        <div class="chapter-links">
+          <a href="fundamental-cutset-analysis/Fundamental_Cutset_Analysis.html" class="btn-link primary">
+            <span>🌳 Fundamental Cutset Analysis (Interactive)</span>
+            <span>→</span>
+          </a>
+          <a href="chapter1-exercise-1-3-cutset-equations/README.md" class="btn-link">
+            <span>📄 แบบฝึกหัด 1.3 (139 Spanning Trees)</span>
+            <span>→</span>
+          </a>
+          <a href="lectures/303212S1Y2569lec01.pdf" target="_blank" class="btn-link">
+            <span>📄 เอกสารบรรยายบทที่ 1 (Lecture 01 PDF)</span>
+            <span>↗</span>
+          </a>
+        </div>
+      </div>
+
+      <!-- Chapter 7 -->
+      <div class="chapter-card">
+        <div class="card-badge-row">
+          <span class="chapter-num">CHAPTER 7</span>
+          <span class="badge-active">State Equations</span>
+        </div>
+        <h4 class="chapter-title">บทที่ 7 — สมการสถานะและโดเมนความถี่</h4>
+        <p class="chapter-desc">
+          การวิเคราะห์วงจรข่าย RLC ในสถานะอยู่ตัว, เฟสเซอร์แทน และการสร้างสมการสถานะ (State Equations)
+        </p>
+        <div class="chapter-links">
+          <a href="chapter7/7.6-solution/index.html" class="btn-link primary">
+            <span>📊 ข้อ [7.6] — State Equation Solution</span>
+            <span>→</span>
+          </a>
+        </div>
+      </div>
+
+      <!-- Oral Exam -->
+      <div class="chapter-card">
+        <div class="card-badge-row">
+          <span class="chapter-num">SPECIALS</span>
+          <span class="badge-active">Interactive Hub</span>
+        </div>
+        <h4 class="chapter-title">การสอบพิเศษ (Oral Exam Dashboards)</h4>
+        <p class="chapter-desc">
+          ชุดแบบฝึกหัดและการสอบปากเปล่า พร้อม Interactive Dashboard แสดงไดอะแกรมการตัดกราฟ (Cutset Cuts) และการตรวจคำตอบ
+        </p>
+        <div class="chapter-links">
+          <a href="specials/oral-exam/index.html" class="btn-link primary">
+            <span>⚡ เข้าสู่ Oral Exam Dashboard Hub</span>
+            <span>→</span>
+          </a>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <!-- Footer -->
+  <footer>
+    <div class="footer-inner">
+      <div class="footer-copy">
+        © 2026 Circuit Problem EE NU · ภาควิชาวิศวกรรมไฟฟ้า มหาวิทยาลัยนเรศวร
+      </div>
+      <ul class="footer-links">
+        <li><a href="../index.html">Main Portal</a></li>
+        <li><a href="chapter4/index.html">Chapter 4</a></li>
+        <li><a href="https://github.com/theerapatpo-nu/circuit-2-problem-ee-nu" target="_blank" rel="noopener">GitHub</a></li>
+      </ul>
+    </div>
+  </footer>
+
+  <script>
+    const themeToggle = document.getElementById('themeToggle');
+    const themeLabel = document.getElementById('themeLabel');
+    const moonIcon = document.getElementById('moonIcon');
+
+    function setTheme(theme) {
+      document.documentElement.setAttribute('data-theme', theme);
+      localStorage.setItem('theme', theme);
+      if (theme === 'light') {
+        themeLabel.textContent = 'Light';
+        moonIcon.innerHTML = '<circle cx="12" cy="12" r="5"></circle><line x1="12" y1="1" x2="12" y2="3"></line><line x1="12" y1="21" x2="12" y2="23"></line><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line><line x1="1" y1="12" x2="3" y2="12"></line><line x1="21" y1="12" x2="23" y2="12"></line><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>';
+      } else {
+        themeLabel.textContent = 'Dark';
+        moonIcon.innerHTML = '<path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>';
+      }
+    }
+
+    const savedTheme = localStorage.getItem('theme') || 'dark';
+    setTheme(savedTheme);
+
+    themeToggle.addEventListener('click', () => {
+      const current = document.documentElement.getAttribute('data-theme') || 'dark';
+      setTheme(current === 'dark' ? 'light' : 'dark');
+    });
+  </script>
+</body>
+</html>

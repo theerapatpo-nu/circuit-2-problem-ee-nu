@@ -1,0 +1,81 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 800" width="900" height="800"
+     font-family="'Sarabun','Noto Sans Thai','IBM Plex Sans Thai',-apple-system,'Segoe UI',sans-serif" role="img" aria-label="การยุบวงจรเป็นกิ่งประกอบ 2 กิ่ง">
+  <title>การยุบวงจรเป็นกิ่งประกอบ 2 กิ่ง</title>
+  <defs>
+    <marker id="ah" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M0,0 L10,5 L0,10 z" fill="context-stroke"/>
+    </marker>
+    <marker id="ahs" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="5" markerHeight="5" orient="auto-start-reverse">
+      <path d="M0,0 L10,5 L0,10 z" fill="context-stroke"/>
+    </marker>
+  </defs>
+  <rect width="900" height="800" fill="#ffffff"/>
+<text x="450.0" y="38" font-size="20" fill="#16181d" text-anchor="middle" font-weight="700" font-style="normal" font-family="'Sarabun','Noto Sans Thai','IBM Plex Sans Thai',-apple-system,'Segoe UI',sans-serif" >รูปที่ 2 — จับกลุ่มองค์ประกอบตามที่โจทย์กำหนด ให้เหลือกิ่งประกอบ 2 กิ่ง</text>
+<rect x="117" y="86" width="286" height="190" rx="14" fill="#ecfdf5" stroke="#047857" stroke-width="2.4" stroke-dasharray="8 5"/>
+<rect x="407" y="86" width="366" height="226" rx="14" fill="#eff6ff" stroke="#1d4ed8" stroke-width="2.4" stroke-dasharray="8 5"/>
+<line x1="165" y1="120" x2="165" y2="207" stroke="#16181d" stroke-width="2.8" stroke-linecap="round" />
+<circle cx="165" cy="230" r="23" fill="#ffffff" stroke="#16181d" stroke-width="2.6"/>
+<line x1="158" y1="221" x2="172" y2="221" stroke="#16181d" stroke-width="2.4" stroke-linecap="round" />
+<line x1="165" y1="214" x2="165" y2="228" stroke="#16181d" stroke-width="2.4" stroke-linecap="round" />
+<line x1="158" y1="239" x2="172" y2="239" stroke="#16181d" stroke-width="2.4" stroke-linecap="round" />
+<line x1="165" y1="253" x2="165" y2="340" stroke="#16181d" stroke-width="2.8" stroke-linecap="round" />
+<line x1="165" y1="120" x2="220" y2="120" stroke="#16181d" stroke-width="2.8" stroke-linecap="round" />
+<polyline points="220.0,120.0 226.7,131.0 240.0,109.0 253.3,131.0 266.7,109.0 280.0,131.0 293.3,109.0 306.7,131.0 320.0,109.0 333.3,131.0 346.7,109.0 360.0,131.0 373.3,109.0 380.0,120.0" fill="none" stroke="#16181d" stroke-width="2.8" stroke-linejoin="round" stroke-linecap="round" />
+<line x1="380" y1="120" x2="455" y2="120" stroke="#16181d" stroke-width="2.8" stroke-linecap="round" />
+<line x1="455" y1="120" x2="455" y2="207" stroke="#16181d" stroke-width="2.8" stroke-linecap="round" />
+<circle cx="455" cy="230" r="23" fill="#ffffff" stroke="#16181d" stroke-width="2.6"/>
+<line x1="455" y1="244" x2="455" y2="216" stroke="#16181d" stroke-width="2.6" marker-end="url(#ah)"/>
+<line x1="455" y1="253" x2="455" y2="340" stroke="#16181d" stroke-width="2.8" stroke-linecap="round" />
+<line x1="455" y1="120" x2="510" y2="120" stroke="#16181d" stroke-width="2.8" stroke-linecap="round" />
+<polyline points="510.0,120.0 516.7,131.0 530.0,109.0 543.3,131.0 556.7,109.0 570.0,131.0 583.3,109.0 596.7,131.0 610.0,109.0 623.3,131.0 636.7,109.0 650.0,131.0 663.3,109.0 670.0,120.0" fill="none" stroke="#16181d" stroke-width="2.8" stroke-linejoin="round" stroke-linecap="round" />
+<line x1="670" y1="120" x2="735" y2="120" stroke="#16181d" stroke-width="2.8" stroke-linecap="round" />
+<line x1="735" y1="120" x2="735" y2="180" stroke="#16181d" stroke-width="2.8" stroke-linecap="round" />
+<polyline points="735.0,180.0 724.0,184.4 746.0,193.1 724.0,201.9 746.0,210.6 724.0,219.4 746.0,228.1 724.0,236.9 746.0,245.6 724.0,254.4 746.0,263.1 724.0,271.9 746.0,280.6 735.0,285.0" fill="none" stroke="#16181d" stroke-width="2.8" stroke-linejoin="round" stroke-linecap="round" />
+<line x1="735" y1="285" x2="735" y2="340" stroke="#16181d" stroke-width="2.8" stroke-linecap="round" />
+<line x1="165" y1="340" x2="735" y2="340" stroke="#16181d" stroke-width="2.8" stroke-linecap="round" />
+<text x="300" y="70" font-size="17" fill="#16181d" text-anchor="middle" font-weight="400" font-style="italic" font-family="'Latin Modern Math','Cambria Math','Times New Roman',Georgia,serif">R<tspan font-size="11.2" baseline-shift="sub" font-style="normal">1</tspan></text>
+<text x="590" y="70" font-size="17" fill="#16181d" text-anchor="middle" font-weight="400" font-style="italic" font-family="'Latin Modern Math','Cambria Math','Times New Roman',Georgia,serif">R<tspan font-size="11.2" baseline-shift="sub" font-style="normal">2</tspan></text>
+<text x="707" y="236" font-size="17" fill="#16181d" text-anchor="end" font-weight="400" font-style="italic" font-family="'Latin Modern Math','Cambria Math','Times New Roman',Georgia,serif">R<tspan font-size="11.2" baseline-shift="sub" font-style="normal">3</tspan></text>
+<text x="129" y="236" font-size="17" fill="#16181d" text-anchor="end" font-weight="400" font-style="italic" font-family="'Latin Modern Math','Cambria Math','Times New Roman',Georgia,serif">v<tspan font-size="11.2" baseline-shift="sub" font-style="normal">s</tspan></text>
+<text x="487" y="236" font-size="17" fill="#16181d" text-anchor="start" font-weight="400" font-style="italic" font-family="'Latin Modern Math','Cambria Math','Times New Roman',Georgia,serif">i<tspan font-size="11.2" baseline-shift="sub" font-style="normal">s</tspan></text>
+<circle cx="455" cy="120" r="6" fill="#16181d"/>
+<circle cx="455" cy="340" r="6" fill="#16181d"/>
+<text x="439" y="108" font-size="17" fill="#16181d" text-anchor="end" font-weight="700" font-style="italic" font-family="'Latin Modern Math','Cambria Math','Times New Roman',Georgia,serif">a</text>
+<text x="439" y="362" font-size="17" fill="#16181d" text-anchor="end" font-weight="700" font-style="italic" font-family="'Latin Modern Math','Cambria Math','Times New Roman',Georgia,serif">o</text>
+<text x="125" y="74" font-size="16" fill="#047857" text-anchor="start" font-weight="700" font-style="normal" font-family="'Sarabun','Noto Sans Thai','IBM Plex Sans Thai',-apple-system,'Segoe UI',sans-serif" >กิ่งที่ 2</text>
+<text x="117" y="374" font-size="13.5" fill="#047857" text-anchor="start" font-weight="400" font-style="normal" font-family="'Sarabun','Noto Sans Thai','IBM Plex Sans Thai',-apple-system,'Segoe UI',sans-serif" >v<tspan font-size="9.2" baseline-shift="sub">s</tspan> อนุกรมกับ R₁  (รูปทีวินิน)</text>
+<text x="779" y="74" font-size="16" fill="#1d4ed8" text-anchor="end" font-weight="700" font-style="normal" font-family="'Sarabun','Noto Sans Thai','IBM Plex Sans Thai',-apple-system,'Segoe UI',sans-serif" >กิ่งที่ 1</text>
+<text x="779" y="374" font-size="13.5" fill="#1d4ed8" text-anchor="end" font-weight="400" font-style="normal" font-family="'Sarabun','Noto Sans Thai','IBM Plex Sans Thai',-apple-system,'Segoe UI',sans-serif" >i<tspan font-size="9.2" baseline-shift="sub">s</tspan> ขนานกับ (R₂ อนุกรม R₃)  (รูปนอร์ตัน)</text>
+<line x1="450.0" y1="396" x2="450.0" y2="436" stroke="#6b7280" stroke-width="2.4" stroke-linecap="round" marker-end="url(#ah)"/>
+<text x="466.0" y="424" font-size="14.5" fill="#6b7280" text-anchor="start" font-weight="400" font-style="normal" font-family="'Sarabun','Noto Sans Thai','IBM Plex Sans Thai',-apple-system,'Segoe UI',sans-serif" >ยุบเป็นกราฟ 2 ปม 2 กิ่ง</text>
+<line x1="255" y1="516" x2="675" y2="516" stroke="#16181d" stroke-width="3" stroke-linecap="round" />
+<line x1="255" y1="666" x2="675" y2="666" stroke="#16181d" stroke-width="3" stroke-linecap="round" />
+<text x="240" y="504" font-size="18" fill="#16181d" text-anchor="end" font-weight="700" font-style="italic" font-family="'Latin Modern Math','Cambria Math','Times New Roman',Georgia,serif">a</text>
+<text x="240" y="692" font-size="18" fill="#16181d" text-anchor="end" font-weight="700" font-style="italic" font-family="'Latin Modern Math','Cambria Math','Times New Roman',Georgia,serif">o</text>
+<line x1="570" y1="516" x2="570" y2="548" stroke="#16181d" stroke-width="2.8" stroke-linecap="round" />
+<line x1="570" y1="634" x2="570" y2="666" stroke="#16181d" stroke-width="2.8" stroke-linecap="round" />
+<rect x="508" y="548" width="124" height="86" rx="10" fill="#eff6ff" stroke="#1d4ed8" stroke-width="2.6"/>
+<text x="570" y="578" font-size="15" fill="#1d4ed8" text-anchor="middle" font-weight="700" font-style="normal" font-family="'Sarabun','Noto Sans Thai','IBM Plex Sans Thai',-apple-system,'Segoe UI',sans-serif" >กิ่งที่ 1</text>
+<text x="570" y="602" font-size="14" fill="#1d4ed8" text-anchor="middle" font-weight="400" font-style="normal" font-family="'Sarabun','Noto Sans Thai','IBM Plex Sans Thai',-apple-system,'Segoe UI',sans-serif" >i<tspan font-size="9.5" baseline-shift="sub">s</tspan> ขนาน (R₂+R₃)</text>
+<circle cx="570" cy="516" r="6" fill="#16181d"/>
+<circle cx="570" cy="666" r="6" fill="#16181d"/>
+<line x1="482" y1="654" x2="482" y2="528" stroke="#1d4ed8" stroke-width="2.4" stroke-linecap="round" marker-end="url(#ah)"/>
+<text x="470" y="597.0" font-size="17" fill="#1d4ed8" text-anchor="end" font-weight="400" font-style="italic" font-family="'Latin Modern Math','Cambria Math','Times New Roman',Georgia,serif">i<tspan font-size="11.2" baseline-shift="sub" font-style="normal">1</tspan></text>
+<text x="648" y="644" font-size="20" fill="#1d4ed8" text-anchor="middle" font-weight="700" font-style="normal" font-family="'Sarabun','Noto Sans Thai','IBM Plex Sans Thai',-apple-system,'Segoe UI',sans-serif" >+</text>
+<text x="648" y="546" font-size="20" fill="#1d4ed8" text-anchor="middle" font-weight="700" font-style="normal" font-family="'Sarabun','Noto Sans Thai','IBM Plex Sans Thai',-apple-system,'Segoe UI',sans-serif" >–</text>
+<text x="666" y="597.0" font-size="17" fill="#1d4ed8" text-anchor="start" font-weight="400" font-style="italic" font-family="'Latin Modern Math','Cambria Math','Times New Roman',Georgia,serif">v<tspan font-size="11.2" baseline-shift="sub" font-style="normal">1</tspan></text>
+<line x1="330" y1="516" x2="330" y2="548" stroke="#16181d" stroke-width="2.8" stroke-linecap="round" />
+<line x1="330" y1="634" x2="330" y2="666" stroke="#16181d" stroke-width="2.8" stroke-linecap="round" />
+<rect x="268" y="548" width="124" height="86" rx="10" fill="#ecfdf5" stroke="#047857" stroke-width="2.6"/>
+<text x="330" y="578" font-size="15" fill="#047857" text-anchor="middle" font-weight="700" font-style="normal" font-family="'Sarabun','Noto Sans Thai','IBM Plex Sans Thai',-apple-system,'Segoe UI',sans-serif" >กิ่งที่ 2</text>
+<text x="330" y="602" font-size="14" fill="#047857" text-anchor="middle" font-weight="400" font-style="normal" font-family="'Sarabun','Noto Sans Thai','IBM Plex Sans Thai',-apple-system,'Segoe UI',sans-serif" >v<tspan font-size="9.5" baseline-shift="sub">s</tspan> อนุกรม R₁</text>
+<circle cx="330" cy="516" r="6" fill="#16181d"/>
+<circle cx="330" cy="666" r="6" fill="#16181d"/>
+<line x1="242" y1="654" x2="242" y2="528" stroke="#047857" stroke-width="2.4" stroke-linecap="round" marker-end="url(#ah)"/>
+<text x="230" y="597.0" font-size="17" fill="#047857" text-anchor="end" font-weight="400" font-style="italic" font-family="'Latin Modern Math','Cambria Math','Times New Roman',Georgia,serif">i<tspan font-size="11.2" baseline-shift="sub" font-style="normal">2</tspan></text>
+<text x="408" y="644" font-size="20" fill="#047857" text-anchor="middle" font-weight="700" font-style="normal" font-family="'Sarabun','Noto Sans Thai','IBM Plex Sans Thai',-apple-system,'Segoe UI',sans-serif" >+</text>
+<text x="408" y="546" font-size="20" fill="#047857" text-anchor="middle" font-weight="700" font-style="normal" font-family="'Sarabun','Noto Sans Thai','IBM Plex Sans Thai',-apple-system,'Segoe UI',sans-serif" >–</text>
+<text x="426" y="597.0" font-size="17" fill="#047857" text-anchor="start" font-weight="400" font-style="italic" font-family="'Latin Modern Math','Cambria Math','Times New Roman',Georgia,serif">v<tspan font-size="11.2" baseline-shift="sub" font-style="normal">2</tspan></text>
+<text x="450.0" y="726" font-size="14" fill="#6b7280" text-anchor="middle" font-weight="400" font-style="normal" font-family="'Sarabun','Noto Sans Thai','IBM Plex Sans Thai',-apple-system,'Segoe UI',sans-serif" >ทิศอ้างอิงของทั้งสองกิ่งชี้จาก o ขึ้นสู่ a  •  ใช้ขั้วแบบสัมพันธ์ (+ อยู่ที่หางลูกศร)</text>
+<text x="450.0" y="752" font-size="14" fill="#6b7280" text-anchor="middle" font-weight="400" font-style="normal" font-family="'Sarabun','Noto Sans Thai','IBM Plex Sans Thai',-apple-system,'Segoe UI',sans-serif" >จึงได้ว่า  v₁ = v₂ = v(o) − v(a) = −v(a)   ซึ่งจะกลายเป็นสมการวงรอบในขั้นถัดไป</text>
+</svg>

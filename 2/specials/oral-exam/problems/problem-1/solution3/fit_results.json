@@ -1,0 +1,46 @@
+{
+  "i_ampere": 0.74,
+  "q_formula": "q(t) = 0.74*t",
+  "Qn_coulomb": 2664.0,
+  "Qn_Ah": 0.74,
+  "rows": 2753,
+  "R_L_ohm": 10.0,
+  "t_n_second": 3600.0,
+  "computer_fit": {
+    "C0": 4.036467052577246,
+    "K": 0.000272154379592568,
+    "Aa": 0.13763735614044997,
+    "Ba": 0.010237510237511743,
+    "Ab": 559.9457328264817,
+    "Bb": 0.010725010725011997
+  },
+  "computer_rmse_volt": 1.1173337520242143e-13,
+  "hand_professor": {
+    "C0": 4.036876,
+    "K": 0.0002724,
+    "Aa": 0.13723,
+    "Ba": 0.01533,
+    "Ab": 551.176,
+    "Bb": 0.0107,
+    "Ri": 0.058410810810810114,
+    "Eo_assumed": 4.0801,
+    "Ba_reconstructed": 0.015333168894248721,
+    "Ab_reconstructed": 550.6823483056411,
+    "Bb_reconstructed": 0.010721818701937887
+  },
+  "hand_with_Kq_term": {
+    "C0": 4.036876,
+    "K": 0.0002724,
+    "Aa": 0.13723,
+    "Ba": 0.010248,
+    "Ab": 551.176,
+    "Bb": 0.0107,
+    "Ri": 0.058410810810810114,
+    "Eo_assumed": 4.0801,
+    "Ba_reconstructed": 0.010248444846224003,
+    "Ab_reconstructed": 550.6823483056411,
+    "Bb_reconstructed": 0.010721818701937887
+  },
+  "identifiability": "E_o and R_i are NOT separately identifiable at constant current; only C0 = E_o - 0.74*R_i is.",
+  "family": "E_o = 4.036467052577 + 0.74*R_i"
+}

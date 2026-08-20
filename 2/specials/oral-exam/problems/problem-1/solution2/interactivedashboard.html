@@ -1,0 +1,1126 @@
+<!doctype html>
+<html lang="th">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="แดชบอร์ดสื่อการสอนวงจรแบตเตอรี่ KCL KVL และ nonlinear parameter identification">
+  <title>Battery Circuit Lab — Oral Exam</title>
+  <style>
+    :root {
+      color-scheme: dark;
+      --bg: #050a13;
+      --bg2: #081322;
+      --panel: rgba(13, 27, 46, .72);
+      --panel-strong: rgba(12, 27, 47, .92);
+      --line: rgba(151, 190, 226, .16);
+      --text: #edf7ff;
+      --muted: #94a9bd;
+      --cyan: #59d9ff;
+      --cyan-soft: rgba(89, 217, 255, .13);
+      --violet: #a78bfa;
+      --green: #45e0a8;
+      --amber: #ffc85a;
+      --rose: #ff718c;
+      --shadow: 0 24px 80px rgba(0, 0, 0, .34);
+      --radius: 22px;
+    }
+
+    * { box-sizing: border-box; }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      margin: 0;
+      min-width: 320px;
+      min-height: 100vh;
+      color: var(--text);
+      background:
+        radial-gradient(circle at 15% 8%, rgba(47, 164, 255, .15), transparent 27rem),
+        radial-gradient(circle at 86% 18%, rgba(130, 92, 246, .14), transparent 29rem),
+        linear-gradient(155deg, var(--bg), var(--bg2) 52%, #07101d);
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      line-height: 1.6;
+    }
+
+    body::before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      opacity: .18;
+      background-image:
+        linear-gradient(rgba(255,255,255,.035) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255,255,255,.035) 1px, transparent 1px);
+      background-size: 42px 42px;
+      mask-image: linear-gradient(to bottom, black, transparent 70%);
+    }
+
+    button, input { font: inherit; }
+    button { color: inherit; }
+
+    .shell {
+      position: relative;
+      width: min(1500px, calc(100% - 32px));
+      margin: 0 auto;
+      padding: 28px 0 72px;
+    }
+
+    .glass {
+      background: linear-gradient(145deg, rgba(18, 37, 61, .78), rgba(8, 21, 37, .64));
+      border: 1px solid var(--line);
+      box-shadow: var(--shadow), inset 0 1px 0 rgba(255,255,255,.035);
+      backdrop-filter: blur(18px);
+      -webkit-backdrop-filter: blur(18px);
+      border-radius: var(--radius);
+    }
+
+    .hero {
+      overflow: hidden;
+      position: relative;
+      padding: clamp(24px, 4vw, 48px);
+      margin-bottom: 20px;
+    }
+
+    .hero::after {
+      content: "";
+      position: absolute;
+      width: 340px;
+      height: 340px;
+      right: -110px;
+      top: -160px;
+      background: radial-gradient(circle, rgba(89,217,255,.27), transparent 66%);
+      pointer-events: none;
+    }
+
+    .eyebrow {
+      display: inline-flex;
+      gap: 8px;
+      align-items: center;
+      color: var(--cyan);
+      font-size: .76rem;
+      font-weight: 750;
+      letter-spacing: .13em;
+      text-transform: uppercase;
+    }
+
+    .eyebrow::before {
+      content: "";
+      width: 28px;
+      height: 1px;
+      background: currentColor;
+      box-shadow: 0 0 13px currentColor;
+    }
+
+    h1, h2, h3, p { margin-top: 0; }
+
+    h1 {
+      max-width: 900px;
+      margin: 14px 0 14px;
+      font-size: clamp(2rem, 5vw, 4.5rem);
+      line-height: 1.04;
+      letter-spacing: -.05em;
+    }
+
+    h1 span {
+      color: transparent;
+      background: linear-gradient(90deg, var(--cyan), #d6f5ff 48%, var(--violet));
+      background-clip: text;
+      -webkit-background-clip: text;
+    }
+
+    .hero-copy {
+      max-width: 850px;
+      color: var(--muted);
+      font-size: clamp(.98rem, 1.6vw, 1.14rem);
+    }
+
+    .hero-metrics {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(130px, 1fr));
+      gap: 12px;
+      margin-top: 28px;
+    }
+
+    .metric {
+      padding: 16px;
+      background: rgba(7, 18, 32, .55);
+      border: 1px solid rgba(151,190,226,.13);
+      border-radius: 16px;
+    }
+
+    .metric span {
+      display: block;
+      color: var(--muted);
+      font-size: .75rem;
+      letter-spacing: .04em;
+      margin-bottom: 4px;
+    }
+
+    .metric strong {
+      display: block;
+      font-size: clamp(1rem, 2.2vw, 1.38rem);
+      font-variant-numeric: tabular-nums;
+    }
+
+    .tabs {
+      display: flex;
+      gap: 8px;
+      overflow-x: auto;
+      padding: 8px;
+      margin-bottom: 20px;
+      scrollbar-width: thin;
+    }
+
+    .tab {
+      flex: 0 0 auto;
+      border: 1px solid transparent;
+      border-radius: 13px;
+      background: transparent;
+      padding: 10px 15px;
+      cursor: pointer;
+      color: var(--muted);
+      transition: .2s ease;
+    }
+
+    .tab:hover { color: var(--text); background: rgba(255,255,255,.035); }
+    .tab[aria-selected="true"] {
+      color: #04121c;
+      background: linear-gradient(130deg, #b9f1ff, var(--cyan));
+      box-shadow: 0 8px 30px rgba(89,217,255,.2);
+    }
+
+    .tab-panel { display: none; }
+    .tab-panel.active { display: block; animation: lift .25s ease both; }
+    @keyframes lift { from { opacity: 0; transform: translateY(5px); } }
+
+    .lab-grid {
+      display: grid;
+      grid-template-columns: minmax(0, 1.18fr) minmax(340px, .82fr);
+      gap: 20px;
+    }
+
+    .panel { padding: 22px; min-width: 0; }
+    .panel + .panel { min-width: 0; }
+
+    .section-head {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 16px;
+      margin-bottom: 16px;
+    }
+
+    .section-head h2, .section-head h3 { margin: 0; line-height: 1.25; }
+    .section-head p { margin: 4px 0 0; color: var(--muted); font-size: .86rem; }
+
+    .live-pill {
+      flex: 0 0 auto;
+      display: inline-flex;
+      align-items: center;
+      gap: 7px;
+      color: var(--green);
+      background: rgba(69,224,168,.08);
+      border: 1px solid rgba(69,224,168,.2);
+      border-radius: 999px;
+      padding: 6px 10px;
+      font-size: .74rem;
+    }
+
+    .live-pill::before {
+      content: "";
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      background: currentColor;
+      box-shadow: 0 0 12px currentColor;
+      animation: pulse 1.7s infinite;
+    }
+
+    @keyframes pulse { 50% { opacity: .35; transform: scale(.75); } }
+
+    .circuit-wrap {
+      overflow: hidden;
+      border: 1px solid rgba(151,190,226,.13);
+      background:
+        radial-gradient(circle at 45% 25%, rgba(89,217,255,.08), transparent 40%),
+        rgba(3, 13, 24, .64);
+      border-radius: 18px;
+      padding: 12px;
+    }
+
+    #circuitSvg { display: block; width: 100%; height: auto; min-height: 290px; }
+    #circuitSvg text { font-family: inherit; }
+    .wire { stroke: #b7cada; stroke-width: 3; fill: none; stroke-linecap: round; }
+    .component { stroke: #e9f6ff; stroke-width: 3; fill: #0b1b2d; }
+    .node-dot { fill: var(--cyan); filter: drop-shadow(0 0 6px var(--cyan)); }
+    .current-path { stroke: var(--cyan); stroke-width: 3; fill: none; stroke-dasharray: 8 14; animation: flow 1.2s linear infinite; }
+    @keyframes flow { to { stroke-dashoffset: -22; } }
+    .svg-label { fill: #cfe4f4; font-size: 15px; }
+    .svg-value { fill: var(--cyan); font-size: 14px; font-weight: 700; }
+    .svg-muted { fill: #839cb1; font-size: 12px; }
+
+    .time-control { margin-top: 16px; }
+    .range-head { display: flex; justify-content: space-between; gap: 12px; align-items: baseline; }
+    .range-head label { color: #dcecff; font-size: .86rem; }
+    .range-head output { color: var(--cyan); font-variant-numeric: tabular-nums; font-weight: 750; }
+
+    input[type="range"] {
+      width: 100%;
+      height: 4px;
+      margin: 13px 0 4px;
+      appearance: none;
+      -webkit-appearance: none;
+      background: linear-gradient(90deg, var(--cyan), rgba(167,139,250,.68));
+      border-radius: 999px;
+      outline: none;
+    }
+
+    input[type="range"]::-webkit-slider-thumb {
+      appearance: none;
+      -webkit-appearance: none;
+      width: 17px;
+      height: 17px;
+      border-radius: 50%;
+      background: #eafaff;
+      border: 3px solid var(--cyan);
+      box-shadow: 0 0 16px rgba(89,217,255,.45);
+      cursor: grab;
+    }
+
+    input[type="range"]::-moz-range-thumb {
+      width: 13px;
+      height: 13px;
+      border-radius: 50%;
+      background: #eafaff;
+      border: 3px solid var(--cyan);
+      box-shadow: 0 0 16px rgba(89,217,255,.45);
+      cursor: grab;
+    }
+
+    .node-stats {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 8px;
+      margin-top: 14px;
+    }
+
+    .node-stat {
+      padding: 10px;
+      border-left: 2px solid var(--cyan);
+      background: rgba(89,217,255,.045);
+      border-radius: 4px 10px 10px 4px;
+    }
+
+    .node-stat span { display: block; color: var(--muted); font-size: .69rem; }
+    .node-stat strong { display: block; font-size: .9rem; font-variant-numeric: tabular-nums; }
+
+    .parameter-list { display: grid; gap: 11px; }
+    .parameter {
+      padding: 11px 13px 9px;
+      background: rgba(5, 15, 28, .48);
+      border: 1px solid rgba(151,190,226,.1);
+      border-radius: 14px;
+    }
+
+    .parameter .range-head label { font-family: ui-monospace, SFMono-Regular, Menlo, monospace; }
+    .parameter input[type="range"] { margin-top: 9px; }
+    .parameter small { color: var(--muted); }
+
+    .ident-box {
+      margin-bottom: 13px;
+      padding: 12px 14px;
+      color: #d9f7ff;
+      background: linear-gradient(120deg, rgba(89,217,255,.105), rgba(167,139,250,.08));
+      border: 1px solid rgba(89,217,255,.21);
+      border-radius: 14px;
+      font-size: .82rem;
+    }
+
+    .ident-box strong { color: var(--cyan); }
+
+    .switch-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      margin-top: 12px;
+    }
+
+    .switch-label { color: var(--muted); font-size: .79rem; }
+    .switch { display: inline-flex; align-items: center; gap: 8px; cursor: pointer; }
+    .switch input { width: 16px; height: 16px; accent-color: var(--cyan); }
+
+    .button-row { display: flex; gap: 9px; flex-wrap: wrap; margin-top: 14px; }
+    .btn {
+      border: 1px solid rgba(151,190,226,.18);
+      background: rgba(255,255,255,.035);
+      border-radius: 11px;
+      padding: 8px 12px;
+      cursor: pointer;
+      transition: .2s ease;
+    }
+    .btn:hover { border-color: rgba(89,217,255,.5); background: var(--cyan-soft); }
+
+    .charts { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-top: 20px; }
+    .chart-large { grid-column: 1 / -1; }
+    .chart-shell { padding: 19px; min-width: 0; }
+    .chart-header { display: flex; justify-content: space-between; gap: 12px; align-items: flex-start; margin-bottom: 9px; }
+    .chart-header h3 { margin: 0; font-size: 1rem; }
+    .chart-header span { color: var(--muted); font-size: .74rem; }
+    .rmse { color: var(--amber) !important; font-variant-numeric: tabular-nums; }
+    canvas { display: block; width: 100%; height: 240px; }
+    .chart-large canvas { height: 350px; }
+    .legend { display: flex; gap: 14px; flex-wrap: wrap; color: var(--muted); font-size: .72rem; margin-top: 6px; }
+    .legend span { display: inline-flex; align-items: center; gap: 6px; }
+    .legend i { width: 18px; height: 3px; border-radius: 3px; background: var(--cyan); }
+    .legend i.fit { background: var(--rose); }
+    .legend i.violet { background: var(--violet); }
+    .legend i.green { background: var(--green); }
+    .legend i.amber { background: var(--amber); }
+
+    .lesson {
+      max-width: 1050px;
+      margin: 0 auto;
+      padding: clamp(22px, 4vw, 44px);
+    }
+
+    .lesson h2 { font-size: clamp(1.55rem, 3vw, 2.4rem); letter-spacing: -.025em; }
+    .lesson h3 { margin-top: 30px; color: #dff6ff; }
+    .lesson p, .lesson li { color: #b7c7d6; }
+    .lesson strong { color: var(--text); }
+    .lesson ul, .lesson ol { padding-left: 1.25rem; }
+
+    .formula {
+      overflow-x: auto;
+      margin: 18px 0;
+      padding: 17px 18px;
+      background: rgba(2, 12, 23, .64);
+      border: 1px solid rgba(89,217,255,.17);
+      border-left: 3px solid var(--cyan);
+      border-radius: 5px 14px 14px 5px;
+      color: #e8f8ff;
+      font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+      white-space: nowrap;
+    }
+
+    .water-grid, .qa-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 13px;
+      margin: 18px 0;
+    }
+
+    .concept, details {
+      padding: 16px;
+      border: 1px solid rgba(151,190,226,.12);
+      background: rgba(6, 17, 31, .46);
+      border-radius: 15px;
+    }
+
+    .concept b { display: block; color: var(--cyan); margin-bottom: 3px; }
+    details summary { cursor: pointer; color: #e3f4ff; font-weight: 700; }
+    details p { margin: 10px 0 0; }
+
+    .warning {
+      padding: 16px 17px;
+      border: 1px solid rgba(255,200,90,.25);
+      border-radius: 14px;
+      background: rgba(255,200,90,.07);
+      color: #ffe8b2;
+    }
+
+    .footer-note {
+      color: var(--muted);
+      text-align: center;
+      font-size: .75rem;
+      margin-top: 22px;
+    }
+
+    @media (max-width: 1050px) {
+      .lab-grid { grid-template-columns: 1fr; }
+      .hero-metrics { grid-template-columns: repeat(2, 1fr); }
+    }
+
+    @media (max-width: 720px) {
+      .shell { width: min(100% - 18px, 1500px); padding-top: 10px; }
+      .hero, .panel, .chart-shell, .lesson { padding: 18px; border-radius: 18px; }
+      .charts { grid-template-columns: 1fr; gap: 12px; }
+      .chart-large { grid-column: auto; }
+      .chart-large canvas, canvas { height: 260px; }
+      .node-stats { grid-template-columns: repeat(2, 1fr); }
+      .water-grid, .qa-grid { grid-template-columns: 1fr; }
+    }
+
+    @media (max-width: 460px) {
+      .hero-metrics { grid-template-columns: 1fr; }
+      .section-head { display: block; }
+      .live-pill { margin-top: 8px; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after { animation-duration: .001ms !important; animation-iteration-count: 1 !important; scroll-behavior: auto !important; }
+    }
+  </style>
+</head>
+<body>
+  <main class="shell">
+    <header class="hero glass">
+      <div class="eyebrow">Oral Exam Interactive Lab</div>
+      <h1>มองวงจรให้ขาด <span>ก่อนแตะสมการ</span></h1>
+      <p class="hero-copy">จากภาพท่อน้ำถึง KCL/KVL จากข้อมูล 2,753 แถวถึง nonlinear curve fitting — ปรับพารามิเตอร์ ดูแรงดันเปลี่ยน และจับประเด็นที่สำคัญที่สุด: ทำไม <strong>E<sub>o</sub></strong> กับ <strong>R<sub>i</sub></strong> แยกจากกันไม่ได้ในการทดลองกระแสคงที่ครั้งเดียว</p>
+      <div class="hero-metrics" aria-label="ผลลัพธ์หลัก">
+        <div class="metric"><span>BATTERY CURRENT</span><strong>0.740000 A</strong></div>
+        <div class="metric"><span>NOMINAL CHARGE</span><strong>2,664.00 C</strong></div>
+        <div class="metric"><span>DATA ROWS</span><strong>2,753</strong></div>
+        <div class="metric"><span>FIT RMSE</span><strong>≈ 1.6×10⁻¹⁴ V</strong></div>
+      </div>
+    </header>
+
+    <nav class="tabs glass" role="tablist" aria-label="เนื้อหาบทเรียน">
+      <button class="tab" role="tab" aria-selected="true" aria-controls="tab-lab" id="tab-btn-lab">Interactive Lab</button>
+      <button class="tab" role="tab" aria-selected="false" aria-controls="tab-problem" id="tab-btn-problem">โจทย์และภาพวงจร</button>
+      <button class="tab" role="tab" aria-selected="false" aria-controls="tab-zero" id="tab-btn-zero">พื้นฐานจากศูนย์</button>
+      <button class="tab" role="tab" aria-selected="false" aria-controls="tab-math" id="tab-btn-math">พิสูจน์ทีละขั้น</button>
+      <button class="tab" role="tab" aria-selected="false" aria-controls="tab-fit" id="tab-btn-fit">Parameter Fitting</button>
+      <button class="tab" role="tab" aria-selected="false" aria-controls="tab-hand" id="tab-btn-hand">เฉลยลายมืออาจารย์</button>
+      <button class="tab" role="tab" aria-selected="false" aria-controls="tab-oral" id="tab-btn-oral">Oral Defense</button>
+    </nav>
+
+    <section class="tab-panel active" role="tabpanel" id="tab-lab" aria-labelledby="tab-btn-lab">
+      <div class="lab-grid">
+        <section class="panel glass">
+          <div class="section-head">
+            <div><h2>วงจรที่กำลัง “มีชีวิต”</h2><p>เลื่อนเวลาเพื่อดู KCL, KVL และสถานะประจุ ณ ขณะนั้น</p></div>
+            <span class="live-pill">simulation live</span>
+          </div>
+
+          <div class="circuit-wrap">
+            <svg id="circuitSvg" viewBox="0 0 720 360" role="img" aria-labelledby="circuitTitle circuitDesc">
+              <title id="circuitTitle">วงจรแบตเตอรี่และโหลดแบบโต้ตอบ</title>
+              <desc id="circuitDesc">แหล่งแรงดันภายในต่ออนุกรมกับความต้านทานภายใน แล้วจ่ายกระแสให้แหล่งกระแสและตัวต้านทานโหลดแบบขนาน</desc>
+              <defs>
+                <filter id="glow"><feGaussianBlur stdDeviation="4" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
+                <marker id="arrowCyan" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M 0 0 L 10 5 L 0 10 z" fill="#59d9ff"/></marker>
+              </defs>
+
+              <path class="wire" d="M95 105 V55 H190"/>
+              <rect class="component" x="190" y="42" width="88" height="26" rx="3"/>
+              <path class="wire" d="M278 55 H610 V305 H95 V205"/>
+              <path class="wire" d="M440 55 V120 M440 240 V305"/>
+              <path class="wire" d="M590 55 V122 M590 238 V305"/>
+
+              <circle class="component" cx="95" cy="155" r="50"/>
+              <path class="wire" d="M80 137 H110 M95 122 V152 M80 178 H110"/>
+              <text class="svg-label" x="24" y="160">v<tspan baseline-shift="sub" font-size="11">s</tspan>(t)</text>
+              <text class="svg-value" id="svgVs" x="25" y="181">4.3325 V</text>
+
+              <text class="svg-label" x="217" y="31">R<tspan baseline-shift="sub" font-size="11">i</tspan></text>
+              <text class="svg-value" id="svgRi" x="197" y="91">0.200 Ω</text>
+
+              <path class="component" d="M440 120 L490 180 L440 240 L390 180 Z"/>
+              <path d="M440 146 V211" stroke="#a78bfa" stroke-width="4" marker-end="url(#arrowCyan)"/>
+              <text class="svg-label" x="366" y="174">i<tspan baseline-shift="sub" font-size="11">s</tspan>(t)</text>
+              <text class="svg-value" id="svgIs" x="345" y="196">0.3226 A</text>
+
+              <rect class="component" x="574" y="122" width="32" height="116" rx="3"/>
+              <text class="svg-label" x="620" y="169">R<tspan baseline-shift="sub" font-size="11">L</tspan> = 10 Ω</text>
+              <text class="svg-value" id="svgIL" x="620" y="192">iL = 0.4174 A</text>
+
+              <circle class="node-dot" cx="440" cy="55" r="5"/>
+              <circle class="node-dot" cx="590" cy="55" r="5"/>
+              <text class="svg-label" x="607" y="72">+ v(t)</text>
+              <text class="svg-value" id="svgV" x="607" y="94">4.1741 V</text>
+              <text class="svg-label" x="607" y="284">−</text>
+
+              <path class="current-path" d="M292 55 H415" marker-end="url(#arrowCyan)"/>
+              <text class="svg-label" x="322" y="31">i(t)</text>
+              <text class="svg-value" id="svgI" x="303" y="91">0.7400 A</text>
+              <path class="current-path" d="M440 78 V112"/>
+              <path class="current-path" d="M590 79 V112"/>
+              <text class="svg-muted" x="257" y="336">KCL:  i = iₛ + v/RL</text>
+              <text class="svg-muted" x="449" y="336">KVL:  v = vₛ − iRi</text>
+            </svg>
+          </div>
+
+          <div class="time-control">
+            <div class="range-head"><label for="timeSlider">เวลา t</label><output id="timeOutput">0 s</output></div>
+            <input id="timeSlider" type="range" min="0" max="2752" step="1" value="0">
+          </div>
+          <div class="node-stats">
+            <div class="node-stat"><span>q(t)</span><strong id="statQ">0.00 C</strong></div>
+            <div class="node-stat"><span>SOC</span><strong id="statSoc">100.00%</strong></div>
+            <div class="node-stat"><span>i·Ri drop</span><strong id="statDrop">0.1480 V</strong></div>
+            <div class="node-stat"><span>KCL error</span><strong id="statKcl">0.00 pA</strong></div>
+          </div>
+        </section>
+
+        <aside class="panel glass">
+          <div class="section-head">
+            <div><h2>Parameter Studio</h2><p>ดูผลของแต่ละพารามิเตอร์ต่อ discharge curve</p></div>
+          </div>
+
+          <div class="ident-box">
+            ข้อมูลเห็นเพียง <strong>C₀ = Eo − 0.74Ri</strong><br>
+            <span id="c0Readout">C₀ = 4.0364670526 V</span>
+            <div class="switch-row">
+              <span class="switch-label">เลื่อน Ri โดยคง C₀ เพื่อสาธิต non-identifiability</span>
+              <label class="switch"><input id="lockC0" type="checkbox" checked><span>Lock C₀</span></label>
+            </div>
+          </div>
+
+          <div class="parameter-list" id="parameterList"></div>
+          <div class="button-row"><button class="btn" id="resetParams" type="button">คืนค่าฟิต</button></div>
+        </aside>
+      </div>
+
+      <div class="charts">
+        <section class="chart-shell chart-large glass">
+          <div class="chart-header"><div><h3>แรงดันวัดจริง vs แรงดันแบบจำลอง</h3><span>เส้นอ้างอิงสร้างจากค่าที่ตรวจย้อนกลับตรงข้อมูล 2,753 จุดถึงระดับ roundoff</span></div><span class="rmse" id="rmseOutput">RMSE 0.000 µV</span></div>
+          <canvas id="voltageChart" aria-label="กราฟแรงดันวัดและแรงดันจากโมเดลเทียบเวลา"></canvas>
+          <div class="legend"><span><i></i>ข้อมูลอ้างอิง v(t)</span><span><i class="fit"></i>โมเดลจาก sliders</span></div>
+        </section>
+
+        <section class="chart-shell glass">
+          <div class="chart-header"><div><h3>กระแสแหล่ง iₛ(t)</h3><span>iₛ = 0.74 − v/10</span></div></div>
+          <canvas id="isChart" aria-label="กราฟกระแสแหล่งพึ่งพาเทียบเวลา"></canvas>
+          <div class="legend"><span><i class="violet"></i>ข้อมูลอ้างอิง</span><span><i class="fit"></i>ค่าที่สอดคล้องกับโมเดล</span></div>
+        </section>
+
+        <section class="chart-shell glass">
+          <div class="chart-header"><div><h3>กระแสแบตเตอรี่ i(t)</h3><span>KCL ให้ค่าคงที่ตลอดการทดลอง</span></div></div>
+          <canvas id="iChart" aria-label="กราฟกระแสแบตเตอรี่คงที่ 0.74 แอมแปร์"></canvas>
+          <div class="legend"><span><i class="green"></i>i(t) = 0.74 A</span></div>
+        </section>
+
+        <section class="chart-shell glass">
+          <div class="chart-header"><div><h3>ประจุสะสม q(t)</h3><span>พื้นที่ใต้กราฟกระแส</span></div></div>
+          <canvas id="qChart" aria-label="กราฟประจุสะสมเทียบเวลา"></canvas>
+          <div class="legend"><span><i class="amber"></i>q(t) = 0.74t C</span></div>
+        </section>
+      </div>
+    </section>
+
+    
+    <section class="tab-panel" role="tabpanel" id="tab-problem" aria-labelledby="tab-btn-problem" hidden>
+      <article class="lesson glass">
+        <div class="eyebrow">Official Problem Statement & Circuit Diagram</div>
+        <h2>โจทย์สอบปากเปล่า และ รูปภาพวงจรไฟฟ้า (รูปที่ 1)</h2>
+        
+        <div style="margin: 20px 0; text-align: center;">
+          <img src="../circuit_fig1.png" alt="รูปที่ 1 วงข่ายความต้านทานและโมเดลแบตเตอรี่" style="max-width:100%; width: 680px; border-radius:16px; border:1px solid var(--line); box-shadow: var(--shadow);">
+          <p style="color:var(--muted); font-size:0.86rem; margin-top:8px;">รูปที่ 1 วงข่ายความต้านทานต่อเข้ากับแบตเตอรี่และโหลด</p>
+        </div>
+
+        <h3>ข้อความถอดโจทย์ต้นฉบับ (Transcribed Problem Text)</h3>
+        <blockquote style="background: rgba(5,15,28,0.6); border-left: 4px solid var(--cyan); padding: 16px; border-radius: 0 12px 12px 0; color: #dcecff; line-height: 1.7; font-size: 0.95rem;">
+          พิจารณาวงข่ายความต้านทานใน <b>รูปที่ 1</b> ด้วยการใช้สมการชุดตัดหรือสมการโหนด จงหาค่าของกระแส <i>i(t)</i> ในหน่วยแอมป์ ณ เวลา <i>t ∈ {0, 1, 2, ..., 2752}</i> วินาที พร้อมหาค่าพารามิเตอร์ <i>E<sub>o</sub>, K, A<sub>a</sub>, B<sub>a</sub>, A<sub>b</sub>, B<sub>b</sub>, R<sub>i</sub></i> และ <i>Q<sub>n</sub></i> ของ <i>v<sub>s</sub>(t)</i> ซึ่งเป็นฟังก์ชันของเวลาของแหล่งกำเนิดแรงดันในหน่วยโวลต์ และมีนิยามว่า
+          <div class="formula" style="margin: 12px 0; text-align: center; font-size: 1.05rem;">
+            v<sub>s</sub>(t) = E<sub>o</sub> − K ∫₀ᵗ i(α) dα + A<sub>a</sub> e<sup>−B<sub>a</sub> ∫₀ᵗ i(α) dα</sup> − A<sub>b</sub> e<sup>−B<sub>b</sub> ∫ₜᵗⁿ i(α) dα</sup>
+          </div>
+          และกำหนด <i>Q<sub>n</sub></i> คือค่าความจุประจุหรือปริมาณการเก็บพลังงานไฟฟ้าตามทฤษฎีที่ผู้ผลิตกำหนดไว้ช่วงเวลาตั้งแต่ 0 ถึง <i>t<sub>n</sub></i> วินาที คือ <i>Q<sub>n</sub> = ∫₀ᵗⁿ i(α) dα</i> [coulomb] และ <i>t<sub>n</sub> = 3,600</i> [วินาที] กำหนด <i>R<sub>L</sub> = 10 [Ω]</i> และกำหนด <i>i<sub>s</sub>(t)</i> คือฟังก์ชันกระแสพึ่งพาบรรจุอยู่ในไฟล์ <a href="../data303212qz02.md" target="_blank" style="color:var(--cyan);">data303212qz02.md</a> และ <i>v(t)</i> คือแรงดันตกคร่อมโหลดบรรจุในไฟล์เดียวกัน
+        </blockquote>
+
+        <h3>ตารางวิเคราะห์องค์ประกอบและตัวแปรในรูปภาพ (Component & Variable Matrix)</h3>
+        <table style="width:100%; border-collapse:collapse; margin-top:12px; font-size:0.86rem; color:var(--text);">
+          <thead>
+            <tr style="border-bottom:1px solid var(--line); text-align:left;">
+              <th style="padding:8px;">สัญลักษณ์ในรูป</th>
+              <th style="padding:8px;">ชื่อองค์ประกอบ</th>
+              <th style="padding:8px;">ประเภททางไฟฟ้า</th>
+              <th style="padding:8px;">การเชื่อมโยงกับโจทย์และไฟล์ข้อมูล</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr style="border-bottom:1px solid rgba(255,255,255,0.05);">
+              <td style="padding:8px; color:var(--cyan);"><b>vₛ(t)</b></td>
+              <td style="padding:8px;">แบตเตอรี่ (Battery Source)</td>
+              <td style="padding:8px;">แหล่งแรงดันแบบจำลอง</td>
+              <td style="padding:8px;">สมการหลัก vₛ(t) และพารามิเตอร์ทั้ง 8 ตัวที่โจทย์สั่งให้หา</td>
+            </tr>
+            <tr style="border-bottom:1px solid rgba(255,255,255,0.05);">
+              <td style="padding:8px; color:var(--cyan);"><b>Rᵢ</b></td>
+              <td style="padding:8px;">ความต้านทานภายใน</td>
+              <td style="padding:8px;">ตัวต้านทานอนุกรม</td>
+              <td style="padding:8px;">ทำให้เกิดแรงดันตกภายใน i(t)Rᵢ (v = vₛ − iRᵢ)</td>
+            </tr>
+            <tr style="border-bottom:1px solid rgba(255,255,255,0.05);">
+              <td style="padding:8px; color:var(--cyan);"><b>i(t)</b></td>
+              <td style="padding:8px;">กระแสจ่ายจากแบตเตอรี่</td>
+              <td style="padding:8px;">Branch Current</td>
+              <td style="padding:8px;">คำถามแรกของโจทย์ คำนวณได้ i(t) = 0.74 A คงที่</td>
+            </tr>
+            <tr style="border-bottom:1px solid rgba(255,255,255,0.05);">
+              <td style="padding:8px; color:var(--cyan);"><b>iₛ(t)</b></td>
+              <td style="padding:8px;">แหล่งกระแสพึ่งพา</td>
+              <td style="padding:8px;">Dependent Current Source</td>
+              <td style="padding:8px;">ค่าเข้าอ้างอิงในไฟล์ data303212qz02.md (คอลัมน์ is(t))</td>
+            </tr>
+            <tr style="border-bottom:1px solid rgba(255,255,255,0.05);">
+              <td style="padding:8px; color:var(--cyan);"><b>Rₗ</b></td>
+              <td style="padding:8px;">ตัวต้านทานภาระไฟฟ้า</td>
+              <td style="padding:8px;">Load Resistor (10 Ω)</td>
+              <td style="padding:8px;">ตัวต้านทานโหลด 10 โอห์ม ที่กิ่งขวาสุด</td>
+            </tr>
+            <tr>
+              <td style="padding:8px; color:var(--cyan);"><b>v(t)</b></td>
+              <td style="padding:8px;">แรงดันตกคร่อมโหลด</td>
+              <td style="padding:8px;">Node Voltage (v₁)</td>
+              <td style="padding:8px;">ข้อมูลอ้างอิงแรงดันตกคร่อมโหลดในไฟล์ data303212qz02.md</td>
+            </tr>
+          </tbody>
+        </table>
+
+        <div style="margin-top:16px; padding:12px; background:rgba(89,217,255,0.06); border-radius:12px; border:1px solid rgba(89,217,255,0.15);">
+          <b>ไฟล์อ้างอิงหลักของโจทย์:</b><br>
+          📄 <a href="../oral_exam_problem.md" target="_blank" style="color:var(--cyan);">oral_exam_problem.md (ไฟล์ถอดโจทย์)</a><br>
+          🖼️ <a href="../circuit_fig1.png" target="_blank" style="color:var(--cyan);">circuit_fig1.png (รูปภาพวงจรไฟฟ้า)</a><br>
+          📊 <a href="../data303212qz02.md" target="_blank" style="color:var(--cyan);">data303212qz02.md (ชุดข้อมูล 2,753 แถว)</a>
+        </div>
+      </article>
+    </section>
+
+    <section class="tab-panel" role="tabpanel" id="tab-zero" aria-labelledby="tab-btn-zero" hidden>
+      <article class="lesson glass">
+        <div class="eyebrow">Feynman from zero</div>
+        <h2>เริ่มจากท่อน้ำ ไม่เริ่มจากท่องสูตร</h2>
+        <p>ให้จินตนาการว่าประจุเป็นน้ำ วงจรเป็นท่อ และแบตเตอรี่เป็นปั๊มที่ยกพลังงานให้ “น้ำไฟฟ้า” ทุกคูลอมบ์ ภาพนี้ทำให้กฎวงจรสองข้อกลายเป็นกฎอนุรักษ์ที่สามัญมาก</p>
+        <div class="water-grid">
+          <div class="concept"><b>Voltage v — แรงดัน/ความสูง</b>พลังงานต่อประจุ 1 V = 1 J/C ต้องวัดระหว่างสองจุดเสมอ</div>
+          <div class="concept"><b>Current i — อัตราการไหล</b>ประจุที่ผ่านต่อเวลา 1 A = 1 C/s</div>
+          <div class="concept"><b>Resistance R — ท่อที่ต้านการไหล</b>ท่อแคบต้องใช้แรงดันมากขึ้นเพื่อคงอัตราไหล: v = iR</div>
+          <div class="concept"><b>Battery — ปั๊ม + ความฝืดภายใน</b>vₛ เป็นแรงดันภายใน และ iRi คือแรงดันที่สูญเสียภายในเมื่อมีกระแส</div>
+        </div>
+        <h3>KCL: น้ำเข้าจุดแยก = น้ำออกทั้งหมด</h3>
+        <div class="formula">i(t) = iₛ(t) + iL(t) = iₛ(t) + v(t)/RL</div>
+        <p>โหนดไม่สามารถสร้างหรือทำลายประจุเองได้ หากกระแสเข้า 0.74 A กระแสสองกิ่งขาออกต้องรวมกันได้ 0.74 A พอดี</p>
+        <h3>KVL: เดินกลับจุดเดิม พลังงานสุทธิต่อประจุต้องเป็นศูนย์</h3>
+        <div class="formula">+vₛ(t) − i(t)Ri − v(t) = 0  ⇒  v(t) = vₛ(t) − i(t)Ri</div>
+        <p>แบตเตอรี่ยกแรงดันขึ้น ตัวต้านทานภายในและโหลดทำให้แรงดันตก เมื่อล้อมครบวงจรต้องกลับมาศักย์เดิม</p>
+        <div class="warning">ข้อจำกัดของภาพท่อน้ำ: พลังงานในวงจรจริงถ่ายทอดผ่านสนามแม่เหล็กไฟฟ้า ไม่ใช่อิเล็กตรอนวิ่งจากโรงไฟฟ้ามาถึงโหลดด้วยความเร็วแสง ภาพท่อน้ำใช้เพื่อเข้าใจความต่างศักย์และการอนุรักษ์เท่านั้น</div>
+      </article>
+    </section>
+
+    <section class="tab-panel" role="tabpanel" id="tab-math" aria-labelledby="tab-btn-math" hidden>
+      <article class="lesson glass">
+        <div class="eyebrow">Step-by-step derivation</div>
+        <h2>ทุกบรรทัดมีเหตุผลและหน่วยรองรับ</h2>
+        <h3>1) เขียน KCL ที่ Node 1</h3>
+        <div class="formula">−i(t) + iₛ(t) + v(t)/10 = 0</div>
+        <div class="formula">∴ i(t) = iₛ(t) + v(t)/10</div>
+        <h3>2) แทนค่าที่ t = 0 s</h3>
+        <div class="formula">i(0) = 0.3225895591500284 + 4.174104408499716/10 = 0.740000 A</div>
+        <p>เมื่อตรวจครบ 2,753 แถว ได้ min = max = mean = 0.74 A ส่วนเบี่ยงเบนระดับ 10⁻¹⁶ A เป็นเพียง floating-point roundoff</p>
+        <h3>3) อินทิเกรตเพื่อหาประจุ</h3>
+        <div class="formula">q(t) = ∫₀ᵗ 0.74 dα = 0.74t C</div>
+        <p>หน่วยตรวจสอบได้ทันที: A·s = (C/s)·s = C และ q(2752) = 2036.48 C</p>
+        <h3>4) ความจุตามนิยามของโจทย์</h3>
+        <div class="formula">Qn = ∫₀³⁶⁰⁰ 0.74 dα = 0.74×3600 = 2664 C = 0.74 Ah</div>
+        <p>ข้อมูลหยุดที่ 2752 s การไปถึง 3600 s จึงใช้สมมติฐานกระแส 0.74 A ต่อเนื่องตามนิยามโจทย์</p>
+        <h3>5) แรงดันขั้ว</h3>
+        <div class="formula">v = Eo − Kq + Aa·exp(−Ba·q) − Ab·exp[−Bb(Qn−q)] − iRi</div>
+      </article>
+    </section>
+
+    <section class="tab-panel" role="tabpanel" id="tab-fit" aria-labelledby="tab-btn-fit" hidden>
+      <article class="lesson glass">
+        <div class="eyebrow">Nonlinear identification</div>
+        <h2>ฟิตให้แม่น และรู้ว่าอะไร “ฟิตไม่ได้”</h2>
+        <h3>Objective function</h3>
+        <div class="formula">SSE(θ) = Σₖ [vₖ − v̂(qₖ, iₖ; θ)]²</div>
+        <p>พารามิเตอร์ B<sub>a</sub>, B<sub>b</sub> อยู่ใน exponent จึงเป็น nonlinear least squares สคริปต์ใช้ global search ที่อัตราทั้งสอง ตามด้วย bounded trust-region polish</p>
+        <h3>Variable projection</h3>
+        <p>เมื่อกำหนด B<sub>a</sub>, B<sub>b</sub> แล้ว C₀, K, A<sub>a</sub>, A<sub>b</sub> เป็นปัญหา linear least squares จึงลดมิติ nonlinear จากหกเหลือสองก่อน ทำให้หลบ local minimum ได้ดีขึ้น</p>
+        <h3>Structural identifiability</h3>
+        <div class="formula">∂v̂/∂Eo = 1, &nbsp;&nbsp; ∂v̂/∂Ri = −i = −0.74</div>
+        <p>คอลัมน์ Jacobian เป็นสัดส่วนกันทุกแถว จึงเห็นเพียง C₀ = Eo − 0.74Ri ค่าเดียว ทุกคู่บนเส้น Eo = 4.036467052577080 + 0.74Ri ให้เส้นแรงดันเดียวกัน</p>
+        <div class="warning">A<sub>b</sub> ≈ 559.95 V เป็น coefficient ณ q = Qn ไม่ใช่แรงดันใช้งานจริง จุดข้อมูลสุดท้ายยังเหลือประจุ 627.52 C ทำให้ผลของเทอมนี้ ณ จุดนั้นประมาณ 0.669 V เท่านั้น อย่า extrapolate ถึง 3600 s โดยไม่มีข้อมูลเพิ่ม</div>
+        <h3>ผลฟิตที่ระบุได้</h3>
+        <div class="formula">C₀=4.03646705257708 V · K=2.721543795924126×10⁻⁴ V/C · Aa=0.137637356141268 V</div>
+        <div class="formula">Ba=0.0102375102375104 C⁻¹ · Ab=559.945732826002 V · Bb=0.0107250107250107 C⁻¹</div>
+      </article>
+    </section>
+
+    
+    <section class="tab-panel" role="tabpanel" id="tab-hand" aria-labelledby="tab-btn-hand" hidden>
+      <article class="lesson glass">
+        <div class="eyebrow">Official Teacher Solution</div>
+        <h2>วิธีคิดคำนวณด้วยมือแบบเฉลยอาจารย์ (งาน คสช.)</h2>
+        <p>ในเฉลยลายมืออย่างเป็นทางการของอาจารย์ (ไฟล์ <a href="../reference/%E0%B8%87%E0%B8%B2%E0%B8%99%20%E0%B8%84%E0%B8%AA%E0%B8%8A.%20(1).pdf" target="_blank" style="color:var(--cyan);">งาน คสช. (1).pdf</a>) อาจารย์ไม่ได้ใช้คอมพิวเตอร์รัน Curve Fitting โดยตรง แต่ใช้เทคนิค <strong>Piecewise Asymptotic Approximation (การประมาณช่วงเชิงเส้น)</strong> ในการหาพารามิเตอร์ทั้งหมดด้วยมืออย่างเหนือชั้น:</p>
+        
+        <h3>1) KCL ที่ Node 1: พิสูจน์กระแส i(t) = 0.74 A (ค่าคงที่)</h3>
+        <div class="formula">i(t) = iₛ(t) + v(t)/10</div>
+        <p>สุ่มแทนค่าที่ t = 0s, 10s, 100s ได้ 0.74 A เท่ากันทุกจุด แสดงว่ากระแสจ่ายคงที่ตลอดทุกช่วงเวลา</p>
+        
+        <h3>2) การอินทิเกรตหาประจุ q(t) และ Qₙ</h3>
+        <div class="formula">q(t) = ∫₀ᵗ 0.74 dα = 0.74t C &nbsp;&nbsp;|&nbsp;&nbsp; Qₙ = ∫₀³⁶⁰⁰ 0.74 dα = 2,664 C</div>
+        
+        <h3>3) หา K และ E₀' จากช่วงเชิงเส้น (q ∈ [1000, 1400] C)</h3>
+        <p>ช่วงกลางการคายประจุ เทอม exponential ทั้งสองเข้าใกล้ 0 ทำให้ v(t) ≈ −K·q(t) + E₀' (เส้นตรง y = mx + c)</p>
+        <div class="formula">−K = Δv / Δq = (3.8353 − 3.7264) / (1000 − 1400) = −2.724×10⁻⁴ V/C  ⇒  K = 2.724×10⁻⁴ V/C</div>
+        <div class="formula">E₀' = E₀ − 0.74Rᵢ = 4.03687 V</div>
+        
+        <h3>4) หา Rᵢ (สมมติ E₀ = v(100) = 4.0801 V)</h3>
+        <div class="formula">Rᵢ = (E₀ − E₀') / 0.74 = (4.0801 − 4.03687) / 0.74 = 0.0584 Ω</div>
+        
+        <h3>5) หา Aₐ, Bₐ (ช่วงเริ่มคาย) และ A_b, B_b (ช่วงปลายคาย)</h3>
+        <div class="formula">Aₐ = 0.13723 V, &nbsp; Bₐ = 0.01533 1/C &nbsp;|&nbsp; A_b = 551.176 V, &nbsp; B_b = 0.0107 1/C</div>
+
+        <h3>ตารางเปรียบเทียบผลลัพธ์: คิดด้วยมือ vs ฟิตด้วยคอมพิวเตอร์</h3>
+        <table style="width:100%; border-collapse:collapse; margin-top:12px; font-size:0.86rem; color:var(--text);">
+          <thead>
+            <tr style="border-bottom:1px solid var(--line); text-align:left;">
+              <th style="padding:8px;">พารามิเตอร์</th>
+              <th style="padding:8px;">เฉลยอาจารย์ (Hand)</th>
+              <th style="padding:8px;">ฟิตคอมพิวเตอร์ (L-BFGS-B)</th>
+              <th style="padding:8px;">หน่วย</th>
+              <th style="padding:8px;">ผลการเปรียบเทียบ</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr style="border-bottom:1px solid rgba(255,255,255,0.05);">
+              <td style="padding:8px;"><b>i(t)</b></td>
+              <td style="padding:8px; color:var(--cyan);">0.740000</td>
+              <td style="padding:8px; color:var(--green);">0.740000</td>
+              <td style="padding:8px;">A</td>
+              <td style="padding:8px;">ตรงกัน 100% (กระแสคงที่)</td>
+            </tr>
+            <tr style="border-bottom:1px solid rgba(255,255,255,0.05);">
+              <td style="padding:8px;"><b>Qₙ</b></td>
+              <td style="padding:8px; color:var(--cyan);">2,664.00</td>
+              <td style="padding:8px; color:var(--green);">2,664.00</td>
+              <td style="padding:8px;">C</td>
+              <td style="padding:8px;">ตรงกัน 100%</td>
+            </tr>
+            <tr style="border-bottom:1px solid rgba(255,255,255,0.05);">
+              <td style="padding:8px;"><b>C₀ ≡ E₀'</b></td>
+              <td style="padding:8px; color:var(--cyan);">4.036870</td>
+              <td style="padding:8px; color:var(--green);">4.036467</td>
+              <td style="padding:8px;">V</td>
+              <td style="padding:8px;">คลาดเคลื่อนเพียง 0.01%</td>
+            </tr>
+            <tr style="border-bottom:1px solid rgba(255,255,255,0.05);">
+              <td style="padding:8px;"><b>K</b></td>
+              <td style="padding:8px; color:var(--cyan);">2.7240×10⁻⁴</td>
+              <td style="padding:8px; color:var(--green);">2.7215×10⁻⁴</td>
+              <td style="padding:8px;">V/C</td>
+              <td style="padding:8px;">คลาดเคลื่อนเพียง 0.09%</td>
+            </tr>
+            <tr style="border-bottom:1px solid rgba(255,255,255,0.05);">
+              <td style="padding:8px;"><b>Aₐ</b></td>
+              <td style="padding:8px; color:var(--cyan);">0.137230</td>
+              <td style="padding:8px; color:var(--green);">0.137637</td>
+              <td style="padding:8px;">V</td>
+              <td style="padding:8px;">คลาดเคลื่อนเพียง 0.29%</td>
+            </tr>
+            <tr style="border-bottom:1px solid rgba(255,255,255,0.05);">
+              <td style="padding:8px;"><b>Bₐ</b></td>
+              <td style="padding:8px; color:var(--cyan);">0.015330</td>
+              <td style="padding:8px; color:var(--green);">0.010238</td>
+              <td style="padding:8px;">1/C</td>
+              <td style="padding:8px;">สอดคล้องกันในทางอันดับมิติ</td>
+            </tr>
+            <tr style="border-bottom:1px solid rgba(255,255,255,0.05);">
+              <td style="padding:8px;"><b>A_b</b></td>
+              <td style="padding:8px; color:var(--cyan);">551.176</td>
+              <td style="padding:8px; color:var(--green);">559.946</td>
+              <td style="padding:8px;">V</td>
+              <td style="padding:8px;">สอดคล้องกัน (ค่า ณ q=Qn)</td>
+            </tr>
+            <tr>
+              <td style="padding:8px;"><b>B_b</b></td>
+              <td style="padding:8px; color:var(--cyan);">0.010700</td>
+              <td style="padding:8px; color:var(--green);">0.010725</td>
+              <td style="padding:8px;">1/C</td>
+              <td style="padding:8px;">คลาดเคลื่อนเพียง 0.23%</td>
+            </tr>
+          </tbody>
+        </table>
+      </article>
+    </section>
+
+    <section class="tab-panel" role="tabpanel" id="tab-oral" aria-labelledby="tab-btn-oral" hidden>
+      <article class="lesson glass">
+        <div class="eyebrow">Oral defense</div>
+        <h2>คำถามที่กรรมการอาจยิง — และแก่นของคำตอบ</h2>
+        <div class="qa-grid">
+          <details><summary>ทำไม i(t) เท่ากับ 0.74 A ทุกเวลา?</summary><p>KCL ให้ i=iₛ+v/10 และตรวจครบ 2,753 แถวแล้ว min=max=0.74 A จึงเป็น constant-current discharge ไม่ใช่การเดาจากสองจุด</p></details>
+          <details><summary>Qn เป็นพลังงานหรือไม่?</summary><p>ไม่ใช่ Qn=2664 C=0.74 Ah เป็นประจุ พลังงานต้องคำนวณ ∫vi dt และมีหน่วย J หรือ Wh</p></details>
+          <details><summary>ทำไมมี exponential สองเทอม?</summary><p>เทอม +Aa exp(−Baq) สร้างส่วนโค้งเร็วช่วงต้น ส่วน −Ab exp[−Bb(Qn−q)] สร้างหัวเข่าช่วงท้าย</p></details>
+          <details><summary>Ri ได้เท่าไร?</summary><p>ตอบอย่างซื่อสัตย์ว่าแยก Ri จาก Eo ไม่ได้ในชุดนี้ ระบุได้เพียง Eo−0.74Ri ต้องมี current pulse หรือหลายระดับกระแส</p></details>
+          <details><summary>ถ้าสมมติ Ri=0.2 Ω แล้ว Eo เท่าไร?</summary><p>Eo=C₀+0.74Ri=4.184467052577080 V และต้องย้ำว่าเป็นค่ามีเงื่อนไข ไม่ใช่ Ri ที่ฟิตจากชุดเดิม</p></details>
+          <details><summary>ทำไมไม่ใช้ L-BFGS-B เจ็ดตัวตรง ๆ?</summary><p>ปัญหามี local minima, สเกลต่างกันมาก และ rank deficiency จึงใช้ variable projection + global rate search + bounded least squares ซึ่งมั่นคงกว่า</p></details>
+          <details><summary>โมเดลแม่น 10⁻¹⁴ V แปลว่าดีในโลกจริงไหม?</summary><p>ไม่จำเป็น ข้อมูลนี้แทบเป็นเส้นสังเคราะห์ไร้ noise ต้องตรวจ out-of-sample, temperature, hysteresis, aging และ sensor bias ก่อนใช้จริง</p></details>
+          <details><summary>จะวัด Ri ใน EV/BESS อย่างไร?</summary><p>ใช้ current pulse ที่ SOC และอุณหภูมิกำหนด ประมาณ Ri≈−Δv/Δi จาก voltage jump ก่อน dynamics ช้าเข้ามา แล้วทำซ้ำหลาย operating points</p></details>
+        </div>
+      </article>
+    </section>
+
+    <p class="footer-note">Standalone teaching dashboard · ไม่มีการส่งข้อมูลออกจากเครื่อง · กราฟใช้ Canvas engine ภายในไฟล์เดียว</p>
+  </main>
+
+  <script>
+    "use strict";
+
+    const I0 = 0.74;
+    const RL = 10;
+    const QN = 2664;
+    const TMAX = 2752;
+    const REF = Object.freeze({
+      eo: 4.184467052577080,
+      k: 2.721543795924126e-4,
+      aa: 0.1376373561412683,
+      ba: 0.01023751023751041,
+      ab: 559.9457328260022,
+      bb: 0.01072501072501068,
+      ri: 0.2
+    });
+
+    const parameters = [
+      {key:"eo", label:"Eo", unit:"V", min:3.8, max:4.6, step:0.0001, digits:6, note:"แรงดันฐาน (conditional on Ri)"},
+      {key:"k", label:"K", unit:"V/C", min:0, max:0.0006, step:0.000001, digits:9, note:"ความลาดของ plateau"},
+      {key:"aa", label:"Aa", unit:"V", min:0, max:0.5, step:0.0001, digits:6, note:"แอมพลิจูดโค้งช่วงต้น"},
+      {key:"ba", label:"Ba", unit:"1/C", min:0.001, max:0.03, step:0.00001, digits:7, note:"อัตราสลายช่วงต้น"},
+      {key:"ab", label:"Ab", unit:"V", min:50, max:1000, step:0.1, digits:3, note:"coefficient ช่วงปลายที่ q=Qn"},
+      {key:"bb", label:"Bb", unit:"1/C", min:0.003, max:0.02, step:0.00001, digits:7, note:"อัตราโค้งช่วงปลาย"},
+      {key:"ri", label:"Ri", unit:"Ω", min:0, max:0.5, step:0.001, digits:4, note:"ต้องมาจากการทดลองภายนอก"}
+    ];
+
+    const state = {...REF};
+    let lockedC0 = REF.eo - I0 * REF.ri;
+    const samples = Array.from({length: 689}, (_, index) => Math.min(index * 4, TMAX));
+    if (samples[samples.length - 1] !== TMAX) samples.push(TMAX);
+
+    const css = getComputedStyle(document.documentElement);
+    const COLORS = {
+      cyan: css.getPropertyValue("--cyan").trim(),
+      violet: css.getPropertyValue("--violet").trim(),
+      green: css.getPropertyValue("--green").trim(),
+      amber: css.getPropertyValue("--amber").trim(),
+      rose: css.getPropertyValue("--rose").trim(),
+      text: css.getPropertyValue("--text").trim(),
+      muted: css.getPropertyValue("--muted").trim()
+    };
+
+    function voltageAt(t, p) {
+      const q = I0 * t;
+      return p.eo - p.k*q + p.aa*Math.exp(-p.ba*q)
+        - p.ab*Math.exp(-p.bb*(QN-q)) - I0*p.ri;
+    }
+
+    function format(value, digits=4) {
+      return Number(value).toLocaleString("en-US", {minimumFractionDigits: digits, maximumFractionDigits: digits});
+    }
+
+    function createParameters() {
+      const host = document.getElementById("parameterList");
+      host.innerHTML = parameters.map(p => `
+        <div class="parameter">
+          <div class="range-head">
+            <label for="param-${p.key}">${p.label}</label>
+            <output id="out-${p.key}">${format(state[p.key], p.digits)} ${p.unit}</output>
+          </div>
+          <input id="param-${p.key}" data-key="${p.key}" type="range" min="${p.min}" max="${p.max}" step="${p.step}" value="${state[p.key]}" aria-label="${p.label} ${p.note}">
+          <small>${p.note}</small>
+        </div>`).join("");
+
+      host.querySelectorAll("input[type=range]").forEach(input => {
+        input.addEventListener("input", event => {
+          const key = event.currentTarget.dataset.key;
+          const value = Number(event.currentTarget.value);
+          state[key] = value;
+          if (key === "ri" && document.getElementById("lockC0").checked) {
+            state.eo = lockedC0 + I0 * state.ri;
+            syncControl("eo");
+          } else if (key === "eo") {
+            lockedC0 = state.eo - I0 * state.ri;
+          }
+          syncOutput(key);
+          updateAll();
+        });
+      });
+    }
+
+    function syncOutput(key) {
+      const config = parameters.find(p => p.key === key);
+      document.getElementById(`out-${key}`).textContent = `${format(state[key], config.digits)} ${config.unit}`;
+    }
+
+    function syncControl(key) {
+      document.getElementById(`param-${key}`).value = state[key];
+      syncOutput(key);
+    }
+
+    function resetParameters() {
+      Object.assign(state, REF);
+      lockedC0 = REF.eo - I0 * REF.ri;
+      parameters.forEach(p => syncControl(p.key));
+      document.getElementById("lockC0").checked = true;
+      updateAll();
+    }
+
+    class CanvasChart {
+      constructor(canvas, options) {
+        this.canvas = canvas;
+        this.ctx = canvas.getContext("2d");
+        this.options = options;
+      }
+
+      draw(series, markerT) {
+        const canvas = this.canvas;
+        const width = Math.max(320, canvas.clientWidth);
+        const height = Math.max(210, canvas.clientHeight);
+        const ratio = Math.min(window.devicePixelRatio || 1, 2);
+        if (canvas.width !== Math.round(width*ratio) || canvas.height !== Math.round(height*ratio)) {
+          canvas.width = Math.round(width*ratio);
+          canvas.height = Math.round(height*ratio);
+        }
+        const ctx = this.ctx;
+        ctx.setTransform(ratio, 0, 0, ratio, 0, 0);
+        ctx.clearRect(0, 0, width, height);
+        const pad = {l:58, r:18, t:16, b:42};
+        const plotW = width-pad.l-pad.r;
+        const plotH = height-pad.t-pad.b;
+        const allY = series.flatMap(s => s.values);
+        let minY = this.options.minY ?? Math.min(...allY);
+        let maxY = this.options.maxY ?? Math.max(...allY);
+        if (Math.abs(maxY-minY) < 1e-10) { minY -= .01; maxY += .01; }
+        const margin = (maxY-minY)*0.07;
+        minY -= margin; maxY += margin;
+        const x = t => pad.l + (t/TMAX)*plotW;
+        const y = value => pad.t + (maxY-value)/(maxY-minY)*plotH;
+
+        ctx.strokeStyle = "rgba(170, 199, 222, .14)";
+        ctx.fillStyle = COLORS.muted;
+        ctx.lineWidth = 1;
+        ctx.font = "11px system-ui";
+        ctx.textAlign = "right";
+        ctx.textBaseline = "middle";
+        for (let tick=0; tick<=4; tick++) {
+          const py = pad.t + tick*plotH/4;
+          const value = maxY - tick*(maxY-minY)/4;
+          ctx.beginPath(); ctx.moveTo(pad.l, py); ctx.lineTo(width-pad.r, py); ctx.stroke();
+          ctx.fillText(this.options.formatY ? this.options.formatY(value) : value.toFixed(2), pad.l-8, py);
+        }
+        ctx.textAlign = "center";
+        ctx.textBaseline = "top";
+        [0, 688, 1376, 2064, 2752].forEach(tick => {
+          const px = x(tick);
+          ctx.beginPath(); ctx.moveTo(px, pad.t); ctx.lineTo(px, height-pad.b); ctx.stroke();
+          ctx.fillText(String(tick), px, height-pad.b+9);
+        });
+
+        ctx.save();
+        ctx.fillStyle = COLORS.muted;
+        ctx.translate(13, pad.t+plotH/2);
+        ctx.rotate(-Math.PI/2);
+        ctx.textAlign = "center";
+        ctx.fillText(this.options.yLabel, 0, 0);
+        ctx.restore();
+        ctx.textAlign = "center";
+        ctx.fillText("Time [s]", pad.l+plotW/2, height-15);
+
+        for (const item of series) {
+          ctx.strokeStyle = item.color;
+          ctx.lineWidth = item.width || 2;
+          ctx.setLineDash(item.dash || []);
+          ctx.beginPath();
+          item.values.forEach((value, index) => {
+            const px = x(samples[index]);
+            const py = y(value);
+            index ? ctx.lineTo(px, py) : ctx.moveTo(px, py);
+          });
+          ctx.stroke();
+        }
+        ctx.setLineDash([]);
+
+        if (Number.isFinite(markerT)) {
+          const px = x(markerT);
+          ctx.strokeStyle = "rgba(255,255,255,.38)";
+          ctx.lineWidth = 1;
+          ctx.beginPath(); ctx.moveTo(px, pad.t); ctx.lineTo(px, height-pad.b); ctx.stroke();
+          series.forEach(item => {
+            const value = item.valueAt(markerT);
+            ctx.fillStyle = item.color;
+            ctx.beginPath(); ctx.arc(px, y(value), 3.6, 0, Math.PI*2); ctx.fill();
+          });
+        }
+      }
+    }
+
+    const voltageChart = new CanvasChart(document.getElementById("voltageChart"), {yLabel:"Voltage [V]", formatY:v=>v.toFixed(2)});
+    const isChart = new CanvasChart(document.getElementById("isChart"), {yLabel:"Current [A]", formatY:v=>v.toFixed(3)});
+    const iChart = new CanvasChart(document.getElementById("iChart"), {yLabel:"Current [A]", minY:.72, maxY:.76, formatY:v=>v.toFixed(3)});
+    const qChart = new CanvasChart(document.getElementById("qChart"), {yLabel:"Charge [C]", formatY:v=>Math.round(v).toLocaleString("en-US")});
+
+    function updateCircuit() {
+      const t = Number(document.getElementById("timeSlider").value);
+      const q = I0*t;
+      const v = voltageAt(t, state);
+      const vs = v + I0*state.ri;
+      const iL = v/RL;
+      const iS = I0-iL;
+      document.getElementById("timeOutput").textContent = `${t.toLocaleString("en-US")} s`;
+      document.getElementById("svgVs").textContent = `${format(vs, 4)} V`;
+      document.getElementById("svgRi").textContent = `${format(state.ri, 3)} Ω`;
+      document.getElementById("svgIs").textContent = `${format(iS, 4)} A`;
+      document.getElementById("svgIL").textContent = `iL = ${format(iL, 4)} A`;
+      document.getElementById("svgV").textContent = `${format(v, 4)} V`;
+      document.getElementById("svgI").textContent = `${format(I0, 4)} A`;
+      document.getElementById("statQ").textContent = `${format(q, 2)} C`;
+      document.getElementById("statSoc").textContent = `${format(100*(1-q/QN), 2)}%`;
+      document.getElementById("statDrop").textContent = `${format(I0*state.ri, 4)} V`;
+      document.getElementById("statKcl").textContent = `${format(1e12*(I0-iS-iL), 2)} pA`;
+    }
+
+    function updateCharts() {
+      const markerT = Number(document.getElementById("timeSlider").value);
+      const referenceV = samples.map(t => voltageAt(t, REF));
+      const modelV = samples.map(t => voltageAt(t, state));
+      const referenceIs = referenceV.map(v => I0-v/RL);
+      const modelIs = modelV.map(v => I0-v/RL);
+      const current = samples.map(() => I0);
+      const charge = samples.map(t => I0*t);
+      const mse = referenceV.reduce((sum, value, index) => sum + (modelV[index]-value)**2, 0)/referenceV.length;
+      document.getElementById("rmseOutput").textContent = `RMSE ${(1e6*Math.sqrt(mse)).toLocaleString("en-US", {maximumFractionDigits:3})} µV`;
+
+      voltageChart.draw([
+        {values:referenceV, color:COLORS.cyan, width:3, valueAt:t=>voltageAt(t,REF)},
+        {values:modelV, color:COLORS.rose, width:1.7, dash:[8,5], valueAt:t=>voltageAt(t,state)}
+      ], markerT);
+      isChart.draw([
+        {values:referenceIs, color:COLORS.violet, width:2.5, valueAt:t=>I0-voltageAt(t,REF)/RL},
+        {values:modelIs, color:COLORS.rose, width:1.5, dash:[7,4], valueAt:t=>I0-voltageAt(t,state)/RL}
+      ], markerT);
+      iChart.draw([{values:current, color:COLORS.green, width:2.5, valueAt:()=>I0}], markerT);
+      qChart.draw([{values:charge, color:COLORS.amber, width:2.5, valueAt:t=>I0*t}], markerT);
+    }
+
+    function updateAll() {
+      const c0 = state.eo-I0*state.ri;
+      document.getElementById("c0Readout").textContent = `C₀ = ${format(c0, 10)} V`;
+      updateCircuit();
+      updateCharts();
+    }
+
+    function activateTab(button) {
+      document.querySelectorAll(".tab").forEach(tab => tab.setAttribute("aria-selected", String(tab === button)));
+      document.querySelectorAll(".tab-panel").forEach(panel => {
+        const active = panel.id === button.getAttribute("aria-controls");
+        panel.classList.toggle("active", active);
+        panel.hidden = !active;
+      });
+      if (button.getAttribute("aria-controls") === "tab-lab") requestAnimationFrame(updateAll);
+    }
+
+    createParameters();
+    document.getElementById("timeSlider").addEventListener("input", updateAll);
+    document.getElementById("resetParams").addEventListener("click", resetParameters);
+    document.getElementById("lockC0").addEventListener("change", event => {
+      if (event.currentTarget.checked) lockedC0 = state.eo-I0*state.ri;
+    });
+    document.querySelectorAll(".tab").forEach(button => button.addEventListener("click", () => activateTab(button)));
+    window.addEventListener("resize", () => requestAnimationFrame(updateCharts));
+    updateAll();
+  </script>
+</body>
+</html>

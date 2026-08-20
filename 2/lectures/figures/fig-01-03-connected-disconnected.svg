@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="640" height="220" viewBox="0 0 640 220" role="img" aria-label="Connected vs disconnected graph">
+  <rect width="640" height="220" fill="#fafbfc"/>
+<text x="140" y="35" text-anchor="middle" font-family="sans-serif" font-size="14" fill="#2d3748" font-weight="bold">Connected</text><path d="M 84.99 106.67 L 135.01 73.33" stroke="#1e3a5f" stroke-width="3" stroke-linecap="round" fill="none"/><path d="M 144.99 73.33 L 195.01 106.67" stroke="#1e3a5f" stroke-width="3" stroke-linecap="round" fill="none"/><path d="M 86.00 110.00 L 194.00 110.00" stroke="#1e3a5f" stroke-width="3" stroke-linecap="round" fill="none"/><circle cx="80" cy="110" r="6" fill="#1e3a5f" stroke="none"/>
+<circle cx="80" cy="110" r="2.4000000000000004" fill="#ffffff" opacity="0.22"/>
+<text x="80.00" y="92.00" text-anchor="middle" font-family="sans-serif" font-size="14" fill="#2d3748" font-weight="bold">A</text><circle cx="140" cy="70" r="6" fill="#1e3a5f" stroke="none"/>
+<circle cx="140" cy="70" r="2.4000000000000004" fill="#ffffff" opacity="0.22"/>
+<text x="140.00" y="52.00" text-anchor="middle" font-family="sans-serif" font-size="14" fill="#2d3748" font-weight="bold">B</text><circle cx="200" cy="110" r="6" fill="#1e3a5f" stroke="none"/>
+<circle cx="200" cy="110" r="2.4000000000000004" fill="#ffffff" opacity="0.22"/>
+<text x="200.00" y="92.00" text-anchor="middle" font-family="sans-serif" font-size="14" fill="#2d3748" font-weight="bold">C</text><text x="480" y="35" text-anchor="middle" font-family="sans-serif" font-size="14" fill="#2d3748" font-weight="bold">Disconnected</text><path d="M 424.99 106.67 L 475.01 73.33" stroke="#1e3a5f" stroke-width="3" stroke-linecap="round" fill="none"/><path d="M 485.37 72.68 L 554.63 107.32" stroke="#1e3a5f" stroke-width="3" stroke-linecap="round" fill="none"/><circle cx="420" cy="110" r="6" fill="#1e3a5f" stroke="none"/>
+<circle cx="420" cy="110" r="2.4000000000000004" fill="#ffffff" opacity="0.22"/>
+<text x="420.00" y="92.00" text-anchor="middle" font-family="sans-serif" font-size="14" fill="#2d3748" font-weight="bold">A</text><circle cx="480" cy="70" r="6" fill="#1e3a5f" stroke="none"/>
+<circle cx="480" cy="70" r="2.4000000000000004" fill="#ffffff" opacity="0.22"/>
+<text x="480.00" y="52.00" text-anchor="middle" font-family="sans-serif" font-size="14" fill="#2d3748" font-weight="bold">B</text><circle cx="560" cy="110" r="6" fill="#1e3a5f" stroke="none"/>
+<circle cx="560" cy="110" r="2.4000000000000004" fill="#ffffff" opacity="0.22"/>
+<text x="560.00" y="92.00" text-anchor="middle" font-family="sans-serif" font-size="14" fill="#2d3748" font-weight="bold">C</text><circle cx="560" cy="170" r="6" fill="#1e3a5f" stroke="none"/>
+<circle cx="560" cy="170" r="2.4000000000000004" fill="#ffffff" opacity="0.22"/>
+<text x="560.00" y="188.00" text-anchor="middle" font-family="sans-serif" font-size="14" fill="#2d3748" font-weight="bold">D</text></svg>

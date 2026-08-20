@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="500" height="200" viewBox="0 0 500 200" role="img" aria-label="A branch with current and voltage">
+  <rect width="500" height="200" fill="#fafbfc"/>
+<path d="M 126.00 100.00 L 374.00 100.00" stroke="#1e3a5f" stroke-width="3" stroke-linecap="round" fill="none"/><polygon points="255.50,100.00 244.50,94.50 244.50,105.50" fill="#ffffff" stroke="#1e3a5f" stroke-width="1.2" stroke-linejoin="round"/><circle cx="120" cy="100" r="6" fill="#1e3a5f" stroke="none"/>
+<circle cx="120" cy="100" r="2.4000000000000004" fill="#ffffff" opacity="0.22"/>
+<text x="120.00" y="82.00" text-anchor="middle" font-family="sans-serif" font-size="14" fill="#2d3748" font-weight="bold">A</text><circle cx="380" cy="100" r="6" fill="#1e3a5f" stroke="none"/>
+<circle cx="380" cy="100" r="2.4000000000000004" fill="#ffffff" opacity="0.22"/>
+<text x="380.00" y="82.00" text-anchor="middle" font-family="sans-serif" font-size="14" fill="#2d3748" font-weight="bold">B</text><text x="250.00" y="95.00" text-anchor="middle" font-family="sans-serif" font-size="14" fill="#2d3748" font-weight="bold">i<tspan dy="4" font-size="9">j</tspan></text><text x="250.00" y="80.00" text-anchor="middle" font-family="sans-serif" font-size="14" fill="#2d3748" font-weight="bold">v<tspan dy="4" font-size="9">j</tspan></text><text x="250" y="140" text-anchor="middle" font-family="sans-serif" font-size="12" fill="#2d3748">branch j</text></svg>

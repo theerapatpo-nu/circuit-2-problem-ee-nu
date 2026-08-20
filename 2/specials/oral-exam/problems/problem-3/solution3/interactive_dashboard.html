@@ -1,0 +1,1955 @@
+<!doctype html>
+<html lang="th">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>ข้อที่ 3 — วงข่ายความนำไฟฟ้า &amp; สมการชุดตัด | 303212</title>
+<meta name="description" content="สื่อการสอนโต้ตอบ: ความนำไฟฟ้า ทฤษฎีกราฟวงจร สมการชุดตัด Supernode และคัมภีร์ซ้อมตอบสอบปากเปล่า 15 ข้อ">
+<style>
+:root{
+  --bg:#070c15; --bg2:#0b1220;
+  --panel:rgba(17,26,43,.72); --panel-solid:#111a2b;
+  --line:rgba(140,185,235,.15); --line-strong:rgba(140,185,235,.3);
+  --ink:#e8f0fb; --ink-soft:#a6b6cd; --ink-faint:#7788a0;
+  --accent:#5b9dff; --accent-soft:rgba(91,157,255,.13);
+  --teal:#2dd4bf; --violet:#a78bfa; --amber:#fbbf24; --rose:#fb7185; --green:#4ade80;
+  --shadow:0 10px 40px rgba(0,0,0,.4);
+  --shadow-lg:0 24px 70px rgba(0,0,0,.55);
+  --r:18px;
+  --mono:ui-monospace,"SF Mono",Menlo,Consolas,monospace;
+  color-scheme:dark;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth;-webkit-text-size-adjust:100%}
+body{
+  margin:0;min-width:320px;color:var(--ink);line-height:1.75;
+  font-family:"IBM Plex Sans Thai","Noto Sans Thai",-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;
+  background:
+    radial-gradient(1100px 600px at 12% -5%,rgba(91,157,255,.12),transparent 60%),
+    radial-gradient(900px 520px at 92% 8%,rgba(167,139,250,.10),transparent 60%),
+    linear-gradient(170deg,var(--bg),var(--bg2));
+  background-attachment:fixed;
+}
+h1,h2,h3,h4{line-height:1.35;margin:0 0 .5em}
+p{margin:0 0 1em}
+a{color:var(--accent)}
+code,.mono{font-family:var(--mono);font-size:.92em}
+
+/* ---------- shell ---------- */
+.wrap{max-width:1240px;margin:0 auto;padding:0 clamp(12px,3vw,28px) 90px}
+header.top{padding:clamp(30px,5vw,56px) 0 18px;text-align:center}
+.eyebrow{display:inline-block;font-size:.74rem;letter-spacing:.16em;text-transform:uppercase;
+  color:var(--accent);background:var(--accent-soft);border:1px solid var(--line);
+  padding:6px 14px;border-radius:999px;margin-bottom:14px;font-weight:700}
+header.top h1{font-size:clamp(1.45rem,4.4vw,2.4rem);letter-spacing:-.01em}
+header.top .sub{color:var(--ink-soft);max-width:62ch;margin:0 auto;font-size:clamp(.92rem,2.2vw,1.03rem)}
+
+/* ---------- fixed back button ---------- */
+.top-back-btn{position:fixed;top:14px;left:14px;z-index:9999;width:38px;height:38px;
+  border-radius:50%;background:var(--panel-solid);border:1.5px solid var(--line-strong);
+  color:var(--ink);display:inline-flex;align-items:center;justify-content:center;
+  text-decoration:none;font-size:1.2rem;font-weight:800;box-shadow:0 6px 20px rgba(0,0,0,.35);
+  backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);
+  transition:all .25s cubic-bezier(.16,1,.3,1)}
+.top-back-btn:hover{background:var(--accent);color:#fff;border-color:var(--accent);transform:scale(1.12)}
+
+/* ---------- sticky problem button + drawer ---------- */
+#stickyProblemBtn{position:fixed;bottom:24px;left:24px;z-index:9999;display:inline-flex;
+  align-items:center;justify-content:center;width:38px;height:38px;padding:0;border-radius:50%;
+  background:var(--panel-solid);border:1.5px solid var(--accent);color:var(--accent);cursor:pointer;
+  box-shadow:0 6px 20px rgba(0,0,0,.35);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);
+  transition:all .25s cubic-bezier(.16,1,.3,1)}
+#stickyProblemBtn:hover{transform:scale(1.12);background:var(--accent);color:#fff;
+  box-shadow:0 8px 24px rgba(91,157,255,.45)}
+#stickyProblemBtn.active{background:var(--rose);border-color:var(--rose);color:#fff}
+#stickyProblemBtn .arrow-icon{display:inline-block;font-size:1.15rem;line-height:1;transition:transform .3s ease}
+#problemDrawerOverlay{position:fixed;inset:0;background:rgba(4,8,16,.75);
+  backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);z-index:9997;opacity:0;
+  pointer-events:none;transition:opacity .3s ease}
+#problemDrawerOverlay.active{opacity:1;pointer-events:auto}
+#problemDrawerModal{position:fixed;top:50%;left:50%;transform:translate(-50%,-46%) scale(.92);
+  opacity:0;pointer-events:none;z-index:9998;width:min(880px,94vw);max-height:90vh;overflow-y:auto;
+  background:var(--panel-solid);border:1px solid var(--line-strong);border-radius:22px;
+  box-shadow:var(--shadow-lg);padding:22px;transition:transform .35s cubic-bezier(.16,1,.3,1),opacity .25s ease}
+#problemDrawerModal.active{transform:translate(-50%,-50%) scale(1);opacity:1;pointer-events:auto}
+.drawer-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:14px;
+  padding-bottom:12px;border-bottom:1px solid var(--line);gap:10px;flex-wrap:wrap}
+.drawer-header h3{margin:0;font-size:1.08rem;display:flex;align-items:center;gap:8px}
+.drawer-close-btn{background:var(--accent-soft);border:1px solid var(--line);color:var(--ink);
+  width:34px;height:34px;border-radius:50%;font-weight:700;cursor:pointer;display:grid;
+  place-items:center;transition:.15s;flex:none}
+.drawer-close-btn:hover{background:var(--rose);color:#fff}
+.drawer-body img{width:100%;height:auto;border-radius:14px;border:1px solid var(--line);
+  background:#fff;padding:10px;display:block;margin-bottom:12px}
+.img-switch{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:12px}
+
+/* ---------- tabs ---------- */
+.tabbar-wrapper{position:sticky;top:0;z-index:40;margin:22px 0 26px}
+.tabbar{display:flex;gap:5px;overflow-x:auto;scrollbar-width:thin;padding:7px;
+  background:var(--panel);backdrop-filter:blur(18px);-webkit-backdrop-filter:blur(18px);
+  border:1px solid var(--line);border-radius:16px;box-shadow:var(--shadow);scroll-behavior:smooth}
+.tabbar::-webkit-scrollbar{height:5px}
+.tabbar::-webkit-scrollbar-thumb{background:var(--line-strong);border-radius:9px}
+.tabbtn{flex:0 0 auto;display:flex;align-items:center;gap:8px;padding:10px 15px;border:0;
+  border-radius:11px;background:transparent;color:var(--ink-soft);font:inherit;font-size:.9rem;
+  font-weight:700;cursor:pointer;white-space:nowrap;transition:.16s}
+.tabbtn .n{display:grid;place-items:center;width:21px;height:21px;border-radius:7px;
+  background:var(--line);color:var(--ink-soft);font-size:.72rem;font-weight:800;flex:none}
+.tabbtn:hover{background:var(--accent-soft);color:var(--ink)}
+.tabbtn[aria-selected="true"]{background:var(--accent);color:#fff;box-shadow:0 4px 16px rgba(91,157,255,.35)}
+.tabbtn[aria-selected="true"] .n{background:rgba(255,255,255,.25);color:#fff}
+.tab-scroll-btn{position:absolute;top:50%;transform:translateY(-50%);z-index:45;padding:8px 13px;
+  border-radius:999px;background:var(--panel-solid);border:1px solid var(--accent);color:var(--ink);
+  font-size:.85rem;font-weight:800;cursor:pointer;display:inline-flex;align-items:center;gap:6px;
+  box-shadow:0 6px 20px rgba(0,0,0,.45);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);
+  opacity:0;pointer-events:none;transition:opacity .25s ease,transform .2s ease,background .2s ease}
+.tab-scroll-btn.show{opacity:1;pointer-events:auto}
+.tab-scroll-btn:hover{background:var(--accent);color:#fff;transform:translateY(-50%) scale(1.06)}
+.tab-scroll-btn.left{left:-10px}
+.tab-scroll-btn.right{right:-10px}
+.panel[hidden]{display:none}
+
+/* ---------- cards ---------- */
+.card{background:var(--panel);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);
+  border:1px solid var(--line);border-radius:var(--r);box-shadow:var(--shadow);
+  padding:clamp(18px,3.2vw,30px);margin-bottom:20px}
+.card h2{font-size:clamp(1.12rem,2.9vw,1.48rem);display:flex;gap:11px;align-items:flex-start}
+.card h2 .ic{font-size:1.15em;line-height:1.2;flex:none}
+.card h3{font-size:clamp(1rem,2.3vw,1.14rem);margin-top:1.6em}
+.card h3:first-of-type{margin-top:.4em}
+.lead{color:var(--ink-soft);font-size:1.02rem}
+.grid{display:grid;gap:16px}
+/* grid/flex ลูกต้องยุบได้ ไม่งั้นเนื้อหายาวๆ จะดัน track ให้กว้างเกินจอบนมือถือ */
+.grid>*{min-width:0}
+@media(min-width:820px){.g2{grid-template-columns:1fr 1fr}.g3{grid-template-columns:repeat(3,1fr)}}
+@media(min-width:640px) and (max-width:819px){.g3{grid-template-columns:1fr 1fr}}
+
+/* ---------- callouts ---------- */
+.note{border-left:4px solid var(--accent);background:var(--accent-soft);padding:14px 18px;
+  border-radius:0 12px 12px 0;margin:16px 0}
+.warn{border-left-color:var(--rose);background:rgba(251,113,133,.10)}
+.win{border-left-color:var(--green);background:rgba(74,222,128,.10)}
+.tip{border-left-color:var(--amber);background:rgba(251,191,36,.10)}
+.note p:last-child,.note ul:last-child,.note ol:last-child{margin-bottom:0}
+.note .lbl{font-weight:800;display:block;margin-bottom:4px}
+
+/* ---------- tables ---------- */
+.tw{overflow-x:auto;margin:16px 0;border:1px solid var(--line);border-radius:13px;background:var(--panel-solid)}
+table{border-collapse:collapse;width:100%;min-width:460px;font-size:.9rem}
+th,td{padding:9px 13px;text-align:left;border-bottom:1px solid var(--line)}
+th{background:var(--accent-soft);font-weight:700;font-size:.83rem;white-space:nowrap}
+tbody tr:last-child td{border-bottom:0}
+tbody tr:hover{background:var(--accent-soft)}
+td.num,th.num{text-align:right;font-family:var(--mono);font-size:.85rem;white-space:nowrap}
+
+/* ---------- eq ---------- */
+.eq{background:var(--panel-solid);border:1px solid var(--line);border-radius:12px;padding:15px 18px;
+  margin:14px 0;overflow-x:auto;text-align:center;font-family:var(--mono);
+  font-size:clamp(.83rem,2vw,.97rem);line-height:2.05}
+.eq.left{text-align:left}
+.eq b{color:var(--accent);font-weight:700}
+.eq .hi{background:rgba(251,191,36,.25);border-radius:5px;padding:1px 5px}
+.eq .dim{color:var(--ink-faint)}
+.eq .bad{color:var(--rose);font-weight:700}
+.eq .ok{color:var(--green);font-weight:700}
+sub,sup{font-size:.72em}
+
+/* ---------- matrix ---------- */
+.matrix{display:inline-grid;gap:2px 10px;font-family:var(--mono);font-size:.88rem;
+  padding:10px 16px;border-left:2px solid var(--ink-soft);border-right:2px solid var(--ink-soft);
+  border-radius:4px;margin:6px 4px;vertical-align:middle}
+.matrix span{text-align:right;padding:2px 4px;border-radius:4px}
+.matrix .z{color:var(--ink-faint)}
+.matrix .hl{background:rgba(91,157,255,.22);color:var(--accent);font-weight:700}
+.matrix .hl2{background:rgba(74,222,128,.20);color:var(--green);font-weight:700}
+.mrow{display:flex;align-items:center;gap:8px;flex-wrap:wrap;justify-content:center;margin:14px 0}
+.mlabel{font-family:var(--mono);font-size:.85rem;color:var(--ink-soft)}
+
+/* ---------- steps ---------- */
+.step{display:flex;gap:15px;padding:15px 0;border-bottom:1px dashed var(--line)}
+.step:last-child{border-bottom:0}
+.step .k{flex:none;width:31px;height:31px;border-radius:10px;display:grid;place-items:center;
+  background:var(--accent);color:#fff;font-weight:800;font-size:.85rem;font-family:var(--mono)}
+.step .body{flex:1;min-width:0}
+.step .body p:last-child{margin-bottom:0}
+.step h4{margin:0 0 6px;font-size:1rem}
+
+/* ---------- stats ---------- */
+.stats{display:grid;gap:12px;grid-template-columns:repeat(auto-fit,minmax(148px,1fr));margin:16px 0}
+.stat{background:var(--panel-solid);border:1px solid var(--line);border-radius:13px;padding:14px 16px}
+.stat .lb{font-size:.74rem;color:var(--ink-faint);text-transform:uppercase;letter-spacing:.07em;font-weight:700}
+.stat .vl{font-family:var(--mono);font-size:clamp(1rem,2.6vw,1.26rem);font-weight:800;color:var(--accent);margin:3px 0 1px}
+.stat .un{font-size:.78rem;color:var(--ink-soft)}
+.stat.t2 .vl{color:var(--teal)}.stat.t3 .vl{color:var(--violet)}.stat.t4 .vl{color:var(--amber)}
+.stat.t5 .vl{color:var(--rose)}.stat.t6 .vl{color:var(--green)}
+
+/* ---------- figure / svg ---------- */
+figure{margin:16px 0;background:var(--panel-solid);border:1px solid var(--line);border-radius:13px;
+  padding:14px;text-align:center}
+figure img{max-width:100%;height:auto;border-radius:8px;background:#fff;padding:8px}
+figcaption{color:var(--ink-faint);font-size:.84rem;margin-top:9px}
+svg.chart{width:100%;height:auto;display:block;overflow:visible}
+.chart text{font-family:inherit;font-size:11px;fill:var(--ink-faint)}
+.chart .lbx{fill:var(--ink-soft);font-size:11.5px;font-weight:700}
+
+/* ---------- Q&A ---------- */
+details.qa{border:1px solid var(--line);border-radius:13px;margin-bottom:11px;background:var(--panel-solid);overflow:hidden}
+details.qa[open]{border-color:var(--accent);box-shadow:0 5px 22px rgba(91,157,255,.16)}
+details.qa>summary{padding:15px 18px;cursor:pointer;font-weight:700;list-style:none;display:flex;
+  gap:11px;align-items:flex-start;font-size:.97rem;transition:.14s}
+details.qa>summary::-webkit-details-marker{display:none}
+details.qa>summary:hover{background:var(--accent-soft)}
+details.qa>summary .qn{flex:none;width:26px;height:26px;border-radius:8px;background:var(--accent);
+  color:#fff;display:grid;place-items:center;font-size:.78rem;font-family:var(--mono);font-weight:800}
+details.qa.danger>summary .qn{background:var(--rose)}
+details.qa .qbody{padding:2px 18px 18px;border-top:1px solid var(--line)}
+.qsec{margin:15px 0}
+.qsec>.h{font-size:.79rem;font-weight:800;letter-spacing:.05em;text-transform:uppercase;
+  color:var(--ink-faint);margin-bottom:6px}
+.script{border-left:4px solid var(--teal);background:rgba(45,212,191,.09);padding:14px 18px;
+  border-radius:0 12px 12px 0;font-size:.96rem}
+.script.dist{border-left-color:var(--amber);background:rgba(251,191,36,.09)}
+.script p{margin:0 0 .8em}.script p:last-child{margin:0}
+.lvl{display:inline-flex;align-items:center;gap:7px;font-size:.8rem;font-weight:800;
+  padding:4px 12px;border-radius:999px;margin-bottom:8px}
+.lvl.def{background:rgba(45,212,191,.16);color:var(--teal)}
+.lvl.dis{background:rgba(251,191,36,.16);color:var(--amber)}
+.trap{list-style:none;padding:0;margin:0}
+.trap li{padding:6px 0 6px 26px;position:relative;color:var(--ink-soft);font-size:.94rem}
+.trap li::before{content:"✕";position:absolute;left:0;color:var(--rose);font-weight:800}
+ul.tick{list-style:none;padding:0}
+ul.tick li{padding:5px 0 5px 26px;position:relative}
+ul.tick li::before{content:"→";position:absolute;left:2px;color:var(--accent);font-weight:800}
+
+/* ---------- lab ---------- */
+.lab{display:grid;gap:18px}
+.lab>*{min-width:0}
+@media(min-width:960px){.lab{grid-template-columns:330px 1fr}}
+.ctrl{background:var(--panel-solid);border:1px solid var(--line);border-radius:14px;padding:16px;min-width:0}
+.sl{margin-bottom:15px;min-width:0}
+.sl .row{display:flex;justify-content:space-between;align-items:baseline;gap:8px;margin-bottom:5px;flex-wrap:wrap}
+.sl .nm{font-weight:700;font-size:.87rem;min-width:0}
+.sl input[type=range]{max-width:100%}
+.sl .vv{font-family:var(--mono);font-size:.83rem;color:var(--accent);font-weight:800}
+.sl input[type=range]{width:100%;accent-color:var(--accent);height:22px;cursor:pointer}
+.sl .hint{font-size:.75rem;color:var(--ink-faint);margin-top:2px}
+.btnrow{display:flex;gap:8px;flex-wrap:wrap;margin-top:6px}
+.btn{padding:9px 15px;border-radius:10px;border:1px solid var(--line-strong);background:var(--panel-solid);
+  color:var(--ink);font:inherit;font-size:.85rem;font-weight:700;cursor:pointer;transition:.14s}
+.btn:hover{background:var(--accent-soft);border-color:var(--accent)}
+.btn.pri{background:var(--accent);color:#fff;border-color:var(--accent)}
+.btn.pri:hover{filter:brightness(1.1)}
+.btn.on{background:var(--accent);color:#fff;border-color:var(--accent)}
+.readout{display:grid;gap:9px;grid-template-columns:repeat(auto-fit,minmax(118px,1fr));margin-top:14px}
+.ro{background:var(--accent-soft);border:1px solid var(--line);border-radius:11px;padding:10px 12px}
+.ro .l{font-size:.7rem;color:var(--ink-faint);text-transform:uppercase;letter-spacing:.06em;font-weight:700}
+.ro .v{font-family:var(--mono);font-weight:800;font-size:1rem;color:var(--ink)}
+.badge{display:inline-block;padding:2px 9px;border-radius:999px;font-size:.74rem;font-weight:800;font-family:var(--mono)}
+.b-ok{background:rgba(74,222,128,.2);color:var(--green)}
+.b-warn{background:rgba(251,191,36,.2);color:var(--amber)}
+.b-bad{background:rgba(251,113,133,.2);color:var(--rose)}
+.foot{text-align:center;color:var(--ink-faint);font-size:.85rem;padding:26px 0 0;
+  border-top:1px solid var(--line);margin-top:26px}
+.bridge{background:linear-gradient(90deg,var(--accent-soft),transparent);border-left:3px solid var(--accent);
+  padding:12px 16px;border-radius:0 10px 10px 0;margin:20px 0 0;font-size:.95rem;color:var(--ink-soft)}
+.bridge b{color:var(--ink)}
+</style>
+</head>
+<body>
+
+<a href="../../../index.html" class="top-back-btn" title="กลับหน้าหลัก (Main Portal Hub)" aria-label="กลับหน้าหลัก">←</a>
+
+<button id="stickyProblemBtn" aria-label="เปิดดูรูปภาพโจทย์" title="เปิดดูรูปภาพโจทย์">
+  <span class="arrow-icon">📐</span>
+</button>
+
+<div id="problemDrawerOverlay"></div>
+<div id="problemDrawerModal" role="dialog" aria-labelledby="drawerTitle">
+  <div class="drawer-header">
+    <h3 id="drawerTitle"><span>📐</span><span id="drawerTitleText">รูปวงจร (circuit_fig3.png)</span></h3>
+    <button class="drawer-close-btn" id="closeDrawerBtn" title="ปิดรูปโจทย์" aria-label="ปิด">✕</button>
+  </div>
+  <div class="drawer-body">
+    <div class="img-switch">
+      <button class="btn on" id="imgBtnCircuit">🔌 รูปวงจร (circuit_fig3.png)</button>
+      <button class="btn" id="imgBtnOriginal">📄 โจทย์ต้นฉบับ (image.png)</button>
+    </div>
+    <img id="drawerProblemImg" src="../circuit_fig3.png" alt="รูปวงจรข่ายความนำไฟฟ้า">
+    <div class="note tip" style="margin:0">
+      <span class="lbl">💡 กำกับโจทย์แบบเร็ว</span>
+      <p><span class="mono">V<sub>a</sub> = E<sub>1</sub></span> (ขั้ว + ที่ปม a) ·
+         <span class="mono">V<sub>d</sub> = −E<sub>2</sub></span> (ขั้ว <b>−</b> ที่ปม d) ·
+         <span class="mono">V<sub>c</sub> − V<sub>b</sub> = E<sub>3</sub></span> (ขั้ว + ที่ปม c)</p>
+      <p>Supernode ที่ (b, c): <span class="mono">G<sub>1</sub>(V<sub>b</sub>−V<sub>a</sub>) + G<sub>3</sub>V<sub>b</sub> + G<sub>2</sub>(V<sub>c</sub>−V<sub>d</sub>) = 0</span></p>
+    </div>
+  </div>
+</div>
+
+<div class="wrap">
+
+<header class="top">
+  <span class="eyebrow">303212 · ข้อที่ 3 · Cut-set Analysis</span>
+  <h1>วงข่ายความนำไฟฟ้า &amp; สมการชุดตัด</h1>
+  <p class="sub">จากความนำไฟฟ้า G และทฤษฎีกราฟวงจร ไปจนถึงเมทริกซ์ชุดตัด<br>
+  และคัมภีร์ซ้อมตอบกรรมการ 15 ข้อ · ทุกตัวเลขคำนวณสดในหน้านี้</p>
+</header>
+
+<div class="tabbar-wrapper">
+  <nav class="tabbar" id="mainTabbar" role="tablist" aria-label="บทเรียน">
+    <button class="tabbtn" role="tab" aria-selected="true"  aria-controls="p1" id="t1"><span class="n">1</span>โจทย์จริง &amp; วงจร</button>
+    <button class="tabbtn" role="tab" aria-selected="false" aria-controls="p2" id="t2"><span class="n">2</span>ความนำ &amp; ทฤษฎีกราฟ</button>
+    <button class="tabbtn" role="tab" aria-selected="false" aria-controls="p3" id="t3"><span class="n">3</span>KCL &amp; Supernode</button>
+    <button class="tabbtn" role="tab" aria-selected="false" aria-controls="p4" id="t4"><span class="n">4</span>เมทริกซ์ชุดตัด</button>
+    <button class="tabbtn" role="tab" aria-selected="false" aria-controls="p5" id="t5"><span class="n">5</span>คัมภีร์สอบปากเปล่า</button>
+    <button class="tabbtn" role="tab" aria-selected="false" aria-controls="p6" id="t6"><span class="n">6</span>Matrix Lab</button>
+  </nav>
+  <button class="tab-scroll-btn left"  id="tabScrollLeft"  aria-label="แท็บก่อนหน้า">◀</button>
+  <button class="tab-scroll-btn right" id="tabScrollRight" aria-label="แท็บถัดไป">▶</button>
+</div>
+
+<!-- ======================= TAB 1 ======================= -->
+<section class="panel" id="p1" role="tabpanel" aria-labelledby="t1">
+
+  <div class="card">
+    <h2><span class="ic">📋</span>โจทย์ฉบับเต็ม</h2>
+    <div class="note">
+      <span class="lbl">โจทย์ข้อ [3]</span>
+      <p>พิจารณาวงข่ายความนำไฟฟ้า <span class="mono">G<sub>1</sub>, G<sub>2</sub>, G<sub>3</sub></span> และ <span class="mono">G<sub>4</sub></span> ซึ่งมีแหล่งกำเนิดแรงดันอิสระ <span class="mono">E<sub>1</sub>, E<sub>2</sub></span> และ <span class="mono">E<sub>3</sub></span> ดังรูปที่ 3</p>
+      <p><b>จงเขียนสมการชุดตัดในรูปแบบเมทริกซ์เวกเตอร์ และหาค่าแรงดัน <span class="mono">V<sub>a</sub>, V<sub>b</sub>, V<sub>c</sub></span> และ <span class="mono">V<sub>d</sub></span> ที่ปม <span class="mono">a, b, c</span> และ <span class="mono">d</span> ตามลำดับ เมื่อเปรียบเทียบกับแรงดันที่ปม <span class="mono">e</span> ต่อลงดินและมีค่าเท่ากับศูนย์</b></p>
+    </div>
+
+    <h3>สามคำที่ต้องขีดเส้นใต้ในโจทย์</h3>
+    <div class="grid g3">
+      <div class="stat"><div class="lb">คำที่ 1</div><div class="vl" style="font-size:.98rem">“ความนำไฟฟ้า”</div><div class="un">โจทย์ให้เป็น ℧ ไม่ใช่ Ω — เพราะกำลังจะพาไปสู่สมการเมทริกซ์</div></div>
+      <div class="stat t2"><div class="lb">คำที่ 2</div><div class="vl" style="font-size:.98rem">“สมการชุดตัด”</div><div class="un">ต้องใช้ทฤษฎีกราฟ เลือกต้นไม้ ไม่ใช่ nodal ธรรมดา</div></div>
+      <div class="stat t3"><div class="lb">คำที่ 3</div><div class="vl" style="font-size:.98rem">“ปม e เท่ากับศูนย์”</div><div class="un">กำหนดปมอ้างอิงให้แล้ว ทุกแรงดันวัดเทียบเส้นนี้</div></div>
+    </div>
+  </div>
+
+  <div class="card">
+    <h2><span class="ic">🔌</span>รูปวงจร — อ่านขั้วให้ออกทีละชิ้น</h2>
+    <figure>
+      <img id="circuitFig" src="../circuit_fig3.png" alt="รูปที่ 3 วงข่ายความนำไฟฟ้า: E1 ต่อระหว่างปม a กับ e, G1 ระหว่าง a กับ b, G3 จาก b ลงกราวด์, E3 ระหว่าง b กับ c, G2 ระหว่าง c กับ d, G4 จาก d ลงกราวด์, E2 ระหว่าง d กับ e">
+      <figcaption>รูปที่ 3 — วงข่ายความนำไฟฟ้า (กดปุ่ม 📐 มุมซ้ายล่างเพื่อเปิดดูเต็มจอได้ทุกแท็บ)</figcaption>
+    </figure>
+
+    <h3>Component Matrix — ตารางที่ต้องชี้รูปแล้วพูดได้</h3>
+    <div class="tw"><table>
+      <thead><tr><th>สัญลักษณ์</th><th>เชื่อมปม</th><th>สังเกตอะไรในรูป</th><th>ผลที่ตามมา</th></tr></thead>
+      <tbody>
+        <tr><td class="mono">E<sub>1</sub> [V]</td><td class="mono">a ↔ e</td><td><b>+ อยู่บน</b> (ฝั่ง a) , − อยู่ล่าง (ฝั่ง e)</td><td class="mono">V<sub>a</sub> = +E<sub>1</sub></td></tr>
+        <tr><td class="mono">G<sub>1</sub> [℧]</td><td class="mono">a ↔ b</td><td>ฟันปลาบนสายบนซ้าย</td><td class="mono">i<sub>G1</sub> = G<sub>1</sub>(V<sub>a</sub>−V<sub>b</sub>)</td></tr>
+        <tr><td class="mono">G<sub>3</sub> [℧]</td><td class="mono">b ↔ e</td><td>ฟันปลาแนวดิ่ง ลงกราวด์</td><td class="mono">i<sub>G3</sub> = G<sub>3</sub>V<sub>b</sub></td></tr>
+        <tr style="background:rgba(251,191,36,.10)"><td class="mono">E<sub>3</sub> [V]</td><td class="mono">b ↔ c</td><td><b>− อยู่ซ้าย</b> (ฝั่ง b) , + อยู่ขวา (ฝั่ง c)</td><td class="mono">V<sub>c</sub> − V<sub>b</sub> = +E<sub>3</sub> → <b>Supernode</b></td></tr>
+        <tr><td class="mono">G<sub>2</sub> [℧]</td><td class="mono">c ↔ d</td><td>ฟันปลาบนสายบนขวา</td><td class="mono">i<sub>G2</sub> = G<sub>2</sub>(V<sub>c</sub>−V<sub>d</sub>)</td></tr>
+        <tr><td class="mono">G<sub>4</sub> [℧]</td><td class="mono">d ↔ e</td><td>ฟันปลาแนวดิ่ง ลงกราวด์</td><td class="mono">i<sub>G4</sub> = G<sub>4</sub>V<sub>d</sub></td></tr>
+        <tr style="background:rgba(251,113,133,.10)"><td class="mono">E<sub>2</sub> [V]</td><td class="mono">d ↔ e</td><td><b style="color:var(--rose)">− อยู่บน (ฝั่ง d)</b> , + อยู่ล่าง (ฝั่ง e)</td><td class="mono"><b style="color:var(--rose)">V<sub>d</sub> = −E<sub>2</sub></b></td></tr>
+        <tr><td class="mono">e</td><td>—</td><td>สัญลักษณ์กราวด์ใต้ G<sub>3</sub></td><td class="mono">V<sub>e</sub> = 0 V</td></tr>
+      </tbody>
+    </table></div>
+
+    <div class="note warn">
+      <span class="lbl">💀 กับดักมรณะข้อที่ 1 — ขั้วของ E<sub>2</sub></span>
+      <p>นิสิตส่วนใหญ่เห็น <span class="mono">E<sub>2</sub></span> แล้วเขียน <span class="mono">V<sub>d</sub> = +E<sub>2</sub></span> ทันทีโดยไม่ดูรูป <b>ผิดครับ</b></p>
+      <p>ดูรูปให้ดี: <b>เครื่องหมายลบของ E<sub>2</sub> อยู่ด้านบน คือฝั่งที่ต่อกับปม d</b> ส่วนเครื่องหมายบวกอยู่ด้านล่างต่อกราวด์</p>
+      <div class="eq left" style="margin-bottom:0">V<sub>(+)</sub> − V<sub>(−)</sub> = E<sub>2</sub> <span class="dim">⟹</span> V<sub>e</sub> − V<sub>d</sub> = E<sub>2</sub> <span class="dim">⟹</span> 0 − V<sub>d</sub> = E<sub>2</sub> <span class="dim">⟹</span> <span class="bad">V<sub>d</sub> = −E<sub>2</sub></span></div>
+    </div>
+  </div>
+
+  <div class="card">
+    <h2><span class="ic">🎯</span>ปลายทางที่เรากำลังจะไป</h2>
+    <p class="lead">ครูให้คำตอบก่อนเลย เพราะการรู้ปลายทางทำให้อ่านแท็บที่เหลือแล้วเห็นภาพว่าแต่ละขั้นพาไปไหน</p>
+    <div class="eq">
+      <b>V<sub>a</sub> = E<sub>1</sub></b><br><br>
+      <b>V<sub>b</sub></b> = ( G<sub>1</sub>E<sub>1</sub> − G<sub>2</sub>E<sub>2</sub> − G<sub>2</sub>E<sub>3</sub> ) / ( G<sub>1</sub> + G<sub>2</sub> + G<sub>3</sub> )<br><br>
+      <b>V<sub>c</sub></b> = ( G<sub>1</sub>E<sub>1</sub> − G<sub>2</sub>E<sub>2</sub> + (G<sub>1</sub>+G<sub>3</sub>)E<sub>3</sub> ) / ( G<sub>1</sub> + G<sub>2</sub> + G<sub>3</sub> )<br><br>
+      <b>V<sub>d</sub> = −E<sub>2</sub></b>
+    </div>
+    <div class="note win">
+      <span class="lbl">🏆 สามข้อสังเกตที่เป็นที่มาของคะแนนเต็ม</span>
+      <ol style="margin:0;padding-left:20px">
+        <li><b>G<sub>4</sub> ไม่โผล่ในคำตอบสักตัวเดียว</b> — เพราะ V<sub>d</sub> ถูกตรึงด้วยแหล่งจ่ายอุดมคติไปแล้ว (แท็บ 4 พิสูจน์ให้ดู)</li>
+        <li><b>มีตัวไม่รู้จริงๆ แค่ตัวเดียว คือ V<sub>b</sub></b> — ปม 4 ปม ลบด้วยแหล่งจ่าย 3 ตัว เหลืออิสระ 1</li>
+        <li><b>สมการชุดตัดของกิ่ง G<sub>3</sub> คือสมการ supernode เป๊ะ</b> — supernode เป็นกรณีเฉพาะของทฤษฎีรอยตัด</li>
+      </ol>
+    </div>
+    <div class="bridge">
+      <b>ต่อไปที่แท็บ 2 →</b> ก่อนจะแตะสมการ เราต้องรู้จักศัพท์ใหม่สองกลุ่มก่อน คือ <b>ความนำไฟฟ้า</b> กับ <b>ทฤษฎีกราฟ</b> — ถ้าไม่ปูตรงนี้ พอเจอคำว่า “ต้นไม้” กับ “รอยตัด” จะงงทันที
+    </div>
+  </div>
+</section>
+
+<!-- ======================= TAB 2 ======================= -->
+<section class="panel" id="p2" role="tabpanel" aria-labelledby="t2" hidden>
+
+  <div class="card">
+    <h2><span class="ic">💧</span>ความนำไฟฟ้า G — พลิกความต้านทานกลับหัว</h2>
+    <p class="lead">ตลอดชีวิตการเรียนที่ผ่านมา นิสิตคุ้นกับ <b>ความต้านทาน R</b> ซึ่งบอกว่า “ไฟไหลผ่าน<i>ยาก</i>แค่ไหน” · โจทย์ข้อนี้พลิกมุมมองมาใช้ <b>ความนำไฟฟ้า G</b> ซึ่งบอกว่า “ไฟไหลผ่าน<i>ง่าย</i>แค่ไหน”</p>
+
+    <div class="eq">G = 1 / R <span class="dim">&nbsp;&nbsp;⟺&nbsp;&nbsp;</span> R = 1 / G <span class="dim">&nbsp;&nbsp;·&nbsp;&nbsp;</span> 1 ℧ = 1 S = 1 Ω<sup>−1</sup> = 1 A/V</div>
+
+    <div class="note tip">
+      <span class="lbl">💡 ที่มาของสัญลักษณ์ ℧</span>
+      <p>หน่วยนี้เขียนได้ 2 แบบซึ่งเป็นสิ่งเดียวกัน — <b>ซีเมนส์ (S)</b> คือหน่วย SI สมัยใหม่ ส่วน <b>โมห์ (℧)</b> มาจากคำว่า <span class="mono">ohm</span> เขียนกลับหลังเป็น <span class="mono">mho</span> และสัญลักษณ์คือตัว Ω <b>กลับหัว</b> — เป็นมุกตลกของวิศวกรยุคเก่า และเป็นสัญลักษณ์ที่โจทย์ข้อนี้ใช้</p>
+    </div>
+
+    <h3>ภาพท่อน้ำ: R คือความตีบ ส่วน G คือ <i>ความกว้าง</i></h3>
+    <svg class="chart" viewBox="0 0 740 210" role="img" aria-label="แผนภาพเทียบท่อแคบที่มีความต้านทานสูงกับท่อกว้างที่มีความนำสูง">
+      <defs>
+        <linearGradient id="wg2" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#5b9dff" stop-opacity=".9"/><stop offset="1" stop-color="#2dd4bf" stop-opacity=".9"/></linearGradient>
+        <marker id="ar2" markerWidth="9" markerHeight="9" refX="5" refY="4.5" orient="auto"><path d="M0,0 L9,4.5 L0,9 z" fill="#4ade80"/></marker>
+      </defs>
+      <text x="180" y="26" text-anchor="middle" class="lbx" font-size="13">ท่อแคบ — R สูง, G ต่ำ</text>
+      <path d="M40 70 L320 70 L320 96 L40 96 Z" fill="none" stroke="currentColor" stroke-opacity=".3" stroke-width="2"/>
+      <rect x="42" y="78" width="276" height="10" fill="url(#wg2)"/>
+      <line x1="150" y1="130" x2="210" y2="130" stroke="#4ade80" stroke-width="2.5" marker-end="url(#ar2)"/>
+      <text x="180" y="152" text-anchor="middle" fill="#4ade80" font-size="12" font-weight="700">ไหลได้น้อย</text>
+      <text x="180" y="172" text-anchor="middle" fill="currentColor" fill-opacity=".6" font-size="11.5">G₃ = 0.2 ℧ ⟺ R₃ = 5 Ω</text>
+
+      <line x1="370" y1="40" x2="370" y2="180" stroke="currentColor" stroke-opacity=".18" stroke-dasharray="4 5"/>
+
+      <text x="560" y="26" text-anchor="middle" class="lbx" font-size="13">ท่อกว้าง — R ต่ำ, G สูง</text>
+      <path d="M420 56 L700 56 L700 110 L420 110 Z" fill="none" stroke="currentColor" stroke-opacity=".3" stroke-width="2"/>
+      <rect x="422" y="62" width="276" height="42" fill="url(#wg2)"/>
+      <line x1="520" y1="140" x2="600" y2="140" stroke="#4ade80" stroke-width="5" marker-end="url(#ar2)"/>
+      <text x="560" y="163" text-anchor="middle" fill="#4ade80" font-size="12" font-weight="700">ไหลได้มาก</text>
+      <text x="560" y="183" text-anchor="middle" fill="currentColor" fill-opacity=".6" font-size="11.5">G₁ = 0.5 ℧ ⟺ R₁ = 2 Ω</text>
+    </svg>
+
+    <h3>ทำไมวิศวกรถึงชอบใช้ G ในงานเมทริกซ์</h3>
+    <p>เหตุผลอยู่ที่กฎของโอห์มครับ ลองเทียบสองรูปนี้</p>
+    <div class="eq">i = v / R <span class="dim">&nbsp;&nbsp;เทียบกับ&nbsp;&nbsp;</span> <b>i = G·v</b> <span class="dim">← ไม่มีตัวหาร!</span></div>
+    <p>พอเราต้องเขียน KCL ที่ปมหนึ่ง ซึ่งคือการเอากระแสหลายกิ่งมาบวกกัน การใช้ <span class="mono">G</span> ทำให้ได้ <span class="mono">Σ G<sub>k</sub>v<sub>k</sub></span> ซึ่งจับเข้าเมทริกซ์ได้สวยงามทันที · ถ้าใช้ <span class="mono">R</span> จะได้ <span class="mono">Σ v<sub>k</sub>/R<sub>k</sub></span> ซึ่งมีเศษส่วนซ้อนกันเต็มไปหมด</p>
+    <div class="note">
+      <span class="lbl">📖 นี่คือเหตุผลที่เมทริกซ์ในวิธีนี้เรียกว่า <i>admittance matrix</i> ไม่ใช่ impedance matrix</span>
+      <p>และในระบบไฟฟ้ากำลังจริง เวลาสร้าง <b>Y-bus matrix</b> ของโครงข่ายส่งจ่าย เขาก็ใช้แอดมิตแตนซ์ด้วยเหตุผลเดียวกันนี้</p>
+    </div>
+
+    <h3>⚠️ กฎการรวมที่กลับด้านกับที่เคยท่อง</h3>
+    <div class="tw"><table>
+      <thead><tr><th>ต่อแบบ</th><th>ความต้านทาน R</th><th>ความนำ G</th><th>ภาพท่อน้ำ</th></tr></thead>
+      <tbody>
+        <tr><td><b>อนุกรม</b></td><td class="mono">R = R₁ + R₂ (บวกตรงๆ)</td><td class="mono">1/G = 1/G₁ + 1/G₂</td><td>ท่อต่อกันยาว ยิ่งยาวยิ่งฝืด</td></tr>
+        <tr style="background:rgba(74,222,128,.10)"><td><b>ขนาน</b></td><td class="mono">1/R = 1/R₁ + 1/R₂</td><td class="mono"><b>G = G₁ + G₂ (บวกตรงๆ)</b></td><td><b>ท่อวางคู่กัน ปากท่อรวมกว้างขึ้น</b></td></tr>
+      </tbody>
+    </table></div>
+    <p><b>จำง่ายๆ ว่า “G ขนานบวกกันตรงๆ”</b> — เพราะขนานคือเปิดทางให้น้ำไหลเพิ่มอีกเส้น ความ “ง่าย” ย่อมบวกกัน</p>
+  </div>
+
+  <div class="card">
+    <h2><span class="ic">🌳</span>ทฤษฎีกราฟวงจร — เปลื้องวงจรให้เหลือแต่โครงกระดูก</h2>
+    <p class="lead">เวลาเรามองวงจร เรามักเห็นตัวต้านทาน แหล่งจ่าย สายไฟ ปนกันจนตาลาย <b>ทฤษฎีกราฟบอกว่า: ลืมไปก่อนว่าแต่ละกิ่งเป็นอุปกรณ์อะไร ให้มองแค่ว่ามันเชื่อมจุดไหนกับจุดไหน</b></p>
+
+    <svg class="chart" id="graphFig" viewBox="0 0 740 300" role="img" aria-label="กราฟวงจรแสดงปม a b c d e และกิ่งทั้งเจ็ด โดยเน้นกิ่งต้นไม้เป็นเส้นทึบและกิ่งร่วมเป็นเส้นประ"></svg>
+    <div class="btnrow" style="justify-content:center">
+      <button class="btn on" id="grAll">แสดงทุกกิ่ง</button>
+      <button class="btn" id="grTree">เน้นต้นไม้ (Twigs)</button>
+      <button class="btn" id="grLink">เน้นกิ่งร่วม (Links)</button>
+      <button class="btn" id="grCut">แสดงรอยตัดของ G₃</button>
+    </div>
+
+    <h3>ศัพท์ 3 คำที่ต้องแม่น</h3>
+    <div class="step"><div class="k">1</div><div class="body">
+      <h4>ปม (Node) และ กิ่ง (Branch)</h4>
+      <p><b>ปม</b> = จุดเชื่อมต่อ มี 5 ปม คือ a, b, c, d, e · <b>กิ่ง</b> = เส้นทางเชื่อมสองปม มี 7 กิ่ง</p>
+      <div class="note warn" style="margin:8px 0 0">
+        <span class="lbl">⚠️ สำคัญมาก</span>
+        <p><b>แหล่งจ่ายแรงดันก็นับเป็น “กิ่ง” ด้วย</b> ไม่ใช่แค่ตัวต้านทาน — นิสิตจำนวนมากลืมนับ แล้วจำนวนกิ่งผิด ทำให้เลือกต้นไม้ผิดตามไปหมด</p>
+      </div>
+    </div></div>
+
+    <div class="step"><div class="k">2</div><div class="body">
+      <h4>ต้นไม้ (Tree) และ กิ่งต้นไม้ (Twig)</h4>
+      <div class="note tip" style="margin:0 0 10px">
+        <span class="lbl">🏝️ ภาพเกาะกับสะพาน</span>
+        <p>ลองนึกว่าปมทั้ง 5 คือ <b>เกาะ 5 เกาะ</b> และกิ่งทั้ง 7 คือ <b>สะพาน 7 สะพาน</b></p>
+        <p>ผู้ว่าฯ สั่งประหยัดงบ: <i>“รื้อสะพานออกให้มากที่สุด แต่ต้องยังเดินจากเกาะไหนไปเกาะไหนก็ได้ และห้ามเหลือทางวนเป็นวงกลม”</i></p>
+        <p>ชุดสะพานที่เหลือ = <b>ต้นไม้</b> · สะพานแต่ละเส้น = <b>กิ่งต้นไม้</b></p>
+      </div>
+      <div class="eq left">จำนวนกิ่งต้นไม้ = n − 1 = 5 − 1 = <b>4 กิ่ง</b></div>
+      <p><b>ทำไมต้องเป็น n−1?</b> เริ่มจากเกาะเดียว (1 ปม 0 สะพาน) ทุกครั้งที่จะดึงเกาะใหม่เข้ามาเชื่อม ต้องใช้สะพานเพิ่ม 1 เส้นพอดี — ถ้าใช้ 2 เส้นจะเกิดลูปทันที ดังนั้นเกาะ n เกาะ ต้องใช้ n−1 สะพาน</p>
+    </div></div>
+
+    <div class="step"><div class="k">3</div><div class="body">
+      <h4>กิ่งร่วม (Link) และ ต้นไม้ร่วม (Co-tree)</h4>
+      <p>กิ่งที่เหลือจากการเลือกต้นไม้ (สะพานที่ถูกรื้อ) เรียกว่า <b>กิ่งร่วม</b></p>
+      <div class="eq left">จำนวนกิ่งร่วม = b − (n−1) = 7 − 4 = <b>3 กิ่ง</b></div>
+      <p><b>คุณสมบัติทองคำ:</b> เติมกิ่งร่วมกลับเข้าไปทีละเส้น <b>จะเกิดลูปปิดพอดี 1 ลูปเสมอ</b> — เพราะต้นไม้เชื่อมทุกปมอยู่แล้ว พอเติมสะพานเส้นใหม่ มันย่อมเชื่อมสองจุดที่เดินถึงกันได้อยู่แล้ว จึงปิดเป็นวง</p>
+    </div></div>
+  </div>
+
+  <div class="card">
+    <h2><span class="ic">✂️</span>รอยตัดพื้นฐาน (Fundamental Cut-set) — พระเอกของข้อนี้</h2>
+    <p class="lead"><b>รอยตัด</b> คือชุดกิ่งที่ถ้าตัดออกพร้อมกันทั้งชุด จะทำให้วงจรขาดเป็น <b>2 ก้อนที่ไม่ติดกัน</b> และต้องเป็นชุดที่เล็กที่สุด · <b>รอยตัดพื้นฐาน</b> คือรอยตัดที่มีกิ่งต้นไม้เพียง 1 กิ่ง ที่เหลือเป็นกิ่งร่วมล้วน</p>
+
+    <div class="note">
+      <span class="lbl">🔍 วิธีหาแบบไม่ต้องคิดมาก</span>
+      <p>เล็งไปที่กิ่งต้นไม้ 1 เส้น แล้วถามว่า <i>“ถ้าฉันตัดสะพานเส้นนี้ เกาะจะแยกเป็นสองฝั่งอย่างไร”</i> จากนั้นดูว่ามีสะพานเส้นไหนอีกบ้างที่พาดข้ามระหว่างสองฝั่ง — ทั้งหมดรวมกันคือรอยตัดพื้นฐาน</p>
+      <p>ดังนั้น <b>กิ่งต้นไม้ 1 กิ่ง ⟷ รอยตัดพื้นฐาน 1 รอย</b> → มี 4 กิ่งต้นไม้ จึงได้ <b>4 สมการ</b></p>
+    </div>
+
+    <h3>ทำไมรอยตัดถึงให้สมการ KCL ได้?</h3>
+    <p>KCL ที่เราเรียนมาบอกว่า “ที่ปมหนึ่ง กระแสเข้า = กระแสออก” แต่ที่จริงแล้ว <b>KCL ใช้ได้กับพื้นผิวปิดใดๆ ไม่ใช่แค่ปมเดียว</b> เพราะกฎอนุรักษ์ประจุบอกว่าประจุจะกองสะสมในบริเวณปิดไม่ได้</p>
+    <div class="eq">Σ (กระแสที่ไหลข้ามรอยตัด) = 0</div>
+    <div class="note win">
+      <span class="lbl">🏆 และนี่แหละคือ Supernode!</span>
+      <p>ตอนที่เราวาดวงรีคร่อมปม b กับ c แล้วเขียน KCL รอบวงรีนั้น <b>เรากำลังใช้รอยตัดโดยไม่รู้ตัว</b> — แท็บ 3 จะพิสูจน์ให้เห็นว่าทั้งสองอย่างเป็นสิ่งเดียวกันเป๊ะ</p>
+    </div>
+  </div>
+
+  <div class="card">
+    <h2><span class="ic">🔑</span>กฎทองของการเลือกต้นไม้</h2>
+    <div class="note tip">
+      <span class="lbl">🔑 กฎทอง</span>
+      <p style="font-size:1.08rem"><b>“จับแหล่งจ่ายแรงดันทุกตัวยัดเข้าไปเป็นกิ่งต้นไม้ให้หมด”</b></p>
+      <p><b>เหตุผล:</b> แรงดันคร่อมกิ่งต้นไม้คือ <b>ตัวแปรที่เราจะแก้หา</b> ถ้ากิ่งต้นไม้เส้นนั้นเป็นแหล่งจ่ายแรงดัน แสดงว่า <b>เรารู้ค่าตัวแปรตัวนั้นอยู่แล้วตั้งแต่ต้น!</b> ไม่ต้องแก้เลย</p>
+    </div>
+    <div class="eq">
+      ต้นไม้ = { <b>E<sub>1</sub></b>, <b>G<sub>3</sub></b>, <b>E<sub>3</sub></b>, <b>E<sub>2</sub></b> } <span class="dim">&nbsp;·&nbsp;</span> กิ่งร่วม = { G<sub>1</sub>, G<sub>2</sub>, G<sub>4</sub> }
+    </div>
+    <h3>ตรวจว่าเป็นต้นไม้จริงไหม (ต้องเช็คทุกครั้ง!)</h3>
+    <div class="tw"><table>
+      <thead><tr><th>กิ่ง</th><th>เชื่อม</th><th>ปมที่เชื่อมถึงได้สะสม</th></tr></thead>
+      <tbody>
+        <tr><td class="mono">E<sub>1</sub></td><td class="mono">a ↔ e</td><td class="mono">{a, e}</td></tr>
+        <tr><td class="mono">G<sub>3</sub></td><td class="mono">b ↔ e</td><td class="mono">{a, b, e}</td></tr>
+        <tr><td class="mono">E<sub>3</sub></td><td class="mono">c ↔ b</td><td class="mono">{a, b, c, e}</td></tr>
+        <tr style="background:rgba(74,222,128,.10)"><td class="mono">E<sub>2</sub></td><td class="mono">d ↔ e</td><td class="mono"><b>{a, b, c, d, e} ✓ ครบ 5 ปม</b></td></tr>
+      </tbody>
+    </table></div>
+    <p>ใช้ 4 กิ่ง เชื่อมครบ 5 ปม ไม่มีลูป → <b>เป็นต้นไม้ที่ถูกต้อง</b> ✓ · <i>(ตรวจเชิงพีชคณิตได้ด้วย det[A<sub>t</sub>] = 1 ≠ 0 — ดูแท็บ 4)</i></p>
+
+    <div class="stats">
+      <div class="stat"><div class="lb">แรงดันกิ่งต้นไม้ 1</div><div class="vl">V<sub>a</sub> = E₁</div><div class="un">รู้ค่าแล้ว</div></div>
+      <div class="stat t5"><div class="lb">แรงดันกิ่งต้นไม้ 2</div><div class="vl">V<sub>b</sub> = ?</div><div class="un">← ตัวไม่รู้ตัวเดียว</div></div>
+      <div class="stat"><div class="lb">แรงดันกิ่งต้นไม้ 3</div><div class="vl">V<sub>c</sub>−V<sub>b</sub> = E₃</div><div class="un">รู้ค่าแล้ว</div></div>
+      <div class="stat"><div class="lb">แรงดันกิ่งต้นไม้ 4</div><div class="vl">V<sub>d</sub> = −E₂</div><div class="un">รู้ค่าแล้ว</div></div>
+    </div>
+
+    <div class="bridge">
+      <b>ต่อไปที่แท็บ 3 →</b> ตอนนี้เรารู้แล้วว่ามีตัวไม่รู้แค่ตัวเดียว คือ <b>V<sub>b</sub></b> ดังนั้นเราต้องการสมการ KCL อิสระแค่ <b>1 สมการ</b> — และสมการนั้นอยู่ที่ <b>supernode</b> ครับ
+    </div>
+  </div>
+</section>
+
+<!-- ======================= TAB 3 ======================= -->
+<section class="panel" id="p3" role="tabpanel" aria-labelledby="t3" hidden>
+
+  <div class="card">
+    <h2><span class="ic">🧮</span>นับตัวไม่รู้ก่อนลงมือ — วางแผนให้เห็นปลายทาง</h2>
+    <p class="lead">ก่อนเขียนสมการใดๆ ครูอยากให้นิสิตนับก่อนเสมอว่า <i>“มีตัวไม่รู้กี่ตัว และต้องการสมการกี่สมการ”</i> ถ้าไม่นับ จะไม่รู้ว่าเมื่อไหร่ควรหยุด</p>
+    <div class="tw"><table>
+      <thead><tr><th>รายการ</th><th class="num">จำนวน</th><th>หมายเหตุ</th></tr></thead>
+      <tbody>
+        <tr><td>ปมทั้งหมด</td><td class="num">5</td><td class="mono">a, b, c, d, e</td></tr>
+        <tr><td>ปมอ้างอิง (กราวด์)</td><td class="num">1</td><td class="mono">e (V<sub>e</sub> = 0 โดยนิยาม)</td></tr>
+        <tr><td><b>แรงดันปมที่ต้องหา</b></td><td class="num"><b>4</b></td><td class="mono">V<sub>a</sub>, V<sub>b</sub>, V<sub>c</sub>, V<sub>d</sub></td></tr>
+        <tr><td>ตรึงโดย E<sub>1</sub></td><td class="num">−1</td><td class="mono">V<sub>a</sub> = E<sub>1</sub> รู้ทันที</td></tr>
+        <tr><td>ตรึงโดย E<sub>2</sub></td><td class="num">−1</td><td class="mono">V<sub>d</sub> = −E<sub>2</sub> รู้ทันที</td></tr>
+        <tr><td>ผูกโดย E<sub>3</sub></td><td class="num">−1</td><td class="mono">V<sub>c</sub> = V<sub>b</sub> + E<sub>3</sub> (ไม่รู้ค่า แต่ผูกกัน)</td></tr>
+        <tr style="background:rgba(74,222,128,.12)"><td><b>ตัวไม่รู้ที่แท้จริง</b></td><td class="num"><b>1</b></td><td><b>เหลือแค่ V<sub>b</sub> ตัวเดียว!</b></td></tr>
+      </tbody>
+    </table></div>
+    <p><b>ดังนั้นเราต้องการสมการ KCL อิสระแค่ 1 สมการ</b> และนั่นคือสมการที่ supernode</p>
+  </div>
+
+  <div class="card">
+    <h2><span class="ic">❓</span>ทำไมต้องสร้าง Supernode?</h2>
+    <p class="lead">ลองสมมติว่าเรา<b>ไม่</b>สร้าง supernode แล้วเขียน KCL ที่ปม b ตรงๆ ดูครับ</p>
+    <div class="eq">G<sub>1</sub>(V<sub>b</sub> − V<sub>a</sub>) + G<sub>3</sub>V<sub>b</sub> + <span class="bad">i<sub>E3</sub></span> = 0</div>
+    <div class="note warn">
+      <span class="lbl">💥 ปัญหาโผล่ทันที</span>
+      <p><span class="mono">i<sub>E3</sub></span> คือกระแสที่ไหลผ่านแหล่งจ่าย E<sub>3</sub> ซึ่งเรา<b>ไม่รู้ค่า และคำนวณจาก E<sub>3</sub> ไม่ได้ด้วย</b></p>
+      <p><b>ทำไมคำนวณไม่ได้?</b> เพราะแหล่งจ่ายแรงดันอุดมคติ<b>ไม่มีความสัมพันธ์ระหว่างแรงดันกับกระแสของตัวมันเอง</b> มันบังคับแรงดันให้คงที่ แล้วปล่อยให้กระแสเป็นเท่าไหร่ก็ได้ตามที่วงจรภายนอกต้องการ ต่างจากตัวต้านทานที่มี <span class="mono">i = Gv</span> ให้ใช้</p>
+      <p><i>ถ้าเปรียบเป็นภาพ: แหล่งจ่ายแรงดันเหมือน “ปั๊มที่ยืนกรานว่าจะรักษาความต่างระดับน้ำสองฝั่งไว้ที่ 4 เมตรเสมอ ไม่ว่าจะต้องสูบน้ำกี่ลิตรต่อวินาทีก็ตาม” — เราจึงทำนายอัตราการไหลจากตัวปั๊มไม่ได้ ต้องดูจากวงจรรอบข้าง</i></p>
+    </div>
+    <div class="note win">
+      <span class="lbl">✅ ทางออก: Supernode</span>
+      <p>ถ้ากระแสตัวนี้กวนใจ ก็ <b>ลากเส้นปิดล้อมมันไว้ข้างใน</b> แล้วเขียน KCL รอบเส้นนั้นแทน — กระแสที่ไหลอยู่ <i>ภายใน</i> พื้นผิวปิด ไม่ได้ข้ามพื้นผิว จึงไม่ปรากฏในสมการเลย!</p>
+    </div>
+  </div>
+
+  <div class="card">
+    <h2><span class="ic">🔬</span>ไล่ทีละกิ่ง — กิ่งไหน “ข้าม” ขอบเขต Supernode บ้าง</h2>
+    <svg class="chart" id="superFig" viewBox="0 0 740 290" role="img" aria-label="แผนภาพวงจรที่มีวงรีคร่อมปม b และ c แสดงกิ่งที่ข้ามขอบเขตสามกิ่งคือ G1 G3 G2 และ E3 ที่อยู่ข้างใน"></svg>
+
+    <div class="tw"><table>
+      <thead><tr><th>กิ่ง</th><th>ปลายข้างหนึ่ง</th><th>ปลายอีกข้าง</th><th>ข้ามขอบเขตไหม?</th></tr></thead>
+      <tbody>
+        <tr style="background:rgba(74,222,128,.10)"><td class="mono">G<sub>1</sub></td><td class="mono">b (ข้างใน)</td><td class="mono">a (ข้างนอก)</td><td><b style="color:var(--green)">✅ ข้าม</b></td></tr>
+        <tr style="background:rgba(74,222,128,.10)"><td class="mono">G<sub>3</sub></td><td class="mono">b (ข้างใน)</td><td class="mono">e (ข้างนอก)</td><td><b style="color:var(--green)">✅ ข้าม</b></td></tr>
+        <tr style="background:rgba(251,191,36,.14)"><td class="mono">E<sub>3</sub></td><td class="mono">b (ข้างใน)</td><td class="mono">c (ข้างใน)</td><td><b style="color:var(--amber)">❌ ไม่ข้าม — หลุดจากสมการเอง!</b></td></tr>
+        <tr style="background:rgba(74,222,128,.10)"><td class="mono">G<sub>2</sub></td><td class="mono">c (ข้างใน)</td><td class="mono">d (ข้างนอก)</td><td><b style="color:var(--green)">✅ ข้าม</b></td></tr>
+        <tr><td class="mono">E<sub>1</sub>, G<sub>4</sub>, E<sub>2</sub></td><td>—</td><td>—</td><td>❌ ไม่แตะขอบเขตเลย</td></tr>
+      </tbody>
+    </table></div>
+    <p><b>เห็นไหมครับว่า E<sub>3</sub> หลุดออกจากสมการไปเองโดยอัตโนมัติ</b> — นี่คือพลังของ supernode</p>
+
+    <h3>เขียนทีละกิ่ง (กติกา: กระแสไหล<b>ออก</b>จากพื้นผิวปิด = บวก)</h3>
+    <div class="step"><div class="k">1</div><div class="body">
+      <h4>ผ่าน G<sub>1</sub> ออกจาก b ไปหา a</h4>
+      <p>แรงดันตกคร่อมในทิศจาก b ไป a คือ <span class="mono">(V<sub>b</sub> − V<sub>a</sub>)</span></p>
+      <div class="eq left">i<sub>G1,ออก</sub> = G<sub>1</sub>(V<sub>b</sub> − V<sub>a</sub>)</div>
+    </div></div>
+    <div class="step"><div class="k">2</div><div class="body">
+      <h4>ผ่าน G<sub>3</sub> ออกจาก b ลงไปหา e</h4>
+      <p>แรงดันตกในทิศจาก b ไป e คือ <span class="mono">(V<sub>b</sub> − V<sub>e</sub>) = (V<sub>b</sub> − 0) = V<sub>b</sub></span></p>
+      <div class="eq left">i<sub>G3,ออก</sub> = G<sub>3</sub>(V<sub>b</sub> − 0) = G<sub>3</sub>V<sub>b</sub></div>
+    </div></div>
+    <div class="step"><div class="k">3</div><div class="body">
+      <h4>ผ่าน G<sub>2</sub> ออกจาก c ไปหา d</h4>
+      <p>แรงดันตกในทิศจาก c ไป d คือ <span class="mono">(V<sub>c</sub> − V<sub>d</sub>)</span></p>
+      <div class="eq left">i<sub>G2,ออก</sub> = G<sub>2</sub>(V<sub>c</sub> − V<sub>d</sub>)</div>
+    </div></div>
+    <div class="step"><div class="k">4</div><div class="body">
+      <h4>รวมทั้งสามกิ่ง ให้เท่ากับศูนย์</h4>
+      <div class="eq"><b>G<sub>1</sub>(V<sub>b</sub> − V<sub>a</sub>) + G<sub>3</sub>V<sub>b</sub> + G<sub>2</sub>(V<sub>c</sub> − V<sub>d</sub>) = 0</b> &nbsp;&nbsp;<span class="dim">···(★)</span></div>
+      <p>นี่คือสมการเดียวที่เราต้องการครับ</p>
+    </div></div>
+  </div>
+
+  <div class="card">
+    <h2><span class="ic">✏️</span>แก้หา V<sub>b</sub> — บรรทัดต่อบรรทัด ไม่ข้ามแม้แต่ขั้นเดียว</h2>
+    <p class="lead">เรามีของที่รู้แล้ว 3 อย่าง: <span class="mono">V<sub>a</sub> = E<sub>1</sub></span> · <span class="mono">V<sub>d</sub> = −E<sub>2</sub></span> · <span class="mono">V<sub>c</sub> = V<sub>b</sub> + E<sub>3</sub></span></p>
+    <div class="eq left" style="line-height:2.6">
+      <span class="dim">บรรทัดที่ 1 — เขียนสมการ (★) ลงมาก่อน</span><br>
+      G<sub>1</sub>(V<sub>b</sub> − V<sub>a</sub>) + G<sub>3</sub>V<sub>b</sub> + G<sub>2</sub>(V<sub>c</sub> − V<sub>d</sub>) = 0<br><br>
+
+      <span class="dim">บรรทัดที่ 2 — แทน V<sub>a</sub> = E<sub>1</sub></span><br>
+      G<sub>1</sub>(V<sub>b</sub> − <span class="hi">E<sub>1</sub></span>) + G<sub>3</sub>V<sub>b</sub> + G<sub>2</sub>(V<sub>c</sub> − V<sub>d</sub>) = 0<br><br>
+
+      <span class="dim">บรรทัดที่ 3 — แทน V<sub>c</sub> = V<sub>b</sub> + E<sub>3</sub></span><br>
+      G<sub>1</sub>(V<sub>b</sub> − E<sub>1</sub>) + G<sub>3</sub>V<sub>b</sub> + G<sub>2</sub>((<span class="hi">V<sub>b</sub> + E<sub>3</sub></span>) − V<sub>d</sub>) = 0<br><br>
+
+      <span class="dim">บรรทัดที่ 4 — แทน V<sub>d</sub> = −E<sub>2</sub> &nbsp;(ระวัง! ลบด้วยลบกลายเป็นบวก)</span><br>
+      G<sub>1</sub>(V<sub>b</sub> − E<sub>1</sub>) + G<sub>3</sub>V<sub>b</sub> + G<sub>2</sub>(V<sub>b</sub> + E<sub>3</sub> − (<span class="hi">−E<sub>2</sub></span>)) = 0<br>
+      G<sub>1</sub>(V<sub>b</sub> − E<sub>1</sub>) + G<sub>3</sub>V<sub>b</sub> + G<sub>2</sub>(V<sub>b</sub> + E<sub>3</sub> <span class="ok">+ E<sub>2</sub></span>) = 0<br><br>
+
+      <span class="dim">บรรทัดที่ 5 — กระจายวงเล็บแรก</span><br>
+      G<sub>1</sub>V<sub>b</sub> − G<sub>1</sub>E<sub>1</sub> + G<sub>3</sub>V<sub>b</sub> + G<sub>2</sub>(V<sub>b</sub> + E<sub>3</sub> + E<sub>2</sub>) = 0<br><br>
+
+      <span class="dim">บรรทัดที่ 6 — กระจายวงเล็บที่สาม</span><br>
+      G<sub>1</sub>V<sub>b</sub> − G<sub>1</sub>E<sub>1</sub> + G<sub>3</sub>V<sub>b</sub> + G<sub>2</sub>V<sub>b</sub> + G<sub>2</sub>E<sub>3</sub> + G<sub>2</sub>E<sub>2</sub> = 0<br><br>
+
+      <span class="dim">บรรทัดที่ 7 — จัดกลุ่ม V<sub>b</sub> ไว้ซ้าย ที่เหลือไว้ขวา</span><br>
+      G<sub>1</sub>V<sub>b</sub> + G<sub>3</sub>V<sub>b</sub> + G<sub>2</sub>V<sub>b</sub> = G<sub>1</sub>E<sub>1</sub> − G<sub>2</sub>E<sub>3</sub> − G<sub>2</sub>E<sub>2</sub><br><br>
+
+      <span class="dim">บรรทัดที่ 8 — ดึง V<sub>b</sub> เป็นตัวประกอบร่วม</span><br>
+      (G<sub>1</sub> + G<sub>2</sub> + G<sub>3</sub>)·V<sub>b</sub> = G<sub>1</sub>E<sub>1</sub> − G<sub>2</sub>E<sub>2</sub> − G<sub>2</sub>E<sub>3</sub><br><br>
+
+      <span class="dim">บรรทัดที่ 9 — หารทั้งสองข้าง</span><br>
+      <b>V<sub>b</sub> = ( G<sub>1</sub>E<sub>1</sub> − G<sub>2</sub>E<sub>2</sub> − G<sub>2</sub>E<sub>3</sub> ) / ( G<sub>1</sub> + G<sub>2</sub> + G<sub>3</sub> )</b>
+    </div>
+
+    <div class="note tip">
+      <span class="lbl">📏 ตรวจมิติทันที (นิสัยที่ต้องติดตัว)</span>
+      <p>ตัวเศษมีหน่วย <span class="mono">[℧][V] = [A]</span> ตัวส่วนมีหน่วย <span class="mono">[℧]</span> ผลหารได้ <span class="mono">A / ℧ = A / (A/V) = V</span> ✓ เป็นโวลต์ถูกต้อง</p>
+    </div>
+  </div>
+
+  <div class="card">
+    <h2><span class="ic">🔁</span>หา V<sub>c</sub> — สองวิธี แล้วเช็คว่าตรงกัน</h2>
+    <div class="grid g2">
+      <div>
+        <h3 style="margin-top:0">วิธีที่ 1 — ง่ายที่สุด</h3>
+        <p>ใช้ความสัมพันธ์ที่ E<sub>3</sub> บังคับไว้ตรงๆ</p>
+        <div class="eq"><b>V<sub>c</sub> = V<sub>b</sub> + E<sub>3</sub></b></div>
+      </div>
+      <div>
+        <h3 style="margin-top:0">วิธีที่ 2 — เขียนเป็นสูตรเดียวจบ</h3>
+        <div class="eq left" style="font-size:.86rem;line-height:2.3">
+          V<sub>c</sub> = <span style="white-space:nowrap">(G₁E₁ − G₂E₂ − G₂E₃)/(G₁+G₂+G₃)</span> + E₃<br>
+          <span class="dim">ทำ E₃ ให้ส่วนเดียวกัน</span><br>
+          = <span style="white-space:nowrap">[G₁E₁ − G₂E₂ − G₂E₃ + (G₁+G₂+G₃)E₃] / (G₁+G₂+G₃)</span><br>
+          <span class="dim">กระจาย แล้ว −G₂E₃ กับ +G₂E₃ ตัดกันพอดี</span><br>
+          = <span style="white-space:nowrap">[G₁E₁ − G₂E₂ + G₁E₃ + G₃E₃] / (G₁+G₂+G₃)</span><br>
+          <span class="dim">ดึง E₃ เป็นตัวประกอบร่วม</span><br>
+          <b>= [G₁E₁ − G₂E₂ + (G₁+G₃)E₃] / (G₁+G₂+G₃)</b>
+        </div>
+      </div>
+    </div>
+    <div class="note win">
+      <span class="lbl">✅ สองวิธีให้ผลตรงกันทุกหลัก</span>
+      <p>ลองตรวจในแท็บ 6 ได้ครับ — ปรับสไลเดอร์อย่างไรก็ตาม <span class="mono">V<sub>c</sub> − V<sub>b</sub></span> จะเท่ากับ <span class="mono">E<sub>3</sub></span> เสมอ</p>
+    </div>
+    <div class="bridge">
+      <b>ต่อไปที่แท็บ 4 →</b> ตอนนี้เราได้คำตอบแล้ว แต่โจทย์สั่งให้ <b>“เขียนสมการชุดตัดในรูปแบบเมทริกซ์เวกเตอร์”</b> — แท็บถัดไปจะสร้างเมทริกซ์ [Q<sub>K</sub>] ทีละสมาชิก แล้วพิสูจน์ว่ามันให้สมการเดียวกับ supernode เป๊ะ
+    </div>
+  </div>
+</section>
+
+<!-- ======================= TAB 4 ======================= -->
+<section class="panel" id="p4" role="tabpanel" aria-labelledby="t4" hidden>
+
+  <div class="card">
+    <h2><span class="ic">🧭</span>ขั้นที่ 1 — กำหนดทิศทางอ้างอิงของทุกกิ่ง</h2>
+    <p class="lead">ก่อนสร้างเมทริกซ์ ต้องกำหนดก่อนว่าแต่ละกิ่ง “ชี้” ไปทางไหน เพราะเมทริกซ์เก็บได้แค่ <span class="mono">+1, −1, 0</span> · กติกา: <b>แรงดันกิ่ง = ศักย์ปมต้นทาง − ศักย์ปมปลายทาง</b></p>
+    <div class="note tip">
+      <span class="lbl">📌 เรียงคอลัมน์แบบ “กิ่งต้นไม้ก่อน แล้วค่อยกิ่งร่วม”</span>
+      <p>สำคัญมาก เพราะจะทำให้เมทริกซ์ออกมาในรูปมาตรฐาน <span class="mono">[Q<sub>K</sub>] = [ I | Q<sub>ℓ</sub> ]</span> ซึ่งตรวจความถูกต้องได้ทันที</p>
+    </div>
+    <div class="tw"><table>
+      <thead><tr><th class="num">#</th><th>กิ่ง</th><th>ประเภท</th><th>ทิศทาง</th><th>แรงดันกิ่ง v<sub>k</sub></th><th>ค่า</th></tr></thead>
+      <tbody>
+        <tr><td class="num">1</td><td class="mono">E<sub>1</sub></td><td>กิ่งต้นไม้</td><td class="mono">a → e</td><td class="mono">V<sub>a</sub> − V<sub>e</sub> = V<sub>a</sub></td><td class="mono">E<sub>1</sub> <b>(รู้)</b></td></tr>
+        <tr style="background:rgba(251,113,133,.12)"><td class="num">2</td><td class="mono">G<sub>3</sub></td><td>กิ่งต้นไม้</td><td class="mono">b → e</td><td class="mono">V<sub>b</sub> − V<sub>e</sub> = V<sub>b</sub></td><td><b style="color:var(--rose)">ไม่รู้</b></td></tr>
+        <tr><td class="num">3</td><td class="mono">E<sub>3</sub></td><td>กิ่งต้นไม้</td><td class="mono">c → b</td><td class="mono">V<sub>c</sub> − V<sub>b</sub></td><td class="mono">E<sub>3</sub> <b>(รู้)</b></td></tr>
+        <tr><td class="num">4</td><td class="mono">E<sub>2</sub></td><td>กิ่งต้นไม้</td><td class="mono">d → e</td><td class="mono">V<sub>d</sub> − V<sub>e</sub> = V<sub>d</sub></td><td class="mono">−E<sub>2</sub> <b>(รู้)</b></td></tr>
+        <tr><td class="num">5</td><td class="mono">G<sub>1</sub></td><td>กิ่งร่วม</td><td class="mono">a → b</td><td class="mono">V<sub>a</sub> − V<sub>b</sub></td><td>—</td></tr>
+        <tr><td class="num">6</td><td class="mono">G<sub>2</sub></td><td>กิ่งร่วม</td><td class="mono">c → d</td><td class="mono">V<sub>c</sub> − V<sub>d</sub></td><td>—</td></tr>
+        <tr><td class="num">7</td><td class="mono">G<sub>4</sub></td><td>กิ่งร่วม</td><td class="mono">d → e</td><td class="mono">V<sub>d</sub> − V<sub>e</sub> = V<sub>d</sub></td><td>—</td></tr>
+      </tbody>
+    </table></div>
+    <div class="eq">
+      <b>v</b><sub>t</sub> = [ V<sub>a</sub> , V<sub>b</sub> , V<sub>c</sub>−V<sub>b</sub> , V<sub>d</sub> ]<sup>T</sup> = [ E<sub>1</sub> , <span class="bad">V<sub>b</sub></span> , E<sub>3</sub> , −E<sub>2</sub> ]<sup>T</sup>
+      <br><span class="dim">มีแค่ตัวสีแดงตัวเดียวที่ไม่รู้</span>
+    </div>
+  </div>
+
+  <div class="card">
+    <h2><span class="ic">🔢</span>ขั้นที่ 2 — หารอยตัดพื้นฐานทั้ง 4 รอย</h2>
+    <div class="eq left">
+      q<sub>ij</sub> = <b>+1</b> ถ้ากิ่ง j ข้ามรอยตัด i <b>ในทิศเดียวกับ</b>กิ่งต้นไม้ของรอยตัดนั้น<br>
+      q<sub>ij</sub> = <b>−1</b> ถ้าข้ามในทิศ<b>ตรงข้าม</b><br>
+      q<sub>ij</sub> = <b>0</b> ถ้า<b>ไม่ข้าม</b>รอยตัดนี้
+    </div>
+
+    <div class="btnrow" style="justify-content:center;margin:18px 0">
+      <button class="btn on" data-cut="1">รอยตัด 1 (E₁)</button>
+      <button class="btn" data-cut="2">รอยตัด 2 (G₃) ⭐</button>
+      <button class="btn" data-cut="3">รอยตัด 3 (E₃)</button>
+      <button class="btn" data-cut="4">รอยตัด 4 (E₂)</button>
+    </div>
+    <svg class="chart" id="cutFig" viewBox="0 0 740 300" role="img" aria-label="แผนภาพแสดงรอยตัดพื้นฐานแต่ละรอยและกิ่งที่ข้ามรอยตัดนั้น"></svg>
+    <div id="cutExplain"></div>
+  </div>
+
+  <div class="card">
+    <h2><span class="ic">📐</span>ขั้นที่ 3 — ประกอบเป็นเมทริกซ์ [Q<sub>K</sub>]</h2>
+    <div class="tw"><table>
+      <thead><tr><th></th><th class="num">E<sub>1</sub></th><th class="num">G<sub>3</sub></th><th class="num">E<sub>3</sub></th><th class="num">E<sub>2</sub></th><th class="num" style="border-left:2px solid var(--accent)">G<sub>1</sub></th><th class="num">G<sub>2</sub></th><th class="num">G<sub>4</sub></th></tr></thead>
+      <tbody>
+        <tr><td><b>cut₁ (E₁)</b></td><td class="num" style="color:var(--accent)"><b>1</b></td><td class="num">0</td><td class="num">0</td><td class="num">0</td><td class="num" style="border-left:2px solid var(--accent)">1</td><td class="num">0</td><td class="num">0</td></tr>
+        <tr style="background:rgba(74,222,128,.12)"><td><b>cut₂ (G₃)</b> ⭐</td><td class="num">0</td><td class="num" style="color:var(--accent)"><b>1</b></td><td class="num">0</td><td class="num">0</td><td class="num" style="border-left:2px solid var(--accent)">−1</td><td class="num">1</td><td class="num">0</td></tr>
+        <tr><td><b>cut₃ (E₃)</b></td><td class="num">0</td><td class="num">0</td><td class="num" style="color:var(--accent)"><b>1</b></td><td class="num">0</td><td class="num" style="border-left:2px solid var(--accent)">0</td><td class="num">1</td><td class="num">0</td></tr>
+        <tr><td><b>cut₄ (E₂)</b></td><td class="num">0</td><td class="num">0</td><td class="num">0</td><td class="num" style="color:var(--accent)"><b>1</b></td><td class="num" style="border-left:2px solid var(--accent)">0</td><td class="num">−1</td><td class="num">1</td></tr>
+      </tbody>
+    </table></div>
+    <div class="note win">
+      <span class="lbl">✅ เช็คความถูกต้องทันที</span>
+      <p>บล็อกซ้าย (4 คอลัมน์แรก ซึ่งเป็นกิ่งต้นไม้) <b>ต้องเป็นเมทริกซ์เอกลักษณ์ I₄ เสมอ</b> — ถ้าไม่ใช่ แสดงว่าทำผิดที่ไหนสักแห่ง</p>
+      <p><b>เหตุผล:</b> รอยตัดที่ i ถูกนิยามให้มีกิ่งต้นไม้แค่กิ่งที่ i กิ่งเดียว จึงได้ +1 ที่ตำแหน่งทแยงมุม และ 0 ที่กิ่งต้นไม้อื่นทั้งหมด — นี่คือรูปแบบมาตรฐาน <span class="mono">[Q<sub>K</sub>] = [ I | Q<sub>ℓ</sub> ]</span></p>
+    </div>
+  </div>
+
+  <div class="card">
+    <h2><span class="ic">⚠️</span>ขั้นที่ 4 — [Y<sub>b</sub>] และปัญหาของแหล่งจ่ายอุดมคติ</h2>
+    <div class="note warn">
+      <span class="lbl">⚠️ ปัญหาที่ต้องพูดให้เป็น</span>
+      <p>แหล่งจ่ายแรงดันอุดมคติ <b>ไม่มีค่าความนำ</b> — หรือพูดให้ถูกคือความนำเป็นอนันต์ (แรงดันคงที่ไม่ว่ากระแสเท่าไหร่ ⟹ <span class="mono">G = i/v → ∞</span>) เราจึงเขียน <span class="mono">[Y<sub>b</sub>]</span> ให้ครบ 7 กิ่งไม่ได้</p>
+      <p><b>นี่ไม่ใช่ข้อบกพร่องของวิธี แต่เป็นเหตุผลว่าทำไมเราถึงยัดแหล่งจ่ายเข้าเป็นกิ่งต้นไม้ตั้งแต่ต้น</b> — เพราะเราจะ <i>ไม่ใช้</i> สมการของรอยตัดที่มีแหล่งจ่าย เราใช้แค่รอยตัดที่ไม่มีแหล่งจ่ายพาดผ่านเท่านั้น ส่วนรอยตัดอื่นเอาไว้<b>คำนวณกระแสของแหล่งจ่ายทีหลัง</b></p>
+    </div>
+    <p><b>วิธีปฏิบัติ:</b> สร้าง <span class="mono">[Y<sub>b</sub>]</span> จาก 4 กิ่งความนำ และหั่นคอลัมน์ที่ตรงกันจาก <span class="mono">[Q<sub>K</sub>]</span> ออกมาเป็น <span class="mono">[Q<sub>G</sub>]</span></p>
+    <div class="mrow">
+      <span class="mlabel">[Q<sub>G</sub>] =</span>
+      <div class="matrix" style="grid-template-columns:repeat(4,1fr)">
+        <span class="z">0</span><span>1</span><span class="z">0</span><span class="z">0</span>
+        <span>1</span><span>−1</span><span>1</span><span class="z">0</span>
+        <span class="z">0</span><span class="z">0</span><span>1</span><span class="z">0</span>
+        <span class="z">0</span><span class="z">0</span><span>−1</span><span>1</span>
+      </div>
+      <span class="mlabel">[Y<sub>b</sub>] =</span>
+      <div class="matrix" style="grid-template-columns:repeat(4,1fr)">
+        <span>G₃</span><span class="z">0</span><span class="z">0</span><span class="z">0</span>
+        <span class="z">0</span><span>G₁</span><span class="z">0</span><span class="z">0</span>
+        <span class="z">0</span><span class="z">0</span><span>G₂</span><span class="z">0</span>
+        <span class="z">0</span><span class="z">0</span><span class="z">0</span><span>G₄</span>
+      </div>
+    </div>
+    <p style="text-align:center;color:var(--ink-faint);font-size:.86rem">คอลัมน์/แถวเรียงตาม [G₃, G₁, G₂, G₄]</p>
+  </div>
+
+  <div class="card">
+    <h2><span class="ic">✖️</span>ขั้นที่ 5 — คูณ [Q<sub>G</sub>][Y<sub>b</sub>][Q<sub>G</sub>]<sup>T</sup> ทีละสมาชิก</h2>
+    <div class="step"><div class="k">5.1</div><div class="body">
+      <h4>คูณ [Y<sub>b</sub>][Q<sub>G</sub>]<sup>T</sup> ก่อน</h4>
+      <p>เพราะ [Y<sub>b</sub>] เป็นทแยงมุม การคูณคือเอาค่าทแยงไปคูณแต่ละ<i>แถว</i>ของ [Q<sub>G</sub>]<sup>T</sup></p>
+      <div class="mrow">
+        <div class="matrix" style="grid-template-columns:repeat(4,1fr)">
+          <span class="z">0</span><span>G₃</span><span class="z">0</span><span class="z">0</span>
+          <span>G₁</span><span>−G₁</span><span class="z">0</span><span class="z">0</span>
+          <span class="z">0</span><span>G₂</span><span>G₂</span><span>−G₂</span>
+          <span class="z">0</span><span class="z">0</span><span class="z">0</span><span>G₄</span>
+        </div>
+      </div>
+    </div></div>
+    <div class="step"><div class="k">5.2</div><div class="body">
+      <h4>คูณ [Q<sub>G</sub>] เข้าไปข้างหน้า ทีละแถว</h4>
+      <div class="eq left" style="line-height:2.4">
+        <span class="dim">แถว 1 ของ [Q<sub>G</sub>] = [0, 1, 0, 0]</span> → หยิบแถว G₁ ออกมาเต็มๆ<br>
+        &nbsp;&nbsp;= [ <b>G₁</b>, −G₁, 0, 0 ]<br><br>
+        <span class="dim">แถว 2 = [1, −1, 1, 0]</span> → 1×(แถว G₃) + (−1)×(แถว G₁) + 1×(แถว G₂)<br>
+        &nbsp;&nbsp;= [0,G₃,0,0] − [G₁,−G₁,0,0] + [0,G₂,G₂,−G₂]<br>
+        &nbsp;&nbsp;= [ −G₁, <b>G₁+G₂+G₃</b>, G₂, −G₂ ]<br><br>
+        <span class="dim">แถว 3 = [0, 0, 1, 0]</span> → หยิบแถว G₂<br>
+        &nbsp;&nbsp;= [ 0, G₂, <b>G₂</b>, −G₂ ]<br><br>
+        <span class="dim">แถว 4 = [0, 0, −1, 1]</span> → (−1)×(แถว G₂) + 1×(แถว G₄)<br>
+        &nbsp;&nbsp;= [ 0, −G₂, −G₂, <b>G₂+G₄</b> ]
+      </div>
+    </div></div>
+
+    <h3>ผลลัพธ์</h3>
+    <div class="mrow">
+      <span class="mlabel">[Q<sub>G</sub>][Y<sub>b</sub>][Q<sub>G</sub>]<sup>T</sup> =</span>
+      <div class="matrix" style="grid-template-columns:repeat(4,1fr)">
+        <span>G₁</span><span>−G₁</span><span class="z">0</span><span class="z">0</span>
+        <span>−G₁</span><span class="hl2">G₁+G₂+G₃</span><span class="hl2">G₂</span><span class="hl2">−G₂</span>
+        <span class="z">0</span><span>G₂</span><span>G₂</span><span>−G₂</span>
+        <span class="z">0</span><span>−G₂</span><span>−G₂</span><span class="hl">G₂+G₄</span>
+      </div>
+    </div>
+    <p style="text-align:center;font-size:.88rem;color:var(--ink-soft)">
+      <span style="color:var(--green)">■</span> แถวที่ 2 = แถวเดียวที่ใช้แก้หา V<sub>b</sub> ·
+      <span style="color:var(--accent)">■</span> G₄ โผล่ที่เดียวคือ (4,4)
+    </p>
+
+    <div class="note win">
+      <span class="lbl">✅ เช็คความถูกต้อง 2 ข้อ</span>
+      <ol style="margin:0;padding-left:20px">
+        <li><b>สมมาตรรอบแนวทแยง</b> — ต้องเป็นเสมอสำหรับวงข่ายที่มีแต่อุปกรณ์เชิงรับ เพราะ <span class="mono">(QY<sub>b</sub>Q<sup>T</sup>)<sup>T</sup> = QY<sub>b</sub><sup>T</sup>Q<sup>T</sup> = QY<sub>b</sub>Q<sup>T</sup></span> เมื่อ Y<sub>b</sub> ทแยงมุม</li>
+        <li><b>G₄ โผล่แค่ที่แถว/คอลัมน์ 4</b> ซึ่งเป็นรอยตัดของ E₂ — บอกใบ้แล้วว่ามันจะไม่ไปยุ่งกับ V<sub>b</sub> เลย</li>
+      </ol>
+    </div>
+  </div>
+
+  <div class="card">
+    <h2><span class="ic">🎯</span>ขั้นที่ 6–7 — สมการเต็ม แล้วกางแถวที่ 2 ออกมา</h2>
+    <div class="mrow">
+      <div class="matrix" style="grid-template-columns:repeat(4,1fr)">
+        <span>G₁</span><span>−G₁</span><span class="z">0</span><span class="z">0</span>
+        <span>−G₁</span><span>G₁+G₂+G₃</span><span>G₂</span><span>−G₂</span>
+        <span class="z">0</span><span>G₂</span><span>G₂</span><span>−G₂</span>
+        <span class="z">0</span><span>−G₂</span><span>−G₂</span><span>G₂+G₄</span>
+      </div>
+      <div class="matrix" style="grid-template-columns:1fr">
+        <span>V<sub>a</sub></span><span class="hl">V<sub>b</sub></span><span>V<sub>c</sub>−V<sub>b</sub></span><span>V<sub>d</sub></span>
+      </div>
+      <span class="mlabel">=</span>
+      <div class="matrix" style="grid-template-columns:1fr">
+        <span>−i<sub>E1</sub></span><span class="hl2">0</span><span>−i<sub>E3</sub></span><span>−i<sub>E2</sub></span>
+      </div>
+    </div>
+
+    <div class="note">
+      <span class="lbl">📖 อ่านสมการนี้ให้เป็น</span>
+      <ul class="tick" style="margin:0">
+        <li><b>แถวที่ 1, 3, 4</b> มีแหล่งจ่ายพาดผ่าน ฝั่งขวาจึงเป็นกระแสของแหล่งจ่ายซึ่งเป็น<i>ตัวไม่รู้ที่เราไม่สนใจ</i> → สมการเหล่านี้เอาไว้<b>คำนวณกระแสย้อนกลับทีหลัง</b></li>
+        <li><b>แถวที่ 2 ไม่มีแหล่งจ่ายพาดผ่านเลย ฝั่งขวาจึงเป็นศูนย์แท้ๆ</b> → <b>นี่คือสมการที่ใช้แก้หา V<sub>b</sub></b></li>
+      </ul>
+    </div>
+
+    <h3>กางแถวที่ 2 ออกมา</h3>
+    <div class="eq left" style="line-height:2.5">
+      −G₁V<sub>a</sub> + (G₁+G₂+G₃)V<sub>b</sub> + G₂(V<sub>c</sub> − V<sub>b</sub>) − G₂V<sub>d</sub> = 0<br><br>
+      <span class="dim">กระจาย G₂(V<sub>c</sub> − V<sub>b</sub>) = G₂V<sub>c</sub> − G₂V<sub>b</sub></span><br>
+      −G₁V<sub>a</sub> + G₁V<sub>b</sub> <span class="hi">+ G₂V<sub>b</sub></span> + G₃V<sub>b</sub> + G₂V<sub>c</sub> <span class="hi">− G₂V<sub>b</sub></span> − G₂V<sub>d</sub> = 0<br><br>
+      <span class="dim">พจน์ +G₂V<sub>b</sub> กับ −G₂V<sub>b</sub> ตัดกันพอดี</span><br>
+      −G₁V<sub>a</sub> + G₁V<sub>b</sub> + G₃V<sub>b</sub> + G₂V<sub>c</sub> − G₂V<sub>d</sub> = 0<br><br>
+      <span class="dim">จัดกลุ่มใหม่</span><br>
+      <b class="ok">G₁(V<sub>b</sub> − V<sub>a</sub>) + G₃V<sub>b</sub> + G₂(V<sub>c</sub> − V<sub>d</sub>) = 0</b>
+    </div>
+
+    <div class="note win">
+      <span class="lbl">🏆 นี่คือสมการ (★) ตัวเดิมเป๊ะ!</span>
+      <p style="font-size:1.05rem"><b>สมการชุดตัดของกิ่งต้นไม้ G₃ กับสมการ KCL ที่ supernode (b,c) คือสิ่งเดียวกัน</b></p>
+      <p>ถ้านิสิตพูดประโยคนี้ได้ในห้องสอบ กรรมการจะรู้ทันทีว่านิสิตเข้าใจ <i>“ทำไม”</i> ไม่ใช่แค่จำ <i>“ทำอย่างไร”</i> — เพราะมันแสดงว่านิสิตเห็นว่า <b>supernode ไม่ใช่เทคนิคพิเศษ แต่เป็นกรณีเฉพาะของทฤษฎีรอยตัด</b></p>
+    </div>
+  </div>
+
+  <div class="card">
+    <h2><span class="ic">⊥</span>โบนัส — เมทริกซ์ลูป และความตั้งฉาก [Q][B]<sup>T</sup> = 0</h2>
+    <p class="lead">ถ้ากรรมการถามลึกเรื่องความสัมพันธ์ระหว่างรอยตัดกับลูป ให้ตอบด้วยเรื่องนี้ครับ</p>
+    <p>กิ่งร่วมมี 3 กิ่ง จึงมี <b>ลูปพื้นฐาน 3 ลูป</b> และเมทริกซ์ลูปสร้างจากสูตร <span class="mono">[B] = [ −Q<sub>ℓ</sub><sup>T</sup> | I ]</span></p>
+    <div class="tw"><table>
+      <thead><tr><th></th><th class="num">E₁</th><th class="num">G₃</th><th class="num">E₃</th><th class="num">E₂</th><th class="num" style="border-left:2px solid var(--accent)">G₁</th><th class="num">G₂</th><th class="num">G₄</th></tr></thead>
+      <tbody>
+        <tr><td><b>loop₁ (G₁)</b></td><td class="num">−1</td><td class="num">1</td><td class="num">0</td><td class="num">0</td><td class="num" style="border-left:2px solid var(--accent)">1</td><td class="num">0</td><td class="num">0</td></tr>
+        <tr><td><b>loop₂ (G₂)</b></td><td class="num">0</td><td class="num">−1</td><td class="num">−1</td><td class="num">1</td><td class="num" style="border-left:2px solid var(--accent)">0</td><td class="num">1</td><td class="num">0</td></tr>
+        <tr><td><b>loop₃ (G₄)</b></td><td class="num">0</td><td class="num">0</td><td class="num">0</td><td class="num">−1</td><td class="num" style="border-left:2px solid var(--accent)">0</td><td class="num">0</td><td class="num">1</td></tr>
+      </tbody>
+    </table></div>
+    <div class="eq"><b>[Q<sub>K</sub>][B]<sup>T</sup> = 0</b> <span class="dim">(เมทริกซ์ศูนย์ขนาด 4×3)</span></div>
+    <div class="note tip">
+      <span class="lbl">🌌 ความหมายทางกายภาพ</span>
+      <p>KCL (รอยตัด) กับ KVL (ลูป) <b>เป็นอิสระต่อกันโดยสิ้นเชิง</b> — ปริภูมิของกระแสที่สอดคล้อง KCL ตั้งฉากกับปริภูมิของแรงดันที่สอดคล้อง KVL</p>
+      <p>และเนื่องจากมิติรวมกันได้ <span class="mono">(n−1) + (b−n+1) = b</span> พอดี ทั้งสองจึงเป็น <b>ส่วนเติมเต็มตั้งฉาก</b> ของกันและกัน</p>
+      <p>นี่คือรากฐานของ <b>ทฤษฎีบทเทลเลเจน (Tellegen's Theorem)</b>: <span class="mono">Σ v<sub>k</sub>i<sub>k</sub> = 0</span> ซึ่งพิสูจน์การอนุรักษ์กำลังไฟฟ้าในวงจรใดๆ <b>โดยไม่ต้องรู้เลยว่าอุปกรณ์ในวงจรเป็นอะไร</b></p>
+    </div>
+    <p><i>ครูตรวจด้วยคอมพิวเตอร์แล้ว — ดู <span class="mono">solve_circuit.py</span> ขั้นที่ 3</i></p>
+    <div class="bridge">
+      <b>ต่อไปที่แท็บ 5 →</b> ทฤษฎีครบแล้ว ทีนี้ถึงเวลาซ้อมพูด — 15 คำถามพร้อมบทตอบ 2 ระดับ ตั้งแต่ระดับเอาตัวรอด ไปจนถึงระดับที่กรรมการต้องให้ 100/100
+    </div>
+  </div>
+</section>
+
+<!-- ======================= TAB 5 ======================= -->
+<section class="panel" id="p5" role="tabpanel" aria-labelledby="t5" hidden>
+
+  <div class="card">
+    <h2><span class="ic">🎓</span>คัมภีร์ซ้อมตอบสอบปากเปล่า 15 ข้อ</h2>
+    <p class="lead"><b>การสอบปากเปล่าไม่ได้วัดว่านิสิตคำนวณเป็นไหม</b> — ข้อสอบเขียนวัดไปแล้ว มันวัดอย่างเดียวเลยคือ <b>“นิสิตเข้าใจสิ่งที่ตัวเองเขียนหรือเปล่า”</b></p>
+    <p class="lead">ทุกคำถามแบ่งคำตอบเป็น <b>2 ระดับ</b> — ซ้อมระดับ 🛡️ ให้คล่องทุกข้อก่อน แล้วค่อยเติมระดับ 🏆</p>
+    <div class="grid g2">
+      <div class="stat" style="border-color:var(--teal)"><div class="lb">ระดับที่ 1</div><div class="vl" style="color:var(--teal);font-size:1rem">🛡️ บทตอบรอดชีวิต</div><div class="un">ตอบตรงประเด็น ไม่ตกกับดัก — ได้คะแนนผ่าน</div></div>
+      <div class="stat" style="border-color:var(--amber)"><div class="lb">ระดับที่ 2</div><div class="vl" style="color:var(--amber);font-size:1rem">🏆 บทตอบเกียรตินิยม</div><div class="un">ต่อยอดทฤษฎีกราฟ เมทริกซ์ และการประยุกต์จริง — 100/100</div></div>
+    </div>
+
+    <h3>กติกา 6 ข้อ ก่อนเข้าห้องสอบ</h3>
+    <ul class="tick">
+      <li><b>ชี้รูปวงจรทุกครั้งที่พูดถึงองค์ประกอบ</b> — กรรมการดูมือนิสิตด้วย ไม่ได้ฟังอย่างเดียว</li>
+      <li><b>บอกขั้วก่อนบอกสมการเสมอ</b> — “ขั้วลบอยู่ที่ปม d ครับ ดังนั้น...” ไม่ใช่ “V<sub>d</sub> เท่ากับลบ E₂ ครับ”</li>
+      <li><b>ตัวเลขทุกตัวต้องมีหน่วย</b> — โวลต์ แอมป์ โมห์ ตกหน่วยคือเสียคะแนนฟรี</li>
+      <li><b>ถ้าไม่รู้ ให้บอกว่าไม่รู้ แล้วบอกวิธีที่จะไปหาคำตอบ</b> — ได้คะแนนมากกว่าเดามั่ว 10 เท่า</li>
+      <li><b>นับตัวไม่รู้ก่อนเริ่มแก้เสมอ</b> — แสดงว่ามีแผน ไม่ได้มั่ว</li>
+      <li><b>ตอบให้จบประโยค แล้วหยุด</b> — อย่าพูดต่อจนไปเปิดประเด็นที่ตัวเองไม่พร้อม</li>
+    </ul>
+  </div>
+
+  <div class="card">
+    <h2><span class="ic">🎤</span>15 คำถามพร้อมบทพูดจริง</h2>
+    <p class="lead">คลิกเปิดทีละข้อ ซ้อมพูดออกเสียงจริง อย่าอ่านในใจ — <b>ข้อ 4 กับ 11 ซ้อมให้มากที่สุด</b></p>
+
+    <details class="qa"><summary><span class="qn">1</span>เล่าให้ฟังหน่อยว่าโจทย์ข้อนี้เกี่ยวกับอะไร และคุณแก้อย่างไร</summary><div class="qbody">
+      <div class="qsec"><div class="h">🎯 เขาต้องการฟังอะไร</div><p>คำถามเปิด กรรมการดูว่านิสิตมี “แผนที่ในหัว” หรือเปล่า ถ้าเล่าได้เป็นลำดับ คำถามต่อไปจะใจดีขึ้น</p></div>
+      <div class="qsec"><div class="h">💀 กับดัก</div><ul class="trap"><li>รีบพุ่งเข้าสมการทันทีโดยไม่ปูภาพใหญ่ — ทำให้ดูเหมือนท่องมา</li></ul></div>
+      <div class="qsec"><span class="lvl def">🛡️ บทตอบรอดชีวิต</span><div class="script">
+        <p>“โจทย์ข้อนี้เป็นวงข่ายความนำไฟฟ้าที่มีความนำ 4 ตัว และแหล่งจ่ายแรงดันอิสระ 3 ตัวครับ โจทย์ให้เขียนสมการชุดตัดในรูปเมทริกซ์ แล้วหาแรงดันที่ปม a, b, c, d เทียบกับปม e ที่ต่อลงดิน</p>
+        <p>ผมแก้เป็นสามขั้นครับ</p>
+        <p><b>ขั้นแรก</b> อ่านขั้วของแหล่งจ่ายจากรูป ได้ทันทีว่า V<sub>a</sub> = E₁ เพราะขั้วบวกอยู่ที่ปม a และ V<sub>d</sub> = −E₂ เพราะขั้ว<b>ลบ</b>อยู่ที่ปม d ครับ ส่วน E₃ คร่อมระหว่างปม b กับ c ทำให้ V<sub>c</sub> − V<sub>b</sub> = E₃</p>
+        <p><b>ขั้นที่สอง</b> เนื่องจาก E₃ ลอยอยู่ระหว่างสองปมโดยไม่แตะกราวด์ ผมจึงสร้าง supernode คร่อมปม b และ c แล้วเขียน KCL รอบ supernode ได้สมการเดียว</p>
+        <p><b>ขั้นที่สาม</b> แทนเงื่อนไขทั้งสามลงไป เหลือตัวไม่รู้ตัวเดียวคือ V<sub>b</sub> แก้ออกมาได้เลยครับ”</p>
+      </div></div>
+      <div class="qsec"><span class="lvl dis">🏆 บทตอบเกียรตินิยม (เพิ่มต่อท้าย)</span><div class="script dist">
+        <p>“ขออนุญาตเสริมมุมทฤษฎีกราฟนะครับ</p>
+        <p>วงจรนี้มี 5 ปม 7 กิ่ง ดังนั้นต้นไม้มี n−1 = 4 กิ่ง และกิ่งร่วม b−n+1 = 3 กิ่ง ผมเลือกต้นไม้เป็น {E₁, G₃, E₃, E₂} โดยใช้หลักว่า <b>ยัดแหล่งจ่ายแรงดันทุกตัวเข้าเป็นกิ่งต้นไม้</b> เพราะแรงดันกิ่งต้นไม้คือตัวแปรของระบบ ถ้ากิ่งนั้นเป็นแหล่งจ่ายเราก็รู้ค่าฟรีทันที</p>
+        <p>ผลคือจากตัวแปร 4 ตัว เหลือไม่รู้แค่ตัวเดียวคือแรงดันคร่อม G₃ ซึ่งก็คือ V<sub>b</sub> ครับ</p>
+        <p>และสิ่งที่ผมคิดว่าน่าสนใจที่สุดคือ <b>รอยตัดพื้นฐานของกิ่ง G₃ ให้สมการเดียวกับ KCL ที่ supernode เป๊ะ</b> — แสดงว่า supernode ไม่ใช่เทคนิคพิเศษ แต่เป็นกรณีเฉพาะของทฤษฎีรอยตัดครับ ผมพิสูจน์ให้ดูได้ถ้าอาจารย์ต้องการ”</p>
+      </div></div>
+    </div></details>
+
+    <details class="qa"><summary><span class="qn">2</span>ความนำไฟฟ้า G ต่างจากความต้านทาน R อย่างไร ทำไมโจทย์ให้เป็น ℧</summary><div class="qbody">
+      <div class="qsec"><div class="h">🎯 เขาต้องการฟังอะไร</div><p>ว่านิสิตเข้าใจ<i>เหตุผล</i>ที่วิศวกรเลือกใช้ G ไม่ใช่แค่ท่องว่า “ส่วนกลับกัน”</p></div>
+      <div class="qsec"><span class="lvl def">🛡️ บทตอบรอดชีวิต</span><div class="script">
+        <p>“G เป็นส่วนกลับของ R ครับ G = 1/R หน่วยเป็นซีเมนส์หรือโมห์ ซึ่งคือ Ω กลับหัว เพราะ mho คือ ohm สะกดกลับหลังครับ</p>
+        <p>ความหมายทางกายภาพคือ R บอกว่า<i>ไฟไหลผ่านยากแค่ไหน</i> ส่วน G บอกว่า<i>ไฟไหลผ่านง่ายแค่ไหน</i> ถ้าเปรียบเป็นท่อน้ำ G ก็คือความกว้างของปากท่อครับ</p>
+        <p>ในโจทย์นี้ ถ้า G₁ = 0.5 ℧ ก็เท่ากับ R₁ = 2 Ω ครับ”</p>
+      </div></div>
+      <div class="qsec"><span class="lvl dis">🏆 บทตอบเกียรตินิยม (เพิ่มต่อท้าย)</span><div class="script dist">
+        <p>“เหตุผลที่โจทย์เลือกใช้ G ผมคิดว่าเป็นเพราะมันกำลังจะพาไปสู่<b>สมการเมทริกซ์</b>ครับ</p>
+        <p>กฎของโอห์มในรูป G คือ i = Gv ซึ่งเป็น<b>การคูณล้วน ไม่มีตัวหาร</b> พอเขียน KCL ที่ปม เราต้องเอากระแสหลายกิ่งมาบวกกัน ได้เป็น Σ G<sub>k</sub>v<sub>k</sub> ซึ่งจับเข้าเมทริกซ์ได้สวยงามทันที</p>
+        <p>แต่ถ้าใช้ R จะได้ Σ v<sub>k</sub>/R<sub>k</sub> ซึ่งมีเศษส่วนซ้อนกันเต็มไปหมด จัดเป็นเมทริกซ์ยากกว่ามากครับ นี่คือเหตุผลว่าทำไมเมทริกซ์ในการวิเคราะห์ปมและชุดตัดถึงเรียกว่า <b>admittance matrix</b> ไม่ใช่ impedance matrix</p>
+        <p>อีกจุดที่ต้องระวังคือ<b>กฎการรวมสลับกัน</b> — R อนุกรมบวกตรงๆ แต่ G <b>ขนาน</b>บวกตรงๆ ครับ ซึ่งสมเหตุสมผลเพราะการต่อขนานคือการเปิดทางให้น้ำไหลเพิ่มอีกเส้น ความ ‘ง่าย’ ย่อมบวกกัน</p>
+        <p>และในระบบไฟฟ้ากำลังจริง เวลาสร้าง <b>Y-bus matrix</b> ของโครงข่ายส่งจ่าย เขาก็ใช้แอดมิตแตนซ์ด้วยเหตุผลเดียวกันนี้ครับ”</p>
+      </div></div>
+    </div></details>
+
+    <details class="qa"><summary><span class="qn">3</span>ทำไม V<sub>a</sub> = E₁ ได้ทันทีโดยไม่ต้องคำนวณ</summary><div class="qbody">
+      <div class="qsec"><div class="h">🎯 เขาต้องการฟังอะไร</div><p>ว่านิสิตเข้าใจว่าแหล่งจ่ายแรงดันอุดมคติทำอะไร และรู้ว่าปมอ้างอิงมีบทบาทอย่างไร</p></div>
+      <div class="qsec"><span class="lvl def">🛡️ บทตอบรอดชีวิต</span><div class="script">
+        <p>“เพราะแหล่งจ่าย E₁ ต่ออยู่ระหว่างปม a กับปม e โดยตรงครับ โดยขั้วบวกอยู่ที่ปม a <i>(ชี้รูป)</i></p>
+        <p>นิยามของแหล่งจ่ายแรงดันคือ ศักย์ที่ขั้วบวกลบด้วยศักย์ที่ขั้วลบ เท่ากับค่าแหล่งจ่าย: V<sub>a</sub> − V<sub>e</sub> = E₁</p>
+        <p>และโจทย์กำหนดให้ V<sub>e</sub> = 0 เพราะต่อลงดิน ดังนั้น V<sub>a</sub> − 0 = E₁ จึงได้ V<sub>a</sub> = E₁ ครับ”</p>
+      </div></div>
+      <div class="qsec"><span class="lvl dis">🏆 บทตอบเกียรตินิยม (เพิ่มต่อท้าย)</span><div class="script dist">
+        <p>“จุดสำคัญคือ <b>แหล่งจ่ายแรงดันอุดมคติบังคับแรงดันโดยไม่สนใจกระแส</b> ครับ มันจะจ่ายกระแสเท่าไหร่ก็ได้เพื่อรักษาแรงดันไว้ที่ E₁</p>
+        <p>ในภาษาทฤษฎีกราฟ พูดได้ว่า E₁ เป็น<b>กิ่งต้นไม้</b> และแรงดันกิ่งต้นไม้ของมันเป็น<i>ตัวแปรที่รู้ค่าแล้ว</i> ทำให้ระดับความอิสระของระบบลดลง 1</p>
+        <p>ถ้าอาจารย์ถามว่าแล้วกระแสของ E₁ เท่าไหร่ ผมต้องหาจาก<b>รอยตัดพื้นฐานของกิ่ง E₁</b> ครับ ซึ่งได้ i<sub>E1</sub> + i<sub>G1</sub> = 0 ในกรณีตัวเลขตัวอย่างจะได้ 4.157895 แอมป์ ไหลออกจากขั้วบวก</p>
+        <p>และข้อควรระวังคือ ในโลกจริงไม่มีแหล่งจ่ายอุดมคติครับ แบตเตอรี่จริงมีความต้านทานภายใน ทำให้แรงดันที่ขั้วตกลงเมื่อจ่ายกระแสมาก ถ้าจะจำลองให้สมจริงต้องเพิ่ม R<sub>i</sub> อนุกรมเข้าไป ซึ่งจะทำให้ V<sub>a</sub> ไม่เท่ากับ E₁ อีกต่อไป และตัวไม่รู้จะเพิ่มเป็น 2 ตัวครับ”</p>
+      </div></div>
+    </div></details>
+
+    <details class="qa danger"><summary><span class="qn">4</span>⚠️ ทำไม V<sub>d</sub> = −E₂ ไม่ใช่ +E₂</summary><div class="qbody">
+      <div class="qsec"><div class="h">🎯 เขาต้องการฟังอะไร</div><p>ว่านิสิต<b>ดูรูปเป็น</b> ไม่ใช่ท่องสูตรมา — นี่คือคำถามที่คนตกเยอะที่สุดในข้อนี้</p></div>
+      <div class="qsec"><div class="h">💀 กับดักมรณะ</div><ul class="trap"><li>ตอบว่า “V<sub>d</sub> = E₂ ครับ” โดยไม่ดูขั้ว — <b>ตกทันที</b> เพราะเครื่องหมายผิดจะทำให้คำตอบทั้งข้อผิดตามหมด</li></ul></div>
+      <div class="qsec"><span class="lvl def">🛡️ บทตอบรอดชีวิต</span><div class="script">
+        <p>“เพราะขั้วของ E₂ กลับด้านกับ E₁ ครับ <i>(ชี้รูป)</i></p>
+        <p>ในรูป <b>เครื่องหมายลบของ E₂ อยู่ด้านบน ซึ่งเป็นฝั่งที่ต่อกับปม d</b> ส่วนเครื่องหมายบวกอยู่ด้านล่าง ต่อกับปมอ้างอิง e</p>
+        <p>ใช้นิยามเดิมคือ ศักย์ขั้วบวกลบศักย์ขั้วลบเท่ากับค่าแหล่งจ่าย: V<sub>e</sub> − V<sub>d</sub> = E₂</p>
+        <p>แทน V<sub>e</sub> = 0 ได้ 0 − V<sub>d</sub> = E₂ ย้ายข้างได้ <b>V<sub>d</sub> = −E₂</b> ครับ</p>
+        <p>ในตัวอย่างตัวเลข E₂ = 6 โวลต์ จึงได้ V<sub>d</sub> = −6 โวลต์ คือ<b>ต่ำกว่ากราวด์</b>ครับ”</p>
+      </div></div>
+      <div class="qsec"><span class="lvl dis">🏆 บทตอบเกียรตินิยม (เพิ่มต่อท้าย)</span><div class="script dist">
+        <p>“ผมขอเสริมการตรวจสอบเชิงกายภาพนะครับ ว่าเครื่องหมายลบนี้สมเหตุสมผลจริง</p>
+        <p>ถ้า V<sub>d</sub> = −6 โวลต์ กระแสที่ไหลผ่าน G₄ ในทิศ d → e จะเป็น G₄V<sub>d</sub> = 0.4 × (−6) = −2.4 แอมป์ ซึ่ง<b>ติดลบ</b> แปลว่ากระแสจริงไหลสวนทาง คือไหลจากกราวด์ขึ้นไปหาปม d</p>
+        <p>ซึ่งถูกต้องตามฟิสิกส์ครับ เพราะกระแสไหลจากศักย์สูงไปศักย์ต่ำเสมอ และปม d ที่ −6 โวลต์ ต่ำกว่ากราวด์ที่ 0 โวลต์ กระแสจึงต้องไหลลงมาหาปม d</p>
+        <p><b>นี่คือเหตุผลที่ผมตรวจเครื่องหมายด้วยการดูทิศกระแสเสมอครับ</b> ถ้าผมอ่านขั้วผิดเป็น V<sub>d</sub> = +6 โวลต์ กระแส G₄ จะกลายเป็น +2.4 แอมป์ และตอนตรวจสมดุลกำลังไฟฟ้าจะพังทันที เพราะกำลังที่แหล่งจ่ายจ่ายออกจะไม่เท่ากับกำลังที่สูญเสีย</p>
+        <p>ในทางปฏิบัติ วงจรที่มีปมติดลบเทียบกราวด์แบบนี้พบได้ทั่วไปครับ เช่นแหล่งจ่ายไฟแบบ dual-rail ที่ให้ ±15 โวลต์สำหรับวงจรออปแอมป์”</p>
+      </div></div>
+    </div></details>
+
+    <details class="qa"><summary><span class="qn">5</span>Supernode คืออะไร ทำไมข้อนี้ต้องสร้าง</summary><div class="qbody">
+      <div class="qsec"><div class="h">🎯 เขาต้องการฟังอะไร</div><p>ว่านิสิตเข้าใจ<i>ปัญหา</i>ที่ supernode มาแก้ ไม่ใช่แค่รู้ว่าต้องวาดวงรี</p></div>
+      <div class="qsec"><span class="lvl def">🛡️ บทตอบรอดชีวิต</span><div class="script">
+        <p>“ปัญหาคือแหล่งจ่าย E₃ <b>ลอยอยู่ระหว่างปม b กับ c โดยไม่มีปลายไหนแตะกราวด์เลย</b>ครับ</p>
+        <p>ถ้าผมเขียน KCL ที่ปม b ตรงๆ ผมจะต้องใส่พจน์ i<sub>E3</sub> คือกระแสที่ไหลผ่านแหล่งจ่าย แต่ผม<b>คำนวณค่านั้นไม่ได้</b> เพราะแหล่งจ่ายแรงดันอุดมคติไม่มีความสัมพันธ์ระหว่างแรงดันกับกระแสของตัวมันเอง ต่างจากตัวต้านทานที่มี i = Gv ให้ใช้</p>
+        <p>ทางแก้คือสร้าง supernode ครับ คือลากเส้นปิดล้อมปม b และ c ไว้ด้วยกัน โดยให้ E₃ อยู่<b>ข้างใน</b> แล้วเขียน KCL รอบเส้นนั้นแทน</p>
+        <p>เพราะกระแสที่ไหลอยู่ภายในพื้นผิวปิด ไม่ได้ข้ามพื้นผิว มันจึงไม่ปรากฏในสมการเลยครับ ตัวไม่รู้ที่กวนใจก็หายไปเอง</p>
+        <p>แล้วเราชดเชยสมการที่หายไปด้วยความสัมพันธ์ที่ E₃ บังคับไว้ คือ V<sub>c</sub> − V<sub>b</sub> = E₃ ครับ”</p>
+      </div></div>
+      <div class="qsec"><span class="lvl dis">🏆 บทตอบเกียรตินิยม (เพิ่มต่อท้าย)</span><div class="script dist">
+        <p>“รากฐานที่ทำให้ supernode ใช้ได้คือ <b>KCL ไม่ได้จำกัดอยู่แค่ที่ปมเดียว แต่ใช้ได้กับพื้นผิวปิดใดๆ</b> ครับ</p>
+        <p>เพราะกฎอนุรักษ์ประจุบอกว่าประจุจะกองสะสมในบริเวณปิดไม่ได้ ดังนั้นผลรวมกระแสที่ไหลข้ามพื้นผิวปิดใดๆ ต้องเป็นศูนย์เสมอ ไม่ว่าพื้นผิวนั้นจะล้อมปมเดียวหรือหลายปมก็ตาม</p>
+        <p>และในภาษาทฤษฎีกราฟ <b>พื้นผิวปิดนั้นก็คือ ‘รอยตัด’ (cut-set) นั่นเองครับ</b></p>
+        <p>ผมตรวจแล้วว่า <b>รอยตัดพื้นฐานของกิ่งต้นไม้ G₃ ให้สมการเดียวกับ supernode (b,c) ทุกพจน์</b> เพราะเมื่อตัด G₃ ออก กราฟจะขาดเป็นสองก้อน โดยก้อนหนึ่งคือ {b, c} พอดี — เนื่องจาก b กับ c ยังเชื่อมกันอยู่ด้วยกิ่ง E₃</p>
+        <p>พูดอีกอย่างคือ <b>supernode คือชื่อเรียกแบบชาวบ้านของรอยตัดพื้นฐาน</b> ครับ ซึ่งเป็นเหตุผลว่าทำไมโจทย์ถึงให้ใช้สมการชุดตัด — มันคือวิธีที่เป็นระบบและอัตโนมัติกว่า ไม่ต้องมานั่งมองว่าควรวาดวงรีตรงไหน”</p>
+      </div></div>
+    </div></details>
+
+    <details class="qa"><summary><span class="qn">6</span>เขียนสมการ KCL ที่ supernode ให้ดูหน่อย แต่ละพจน์มาจากไหน</summary><div class="qbody">
+      <div class="qsec"><div class="h">🎯 เขาต้องการฟังอะไร</div><p>ว่านิสิตเขียนได้จากศูนย์ ไม่ใช่จำผลลัพธ์มา และรู้ว่าทำไมแต่ละพจน์ถึงมีเครื่องหมายแบบนั้น</p></div>
+      <div class="qsec"><span class="lvl def">🛡️ บทตอบรอดชีวิต</span><div class="script">
+        <p>“ผมกำหนดกติกาก่อนครับว่า <b>กระแสที่ไหลออกจากพื้นผิวปิดเป็นบวก</b> แล้วให้ผลรวมเป็นศูนย์ จากนั้นผมไล่ดูทีละกิ่งว่ากิ่งไหนบ้างที่<b>ข้าม</b>ขอบเขต</p>
+        <p><b>กิ่งที่ 1 คือ G₁</b> ปลายหนึ่งอยู่ที่ b ข้างใน อีกปลายอยู่ที่ a ข้างนอก จึงข้ามครับ กระแสที่ไหลออกในทิศ b → a คือ G₁(V<sub>b</sub> − V<sub>a</sub>)</p>
+        <p><b>กิ่งที่ 2 คือ G₃</b> ปลายหนึ่งที่ b ข้างใน อีกปลายที่ e ข้างนอก ข้ามครับ กระแสออกในทิศ b → e คือ G₃(V<sub>b</sub> − V<sub>e</sub>) ซึ่ง V<sub>e</sub> = 0 จึงเหลือ G₃V<sub>b</sub></p>
+        <p><b>กิ่งที่ 3 คือ G₂</b> ปลายหนึ่งที่ c ข้างใน อีกปลายที่ d ข้างนอก ข้ามครับ กระแสออกในทิศ c → d คือ G₂(V<sub>c</sub> − V<sub>d</sub>)</p>
+        <p><b>ส่วน E₃ ไม่ข้าม</b> เพราะปลายทั้งสองคือ b และ c อยู่ในวงรีทั้งคู่ครับ</p>
+        <p>รวมกันได้ G₁(V<sub>b</sub> − V<sub>a</sub>) + G₃V<sub>b</sub> + G₂(V<sub>c</sub> − V<sub>d</sub>) = 0”</p>
+      </div></div>
+      <div class="qsec"><span class="lvl dis">🏆 บทตอบเกียรตินิยม (เพิ่มต่อท้าย)</span><div class="script dist">
+        <p>“ขอเสริมเรื่องที่มาของเครื่องหมายในแต่ละพจน์นะครับ</p>
+        <p>ทุกพจน์ผมเขียนในรูป G × (ศักย์ปม<i>ข้างใน</i> − ศักย์ปม<i>ข้างนอก</i>) เหมือนกันหมด ซึ่งมาจากกฎของโอห์มบวกกับ passive sign convention — กระแสในตัวต้านทานไหลจากศักย์สูงไปศักย์ต่ำเสมอ</p>
+        <p>ความสม่ำเสมอตรงนี้สำคัญมากครับ <b>ถ้าผมเผลอสลับเป็น (V<sub>a</sub> − V<sub>b</sub>) ในพจน์เดียว เครื่องหมายจะพังทั้งสมการ</b></p>
+        <p>และมีวิธีจำที่ผมใช้คือ ในสมการโหนดมาตรฐาน สัมประสิทธิ์ของแรงดันปมตัวเองจะเป็น<b>บวกเสมอ</b> ส่วนสัมประสิทธิ์ของปมข้างเคียงจะเป็น<b>ลบเสมอ</b> ถ้ากางสมการผมออกมาจะได้ −G₁V<sub>a</sub> + (G₁+G₃)V<sub>b</sub> + G₂V<sub>c</sub> − G₂V<sub>d</sub> = 0</p>
+        <p>จะเห็นว่า V<sub>b</sub> ซึ่งเป็นปมของเราเองมีสัมประสิทธิ์บวก ส่วน V<sub>a</sub> กับ V<sub>d</sub> ที่เป็นปมข้างเคียงมีสัมประสิทธิ์ลบ ตรงตามกฎครับ <b>ผมใช้ตรงนี้ตรวจเครื่องหมายทุกครั้ง</b>”</p>
+      </div></div>
+    </div></details>
+
+    <details class="qa"><summary><span class="qn">7</span>ต้นไม้ของวงจรคืออะไร คุณเลือกอย่างไร ถ้าเลือกแบบอื่นได้คำตอบเดิมไหม</summary><div class="qbody">
+      <div class="qsec"><div class="h">🎯 เขาต้องการฟังอะไร</div><p>ว่านิสิตเข้าใจว่าต้นไม้เลือกได้หลายแบบ แต่คำตอบสุดท้ายต้องเหมือนกัน และเข้าใจว่าทำไมบางแบบถึง “ดีกว่า”</p></div>
+      <div class="qsec"><span class="lvl def">🛡️ บทตอบรอดชีวิต</span><div class="script">
+        <p>“ต้นไม้คือชุดกิ่งย่อยที่เชื่อมทุกปมถึงกันหมด แต่ไม่มีลูปปิดครับ ถ้าเปรียบเป็นเกาะกับสะพาน ต้นไม้คือชุดสะพานที่น้อยที่สุดที่ยังเดินไปได้ทุกเกาะ โดยไม่มีทางวนเป็นวงกลม</p>
+        <p>วงจรนี้มี 5 ปม ต้นไม้จึงมี 5 − 1 = 4 กิ่งเสมอครับ</p>
+        <p>ผมเลือกต้นไม้เป็น {E₁, G₃, E₃, E₂} โดยใช้หลักว่า <b>ยัดแหล่งจ่ายแรงดันทุกตัวเข้าไปเป็นกิ่งต้นไม้ให้หมด</b> เพราะแรงดันคร่อมกิ่งต้นไม้คือตัวแปรของระบบ ถ้ากิ่งนั้นเป็นแหล่งจ่ายเราก็รู้ค่ามันฟรีทันที ไม่ต้องแก้</p>
+        <p>ผลคือจากตัวแปร 4 ตัว เหลือไม่รู้แค่ตัวเดียวคือ V<sub>b</sub> ครับ</p>
+        <p><b>ถ้าเลือกต้นไม้แบบอื่น คำตอบแรงดันปมจะเหมือนเดิมทุกประการครับ</b> เพราะแรงดันปมเป็นปริมาณทางกายภาพ ไม่ได้ขึ้นกับวิธีที่เราเลือกวิเคราะห์ แต่จะทำให้ต้องแก้สมการหลายตัวขึ้นโดยไม่จำเป็น”</p>
+      </div></div>
+      <div class="qsec"><span class="lvl dis">🏆 บทตอบเกียรตินิยม (เพิ่มต่อท้าย)</span><div class="script dist">
+        <p>“ขอเสริมสองเรื่องครับ</p>
+        <p><b>เรื่องแรก — วิธีตรวจว่าเป็นต้นไม้จริง</b> นอกจากไล่ดูด้วยตา ผมตรวจเชิงพีชคณิตได้ด้วยครับ โดยหั่นคอลัมน์ของกิ่งต้นไม้ออกมาจากเมทริกซ์อุบัติการณ์ลดรูป [A] ได้เมทริกซ์ [A<sub>t</sub>] แล้วเช็คว่า <b>det[A<sub>t</sub>] ≠ 0</b> ถ้าดีเทอร์มิแนนต์เป็นศูนย์แสดงว่าชุดกิ่งนั้นไม่ใช่ต้นไม้ ในกรณีนี้ผมคำนวณได้ det[A<sub>t</sub>] = 1 ครับ</p>
+        <p><b>เรื่องที่สอง — กรณีพิเศษที่น่าสนใจ</b> ถ้าเราเลือกต้นไม้แบบ <b>star tree</b> คือให้กิ่งต้นไม้ทุกกิ่งแตะปมอ้างอิง e ทั้งหมด แรงดันกิ่งต้นไม้จะกลายเป็นแรงดันปมพอดี และเมทริกซ์ [Q<sub>K</sub>] จะเท่ากับ<b>เมทริกซ์อุบัติการณ์ลดรูป [A]</b> เป๊ะ</p>
+        <p>เมื่อนั้น [Q][Y<sub>b</sub>][Q]<sup>T</sup> จะกลายเป็น <b>nodal admittance matrix</b> ธรรมดา</p>
+        <p><b>แปลว่าการวิเคราะห์แบบปมที่เราเรียนกันมา เป็นแค่กรณีเฉพาะกรณีหนึ่งของการวิเคราะห์ชุดตัดครับ</b> — การวิเคราะห์ชุดตัดเป็นวิธีที่ทั่วไปกว่า และนี่คือเหตุผลว่าทำไมมันถึงจัดการกับแหล่งจ่ายแรงดันลอยได้อย่างเป็นธรรมชาติ ในขณะที่การวิเคราะห์ปมต้องพึ่งเทคนิคเสริมอย่าง supernode”</p>
+      </div></div>
+    </div></details>
+
+    <details class="qa"><summary><span class="qn">8</span>เมทริกซ์ [Q<sub>K</sub>] สร้างอย่างไร สมาชิกแต่ละตัวมาจากไหน</summary><div class="qbody">
+      <div class="qsec"><div class="h">🎯 เขาต้องการฟังอะไร</div><p>ว่านิสิตสร้างเมทริกซ์เองได้ ไม่ใช่ลอกมา</p></div>
+      <div class="qsec"><span class="lvl def">🛡️ บทตอบรอดชีวิต</span><div class="script">
+        <p>“ก่อนอื่นต้องกำหนดทิศทางอ้างอิงให้ทุกกิ่งก่อนครับ เพราะเมทริกซ์เก็บได้แค่ +1, −1, 0</p>
+        <p>จากนั้นเรียงคอลัมน์แบบ <b>กิ่งต้นไม้ก่อน แล้วค่อยกิ่งร่วม</b> และให้แต่ละแถวคือรอยตัดพื้นฐานของกิ่งต้นไม้แต่ละกิ่ง</p>
+        <p>กติกาคือ ใส่ <b>+1</b> ถ้ากิ่งนั้นข้ามรอยตัดในทิศเดียวกับกิ่งต้นไม้ของรอยตัดนั้น · ใส่ <b>−1</b> ถ้าข้ามในทิศตรงข้าม · ใส่ <b>0</b> ถ้าไม่ข้าม</p>
+        <p>ยกตัวอย่างแถวที่ 2 ซึ่งเป็นรอยตัดของกิ่ง G₃ นะครับ พอตัด G₃ ออก กราฟขาดเป็น {b, c} กับ {a, d, e}</p>
+        <p>ผมไล่ดู: G₃ ข้ามในทิศเดียวกันได้ +1 · G₁ ข้ามแต่ทิศเข้าหา {b,c} ได้ −1 · G₂ ข้ามในทิศออกได้ +1 · ส่วน E₃ ปลายทั้งสองอยู่ใน {b,c} ทั้งคู่จึงได้ 0 ครับ</p>
+        <p>ได้แถวที่ 2 เป็น [0, 1, 0, 0 | −1, 1, 0] ครับ”</p>
+      </div></div>
+      <div class="qsec"><span class="lvl dis">🏆 บทตอบเกียรตินิยม (เพิ่มต่อท้าย)</span><div class="script dist">
+        <p>“มีวิธีตรวจความถูกต้องที่ผมใช้เสมอครับ</p>
+        <p><b>การตรวจที่หนึ่ง:</b> เมทริกซ์ต้องออกมาในรูป [Q<sub>K</sub>] = [ I | Q<sub>ℓ</sub> ] คือ <b>บล็อกซ้ายที่เป็นกิ่งต้นไม้ต้องเป็นเมทริกซ์เอกลักษณ์เสมอ</b> เพราะตามนิยาม รอยตัดที่ i มีกิ่งต้นไม้แค่กิ่งที่ i กิ่งเดียว ถ้าบล็อกซ้ายไม่ใช่ I แสดงว่าผมทำผิดครับ</p>
+        <p><b>การตรวจที่สอง:</b> ถ้าสร้างเมทริกซ์ลูปพื้นฐาน [B] = [−Q<sub>ℓ</sub><sup>T</sup> | I] ขึ้นมาด้วย จะต้องได้ <b>[Q<sub>K</sub>][B]<sup>T</sup> = 0</b> ผมตรวจด้วยคอมพิวเตอร์แล้วได้เมทริกซ์ศูนย์ขนาด 4×3 พอดีครับ</p>
+        <p>ความสัมพันธ์ตั้งฉากนี้มีความหมายลึกซึ้งมาก มันบอกว่า <b>ปริภูมิของกระแสที่สอดคล้อง KCL ตั้งฉากกับปริภูมิของแรงดันที่สอดคล้อง KVL</b> ซึ่งเป็นรากฐานของ <b>ทฤษฎีบทเทลเลเจน</b> ที่พิสูจน์ว่ากำลังไฟฟ้าในวงจรใดๆ ต้องสมดุลเสมอ โดยไม่ต้องรู้เลยว่าอุปกรณ์ในวงจรเป็นอะไร</p>
+        <p><b>อีกทางหนึ่ง</b> ผมสร้าง [Q<sub>ℓ</sub>] ได้จากสูตร Q<sub>ℓ</sub> = A<sub>t</sub><sup>−1</sup>A<sub>ℓ</sub> โดย A<sub>t</sub> กับ A<sub>ℓ</sub> คือส่วนกิ่งต้นไม้และกิ่งร่วมของเมทริกซ์อุบัติการณ์ลดรูปครับ วิธีนี้เหมาะกับการเขียนโปรแกรม เพราะไม่ต้องมานั่งมองรูปทีละรอยตัด”</p>
+      </div></div>
+    </div></details>
+
+    <details class="qa"><summary><span class="qn">9</span>ทำไมเมทริกซ์ [Q<sub>K</sub>][Y<sub>b</sub>][Q<sub>K</sub>]<sup>T</sup> ถึงสมมาตร</summary><div class="qbody">
+      <div class="qsec"><div class="h">🎯 เขาต้องการฟังอะไร</div><p>ว่านิสิตเห็นโครงสร้างพีชคณิต และรู้ว่าความสมมาตรมีความหมายทางฟิสิกส์</p></div>
+      <div class="qsec"><span class="lvl def">🛡️ บทตอบรอดชีวิต</span><div class="script">
+        <p>“พิสูจน์ได้ตรงๆ จากสมบัติของทรานสโพสครับ</p>
+        <p>ทรานสโพสของผลคูณคือผลคูณของทรานสโพสในลำดับกลับกัน: ([Q][Y<sub>b</sub>][Q]<sup>T</sup>)<sup>T</sup> = [Q][Y<sub>b</sub>]<sup>T</sup>[Q]<sup>T</sup></p>
+        <p>และเนื่องจาก [Y<sub>b</sub>] เป็น<b>เมทริกซ์ทแยงมุม</b> จึงมี [Y<sub>b</sub>]<sup>T</sup> = [Y<sub>b</sub>]</p>
+        <p>ดังนั้นผลลัพธ์เท่ากับตัวมันเอง แปลว่า<b>สมมาตร</b>ครับ</p>
+        <p>ผมใช้ข้อนี้ตรวจงานเสมอ ถ้าคูณเมทริกซ์ออกมาแล้วไม่สมมาตร แสดงว่าคำนวณผิดแน่นอนครับ”</p>
+      </div></div>
+      <div class="qsec"><span class="lvl dis">🏆 บทตอบเกียรตินิยม (เพิ่มต่อท้าย)</span><div class="script dist">
+        <p>“ความสมมาตรนี้ไม่ใช่เรื่องบังเอิญทางพีชคณิตครับ <b>มันคือภาพสะท้อนของทฤษฎีบทการตอบสนองกลับ (Reciprocity Theorem)</b></p>
+        <p>ทฤษฎีบทนี้บอกว่า ถ้าผมใส่แหล่งจ่ายที่กิ่ง 1 แล้ววัดผลตอบสนองที่กิ่ง 2 ผมจะได้ค่าเท่ากับตอนที่สลับกัน — สมาชิก (i,j) กับ (j,i) ของเมทริกซ์จึงต้องเท่ากัน</p>
+        <p><b>แต่ความสมมาตรนี้จะพังทันทีถ้าวงจรมีอุปกรณ์ที่ไม่เป็น reciprocal ครับ</b> เช่นแหล่งจ่ายพึ่งพา ทรานซิสเตอร์ ออปแอมป์ ไจเรเตอร์ หรือ circulator ในระบบไมโครเวฟ — ในกรณีเหล่านั้น [Y<sub>b</sub>] จะไม่เป็นทแยงมุมอีกต่อไป</p>
+        <p><b>ดังนั้นถ้าผมเจอวงจรที่คำนวณแล้วเมทริกซ์ไม่สมมาตร ผมจะถามตัวเองสองข้อครับ</b> — หนึ่ง ผมคำนวณผิดหรือเปล่า และสอง วงจรนี้มีอุปกรณ์ non-reciprocal หรือเปล่า ถ้าวงจรมีแต่ R, L, C ล้วน คำตอบต้องเป็นข้อแรกแน่นอน</p>
+        <p>และในทางคอมพิวเตอร์ ความสมมาตรมีประโยชน์มากครับ เพราะเมทริกซ์สมมาตรและ positive-definite แก้ได้ด้วย <b>Cholesky decomposition</b> ซึ่งเร็วกว่า LU ประมาณ 2 เท่า และใช้หน่วยความจำครึ่งเดียว ซึ่งสำคัญมากในการวิเคราะห์ระบบไฟฟ้ากำลังที่มีปมเป็นหมื่น”</p>
+      </div></div>
+    </div></details>
+
+    <details class="qa"><summary><span class="qn">10</span>สมการชุดตัดต่างจากการวิเคราะห์แบบปม (Nodal Analysis) อย่างไร</summary><div class="qbody">
+      <div class="qsec"><div class="h">🎯 เขาต้องการฟังอะไร</div><p>ว่านิสิตเห็นความสัมพันธ์ระหว่างสองวิธี ไม่ใช่มองเป็นคนละเรื่อง</p></div>
+      <div class="qsec"><span class="lvl def">🛡️ บทตอบรอดชีวิต</span><div class="script">
+        <p>“ต่างกันที่<b>ตัวแปรที่ใช้</b>ครับ</p>
+        <p><b>การวิเคราะห์แบบปม</b> ใช้ <i>แรงดันปมเทียบกราวด์</i> เป็นตัวแปร แล้วเขียน KCL ที่แต่ละปม</p>
+        <p><b>การวิเคราะห์ชุดตัด</b> ใช้ <i>แรงดันคร่อมกิ่งต้นไม้</i> เป็นตัวแปร แล้วเขียน KCL ที่แต่ละรอยตัด</p>
+        <p>จำนวนสมการเท่ากันครับ คือ n − 1 ทั้งคู่</p>
+        <p>ข้อดีของชุดตัดคือ <b>เราเลือกต้นไม้ได้เอง</b> ทำให้จัดการแหล่งจ่ายแรงดันได้สะดวกกว่า โดยยัดมันเข้าเป็นกิ่งต้นไม้ ตัวแปรที่ตรงกับแหล่งจ่ายก็รู้ค่าทันที ส่วนการวิเคราะห์แบบปมต้องใช้เทคนิคเสริมอย่าง supernode มาช่วยครับ”</p>
+      </div></div>
+      <div class="qsec"><span class="lvl dis">🏆 บทตอบเกียรตินิยม (เพิ่มต่อท้าย)</span><div class="script dist">
+        <p>“ที่จริงแล้ว <b>การวิเคราะห์แบบปมเป็นกรณีเฉพาะของการวิเคราะห์ชุดตัดครับ</b></p>
+        <p>ถ้าผมเลือกต้นไม้แบบพิเศษที่เรียกว่า <b>star tree</b> คือให้กิ่งต้นไม้ทุกกิ่งมีปลายข้างหนึ่งแตะปมอ้างอิง แรงดันกิ่งต้นไม้จะกลายเป็นแรงดันปมพอดี และเมทริกซ์ [Q<sub>K</sub>] จะลดรูปเป็น<b>เมทริกซ์อุบัติการณ์ลดรูป [A]</b> เป๊ะ</p>
+        <p>เมื่อนั้นสมการจะกลายเป็น [A][Y<sub>b</sub>][A]<sup>T</sup>v<sub>n</sub> = J ซึ่งก็คือ [Y<sub>n</sub>]v<sub>n</sub> = J สมการโหนดมาตรฐานนั่นเองครับ</p>
+        <p><b>ทั้งสองวิธีจึงเป็นสมาชิกในตระกูลเดียวกัน คือ ‘การวิเคราะห์เชิงโทโพโลยี’ ที่มีรูปทั่วไปเป็น [M][Y<sub>b</sub>][M]<sup>T</sup></b></p>
+        <p>และตระกูลนี้ยังมีคู่แฝดที่เป็น<b>ทวิภาค (dual)</b> ด้วยครับ คือ <b>การวิเคราะห์แบบลูป</b> ซึ่งใช้ [B][Z<sub>b</sub>][B]<sup>T</sup>i<sub>ℓ</sub> = E โดยสลับบทบาททุกอย่าง — รอยตัดเป็นลูป KCL เป็น KVL แอดมิตแตนซ์เป็นอิมพีแดนซ์</p>
+        <p><b>แล้วเลือกใช้อันไหนดี?</b> ผมดูจากจำนวนสมการครับ — ชุดตัดให้ n−1 สมการ ส่วนลูปให้ b−n+1 สมการ ในโจทย์นี้คือ 4 กับ 3</p>
+        <p><b>แต่ผมยังเลือกชุดตัดครับ</b> เพราะวงจรนี้มีแหล่งจ่าย<i>แรงดัน</i> 3 ตัว ซึ่งเข้ากับวิธีชุดตัดได้ดีกว่ามาก ทำให้ตัวไม่รู้เหลือแค่ตัวเดียว ในขณะที่วิธีลูปจะต้องแก้ 3 ตัว</p>
+        <p><b>กฎที่ผมใช้คือ วงจรที่มีแหล่งจ่ายแรงดันเยอะ ให้ใช้ชุดตัด ส่วนวงจรที่มีแหล่งจ่ายกระแสเยอะ ให้ใช้ลูปครับ</b>”</p>
+      </div></div>
+    </div></details>
+
+    <details class="qa danger"><summary><span class="qn">11</span>⚠️ อันตรายสูงสุด — ทำไม G₄ ไม่โผล่ในคำตอบเลยสักตัว คุณลืมหรือเปล่า</summary><div class="qbody">
+      <div class="qsec"><div class="h">🎯 เขาต้องการฟังอะไร</div><p>นี่คือ <b>คำถามชี้ชะตาของข้อนี้</b> กรรมการกำลังทดสอบว่านิสิตเข้าใจจริงหรือคำนวณพลาด ถ้าตอบได้ดี คะแนนจะกระโดดทันที</p></div>
+      <div class="qsec"><div class="h">💀 กับดักที่ทำให้ได้ 0</div><ul class="trap">
+        <li>“อ้าว... ผมน่าจะลืมครับ ขอคำนวณใหม่” → <b>ยอมรับผิดทั้งที่ตัวเองถูก = เสียคะแนนฟรีที่สุด</b></li>
+        <li>“มันน่าจะตัดกันไปเองครับ” → เดา ไม่มีเหตุผลรองรับ</li>
+        <li>นั่งเงียบแล้วไล่คำนวณใหม่ → เสียเวลาและเสียความมั่นใจ</li>
+      </ul></div>
+      <div class="qsec"><span class="lvl def">🛡️ บทตอบรอดชีวิต</span><div class="script">
+        <p>“ไม่ได้ลืมครับ <b>G₄ ไม่มีผลต่อแรงดันปมใดๆ เลย และนี่คือผลลัพธ์ที่ถูกต้อง</b></p>
+        <p>เหตุผลคือ ปม d ถูก<b>ตรึงแรงดันไว้แล้ว</b>ด้วยแหล่งจ่ายอุดมคติ E₂ ที่ต่อคร่อมระหว่างปม d กับกราวด์โดยตรง ทำให้ V<sub>d</sub> = −E₂ ไม่ว่าจะเกิดอะไรขึ้นในวงจร</p>
+        <p>ส่วน G₄ ก็ต่อคร่อมระหว่างปม d กับกราวด์เหมือนกัน คือ<b>ต่อขนานกับแหล่งจ่าย E₂ พอดี</b></p>
+        <p>และหลักการพื้นฐานคือ <b>อะไรก็ตามที่ต่อขนานกับแหล่งจ่ายแรงดันอุดมคติ จะไม่มีผลต่อแรงดันที่จุดนั้นเลย</b> เพราะแหล่งจ่ายจะปรับกระแสของตัวเองชดเชยให้เท่าไหร่ก็ได้เพื่อรักษาแรงดันไว้</p>
+        <p>G₄ จึงมีผลแค่ทำให้ E₂ ต้องจ่ายกระแสเพิ่มขึ้นเท่านั้นครับ ไม่มีผลต่อแรงดัน”</p>
+      </div></div>
+      <div class="qsec"><span class="lvl dis">🏆 บทตอบเกียรตินิยม (เพิ่มต่อท้าย)</span><div class="script dist">
+        <p>“ผมมีหลักฐานสามชั้นยืนยันครับ</p>
+        <p><b>ชั้นที่หนึ่ง — จากโครงสร้างเมทริกซ์</b> ถ้าดูเมทริกซ์ [Q<sub>G</sub>][Y<sub>b</sub>][Q<sub>G</sub>]<sup>T</sup> ที่ผมสร้างไว้ จะเห็นว่า <b>G₄ ปรากฏที่ตำแหน่ง (4,4) ตำแหน่งเดียวเท่านั้น</b> ซึ่งเป็นแถวของรอยตัดที่ตัดผ่านแหล่งจ่าย E₂</p>
+        <p>และแถวนั้นเป็นแถวที่เรา<i>ไม่ได้ใช้</i>แก้หาแรงดัน เพราะฝั่งขวาของมันคือกระแสของ E₂ ซึ่งเป็นตัวไม่รู้ <b>แถวนั้นมีไว้คำนวณกระแสของแหล่งจ่ายย้อนกลับทีหลังเท่านั้นครับ</b></p>
+        <p>ส่วนแถวที่ 2 ซึ่งเป็นแถวเดียวที่ใช้แก้หา V<sub>b</sub> ได้ <b>ไม่มี G₄ อยู่เลย</b> ดังนั้น V<sub>b</sub> จึงไม่ขึ้นกับ G₄ โดยสิ้นเชิง</p>
+        <p><b>ชั้นที่สอง — ทดสอบเชิงตัวเลข</b> ผมให้คอมพิวเตอร์กวาดค่า G₄ ตั้งแต่ 0 จนถึง 1,000 โมห์ คือเปลี่ยน 2,500 เท่า ปรากฏว่า<b>แรงดันทั้งสี่ปมไม่ขยับแม้แต่หลักทศนิยมเดียว</b> ในขณะที่กระแสผ่าน G₄ พุ่งจาก 0 ไปถึง 6,000 แอมป์ครับ (อาจารย์ลองเล่นในแท็บ Matrix Lab ได้เลยครับ)</p>
+        <p><b>ชั้นที่สาม — ความหมายเชิงวิศวกรรม</b> เรื่องนี้มีนัยสำคัญในทางปฏิบัติมากครับ</p>
+        <p>ถ้าผมออกแบบวงจรจริงแล้วเผลอต่อ G₄ ที่มีค่าสูงมากขนานกับแหล่งจ่าย แรงดันจะยังดูปกติทุกอย่าง <b>แต่แหล่งจ่ายจะต้องจ่ายกระแสมหาศาลจนไหม้ได้</b> — ในตัวอย่างที่ G₄ = 1000 โมห์ แหล่งจ่ายต้องจ่ายถึง 6,000 แอมป์</p>
+        <p><b>นี่คือเหตุผลที่วิศวกรต้องตรวจทั้งแรงดันและกระแสเสมอ ไม่ใช่ดูแค่แรงดันแล้วคิดว่าวงจรทำงานถูกต้อง</b> ในโลกจริงแหล่งจ่ายมีความต้านทานภายในและมีขีดจำกัดกระแส พอโหลดหนักเกินไป แรงดันจะตกลงจริงและวงจรจะไม่ทำงานตามที่คำนวณไว้ครับ”</p>
+      </div></div>
+    </div></details>
+
+    <details class="qa"><summary><span class="qn">12</span>ถ้ากลับขั้ว E₃ คำตอบจะเปลี่ยนอย่างไร</summary><div class="qbody">
+      <div class="qsec"><div class="h">🎯 เขาต้องการฟังอะไร</div><p>ว่านิสิตเข้าใจสมการที่ตัวเองเขียนพอที่จะ<i>ทำนาย</i>ผลได้ ไม่ต้องคำนวณใหม่ทั้งหมด</p></div>
+      <div class="qsec"><span class="lvl def">🛡️ บทตอบรอดชีวิต</span><div class="script">
+        <p>“ถ้ากลับขั้ว E₃ ความสัมพันธ์จะเปลี่ยนจาก V<sub>c</sub> − V<sub>b</sub> = E₃ เป็น V<sub>c</sub> − V<sub>b</sub> = −E₃ ครับ ซึ่งเทียบเท่ากับการแทนที่ E₃ ด้วย −E₃ ในทุกที่ที่มันปรากฏ</p>
+        <p>ดังนั้น V<sub>b</sub> = (G₁E₁ − G₂E₂ <b>+</b> G₂E₃)/(G₁+G₂+G₃) และ V<sub>c</sub> = V<sub>b</sub> − E₃</p>
+        <p>สังเกตว่าพจน์ −G₂E₃ ใน V<sub>b</sub> กลายเป็น +G₂E₃ ครับ แปลว่า <b>V<sub>b</sub> จะสูงขึ้น</b> ส่วน V<sub>c</sub> กลับกลายเป็นต่ำกว่า V<sub>b</sub></p>
+        <p>ส่วน V<sub>a</sub> กับ V<sub>d</sub> ไม่เปลี่ยนเลยครับ เพราะถูกตรึงด้วย E₁ และ E₂ ซึ่งไม่ได้ยุ่งเกี่ยวกับ E₃”</p>
+      </div></div>
+      <div class="qsec"><span class="lvl dis">🏆 บทตอบเกียรตินิยม (เพิ่มต่อท้าย)</span><div class="script dist">
+        <p>“ผมขอเสริมมุมมองเชิงระบบครับ</p>
+        <p>วงจรนี้เป็น<b>ระบบเชิงเส้น</b> ดังนั้น<b>หลักการซ้อนทับ (Superposition)</b> ใช้ได้ ผมเขียน V<sub>b</sub> แยกเป็นผลรวมของสามส่วนได้เลย โดยแต่ละสัมประสิทธิ์คือ<b>ค่าอัตราขยาย (gain)</b> จากแหล่งจ่ายแต่ละตัวมาที่ปม b</p>
+        <p>ในตัวอย่างตัวเลขจะได้ 0.5/0.95 = 0.526316 สำหรับ E₁ และ −0.25/0.95 = −0.263158 สำหรับทั้ง E₂ และ E₃</p>
+        <p><b>การกลับขั้วก็คือการเปลี่ยนเครื่องหมายของ input ตัวนั้น</b> ผมจึงทำนายผลได้ทันทีโดยไม่ต้องแก้สมการใหม่เลย</p>
+        <p>และมีข้อสังเกตน่าสนใจครับ — <b>E₂ กับ E₃ มีอัตราขยายเท่ากันเป๊ะ</b> คือ −G₂/(G₁+G₂+G₃) ทั้งคู่ เหตุผลคือทั้งสองตัวส่งผลมาที่ supernode ผ่านเส้นทางเดียวกัน คือผ่าน G₂ เหมือนกัน ในสมการ supernode มันจึงรวมกันเป็นก้อนเดียวคือ G₂(E₂ + E₃)</p>
+        <p><b>นัยสำคัญคือ ถ้าผมวัดได้แค่ V<sub>b</sub> ผมจะแยกไม่ออกว่า E₂ กับ E₃ มีค่าเท่าไหร่แยกกัน</b> — ผมรู้ได้แค่ผลรวม E₂ + E₃ เท่านั้น ในทางการระบุพารามิเตอร์ระบบเรียกปัญหานี้ว่า <b>structural non-identifiability</b> ครับ ถ้าจะแยกให้ได้ต้องวัดปมอื่นเพิ่ม เช่นวัด V<sub>c</sub> ด้วย”</p>
+      </div></div>
+    </div></details>
+
+    <details class="qa"><summary><span class="qn">13</span>คุณตรวจได้อย่างไรว่าคำตอบถูกต้อง</summary><div class="qbody">
+      <div class="qsec"><div class="h">🎯 เขาต้องการฟังอะไร</div><p>ว่านิสิตมีนิสัยตรวจงาน ไม่ใช่คำนวณเสร็จแล้วส่งเลย — คุณสมบัติของวิศวกรที่ดี</p></div>
+      <div class="qsec"><span class="lvl def">🛡️ บทตอบรอดชีวิต</span><div class="script">
+        <p>“ผมตรวจสามชั้นครับ</p>
+        <p><b>ชั้นที่หนึ่ง — ตรวจมิติ</b> ในสูตร V<sub>b</sub> ตัวเศษมีหน่วย ℧ × V = A ตัวส่วนเป็น ℧ ผลหารได้ A/℧ = V ✓ ถูกต้อง</p>
+        <p><b>ชั้นที่สอง — ตรวจ KCL ย้อนกลับ</b> ผมเอาแรงดันที่ได้ไปคำนวณกระแสทุกกิ่ง แล้วเช็คที่ supernode: i<sub>G1</sub> = 4.157895 A เทียบกับ i<sub>G3</sub> + i<sub>G2</sub> = 0.736842 + 3.421053 = 4.157895 A ✓ ตรงกันพอดี</p>
+        <p><b>ชั้นที่สาม — ตรวจกรณีสุดขั้ว</b> ถ้าตั้ง E₂ = E₃ = 0 สูตรจะลดเหลือ V<sub>b</sub> = G₁E₁/(G₁+G₂+G₃) ซึ่งเป็นสูตรแบ่งแรงดันธรรมดา สมเหตุสมผลครับ”</p>
+      </div></div>
+      <div class="qsec"><span class="lvl dis">🏆 บทตอบเกียรตินิยม (เพิ่มต่อท้าย)</span><div class="script dist">
+        <p>“ผมมีการตรวจอีกสองชั้นที่ทรงพลังกว่าครับ</p>
+        <p><b>ชั้นที่สี่ — สมดุลกำลังไฟฟ้า</b> นี่คือการตรวจที่ทรงพลังที่สุด เพราะมันดึงตัวเลขทุกตัวมาใช้พร้อมกัน ถ้าผิดตรงไหนสักจุดเดียว สมดุลจะพังทันที</p>
+        <p>ผมคำนวณกำลังที่สูญเสียในความนำทั้งสี่ตัวด้วย P = Gv² ได้รวม 98.505263 วัตต์ แล้วคำนวณกำลังที่แหล่งจ่ายทั้งสามตัวจ่ายออกมาได้ 49.894737 + 13.684211 + 34.926316 = 98.505263 วัตต์</p>
+        <p><b>เท่ากันพอดีครับ</b> ผลต่างอยู่ที่ระดับ 10⁻¹⁴ ซึ่งเป็น machine epsilon ไม่ใช่ความคลาดเคลื่อนจริง</p>
+        <p><b>ชั้นที่ห้า — ตรวจไขว้ด้วยวิธีที่เป็นอิสระกัน</b> ผมแก้โจทย์นี้ด้วยสามเส้นทางที่ไม่พึ่งพากันเลยครับ — สูตรปิดที่พิสูจน์ด้วยมือ, สมการชุดตัดผ่านเมทริกซ์, และแก้ระบบ Ax = b ด้วยคอมพิวเตอร์</p>
+        <p>แล้วผมสุ่มค่าพารามิเตอร์ทั้งเจ็ดตัว 500 ชุด เทียบผลทั้งสามเส้นทาง <b>ได้ความคลาดเคลื่อนสูงสุด 1.24 × 10⁻¹⁴</b> ซึ่งอยู่ที่ระดับความละเอียดของเลขทศนิยม 64 บิตครับ</p>
+        <p>การตรวจแบบนี้สำคัญมาก เพราะ<b>ถ้าผมพิสูจน์ผิดแต่แรก การตรวจ KCL ย้อนกลับจะไม่จับได้</b> — เนื่องจากผมจะใช้สมการผิดตัวเดียวกันทั้งตอนแก้และตอนตรวจ แต่การตรวจไขว้ด้วยวิธีที่เป็นอิสระจะจับได้ครับ”</p>
+      </div></div>
+    </div></details>
+
+    <details class="qa"><summary><span class="qn">14</span>รอยตัด (Cut-set) กับลูป (Tie-set) สัมพันธ์กันอย่างไร</summary><div class="qbody">
+      <div class="qsec"><div class="h">🎯 เขาต้องการฟังอะไร</div><p>ความเข้าใจเรื่องทวิภาค (duality) ซึ่งเป็นแนวคิดระดับสูงของทฤษฎีวงจร</p></div>
+      <div class="qsec"><span class="lvl def">🛡️ บทตอบรอดชีวิต</span><div class="script">
+        <p>“ทั้งสองเป็นวิธีที่เป็น<b>ทวิภาค (dual)</b> กันครับ คือมีโครงสร้างเหมือนกันทุกประการ แค่สลับบทบาทของปริมาณต่างๆ</p>
+        <p>รอยตัด<b>ตั้งอยู่บนกิ่งต้นไม้</b> ใช้ <b>KCL</b> ตัวแปรเป็น<b>แรงดัน</b> ใช้<b>แอดมิตแตนซ์</b> ได้ n−1 สมการ</p>
+        <p>ส่วนลูป<b>ตั้งอยู่บนกิ่งร่วม</b> ใช้ <b>KVL</b> ตัวแปรเป็น<b>กระแส</b> ใช้<b>อิมพีแดนซ์</b> ได้ b−n+1 สมการ</p>
+        <p>ในโจทย์นี้ รอยตัดให้ 4 สมการ ส่วนลูปจะให้ 3 สมการครับ”</p>
+      </div></div>
+      <div class="qsec"><span class="lvl dis">🏆 บทตอบเกียรตินิยม (เพิ่มต่อท้าย)</span><div class="script dist">
+        <p>“ความสัมพันธ์ที่ลึกที่สุดระหว่างสองวิธีนี้คือ<b>ความตั้งฉาก</b>ครับ: <b>[Q<sub>K</sub>][B]<sup>T</sup> = 0</b></p>
+        <p>ผมตรวจด้วยคอมพิวเตอร์แล้วได้เมทริกซ์ศูนย์ขนาด 4 × 3 พอดี</p>
+        <p><b>ความหมายทางกายภาพคือ</b> ปริภูมิของกระแสที่สอดคล้องกับ KCL กับปริภูมิของแรงดันที่สอดคล้องกับ KVL เป็นปริภูมิย่อยที่ตั้งฉากกันในปริภูมิ ℝ<sup>b</sup> โดย b คือจำนวนกิ่ง</p>
+        <p>และเนื่องจากมิติของทั้งสองรวมกันได้ (n−1) + (b−n+1) = b พอดี <b>ทั้งสองปริภูมิจึงเป็นส่วนเติมเต็มตั้งฉากของกันและกัน</b></p>
+        <p><b>ผลที่ตามมาที่สวยที่สุดคือ ทฤษฎีบทเทลเลเจน</b> ซึ่งบอกว่า <b>Σ v<sub>k</sub>i<sub>k</sub> = 0</b> คือผลรวมกำลังไฟฟ้าของทุกกิ่งเป็นศูนย์เสมอ <b>โดยไม่ต้องรู้เลยว่าอุปกรณ์ในกิ่งเหล่านั้นเป็นอะไร</b></p>
+        <p>เหตุผลคือเวกเตอร์แรงดันอยู่ในปริภูมิหนึ่ง เวกเตอร์กระแสอยู่ในปริภูมิที่ตั้งฉากกัน ผลคูณจุดจึงเป็นศูนย์โดยอัตโนมัติ</p>
+        <p><b>นี่คือที่มาของการอนุรักษ์พลังงานในวงจรไฟฟ้าครับ</b> ตอนผมตรวจสมดุลกำลังที่ได้ 98.505263 วัตต์เท่ากันทั้งสองฝั่ง นั่นก็คือทฤษฎีบทเทลเลเจนกำลังทำงานอยู่นั่นเอง”</p>
+      </div></div>
+    </div></details>
+
+    <details class="qa"><summary><span class="qn">15</span>ถ้าวงจรใหญ่ขึ้นเป็นร้อยปม คุณจะทำอย่างไร และวิธีนี้ใช้จริงที่ไหน</summary><div class="qbody">
+      <div class="qsec"><div class="h">🎯 เขาต้องการฟังอะไร</div><p>ว่านิสิตเห็นภาพว่าสิ่งที่เรียนเชื่อมกับอุตสาหกรรมอย่างไร — คำถามปิดที่สร้างความประทับใจ</p></div>
+      <div class="qsec"><span class="lvl def">🛡️ บทตอบรอดชีวิต</span><div class="script">
+        <p>“ทำมือไม่ไหวแน่นอนครับ ต้องเขียนโปรแกรม ขั้นตอนที่ผมจะทำคือ</p>
+        <p>1. ป้อนวงจรเข้าไปในรูป <b>netlist</b> คือรายการว่ากิ่งไหนเชื่อมปมไหน มีค่าเท่าไหร่<br>
+        2. ให้โปรแกรมสร้าง<b>เมทริกซ์อุบัติการณ์</b> [A] จาก netlist โดยอัตโนมัติ<br>
+        3. เลือกต้นไม้ด้วยอัลกอริทึม เช่น depth-first search โดยให้ความสำคัญกับกิ่งที่เป็นแหล่งจ่ายแรงดันก่อน<br>
+        4. สร้าง [Q<sub>ℓ</sub>] = A<sub>t</sub><sup>−1</sup>A<sub>ℓ</sub> แล้วประกอบ [Q<sub>K</sub>] = [I | Q<sub>ℓ</sub>]<br>
+        5. คำนวณ [Q][Y<sub>b</sub>][Q]<sup>T</sup> แล้วแก้ระบบสมการเชิงเส้น</p>
+        <p>ซึ่งเป็นสิ่งที่โปรแกรมจำลองวงจรอย่าง SPICE ทำอยู่ครับ”</p>
+      </div></div>
+      <div class="qsec"><span class="lvl dis">🏆 บทตอบเกียรตินิยม (เพิ่มต่อท้าย)</span><div class="script dist">
+        <p>“ขอเสริมสามเรื่องที่สำคัญในทางปฏิบัติครับ</p>
+        <p><b>เรื่องแรก — ความเบาบาง (Sparsity)</b> วงจรจริงที่มีเป็นหมื่นปม แต่ละปมจะเชื่อมกับปมข้างเคียงแค่ไม่กี่ปม เมทริกซ์จึงเป็น<b>เมทริกซ์เบาบาง</b></p>
+        <p>ถ้าเก็บทั้งเมทริกซ์แบบทึบ ระบบหมื่นปมจะใช้หน่วยความจำ 10⁸ ช่อง และแก้ด้วย Gaussian elimination จะใช้เวลา O(n³) = 10¹² ครั้ง ซึ่งช้ามาก แต่ถ้าใช้เทคนิคเมทริกซ์เบาบางร่วมกับการจัดลำดับที่ดี เช่น <b>approximate minimum degree ordering</b> จะลดลงเหลือใกล้เคียง O(n^1.5) ครับ นี่คือหัวใจที่ทำให้ SPICE รันวงจรใหญ่ๆ ได้จริง</p>
+        <p><b>เรื่องที่สอง — สิ่งที่ SPICE ใช้จริง</b> ที่จริงแล้ว SPICE สมัยใหม่ไม่ได้ใช้การวิเคราะห์ชุดตัดตรงๆ ครับ แต่ใช้ <b>Modified Nodal Analysis (MNA)</b></p>
+        <p>เหตุผลคือการวิเคราะห์ชุดตัดต้อง<i>เลือกต้นไม้</i>ก่อน ซึ่งยุ่งยากในการเขียนโปรแกรม ส่วน MNA แก้ปัญหาแหล่งจ่ายแรงดันด้วยการ<b>เพิ่มกระแสของแหล่งจ่ายเข้าไปเป็นตัวแปรเพิ่ม</b> แล้วขยายเมทริกซ์ให้ใหญ่ขึ้น</p>
+        <p><b>แต่แนวคิดพื้นฐานยังเหมือนกันเป๊ะครับ คือ [M][Y<sub>b</sub>][M]<sup>T</sup></b> ต่างกันแค่วิธีจัดการกับแหล่งจ่ายแรงดัน — ซึ่งการเข้าใจทฤษฎีชุดตัดทำให้ผมเข้าใจว่า MNA กำลังแก้ปัญหาอะไรอยู่</p>
+        <p><b>เรื่องที่สาม — การประยุกต์ในระบบไฟฟ้ากำลัง</b> ในการวิเคราะห์โครงข่ายส่งจ่ายไฟฟ้า เขาสร้าง <b>Y-bus matrix</b> ซึ่งก็คือ [A][Y<sub>b</sub>][A]<sup>T</sup> นั่นเองครับ แล้วใช้แก้ปัญหา <b>power flow</b> ด้วยวิธี Newton-Raphson</p>
+        <p>ระบบไฟฟ้าของประเทศไทยมีบัสเป็นพันบัส และต้องคำนวณซ้ำทุกไม่กี่วินาทีเพื่อควบคุมระบบแบบเรียลไทม์ครับ</p>
+        <p><b>และสิ่งที่ผมคิดว่าน่าสนใจที่สุดคือ</b> ทฤษฎีกราฟที่เราใช้ในโจทย์เล็กๆ ข้อนี้ กับที่ใช้ควบคุมระบบไฟฟ้าทั้งประเทศ <b>เป็นทฤษฎีเดียวกันเป๊ะครับ</b> ต่างกันแค่ขนาดเท่านั้นเอง”</p>
+      </div></div>
+    </div></details>
+  </div>
+
+  <div class="card">
+    <h2><span class="ic">📝</span>ตารางตัวเลขที่ต้องท่องให้ขึ้นใจ</h2>
+    <div class="tw"><table>
+      <thead><tr><th>ปริมาณ</th><th>ค่าเชิงสัญลักษณ์</th><th class="num">ตัวอย่าง</th><th>ประโยคที่ใช้พูด</th></tr></thead>
+      <tbody>
+        <tr><td class="mono">V<sub>a</sub></td><td class="mono">E₁</td><td class="num">12.000000 V</td><td>“ขั้วบวกอยู่ที่ปม a จึงได้ตรงๆ”</td></tr>
+        <tr><td class="mono">V<sub>b</sub></td><td class="mono">(G₁E₁−G₂E₂−G₂E₃)/(G₁+G₂+G₃)</td><td class="num">3.684211 V</td><td>“จากสมการ supernode ตัวเดียว”</td></tr>
+        <tr><td class="mono">V<sub>c</sub></td><td class="mono">(G₁E₁−G₂E₂+(G₁+G₃)E₃)/(G₁+G₂+G₃)</td><td class="num">7.684211 V</td><td>“= V<sub>b</sub> + E₃”</td></tr>
+        <tr style="background:rgba(251,113,133,.10)"><td class="mono">V<sub>d</sub></td><td class="mono">−E₂</td><td class="num">−6.000000 V</td><td>“ขั้ว<b>ลบ</b>อยู่ที่ปม d จึงติดลบ”</td></tr>
+        <tr><td>จำนวนปม n</td><td class="mono">5</td><td class="num">—</td><td>“a, b, c, d และกราวด์ e”</td></tr>
+        <tr><td>จำนวนกิ่ง b</td><td class="mono">7</td><td class="num">—</td><td>“นับแหล่งจ่ายเป็นกิ่งด้วย”</td></tr>
+        <tr><td>กิ่งต้นไม้</td><td class="mono">n − 1 = 4</td><td class="num">—</td><td>“{E₁, G₃, E₃, E₂}”</td></tr>
+        <tr><td>กิ่งร่วม</td><td class="mono">b − n + 1 = 3</td><td class="num">—</td><td>“{G₁, G₂, G₄}”</td></tr>
+        <tr><td>ตัวไม่รู้จริง</td><td class="mono">4 − 3 = 1</td><td class="num">—</td><td>“เหลือแค่ V<sub>b</sub>”</td></tr>
+        <tr><td class="mono">det[A<sub>t</sub>]</td><td>—</td><td class="num">1</td><td>“ยืนยันว่าเป็นต้นไม้”</td></tr>
+        <tr><td class="mono">[Q][B]<sup>T</sup></td><td class="mono">0</td><td class="num">4×3</td><td>“KCL ตั้งฉาก KVL”</td></tr>
+        <tr><td>กำลังรวม</td><td>—</td><td class="num">98.505263 W</td><td>“จ่าย = สูญเสีย”</td></tr>
+      </tbody>
+    </table></div>
+
+    <h3>เช็กลิสต์คืนก่อนสอบ</h3>
+    <div id="checklist"></div>
+
+    <div class="note win">
+      <span class="lbl">💬 คำสุดท้ายจากครู</span>
+      <p>โจทย์ข้อนี้ดูน่ากลัวเพราะมีศัพท์แปลกๆ เต็มไปหมด — โมห์ ต้นไม้ รอยตัด เมทริกซ์ชุดตัด <b>แต่พอแกะออกมาแล้ว ทั้งข้อมีสมการจริงๆ แค่สมการเดียว</b> คือ KCL ที่ supernode ส่วนที่เหลือเป็นแค่การอ่านขั้วจากรูปให้ถูก</p>
+      <p>สิ่งที่ทำให้ได้ 100 ไม่ใช่การคำนวณถูก เพราะคนคำนวณถูกมีเยอะ แต่คือการที่นิสิตอธิบายได้ว่า <b>ทำไมถึงเลือกต้นไม้แบบนั้น ทำไม supernode ถึงคือรอยตัด และทำไม G₄ ถึงหายไปจากคำตอบ</b></p>
+      <p>ถ้าตอบไม่ได้จริงๆ ให้พูดว่า <i>“ตรงนี้ผมไม่แน่ใจครับ แต่ผมคิดว่าน่าจะตรวจได้โดย…”</i> แล้วบอกวิธีตรวจ — <b>กรรมการให้คะแนนวิธีคิด ไม่ได้ให้คะแนนความจำ</b></p>
+    </div>
+    <div class="bridge">
+      <b>ต่อไปที่แท็บ 6 →</b> ปิดท้ายด้วยห้องทดลอง — ลากสไลเดอร์ปรับ G₁..G₄ และ E₁..E₃ แล้วดูแรงดันปม เมทริกซ์ และสมดุลกำลังเปลี่ยนแบบเรียลไทม์ <b>โดยเฉพาะลาก G₄ แล้วดูว่าแรงดันไม่ขยับเลย</b>
+    </div>
+  </div>
+</section>
+
+<!-- ======================= TAB 6 ======================= -->
+<section class="panel" id="p6" role="tabpanel" aria-labelledby="t6" hidden>
+
+  <div class="card">
+    <h2><span class="ic">🔬</span>Matrix &amp; Conductance Laboratory</h2>
+    <p class="lead">ตรงนี้คือที่ที่ความเข้าใจจะเกิดขึ้นจริง — <b>ลากสไลเดอร์แล้วดูว่าอะไรเปลี่ยน อะไรไม่เปลี่ยน</b> ทุกตัวเลขคำนวณสดจากสูตรเดียวกับที่พิสูจน์ในแท็บ 3</p>
+
+    <div class="note tip">
+      <span class="lbl">🎯 ภารกิจ 4 ข้อ ที่ควรลองก่อนเข้าห้องสอบ</span>
+      <ol style="margin:0;padding-left:20px">
+        <li><b>ลาก G₄ จาก 0 ไปสุด</b> แล้วจ้องที่ V<sub>a</sub>, V<sub>b</sub>, V<sub>c</sub>, V<sub>d</sub> — <b>ไม่ขยับเลยแม้แต่หลักเดียว</b> แต่กระแส i<sub>G4</sub> กับกำลังของ E₂ พุ่งขึ้นเรื่อยๆ (นี่คือคำตอบข้อ 11)</li>
+        <li><b>ลาก E₂ ไปทางลบ</b> แล้วดู V<sub>d</sub> กลายเป็นบวก — ยืนยันว่า V<sub>d</sub> = −E₂ จริง</li>
+        <li><b>ลาก E₃</b> แล้วสังเกตว่า V<sub>c</sub> − V<sub>b</sub> เท่ากับ E₃ เสมอ ไม่ว่าจะปรับอะไรก็ตาม</li>
+        <li><b>ปรับค่าอะไรก็ได้ แล้วดูช่อง “ผลต่าง” กับ “ตรวจ KCL”</b> ด้านล่าง — ต้องขึ้น <b>สมดุล ✓</b> และ <b>ผ่าน ✓</b> ทุกครั้ง ไม่ว่าจะปรับอย่างไร</li>
+      </ol>
+    </div>
+
+    <div class="lab">
+      <div class="ctrl">
+        <h3 style="margin-top:0">ความนำไฟฟ้า [℧]</h3>
+        <div class="sl"><div class="row"><span class="nm">G₁ — กิ่ง a ↔ b</span><span class="vv" id="vG1"></span></div>
+          <input type="range" id="sG1" min="0.05" max="2" step="0.01" value="0.5" aria-label="G1"><div class="hint" id="hG1"></div></div>
+        <div class="sl"><div class="row"><span class="nm">G₂ — กิ่ง c ↔ d</span><span class="vv" id="vG2"></span></div>
+          <input type="range" id="sG2" min="0.05" max="2" step="0.01" value="0.25" aria-label="G2"><div class="hint" id="hG2"></div></div>
+        <div class="sl"><div class="row"><span class="nm">G₃ — กิ่ง b ↔ e</span><span class="vv" id="vG3"></span></div>
+          <input type="range" id="sG3" min="0.05" max="2" step="0.01" value="0.2" aria-label="G3"><div class="hint" id="hG3"></div></div>
+        <div class="sl"><div class="row"><span class="nm">G₄ — กิ่ง d ↔ e</span><span class="vv" id="vG4"></span></div>
+          <input type="range" id="sG4" min="0" max="5" step="0.01" value="0.4" aria-label="G4">
+          <div class="hint" style="color:var(--rose)">⚠️ ลากดูสิ — <b>แรงดันไม่ขยับเลย</b> มีแต่กระแสที่เปลี่ยน</div></div>
+
+        <h3>แหล่งจ่ายแรงดัน [V]</h3>
+        <div class="sl"><div class="row"><span class="nm">E₁ — ขั้ว + ที่ปม a</span><span class="vv" id="vE1"></span></div>
+          <input type="range" id="sE1" min="-20" max="20" step="0.1" value="12" aria-label="E1"><div class="hint">V<sub>a</sub> = +E₁</div></div>
+        <div class="sl"><div class="row"><span class="nm">E₂ — ขั้ว <b style="color:var(--rose)">−</b> ที่ปม d</span><span class="vv" id="vE2"></span></div>
+          <input type="range" id="sE2" min="-20" max="20" step="0.1" value="6" aria-label="E2"><div class="hint" style="color:var(--rose)">V<sub>d</sub> = <b>−</b>E₂ (กับดักเครื่องหมาย!)</div></div>
+        <div class="sl"><div class="row"><span class="nm">E₃ — ขั้ว + ที่ปม c</span><span class="vv" id="vE3"></span></div>
+          <input type="range" id="sE3" min="-20" max="20" step="0.1" value="4" aria-label="E3"><div class="hint">V<sub>c</sub> − V<sub>b</sub> = E₃ (สร้าง supernode)</div></div>
+
+        <div class="btnrow">
+          <button class="btn pri" id="btnReset">ค่าตัวอย่างในเอกสาร</button>
+          <button class="btn" id="btnG4zero">ตั้ง G₄ = 0</button>
+          <button class="btn" id="btnFlipE3">กลับขั้ว E₃</button>
+        </div>
+      </div>
+
+      <div>
+        <div class="card" style="margin:0 0 16px;padding:16px">
+          <h3 style="margin-top:0">วงจรสด — แรงดันและกระแสทุกกิ่ง</h3>
+          <svg class="chart" id="liveCircuit" viewBox="0 0 720 260" role="img" aria-label="แผนภาพวงจรที่แสดงค่าแรงดันปมและกระแสกิ่งแบบเรียลไทม์"></svg>
+          <div class="readout">
+            <div class="ro"><div class="l">V<sub>a</sub></div><div class="v" id="roVa"></div></div>
+            <div class="ro"><div class="l">V<sub>b</sub></div><div class="v" id="roVb" style="color:var(--green)"></div></div>
+            <div class="ro"><div class="l">V<sub>c</sub></div><div class="v" id="roVc"></div></div>
+            <div class="ro"><div class="l">V<sub>d</sub></div><div class="v" id="roVd" style="color:var(--rose)"></div></div>
+          </div>
+        </div>
+
+        <div class="card" style="margin:0 0 16px;padding:16px">
+          <h3 style="margin-top:0">เมทริกซ์ [Q<sub>G</sub>][Y<sub>b</sub>][Q<sub>G</sub>]<sup>T</sup> — คำนวณสด</h3>
+          <div id="liveMatrix"></div>
+          <p style="font-size:.85rem;color:var(--ink-faint);margin:10px 0 0">
+            <span style="color:var(--green)">■</span> แถวที่ 2 = แถวเดียวที่ใช้แก้หา V<sub>b</sub> ·
+            <span style="color:var(--accent)">■</span> ตำแหน่งเดียวที่ G₄ โผล่
+          </p>
+          <div class="eq left" id="liveEq" style="margin-top:12px"></div>
+        </div>
+
+        <div class="card" style="margin:0;padding:16px">
+          <h3 style="margin-top:0">กระแส สมดุลกำลัง และการตรวจสอบ</h3>
+          <div class="tw"><table>
+            <thead><tr><th>กิ่ง</th><th class="num">แรงดันคร่อม [V]</th><th class="num">กระแส [A]</th><th class="num">กำลัง [W]</th></tr></thead>
+            <tbody id="branchTable"></tbody>
+          </table></div>
+          <div class="readout">
+            <div class="ro"><div class="l">Σ กำลังจ่าย</div><div class="v" id="roPdel"></div></div>
+            <div class="ro"><div class="l">Σ กำลังสูญเสีย</div><div class="v" id="roPdis"></div></div>
+            <div class="ro"><div class="l">ผลต่าง</div><div class="v" id="roPres"></div></div>
+            <div class="ro"><div class="l">ตรวจ KCL</div><div class="v" id="roKcl"></div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <h2><span class="ic">📊</span>ทดลอง: G₄ มีผลต่ออะไรบ้าง</h2>
+    <p class="lead">กราฟนี้กวาดค่า G₄ จาก 0 ถึง 5 ℧ โดยตรึงพารามิเตอร์อื่นตามสไลเดอร์ด้านบน — สังเกตว่าเส้นแรงดันทั้งสี่<b>แบนราบสนิท</b> ในขณะที่เส้นกระแสพุ่งเป็นเส้นตรง</p>
+    <svg class="chart" id="sweepChart" viewBox="0 0 740 320" role="img" aria-label="กราฟกวาดค่า G4 แสดงว่าแรงดันปมทั้งสี่คงที่ ในขณะที่กระแสผ่าน G4 เพิ่มขึ้นเป็นเส้นตรง"></svg>
+    <div class="note win">
+      <span class="lbl">🏆 นี่คือหลักฐานภาพของคำตอบข้อ 11</span>
+      <p>V<sub>d</sub> ถูกตรึงด้วยแหล่งจ่ายอุดมคติ E₂ ที่ต่อ<b>ขนาน</b>กับ G₄ ดังนั้น G₄ จึงเป็นเพียง “ภาระ” ที่ดูดกระแสจากแหล่งจ่ายเพิ่ม แต่เปลี่ยนแรงดันไม่ได้เลย</p>
+      <p><b>บทเรียนเชิงวิศวกรรม:</b> ถ้าดูแค่แรงดันแล้วคิดว่าวงจรทำงานถูกต้อง อาจพลาดได้ — ต้องตรวจกระแสด้วยเสมอ เพราะแหล่งจ่ายจริงมีขีดจำกัดกระแส</p>
+    </div>
+  </div>
+</section>
+
+<div class="foot">
+  <p><b>ข้อที่ 3 — วงข่ายความนำไฟฟ้า &amp; สมการชุดตัด</b> · สื่อประกอบ
+    <a href="CLAUDE_SOLUTION.md">CLAUDE_SOLUTION.md</a> ·
+    <a href="solve_circuit.py">solve_circuit.py</a> ·
+    <a href="solve_circuit.m">solve_circuit.m</a> ·
+    <a href="README.md">README.md</a></p>
+  <p><a href="../../../index.html">← กลับหน้าหลัก (Portal Hub)</a> ·
+     <a href="../oral_exam_problem.md">โจทย์ฉบับเต็ม</a> ·
+     <a href="../circuit_fig3.png">รูปวงจร</a></p>
+</div>
+
+</div><!-- /wrap -->
+
+<script>
+(function(){
+"use strict";
+var $ = function(s){ return document.querySelector(s); };
+var NS = "http://www.w3.org/2000/svg";
+function el(n,a){ var e=document.createElementNS(NS,n); for(var k in a) e.setAttribute(k,a[k]); return e; }
+function cv(n){ return getComputedStyle(document.documentElement).getPropertyValue(n).trim() || "#888"; }
+var C = {};
+function refreshColors(){
+  C.accent=cv("--accent"); C.teal=cv("--teal"); C.violet=cv("--violet");
+  C.amber=cv("--amber"); C.rose=cv("--rose"); C.green=cv("--green");
+  C.faint=cv("--ink-faint"); C.ink=cv("--ink"); C.soft=cv("--ink-soft");
+  C.line=cv("--line-strong"); C.panel=cv("--panel-solid");
+}
+refreshColors();
+
+/* =====================================================================
+   โมเดลวงจร — สูตรเดียวกับที่พิสูจน์ในแท็บ 3 และใน solve_circuit.py
+   ===================================================================== */
+function solve(p){
+  var den = p.G1 + p.G2 + p.G3;
+  var Va = p.E1;
+  var Vd = -p.E2;
+  var Vb = (p.G1*p.E1 - p.G2*p.E2 - p.G2*p.E3) / den;
+  var Vc = Vb + p.E3;
+  var iG1 = p.G1*(Va - Vb), iG3 = p.G3*Vb, iG2 = p.G2*(Vc - Vd), iG4 = p.G4*Vd;
+  /* กระแสแหล่งจ่ายจากรอยตัดที่ 1, 3, 4 */
+  var iE1 = -iG1, iE3 = -iG2, iE2 = iG2 - iG4;
+  var pdis = p.G1*Math.pow(Va-Vb,2) + p.G3*Vb*Vb + p.G2*Math.pow(Vc-Vd,2) + p.G4*Vd*Vd;
+  var pdel = -(Va*iE1) - ((Vc-Vb)*iE3) - (Vd*iE2);
+  return {Va:Va,Vb:Vb,Vc:Vc,Vd:Vd,iG1:iG1,iG3:iG3,iG2:iG2,iG4:iG4,
+          iE1:iE1,iE3:iE3,iE2:iE2,pdis:pdis,pdel:pdel,
+          kcl:iG1-(iG3+iG2)};
+}
+/* [Q_G][Y_b][Q_G]^T ตามที่คูณด้วยมือในแท็บ 4 */
+function cutMatrix(p){
+  return [
+    [ p.G1,          -p.G1,           0,     0            ],
+    [-p.G1,  p.G1+p.G2+p.G3,       p.G2, -p.G2            ],
+    [ 0,             p.G2,          p.G2, -p.G2           ],
+    [ 0,            -p.G2,         -p.G2,  p.G2+p.G4      ]
+  ];
+}
+
+var DEFAULTS = {G1:0.5,G2:0.25,G3:0.2,G4:0.4,E1:12,E2:6,E3:4};
+var P = {};
+var IDS = ["G1","G2","G3","G4","E1","E2","E3"];
+
+function fmt(x,d){ if(!isFinite(x)) return "—"; return x.toFixed(d==null?4:d); }
+
+/* =====================================================================
+   TAB 2 — กราฟวงจร (ต้นไม้ / กิ่งร่วม / รอยตัด)
+   ===================================================================== */
+var NODEPOS = {a:[90,80], b:[280,80], c:[440,80], d:[610,80], e:[350,215]};
+var EDGES = [
+  {id:"E1", u:"a", v:"e", type:"twig", label:"E₁"},
+  {id:"G3", u:"b", v:"e", type:"twig", label:"G₃"},
+  {id:"E3", u:"c", v:"b", type:"twig", label:"E₃"},
+  {id:"E2", u:"d", v:"e", type:"twig", label:"E₂"},
+  {id:"G1", u:"a", v:"b", type:"link", label:"G₁"},
+  {id:"G2", u:"c", v:"d", type:"link", label:"G₂"},
+  {id:"G4", u:"d", v:"e", type:"link", label:"G₄", bend:40}
+];
+function drawGraph(mode){
+  var svg = $("#graphFig"); if(!svg) return;
+  while(svg.firstChild) svg.removeChild(svg.firstChild);
+  var cutBranches = {G3:1, G1:-1, G2:1};
+  EDGES.forEach(function(e){
+    var A = NODEPOS[e.u], B = NODEPOS[e.v];
+    var isTwig = e.type === "twig";
+    var col = C.faint, w = 2, dash = "none", op = 1;
+    if (mode === "all")  { col = isTwig ? C.accent : C.violet; w = isTwig ? 3 : 2; dash = isTwig ? "none" : "7 5"; }
+    if (mode === "tree") { if(isTwig){col=C.accent;w=4;} else {col=C.faint;w=1.5;dash="7 5";op=.28;} }
+    if (mode === "link") { if(!isTwig){col=C.violet;w=4;dash="7 5";} else {col=C.faint;w=1.5;op=.28;} }
+    if (mode === "cut")  {
+      if (cutBranches[e.id]) { col = cutBranches[e.id] > 0 ? C.green : C.rose; w = 4.5; dash = isTwig?"none":"7 5"; }
+      else { col = C.faint; w = 1.5; op = .22; dash = isTwig?"none":"7 5"; }
+    }
+    var d;
+    if (e.bend){
+      var mx=(A[0]+B[0])/2 + e.bend, my=(A[1]+B[1])/2;
+      d = "M"+A[0]+" "+A[1]+" Q"+mx+" "+my+" "+B[0]+" "+B[1];
+    } else { d = "M"+A[0]+" "+A[1]+" L"+B[0]+" "+B[1]; }
+    svg.appendChild(el("path",{d:d,fill:"none",stroke:col,"stroke-width":w,
+      "stroke-dasharray":dash,"stroke-opacity":op,"stroke-linecap":"round"}));
+    var lx=(A[0]+B[0])/2 + (e.bend?e.bend*0.6:0), ly=(A[1]+B[1])/2 - 8;
+    var t = el("text",{x:lx,y:ly,"text-anchor":"middle","font-size":"13","font-weight":"700",
+      fill:col,"fill-opacity":op});
+    t.textContent = e.label; svg.appendChild(t);
+  });
+  if (mode === "cut"){
+    svg.appendChild(el("ellipse",{cx:360,cy:80,rx:130,ry:44,fill:"none",stroke:C.green,
+      "stroke-width":2.5,"stroke-dasharray":"8 6"}));
+    var ct = el("text",{x:360,y:26,"text-anchor":"middle","font-size":"12.5","font-weight":"700",fill:C.green});
+    ct.textContent = "รอยตัดของ G₃ → แยก {b, c} ออกจาก {a, d, e}"; svg.appendChild(ct);
+  }
+  Object.keys(NODEPOS).forEach(function(n){
+    var p = NODEPOS[n];
+    var isRef = (n === "e");
+    svg.appendChild(el("circle",{cx:p[0],cy:p[1],r:isRef?16:14,
+      fill:C.panel,stroke:isRef?C.amber:C.ink,"stroke-width":isRef?3:2}));
+    var t = el("text",{x:p[0],y:p[1]+5,"text-anchor":"middle","font-size":"14",
+      "font-weight":"800",fill:isRef?C.amber:C.ink});
+    t.textContent = n; svg.appendChild(t);
+  });
+  var gt = el("text",{x:350,y:255,"text-anchor":"middle","font-size":"11.5",fill:C.faint});
+  gt.textContent = "ปม e = ปมอ้างอิง (กราวด์)"; svg.appendChild(gt);
+  var legend = {all:"เส้นทึบ = กิ่งต้นไม้ (4) · เส้นประ = กิ่งร่วม (3)",
+    tree:"ต้นไม้ {E₁, G₃, E₃, E₂} — เชื่อมครบ 5 ปม ไม่มีลูป",
+    link:"กิ่งร่วม {G₁, G₂, G₄} — เติมกลับทีละเส้นจะเกิดลูปพอดี 1 ลูป",
+    cut:"เขียว = ข้ามในทิศเดียวกับ G₃ (+1) · แดง = ทิศตรงข้าม (−1) · E₃ อยู่ข้างในทั้งคู่ → 0"};
+  var lt = el("text",{x:350,y:278,"text-anchor":"middle","font-size":"12","font-weight":"600",fill:C.soft});
+  lt.textContent = legend[mode]; svg.appendChild(lt);
+}
+["grAll","grTree","grLink","grCut"].forEach(function(id,i){
+  var b = document.getElementById(id); if(!b) return;
+  b.addEventListener("click", function(){
+    ["grAll","grTree","grLink","grCut"].forEach(function(x){
+      document.getElementById(x).classList.remove("on"); });
+    this.classList.add("on");
+    drawGraph(["all","tree","link","cut"][i]);
+  });
+});
+
+/* =====================================================================
+   TAB 3 — ภาพ supernode
+   ===================================================================== */
+function drawSuper(){
+  var svg = $("#superFig"); if(!svg) return;
+  while(svg.firstChild) svg.removeChild(svg.firstChild);
+  function line(x1,y1,x2,y2,col,w,dash){
+    var a = {x1:x1,y1:y1,x2:x2,y2:y2,stroke:col||C.line,"stroke-width":w||2.4,"stroke-linecap":"round"};
+    if(dash) a["stroke-dasharray"]=dash;
+    svg.appendChild(el("line",a));
+  }
+  function txt(x,y,s,col,w,size){
+    var t=el("text",{x:x,y:y,"text-anchor":"middle",fill:col||C.ink,"font-size":size||12.5});
+    if(w) t.setAttribute("font-weight",w);
+    t.textContent=s; svg.appendChild(t); return t;
+  }
+  /* wires */
+  line(80,70,200,70); line(250,70,330,70); line(400,70,470,70); line(520,70,640,70);
+  line(80,70,80,95); line(80,145,80,190); line(80,190,640,190);
+  line(290,70,290,100); line(290,150,290,190);
+  line(640,70,640,95); line(640,145,640,190);
+  line(575,70,575,100); line(575,150,575,190);
+  /* supernode ellipse */
+  svg.appendChild(el("ellipse",{cx:335,cy:95,rx:135,ry:62,fill:"rgba(74,222,128,.10)",
+    stroke:C.green,"stroke-width":2.5,"stroke-dasharray":"9 6"}));
+  txt(335,22,"Supernode — ล้อมปม b และ c ไว้ด้วยกัน",C.green,"700",13);
+  /* E1 */
+  svg.appendChild(el("circle",{cx:80,cy:120,r:25,fill:"none",stroke:C.accent,"stroke-width":2.4}));
+  txt(80,112,"+",C.accent,"700"); txt(80,136,"−",C.accent,"700");
+  txt(32,124,"E₁",C.accent,"700");
+  /* G1 */
+  svg.appendChild(el("rect",{x:200,y:58,width:50,height:24,rx:4,fill:"none",stroke:C.rose,"stroke-width":2.6}));
+  txt(225,50,"G₁",C.rose,"700");
+  txt(225,105,"ข้าม −1",C.rose,"600",11);
+  /* E3 inside */
+  svg.appendChild(el("circle",{cx:365,cy:70,r:22,fill:"none",stroke:C.amber,"stroke-width":2.4}));
+  txt(354,75,"−",C.amber,"700"); txt(377,75,"+",C.amber,"700");
+  txt(365,40,"E₃",C.amber,"700");
+  txt(365,128,"อยู่ข้างในทั้งคู่ → 0",C.amber,"700",11.5);
+  /* G3 */
+  svg.appendChild(el("rect",{x:278,y:100,width:24,height:50,rx:4,fill:"none",stroke:C.green,"stroke-width":2.6}));
+  txt(248,128,"G₃",C.green,"700");
+  txt(250,148,"ข้าม +1",C.green,"600",11);
+  /* G2 */
+  svg.appendChild(el("rect",{x:470,y:58,width:50,height:24,rx:4,fill:"none",stroke:C.green,"stroke-width":2.6}));
+  txt(495,50,"G₂",C.green,"700");
+  txt(495,105,"ข้าม +1",C.green,"600",11);
+  /* G4 */
+  svg.appendChild(el("rect",{x:563,y:100,width:24,height:50,rx:4,fill:"none",stroke:C.faint,"stroke-width":2.2}));
+  txt(535,128,"G₄",C.faint,"700");
+  /* E2 */
+  svg.appendChild(el("circle",{cx:640,cy:120,r:25,fill:"none",stroke:C.violet,"stroke-width":2.4}));
+  txt(640,112,"−",C.violet,"700"); txt(640,136,"+",C.violet,"700");
+  txt(688,124,"E₂",C.violet,"700");
+  /* nodes */
+  [["a",80,70],["b",290,70],["c",440,70],["d",640,70]].forEach(function(n){
+    svg.appendChild(el("circle",{cx:n[1],cy:n[2],r:5,fill:C.ink}));
+    txt(n[1],n[2]-14,n[0],C.ink,"800",13);
+  });
+  line(290,190,290,205); line(275,205,305,205,C.line,2); line(281,211,299,211,C.line,2);
+  txt(320,204,"e",C.amber,"800",13);
+  txt(360,240,"กิ่งที่ข้ามขอบเขต 3 กิ่ง: G₁, G₃, G₂  →  KCL: G₁(V_b−V_a) + G₃V_b + G₂(V_c−V_d) = 0",C.soft,"600",12);
+  txt(360,262,"E₃ ไม่ข้าม จึงหลุดออกจากสมการเอง — นี่คือพลังของ supernode",C.amber,"600",11.5);
+}
+
+/* =====================================================================
+   TAB 4 — ภาพรอยตัดแต่ละรอย
+   ===================================================================== */
+var CUTDEFS = {
+  1:{twig:"E₁", split:"{a} กับ {b, c, d, e}", cross:{E1:1,G1:1},
+     note:"ตัด E₁ ออก → ปม a หลุดออกมาอยู่คนเดียว · กิ่งที่แตะปม a มี E₁ กับ G₁ ทั้งคู่ชี้ออกจาก {a} จึงได้ +1 ทั้งคู่",
+     row:"[ +1, 0, 0, 0 | +1, 0, 0 ]"},
+  2:{twig:"G₃", split:"{b, c} กับ {a, d, e}", cross:{G3:1,G1:-1,G2:1},
+     note:"⭐ รอยตัดสำคัญที่สุด — ตัด G₃ ออก กราฟขาดเป็น {b,c} (เพราะ b–c ยังเชื่อมด้วย E₃) กับ {a,d,e} · E₃ อยู่ข้างในทั้งคู่จึงได้ 0 → นี่คือ supernode!",
+     row:"[ 0, +1, 0, 0 | −1, +1, 0 ]"},
+  3:{twig:"E₃", split:"{c} กับ {a, b, d, e}", cross:{E3:1,G2:1},
+     note:"ตัด E₃ ออก → ปม c หลุดออกมาคนเดียว · กิ่งที่แตะ c คือ E₃ กับ G₂ ชี้ออกทั้งคู่",
+     row:"[ 0, 0, +1, 0 | 0, +1, 0 ]"},
+  4:{twig:"E₂", split:"{d} กับ {a, b, c, e}", cross:{E2:1,G2:-1,G4:1},
+     note:"ตัด E₂ ออก → ปม d หลุดออกมาคนเดียว · G₂ ชี้เข้าหา d จึงได้ −1 ส่วน E₂ กับ G₄ ชี้ออกได้ +1 · G₄ โผล่ที่รอยตัดนี้รอยเดียว",
+     row:"[ 0, 0, 0, +1 | 0, −1, +1 ]"}
+};
+function drawCut(n){
+  var svg = $("#cutFig"); if(!svg) return;
+  var def = CUTDEFS[n];
+  while(svg.firstChild) svg.removeChild(svg.firstChild);
+  EDGES.forEach(function(e){
+    var A=NODEPOS[e.u], B=NODEPOS[e.v];
+    var s = def.cross[e.id];
+    var col = s ? (s>0?C.green:C.rose) : C.faint;
+    var w = s ? 4.5 : 1.5, op = s ? 1 : .22;
+    var dash = e.type==="twig" ? "none" : "7 5";
+    var d;
+    if(e.bend){ var mx=(A[0]+B[0])/2+e.bend, my=(A[1]+B[1])/2;
+      d="M"+A[0]+" "+A[1]+" Q"+mx+" "+my+" "+B[0]+" "+B[1]; }
+    else d="M"+A[0]+" "+A[1]+" L"+B[0]+" "+B[1];
+    svg.appendChild(el("path",{d:d,fill:"none",stroke:col,"stroke-width":w,
+      "stroke-dasharray":dash,"stroke-opacity":op,"stroke-linecap":"round"}));
+    var lx=(A[0]+B[0])/2+(e.bend?e.bend*0.6:0), ly=(A[1]+B[1])/2-8;
+    var t=el("text",{x:lx,y:ly,"text-anchor":"middle","font-size":"13","font-weight":"700",
+      fill:col,"fill-opacity":op});
+    t.textContent = e.label + (s ? (s>0?" (+1)":" (−1)") : "");
+    svg.appendChild(t);
+  });
+  Object.keys(NODEPOS).forEach(function(nm){
+    var p=NODEPOS[nm], isRef=(nm==="e");
+    svg.appendChild(el("circle",{cx:p[0],cy:p[1],r:isRef?16:14,fill:C.panel,
+      stroke:isRef?C.amber:C.ink,"stroke-width":isRef?3:2}));
+    var t=el("text",{x:p[0],y:p[1]+5,"text-anchor":"middle","font-size":"14","font-weight":"800",
+      fill:isRef?C.amber:C.ink});
+    t.textContent=nm; svg.appendChild(t);
+  });
+  var h=el("text",{x:350,y:24,"text-anchor":"middle","font-size":"13.5","font-weight":"700",fill:C.accent});
+  h.textContent = "รอยตัดที่ "+n+" — ของกิ่งต้นไม้ "+def.twig+"   แยกเป็น "+def.split;
+  svg.appendChild(h);
+  var e2=el("text",{x:350,y:275,"text-anchor":"middle","font-size":"12","font-weight":"700",fill:C.soft});
+  e2.textContent = "แถวที่ "+n+" ของ [Q_K] = "+def.row; svg.appendChild(e2);
+  $("#cutExplain").innerHTML = '<div class="note'+(n===2?" win":"")+'"><span class="lbl">'+
+    (n===2?"⭐ ":"")+'รอยตัดที่ '+n+' (กิ่งต้นไม้ '+def.twig+')</span><p>'+def.note+'</p>'+
+    '<div class="eq left" style="margin-bottom:0">แถวที่ '+n+' = <b>'+def.row+'</b> '+
+    '<span class="dim">(เรียง E₁, G₃, E₃, E₂ | G₁, G₂, G₄)</span></div></div>';
+}
+[].slice.call(document.querySelectorAll("[data-cut]")).forEach(function(b){
+  b.addEventListener("click", function(){
+    [].slice.call(document.querySelectorAll("[data-cut]")).forEach(function(x){x.classList.remove("on");});
+    this.classList.add("on");
+    drawCut(+this.getAttribute("data-cut"));
+  });
+});
+
+/* =====================================================================
+   TAB 6 — Matrix Lab
+   ===================================================================== */
+function readP(){ var p={}; IDS.forEach(function(id){ p[id]=P[id]; }); return p; }
+function setP(src){ IDS.forEach(function(id){ P[id]=src[id]; $("#s"+id).value=src[id]; }); }
+
+function drawLiveCircuit(p,r){
+  var svg=$("#liveCircuit"); if(!svg) return;
+  while(svg.firstChild) svg.removeChild(svg.firstChild);
+  function line(x1,y1,x2,y2,col,w){ svg.appendChild(el("line",{x1:x1,y1:y1,x2:x2,y2:y2,
+    stroke:col||C.line,"stroke-width":w||2.2,"stroke-linecap":"round"})); }
+  function txt(x,y,s,col,w,size,anc){ var t=el("text",{x:x,y:y,"text-anchor":anc||"middle",
+    fill:col||C.ink,"font-size":size||11.5,"font-family":"ui-monospace,monospace"});
+    if(w) t.setAttribute("font-weight",w); t.textContent=s; svg.appendChild(t); return t; }
+  line(70,60,190,60); line(240,60,300,60); line(390,60,450,60); line(500,60,650,60);
+  line(70,60,70,85); line(70,135,70,175); line(70,175,650,175);
+  line(300,60,300,90); line(300,140,300,175);
+  line(650,60,650,85); line(650,135,650,175);
+  line(575,60,575,90); line(575,140,575,175);
+  svg.appendChild(el("circle",{cx:70,cy:110,r:24,fill:"none",stroke:C.accent,"stroke-width":2.3}));
+  txt(70,103,"+",C.accent,"700"); txt(70,126,"−",C.accent,"700");
+  txt(28,108,"E₁",C.accent,"700",12,"middle"); txt(28,124,fmt(p.E1,2)+"V",C.accent,null,10.5,"middle");
+  svg.appendChild(el("rect",{x:190,y:48,width:50,height:24,rx:4,fill:"none",stroke:C.teal,"stroke-width":2.4}));
+  txt(215,40,"G₁="+fmt(p.G1,2),C.teal,"700",11);
+  txt(215,88,"i="+fmt(r.iG1,3)+"A",C.teal,null,10.5);
+  svg.appendChild(el("circle",{cx:345,cy:60,r:21,fill:"none",stroke:C.amber,"stroke-width":2.3}));
+  txt(334,65,"−",C.amber,"700"); txt(356,65,"+",C.amber,"700");
+  txt(345,28,"E₃="+fmt(p.E3,2)+"V",C.amber,"700",11);
+  svg.appendChild(el("rect",{x:288,y:90,width:24,height:50,rx:4,fill:"none",stroke:C.green,"stroke-width":2.4}));
+  txt(258,112,"G₃="+fmt(p.G3,2),C.green,"700",11);
+  txt(258,128,"i="+fmt(r.iG3,3)+"A",C.green,null,10.5);
+  svg.appendChild(el("rect",{x:450,y:48,width:50,height:24,rx:4,fill:"none",stroke:C.violet,"stroke-width":2.4}));
+  txt(475,40,"G₂="+fmt(p.G2,2),C.violet,"700",11);
+  txt(475,88,"i="+fmt(r.iG2,3)+"A",C.violet,null,10.5);
+  svg.appendChild(el("rect",{x:563,y:90,width:24,height:50,rx:4,fill:"none",stroke:C.rose,"stroke-width":2.4}));
+  txt(533,112,"G₄="+fmt(p.G4,2),C.rose,"700",11);
+  txt(533,128,"i="+fmt(r.iG4,3)+"A",C.rose,null,10.5);
+  svg.appendChild(el("circle",{cx:650,cy:110,r:24,fill:"none",stroke:C.violet,"stroke-width":2.3}));
+  txt(650,103,"−",C.violet,"700"); txt(650,126,"+",C.violet,"700");
+  txt(693,108,"E₂",C.violet,"700",12); txt(693,124,fmt(p.E2,2)+"V",C.violet,null,10.5);
+  var nodes=[["a",70,60,r.Va,C.accent],["b",300,60,r.Vb,C.green],
+             ["c",440,60,r.Vc,C.violet],["d",650,60,r.Vd,C.rose]];
+  nodes.forEach(function(n){
+    svg.appendChild(el("circle",{cx:n[1],cy:n[2],r:5,fill:n[4]}));
+    txt(n[1],n[2]-22,n[0],n[4],"800",13);
+    txt(n[1],n[2]-8,fmt(n[3],3)+"V",n[4],"700",10.5);
+  });
+  line(300,175,300,190); line(285,190,315,190,C.line,2); line(291,196,309,196,C.line,2);
+  txt(332,190,"e = 0V",C.amber,"700",11);
+  txt(360,220,"Supernode (b,c): "+fmt(r.iG1,4)+" = "+fmt(r.iG3,4)+" + "+fmt(r.iG2,4),C.soft,"600",11.5);
+  txt(360,240,"กระแสแหล่งจ่าย: E₁="+fmt(-r.iE1,3)+"A · E₃="+fmt(-r.iE3,3)+"A · E₂="+fmt(r.iE2,3)+"A",C.faint,null,11);
+}
+
+function drawMatrix(p){
+  var M = cutMatrix(p);
+  var names = ["cut₁(E₁)","cut₂(G₃)","cut₃(E₃)","cut₄(E₂)"];
+  var h = '<div class="tw"><table><thead><tr><th></th>';
+  names.forEach(function(n){ h += '<th class="num">'+n+'</th>'; });
+  h += '</tr></thead><tbody>';
+  for(var i=0;i<4;i++){
+    var hi = (i===1) ? ' style="background:rgba(74,222,128,.12)"' : '';
+    h += '<tr'+hi+'><td><b>'+names[i]+'</b></td>';
+    for(var j=0;j<4;j++){
+      var cell = (i===3&&j===3) ? ' style="color:var(--accent);font-weight:800"' : '';
+      var val = M[i][j];
+      h += '<td class="num"'+cell+'>'+(Math.abs(val)<1e-12?'0':fmt(val,4))+'</td>';
+    }
+    h += '</tr>';
+  }
+  h += '</tbody></table></div>';
+  $("#liveMatrix").innerHTML = h;
+  var row = M[1];
+  var r = solve(p);
+  $("#liveEq").innerHTML =
+    "<span class='dim'>แถวที่ 2 (แถวเดียวที่ฝั่งขวาเป็นศูนย์แท้ๆ):</span><br>" +
+    "("+fmt(row[0],3)+")·V<sub>a</sub> + ("+fmt(row[1],3)+")·V<sub>b</sub> + ("+fmt(row[2],3)+")·(V<sub>c</sub>−V<sub>b</sub>) + ("+fmt(row[3],3)+")·V<sub>d</sub> = 0<br>" +
+    "<span class='dim'>แทนค่า:</span> ("+fmt(row[0],3)+")("+fmt(p.E1,2)+") + ("+fmt(row[1],3)+")·V<sub>b</sub> + ("+fmt(row[2],3)+")("+fmt(p.E3,2)+") + ("+fmt(row[3],3)+")("+fmt(-p.E2,2)+") = 0<br>" +
+    "<b class='ok'>V<sub>b</sub> = "+fmt(r.Vb,6)+" V</b>";
+}
+
+function drawSweep(p){
+  var svg=$("#sweepChart"); if(!svg) return;
+  while(svg.firstChild) svg.removeChild(svg.firstChild);
+  var W=740,H=320,m={t:34,r:58,b:46,l:56}, iw=W-m.l-m.r, ih=H-m.t-m.b;
+  var g4max=5;
+  var r0=solve(p);
+  var vs=[r0.Va,r0.Vb,r0.Vc,r0.Vd];
+  var vmin=Math.min.apply(null,vs)-3, vmax=Math.max.apply(null,vs)+3;
+  if(vmax-vmin<6){vmin-=3;vmax+=3;}
+  var imax=Math.max(1,Math.abs(g4max*r0.Vd)*1.1);
+  var sx=function(x){return m.l+x/g4max*iw;};
+  var sy=function(y){return m.t+ih-(y-vmin)/(vmax-vmin)*ih;};
+  var syi=function(y){return m.t+ih-(Math.abs(y)/imax)*ih;};
+  for(var i=0;i<=5;i++){
+    var yv=vmin+(vmax-vmin)*i/5, py=sy(yv);
+    svg.appendChild(el("line",{x1:m.l,x2:m.l+iw,y1:py,y2:py,stroke:C.line,"stroke-width":1,"stroke-dasharray":"3 4","stroke-opacity":.5}));
+    var t=el("text",{x:m.l-8,y:py+4,"text-anchor":"end"}); t.textContent=yv.toFixed(1); svg.appendChild(t);
+  }
+  for(var k=0;k<=5;k++){
+    var xv=g4max*k/5, px=sx(xv);
+    var t2=el("text",{x:px,y:m.t+ih+18,"text-anchor":"middle"}); t2.textContent=xv.toFixed(1); svg.appendChild(t2);
+  }
+  svg.appendChild(el("line",{x1:m.l,x2:m.l+iw,y1:m.t+ih,y2:m.t+ih,stroke:C.line,"stroke-width":1.2}));
+  svg.appendChild(el("line",{x1:m.l,x2:m.l,y1:m.t,y2:m.t+ih,stroke:C.line,"stroke-width":1.2}));
+  var vl=[["V_a",r0.Va,C.accent],["V_b",r0.Vb,C.green],["V_c",r0.Vc,C.violet],["V_d",r0.Vd,C.rose]];
+  vl.forEach(function(v){
+    svg.appendChild(el("path",{d:"M"+sx(0)+" "+sy(v[1])+" L"+sx(g4max)+" "+sy(v[1]),
+      fill:"none",stroke:v[2],"stroke-width":3}));
+    var t=el("text",{x:m.l+iw+6,y:sy(v[1])+4,"font-size":"11.5","font-weight":"700",fill:v[2]});
+    t.textContent=v[0]; svg.appendChild(t);
+  });
+  var d="M"+sx(0)+" "+syi(0);
+  for(var q=1;q<=60;q++){ var g4=g4max*q/60; d+=" L"+sx(g4)+" "+syi(g4*r0.Vd); }
+  svg.appendChild(el("path",{d:d,fill:"none",stroke:C.amber,"stroke-width":2.5,"stroke-dasharray":"7 4"}));
+  var it=el("text",{x:m.l+iw+6,y:syi(g4max*r0.Vd)+4,"font-size":"11.5","font-weight":"700",fill:C.amber});
+  it.textContent="|i_G4|"; svg.appendChild(it);
+  var cur=el("line",{x1:sx(Math.min(p.G4,g4max)),x2:sx(Math.min(p.G4,g4max)),y1:m.t,y2:m.t+ih,
+    stroke:C.ink,"stroke-width":1.5,"stroke-dasharray":"5 4","stroke-opacity":.55});
+  svg.appendChild(cur);
+  var h=el("text",{x:W/2,y:20,"text-anchor":"middle","font-size":"12.5","font-weight":"700",fill:C.soft});
+  h.textContent="แรงดันปมทั้ง 4 เส้น = แบนราบสนิท · กระแส |i_G4| = เส้นตรงพุ่งขึ้น"; svg.appendChild(h);
+  var xl=el("text",{x:m.l+iw/2,y:H-6,"text-anchor":"middle","class":"lbx"});
+  xl.textContent="G₄ [℧]"; svg.appendChild(xl);
+  var yl=el("text",{x:14,y:m.t+ih/2,"text-anchor":"middle","class":"lbx",
+    transform:"rotate(-90 14 "+(m.t+ih/2)+")"});
+  yl.textContent="แรงดัน [V]"; svg.appendChild(yl);
+}
+
+function updateLab(){
+  var p=readP(), r=solve(p);
+  IDS.forEach(function(id){
+    var unit = id.charAt(0)==="G" ? " ℧" : " V";
+    $("#v"+id).textContent = fmt(p[id], id.charAt(0)==="G"?3:2)+unit;
+  });
+  ["G1","G2","G3"].forEach(function(id){
+    var h=$("#h"+id); if(h) h.textContent = "= "+(p[id]>0?fmt(1/p[id],3):"∞")+" Ω";
+  });
+  $("#roVa").textContent=fmt(r.Va,4)+" V";
+  $("#roVb").textContent=fmt(r.Vb,4)+" V";
+  $("#roVc").textContent=fmt(r.Vc,4)+" V";
+  $("#roVd").textContent=fmt(r.Vd,4)+" V";
+  var rows=[
+    ["G₁ (a↔b)", r.Va-r.Vb, r.iG1, p.G1*Math.pow(r.Va-r.Vb,2), C.teal],
+    ["G₃ (b↔e)", r.Vb,      r.iG3, p.G3*r.Vb*r.Vb,             C.green],
+    ["G₂ (c↔d)", r.Vc-r.Vd, r.iG2, p.G2*Math.pow(r.Vc-r.Vd,2), C.violet],
+    ["G₄ (d↔e)", r.Vd,      r.iG4, p.G4*r.Vd*r.Vd,             C.rose],
+    ["E₁ (a↔e)", r.Va,      -r.iE1, -(r.Va*r.iE1),             C.accent],
+    ["E₃ (b↔c)", r.Vc-r.Vb, -r.iE3, -((r.Vc-r.Vb)*r.iE3),      C.amber],
+    ["E₂ (d↔e)", r.Vd,      r.iE2,  -(r.Vd*r.iE2),             C.violet]
+  ];
+  var h="";
+  rows.forEach(function(x,i){
+    var isSrc = i>=4;
+    h += '<tr'+(isSrc?' style="background:rgba(91,157,255,.07)"':'')+'>'+
+      '<td><span style="color:'+x[4]+'">■</span> '+x[0]+'</td>'+
+      '<td class="num">'+fmt(x[1],4)+'</td>'+
+      '<td class="num">'+fmt(x[2],4)+'</td>'+
+      '<td class="num">'+fmt(x[3],4)+(isSrc?' <span style="font-size:.8em;color:var(--ink-faint)">จ่าย</span>':'')+'</td></tr>';
+  });
+  $("#branchTable").innerHTML=h;
+  $("#roPdel").textContent=fmt(r.pdel,4)+" W";
+  $("#roPdis").textContent=fmt(r.pdis,4)+" W";
+  var res=r.pdel-r.pdis;
+  $("#roPres").innerHTML = Math.abs(res)<1e-9
+    ? '<span class="badge b-ok">สมดุล ✓</span>'
+    : '<span class="badge b-bad">'+res.toExponential(2)+'</span>';
+  $("#roKcl").innerHTML = Math.abs(r.kcl)<1e-9
+    ? '<span class="badge b-ok">ผ่าน ✓</span>'
+    : '<span class="badge b-bad">'+r.kcl.toExponential(2)+'</span>';
+  drawLiveCircuit(p,r);
+  drawMatrix(p);
+  drawSweep(p);
+}
+IDS.forEach(function(id){
+  var s=$("#s"+id); if(!s) return;
+  s.addEventListener("input", function(){ P[id]=parseFloat(this.value); updateLab(); });
+});
+if($("#btnReset")) $("#btnReset").addEventListener("click", function(){ setP(DEFAULTS); updateLab(); });
+if($("#btnG4zero")) $("#btnG4zero").addEventListener("click", function(){ P.G4=0; $("#sG4").value=0; updateLab(); });
+if($("#btnFlipE3")) $("#btnFlipE3").addEventListener("click", function(){
+  P.E3=-P.E3; $("#sE3").value=P.E3; updateLab(); });
+setP(DEFAULTS);
+
+/* ---------- checklist ---------- */
+var CHECKS=[
+  "ชี้รูปวงจรแล้วบอกได้ทุกชิ้นว่าคืออะไร ต่อระหว่างปมไหน <b>ขั้วอยู่ทางไหน</b>",
+  "อธิบายได้ว่า G กับ R ต่างกันอย่างไร และทำไมวิศวกรชอบ G ในงานเมทริกซ์",
+  "⚠️ ท่องให้ขึ้นใจว่า <b>V_d = −E₂ เพราะขั้วลบอยู่ที่ปม d</b>",
+  "นับปม กิ่ง กิ่งต้นไม้ กิ่งร่วม และตัวไม่รู้ได้ทันที",
+  "วาดต้นไม้ที่เลือกได้ และอธิบายได้ว่าทำไมถึงเลือกแบบนั้น",
+  "เขียน KCL ที่ supernode ใหม่ได้จากศูนย์ บนกระดาษเปล่า",
+  "สร้างเมทริกซ์ [Q_K] ได้เอง และรู้ว่าบล็อกซ้ายต้องเป็น I₄",
+  "แก้หา V_b ทีละบรรทัดได้โดยไม่ข้ามขั้นตอนย้ายข้าง",
+  "⚠️ ท่องคำตอบข้อ 11 (เรื่อง G₄) ให้คล่องที่สุด",
+  "อธิบายได้ว่าทำไมเมทริกซ์ต้องสมมาตร และถ้าไม่สมมาตรแปลว่าอะไร",
+  "บอกได้ว่า cut-set กับ nodal analysis สัมพันธ์กันอย่างไร (star tree)",
+  "ตรวจคำตอบด้วยสมดุลกำลังไฟฟ้าได้",
+  "เล่นสไลเดอร์ในแท็บ 6 จนรู้สึกได้ว่าพารามิเตอร์แต่ละตัวมีผลอย่างไร"
+];
+var cl=$("#checklist");
+if(cl){
+  CHECKS.forEach(function(txt){
+    var lab=document.createElement("label");
+    lab.style.cssText="display:flex;gap:10px;align-items:flex-start;padding:7px 0;cursor:pointer;font-size:.95rem";
+    var cb=document.createElement("input");
+    cb.type="checkbox";
+    cb.style.cssText="margin-top:5px;accent-color:var(--accent);width:17px;height:17px;flex:none";
+    var sp=document.createElement("span"); sp.innerHTML=txt;
+    cb.addEventListener("change",function(){
+      sp.style.opacity=this.checked?".5":"1";
+      sp.style.textDecoration=this.checked?"line-through":"none";
+    });
+    lab.appendChild(cb); lab.appendChild(sp); cl.appendChild(lab);
+  });
+}
+
+/* ---------- tabs ---------- */
+var tabs=[].slice.call(document.querySelectorAll(".tabbtn"));
+var drawn={};
+function drawFor(id){
+  refreshColors();
+  if(id==="p2" && !drawn.p2){ drawGraph("all"); drawn.p2=1; }
+  if(id==="p3" && !drawn.p3){ drawSuper(); drawn.p3=1; }
+  if(id==="p4" && !drawn.p4){ drawCut(1); drawn.p4=1; }
+  if(id==="p6"){ updateLab(); drawn.p6=1; }
+}
+tabs.forEach(function(btn){
+  btn.addEventListener("click", function(){
+    tabs.forEach(function(b){
+      var on=(b===btn);
+      b.setAttribute("aria-selected", on?"true":"false");
+      document.getElementById(b.getAttribute("aria-controls")).hidden=!on;
+    });
+    drawFor(btn.getAttribute("aria-controls"));
+    window.scrollTo({top:0,behavior:"smooth"});
+  });
+});
+
+/* ---------- redraw on resize ---------- */
+var rt;
+window.addEventListener("resize", function(){
+  clearTimeout(rt);
+  rt=setTimeout(function(){
+    refreshColors();
+    Object.keys(drawn).forEach(function(id){ if(drawn[id]) {
+      if(id==="p2") drawGraph("all");
+      if(id==="p3") drawSuper();
+      if(id==="p4") drawCut(1);
+      if(id==="p6") updateLab();
+    }});
+  },180);
+});
+})();
+
+/* ===== Sticky Problem Button & Drawer ===== */
+(function(){
+  var btn=document.getElementById("stickyProblemBtn");
+  var overlay=document.getElementById("problemDrawerOverlay");
+  var modal=document.getElementById("problemDrawerModal");
+  var closeBtn=document.getElementById("closeDrawerBtn");
+  var img=document.getElementById("drawerProblemImg");
+  var title=document.getElementById("drawerTitleText");
+  var bCircuit=document.getElementById("imgBtnCircuit");
+  var bOriginal=document.getElementById("imgBtnOriginal");
+  if(!btn||!overlay||!modal) return;
+
+  function showImage(which){
+    if(which==="circuit"){
+      img.src="../circuit_fig3.png";
+      img.alt="รูปวงจรข่ายความนำไฟฟ้า";
+      title.textContent="รูปวงจร (circuit_fig3.png)";
+      bCircuit.classList.add("on"); bOriginal.classList.remove("on");
+    } else {
+      img.src="../image.png";
+      img.alt="รูปโจทย์ต้นฉบับ";
+      title.textContent="โจทย์ต้นฉบับ (image.png)";
+      bOriginal.classList.add("on"); bCircuit.classList.remove("on");
+    }
+  }
+  if(bCircuit) bCircuit.addEventListener("click", function(){ showImage("circuit"); });
+  if(bOriginal) bOriginal.addEventListener("click", function(){ showImage("original"); });
+
+  function toggleDrawer(show){
+    var isOpen=modal.classList.contains("active");
+    var target=(typeof show==="boolean")?show:!isOpen;
+    if(target){
+      modal.classList.add("active"); overlay.classList.add("active"); btn.classList.add("active");
+      btn.innerHTML='<span class="arrow-icon">✕</span>';
+      btn.setAttribute("title","ปิดรูปโจทย์");
+    } else {
+      modal.classList.remove("active"); overlay.classList.remove("active"); btn.classList.remove("active");
+      btn.innerHTML='<span class="arrow-icon">📐</span>';
+      btn.setAttribute("title","เปิดดูรูปภาพโจทย์");
+    }
+  }
+  btn.addEventListener("click", function(e){ e.stopPropagation(); toggleDrawer(); });
+  if(closeBtn) closeBtn.addEventListener("click", function(){ toggleDrawer(false); });
+  overlay.addEventListener("click", function(){ toggleDrawer(false); });
+  document.addEventListener("keydown", function(e){
+    if(e.key==="Escape" && modal.classList.contains("active")) toggleDrawer(false);
+  });
+  btn.style.display="inline-flex";   /* แสดงผลทุกแท็บ */
+})();
+
+/* ===== Mobile Tab Arrow Controller (Direct Switch & Auto-Hide) ===== */
+(function(){
+  var tabbar=document.getElementById("mainTabbar");
+  var btnLeft=document.getElementById("tabScrollLeft");
+  var btnRight=document.getElementById("tabScrollRight");
+  if(!tabbar||!btnLeft||!btnRight) return;
+  var tabs=Array.prototype.slice.call(tabbar.querySelectorAll(".tabbtn"));
+
+  function getActiveIndex(){
+    for(var i=0;i<tabs.length;i++){
+      if(tabs[i].getAttribute("aria-selected")==="true") return i;
+    }
+    return 0;
+  }
+  function updateArrowState(){
+    var idx=getActiveIndex();
+    if(idx>0) btnLeft.classList.add("show"); else btnLeft.classList.remove("show");
+    if(idx<tabs.length-1) btnRight.classList.add("show"); else btnRight.classList.remove("show");
+    if(tabs[idx]) tabs[idx].scrollIntoView({behavior:"smooth",inline:"center",block:"nearest"});
+  }
+  btnLeft.addEventListener("click", function(e){
+    e.preventDefault();
+    var idx=getActiveIndex();
+    if(idx>0) tabs[idx-1].click();
+  });
+  btnRight.addEventListener("click", function(e){
+    e.preventDefault();
+    var idx=getActiveIndex();
+    if(idx<tabs.length-1) tabs[idx+1].click();
+  });
+  tabs.forEach(function(b){ b.addEventListener("click", function(){ setTimeout(updateArrowState,50); }); });
+  setTimeout(updateArrowState,100);
+
+  window.switchToPanel=function(panelId){
+    for(var i=0;i<tabs.length;i++){
+      if(tabs[i].getAttribute("aria-controls")===panelId){
+        tabs[i].click(); window.scrollTo({top:0,behavior:"smooth"}); break;
+      }
+    }
+  };
+})();
+</script>
+</body>
+</html>

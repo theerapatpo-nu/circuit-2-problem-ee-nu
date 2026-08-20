@@ -1,0 +1,459 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>เฉลยละเอียด [4.3] — สมการวงรอบ แรงดันกิ่ง และกระแสกิ่ง</title>
+<style>
+  :root{
+    --ink:#16181d; --muted:#6b7280; --line:#e5e7eb; --bg:#ffffff; --soft:#f8fafc;
+    --b1:#1d4ed8; --b1bg:#eff6ff; --b2:#047857; --b2bg:#ecfdf5;
+    --loop:#c0392b; --warn:#b45309; --warnbg:#fff7ed; --src:#7c3aed;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--bg);color:var(--ink);
+       font-family:"Sarabun","Noto Sans Thai","IBM Plex Sans Thai",-apple-system,"Segoe UI",sans-serif;
+       font-size:17px;line-height:1.8}
+  .wrap{max-width:960px;margin:0 auto;padding:0 22px 90px}
+  header{background:linear-gradient(160deg,#0f172a,#1e293b);color:#fff;padding:48px 22px 40px;margin-bottom:36px}
+  header .wrap{padding-bottom:0}
+  header .tag{display:inline-block;font-size:13px;letter-spacing:.08em;background:rgba(255,255,255,.14);
+       padding:5px 12px;border-radius:999px;margin-bottom:14px}
+  header h1{margin:0 0 10px;font-size:30px;line-height:1.35}
+  header p{margin:0;color:#cbd5e1;font-size:16px}
+  h2{margin:52px 0 14px;font-size:23px;padding-bottom:9px;border-bottom:2px solid var(--line)}
+  h3{margin:32px 0 10px;font-size:19px;color:#1e293b}
+  h4{margin:22px 0 8px;font-size:17px;color:#334155}
+  p,li{margin:10px 0}
+  figure{margin:24px 0}
+  figure img{width:100%;height:auto;display:block;border:1px solid var(--line);border-radius:12px;background:#fff}
+  figcaption{font-size:14px;color:var(--muted);text-align:center;margin-top:8px}
+  table{border-collapse:collapse;width:100%;margin:18px 0;font-size:15.5px;display:block;overflow-x:auto}
+  th,td{border:1px solid var(--line);padding:9px 12px;text-align:left;vertical-align:top}
+  th{background:var(--soft);font-weight:700;white-space:nowrap}
+  code{background:var(--soft);padding:2px 6px;border-radius:5px;font-size:14.5px}
+  pre{background:#0f172a;color:#e2e8f0;padding:16px 18px;border-radius:10px;overflow-x:auto;font-size:14px;line-height:1.6}
+  /* --- คณิตศาสตร์ --- */
+  .m{font-family:"Latin Modern Math","Cambria Math","Times New Roman",Georgia,serif;font-style:italic}
+  .m .up{font-style:normal}
+  .eq{margin:18px 0;text-align:center;font-size:20px}
+  .eq.box{background:var(--warnbg);border:2px solid var(--warn);border-radius:12px;padding:14px 12px}
+  .frac{display:inline-block;vertical-align:-0.55em;text-align:center;margin:0 .25em}
+  .frac .n{display:block;padding:0 .35em;border-bottom:1.5px solid currentColor}
+  .frac .d{display:block;padding:0 .35em}
+  sub,sup{font-style:normal;font-size:.68em}
+  .mat{display:inline-block;vertical-align:middle;border-left:2.5px solid currentColor;border-right:2.5px solid currentColor;
+       padding:8px 12px;margin:0 .25em}
+  .mat td{border:none;padding:2px 14px;text-align:center;font-size:20px;font-style:normal}
+  .mat table{margin:0;width:auto;display:table;overflow:visible}
+  /* --- กล่อง --- */
+  .card{border:1px solid var(--line);border-radius:14px;padding:18px 22px;margin:20px 0;background:#fff}
+  .card.b1{border-color:var(--b1);background:var(--b1bg)}
+  .card.b2{border-color:var(--b2);background:var(--b2bg)}
+  .card.warn{border-color:#fed7aa;background:var(--warnbg)}
+  .card h4{margin-top:0}
+  .grid2{display:grid;grid-template-columns:1fr 1fr;gap:18px}
+  @media(max-width:760px){.grid2{grid-template-columns:1fr}header h1{font-size:24px}.eq{font-size:17px}}
+  .steps{counter-reset:s;list-style:none;padding:0}
+  .steps>li{counter-increment:s;position:relative;padding:0 0 0 46px;margin:18px 0}
+  .steps>li::before{content:counter(s);position:absolute;left:0;top:1px;width:30px;height:30px;border-radius:50%;
+       background:#eef2ff;color:#3730a3;font-weight:700;display:flex;align-items:center;justify-content:center;font-size:15px}
+  .toc{background:var(--soft);border:1px solid var(--line);border-radius:14px;padding:16px 22px}
+  .toc ol{margin:6px 0 0;padding-left:22px}
+  .toc a{color:#1d4ed8;text-decoration:none}
+  .toc a:hover{text-decoration:underline}
+  .note{font-size:15px;color:var(--muted)}
+  .chk{color:var(--b2);font-weight:700}
+</style>
+</head>
+<body>
+<!-- Top Breadcrumbs Navigation -->
+<nav style="background:#0f172a;border-bottom:1px solid rgba(255,255,255,0.1);padding:12px 22px;font-family:'Sarabun',sans-serif;">
+  <div style="max-width:960px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;font-size:14px;color:#94a3b8;flex-wrap:wrap;gap:10px;">
+    <div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap;">
+      <a href="../../../index.html" style="color:#94a3b8;text-decoration:none;display:inline-flex;align-items:center;gap:4px;">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path><polyline points="9 22 9 12 15 12 15 22"></polyline></svg>
+        Portal
+      </a>
+      <span>/</span>
+      <a href="../../index.html" style="color:#94a3b8;text-decoration:none;">⚡ Circuit 2</a>
+      <span>/</span>
+      <a href="../index.html" style="color:#94a3b8;text-decoration:none;">📖 บทที่ 4</a>
+      <span>/</span>
+      <span style="color:#fff;font-weight:600;">ข้อ [4.3]</span>
+    </div>
+    <div style="display:flex;gap:12px;align-items:center;">
+      <a href="../index.html" style="color:#94a3b8;text-decoration:none;">← หน้ารวมบทที่ 4</a>
+      <a href="../4.4/index.html" style="color:#38bdf8;text-decoration:none;font-weight:600;">ข้อถัดไป [4.4] →</a>
+    </div>
+  </div>
+</nav>
+
+
+<header>
+  <div class="wrap">
+    <span class="tag">CIRCUIT 2 · บทที่ 4 · การวิเคราะห์วงรอบ</span>
+    <h1>เฉลยละเอียด [4.3] — สมการรอบ แรงดันกิ่ง และกระแสกิ่ง</h1>
+    <p>วงจรข่ายความต้านทานที่มีแหล่งกำเนิดแรงดันอิสระบนกิ่งที่ 2 และแหล่งกำเนิดกระแสอิสระบนกิ่งที่ 1 แก้ด้วยเมทริกซ์ tie-set</p>
+  </div>
+</header>
+
+<div class="wrap">
+
+<div class="toc">
+  <strong>สารบัญ</strong>
+  <ol>
+    <li><a href="#p1">โจทย์และสิ่งที่ต้องหา</a></li>
+    <li><a href="#p2">คำตอบโดยสรุป</a></li>
+    <li><a href="#p3">วิเคราะห์รูปที่ 4บ.3(ก)</a></li>
+    <li><a href="#p4">ยุบเป็นกิ่งประกอบ 2 กิ่ง</a></li>
+    <li><a href="#p5">วิเคราะห์รูปที่ 4บ.3(ข)</a></li>
+    <li><a href="#p6">สมการเฉพาะกิ่ง</a></li>
+    <li><a href="#p7">เมทริกซ์ tie-set และการแปลงตัวแปร</a></li>
+    <li><a href="#p8">ตั้งสมการรอบแล้วแก้</a></li>
+    <li><a href="#p9">คำตอบแรงดันกิ่งและกระแสกิ่ง</a></li>
+    <li><a href="#p10">ตรวจคำตอบ 4 ทาง</a></li>
+    <li><a href="#p11">กับดักที่ทำให้ตอบผิดบ่อย</a></li>
+  </ol>
+</div>
+
+<!-- ===================== 1 ===================== -->
+<h2 id="p1">1. โจทย์และสิ่งที่ต้องหา</h2>
+
+<figure>
+  <img src="figures/statement-thai-original.png" alt="โจทย์ต้นฉบับภาษาไทย">
+  <figcaption>ภาพโจทย์ต้นฉบับ</figcaption>
+</figure>
+
+<div class="card">
+<p><strong>[4.3]</strong> พิจารณาวงจรข่ายความต้านทานไฟฟ้าในรูปที่ 4บ.3(ก) และกำหนดให้แหล่งกำเนิดแรงดันอิสระ
+ต่ออนุกรมกับตัวต้านทาน <span class="m">R<sub>1</sub></span> ตั้งอยู่บน<strong>กิ่งที่ 2</strong> และแหล่งกำเนิดกระแสอิสระต่อขนานกับผลอนุกรม
+ของตัวต้านทาน <span class="m">R<sub>2</sub></span> และ <span class="m">R<sub>3</sub></span> ตั้งอยู่บน<strong>กิ่งที่ 1</strong> ดังที่แสดงทรีของวงจรข่ายไว้ในรูปที่ 4บ.3(ข)
+ถ้ากำหนด <span class="m">j<sub>1</sub></span> เป็นกระแสวงรอบ แล้วจงเขียนสมการรอบและจงคำนวณหาค่าของแรงดันกิ่งและกระแสกิ่ง</p>
+</div>
+
+<div class="grid2">
+  <figure>
+    <img src="figures/fig-4b3-a-resistive-network.png" alt="รูป 4บ.3(ก) วงจรข่ายความต้านทาน">
+    <figcaption>รูปที่ 4บ.3(ก) — บอกองค์ประกอบและการต่อทางกายภาพ</figcaption>
+  </figure>
+  <figure>
+    <img src="figures/fig-4b3-b-tree-of-graph.png" alt="รูป 4บ.3(ข) ทรีของกราฟ">
+    <figcaption>รูปที่ 4บ.3(ข) — บอกเลขกิ่ง ทิศอ้างอิง ทรี และทิศของ j₁</figcaption>
+  </figure>
+</div>
+
+<h3>ข้อตกลงเครื่องหมายที่ใช้ตลอดเฉลย</h3>
+<p>ลูกศรบนกิ่งบอกทิศของกระแสกิ่ง และวางขั้ว <strong>+</strong> ของแรงดันกิ่งไว้ที่ <strong>หางลูกศร</strong>
+(associated reference direction) ทำให้ตัวต้านทานเป็นไปตาม <span class="m">v = Ri</span> โดยตรง
+ผลที่ตามมาคือ <span class="m">v<sub>k</sub> = v(o) − v(a)</span> สำหรับทั้งสองกิ่งในโจทย์นี้</p>
+
+<!-- ===================== 2 ===================== -->
+<h2 id="p2">2. คำตอบโดยสรุป</h2>
+<p class="note">ให้ <span class="m">R<sub>T</sub> ≡ R<sub>1</sub> + R<sub>2</sub> + R<sub>3</sub></span></p>
+
+<div class="eq box m">(R<sub>1</sub>+R<sub>2</sub>+R<sub>3</sub>) j<sub>1</sub> &nbsp;=&nbsp; (R<sub>2</sub>+R<sub>3</sub>) i<sub>s</sub> − v<sub>s</sub></div>
+
+<div class="eq m">j<sub>1</sub> =
+  <span class="frac"><span class="n">(R<sub>2</sub>+R<sub>3</sub>) i<sub>s</sub> − v<sub>s</sub></span><span class="d">R<sub>1</sub>+R<sub>2</sub>+R<sub>3</sub></span></span>
+</div>
+
+<div class="grid2">
+  <div class="card b1">
+    <h4>กระแสกิ่ง</h4>
+    <div class="eq m" style="font-size:18px">i<sub>1</sub> = +j<sub>1</sub> =
+      <span class="frac"><span class="n">(R<sub>2</sub>+R<sub>3</sub>) i<sub>s</sub> − v<sub>s</sub></span><span class="d">R<sub>T</sub></span></span></div>
+    <div class="eq m" style="font-size:18px">i<sub>2</sub> = −j<sub>1</sub> =
+      <span class="frac"><span class="n">v<sub>s</sub> − (R<sub>2</sub>+R<sub>3</sub>) i<sub>s</sub></span><span class="d">R<sub>T</sub></span></span></div>
+  </div>
+  <div class="card b2">
+    <h4>แรงดันกิ่ง</h4>
+    <div class="eq m" style="font-size:18px">v<sub>1</sub> = v<sub>2</sub> = −
+      <span class="frac"><span class="n">(R<sub>2</sub>+R<sub>3</sub>)(v<sub>s</sub> + R<sub>1</sub>i<sub>s</sub>)</span><span class="d">R<sub>T</sub></span></span></div>
+    <p class="note">เครื่องหมายลบมาจากการวางขั้ว + ไว้ที่ปม <span class="m">o</span>
+      ถ้าอ่านเป็นแรงดันของปม <span class="m">a</span> จะได้ค่าบวก:
+      <span class="m">v(a) = +(R<sub>2</sub>+R<sub>3</sub>)(v<sub>s</sub>+R<sub>1</sub>i<sub>s</sub>)/R<sub>T</sub></span></p>
+  </div>
+</div>
+
+<!-- ===================== 3 ===================== -->
+<h2 id="p3">3. วิเคราะห์รูปที่ 4บ.3(ก)</h2>
+
+<figure>
+  <img src="assets/fig-01-figure-a-anatomy.svg" alt="กายวิภาคของรูป (ก)">
+  <figcaption>รูปที่ 1 — องค์ประกอบ 5 ตัว, ปมทางเรขาคณิต 4 ปม แต่ปมที่ใช้จริงมีเพียง 2 ปม</figcaption>
+</figure>
+
+<table>
+<thead><tr><th>จุด</th><th>ตำแหน่ง</th><th>ดีกรี</th><th>สถานะ</th></tr></thead>
+<tbody>
+<tr><td class="m">a</td><td>ปมกลางบน — จุดร่วมของ R₁, iₛ, R₂</td><td>3</td><td><strong>ปมจริง</strong></td></tr>
+<tr><td class="m">o</td><td>รางล่างทั้งเส้น — จุดร่วมของ vₛ, iₛ, R₃</td><td>3</td><td><strong>ปมจริง</strong> เลือกเป็นปมอ้างอิง</td></tr>
+<tr><td class="m">c</td><td>ยอดเสาซ้าย — ระหว่าง vₛ กับ R₁</td><td>2</td><td>ยุบได้ (จุดต่ออนุกรม)</td></tr>
+<tr><td class="m">d</td><td>มุมขวาบน — ระหว่าง R₂ กับ R₃</td><td>2</td><td>ยุบได้ (จุดต่ออนุกรม)</td></tr>
+</tbody>
+</table>
+
+<div class="card warn">
+<h4>หลักการที่ใช้</h4>
+<p>ปมที่มีดีกรี 2 ไม่ให้สมการ KCL ที่เป็นอิสระเพิ่ม (กระแสเข้าเท่ากับกระแสออกโดยอัตโนมัติ)
+จึงยุบรวมองค์ประกอบสองตัวที่ต่ออยู่ให้เป็นกิ่งประกอบเดียวได้โดยไม่เปลี่ยนพฤติกรรมของวงจร</p>
+<p><strong>ระวัง:</strong> ที่ปม <span class="m">d</span> ไม่มีทางแยก ดังนั้น <span class="m">R<sub>2</sub></span> กับ <span class="m">R<sub>3</sub></span> ต่อ <strong>อนุกรม</strong> กัน
+ความต้านทานของทางเดินนี้คือ <span class="m">R<sub>2</sub>+R<sub>3</sub></span> ไม่ใช่ <span class="m">R<sub>2</sub>∥R<sub>3</sub></span></p>
+</div>
+
+<!-- ===================== 4 ===================== -->
+<h2 id="p4">4. ยุบเป็นกิ่งประกอบ 2 กิ่ง</h2>
+
+<figure>
+  <img src="assets/fig-02-composite-branches.svg" alt="การยุบเป็นกิ่งประกอบ">
+  <figcaption>รูปที่ 2 — จับกลุ่มตามที่โจทย์กำหนด เหลือกราฟ 2 ปม 2 กิ่ง</figcaption>
+</figure>
+
+<table>
+<thead><tr><th>กิ่ง</th><th>องค์ประกอบภายใน</th><th>รูปแบบ</th><th>เชื่อมปม</th></tr></thead>
+<tbody>
+<tr><td>กิ่งที่ 2</td><td class="m">v<sub>s</sub> อนุกรม R<sub>1</sub></td><td>รูปทีวินิน</td><td class="m">o → a</td></tr>
+<tr><td>กิ่งที่ 1</td><td class="m">i<sub>s</sub> ขนาน (R<sub>2</sub> อนุกรม R<sub>3</sub>)</td><td>รูปนอร์ตัน</td><td class="m">o → a</td></tr>
+</tbody>
+</table>
+
+<p>ประโยชน์ของกิ่งประกอบคือ <strong>ย้ายความซับซ้อนไปไว้ในสมการเฉพาะกิ่ง แทนที่จะไปเพิ่มจำนวนสมการ</strong>
+ที่ต้องแก้ — กราฟที่ได้เล็กที่สุดเท่าที่จะเป็นไปได้</p>
+
+<!-- ===================== 5 ===================== -->
+<h2 id="p5">5. วิเคราะห์รูปที่ 4บ.3(ข)</h2>
+
+<figure>
+  <img src="assets/fig-03-figure-b-anatomy.svg" alt="กายวิภาคของรูป (ข)">
+  <figcaption>รูปที่ 3 — ทวิก ลิงก์ ทิศของ j₁ และการนับทางโทโปโลยี</figcaption>
+</figure>
+
+<table>
+<thead><tr><th>สิ่งที่เห็นในภาพ</th><th>ความหมาย</th></tr></thead>
+<tbody>
+<tr><td>จุดทึบ 2 จุด</td><td>ปม 2 ปม ⇒ <span class="m">n = 2</span> (จุดบนคือปม a, จุดล่างคือปม o)</td></tr>
+<tr><td>เส้นทึบหนาสีดำ เลข 2</td><td>กิ่งที่ 2 เป็น <strong>ทวิก (twig)</strong> — อยู่ในทรี</td></tr>
+<tr><td>เส้นบางสีแดง เลข 1</td><td>กิ่งที่ 1 เป็น <strong>ลิงก์ (link)</strong> — อยู่นอกทรี</td></tr>
+<tr><td>หัวลูกศรกลางเส้นทั้งสองชี้ขึ้น</td><td>ทิศอ้างอิงของกระแสกิ่งทั้งสองคือ <span class="m">o → a</span></td></tr>
+<tr><td>หัวลูกศรบนวงประอยู่ด้านซ้ายและชี้ลง</td><td><span class="m">j<sub>1</sub></span> หมุน <strong>ทวนเข็มนาฬิกา</strong></td></tr>
+</tbody>
+</table>
+
+<h3>ตรวจความสอดคล้อง</h3>
+<p><span class="m">j<sub>1</sub></span> ทวนเข็มนาฬิกา ⇒ ด้าน<strong>ขวา</strong>ของวงรอบวิ่งขึ้น ซึ่งตรงกับทิศของกิ่งที่ 1 (ลิงก์) พอดี
+เป็นไปตามกฎที่ว่า <strong>ทิศของกระแสวงรอบต้องยึดตามทิศของลิงก์เสมอ</strong>
+ขณะที่ด้าน<strong>ซ้าย</strong>วิ่งลง ซึ่งสวนทางกับกิ่งที่ 2</p>
+
+<h3>การนับทางโทโปโลยี</h3>
+<div class="eq m">n = 2 , &nbsp; b = 2 , &nbsp; ทวิก = n − 1 = 1 , &nbsp; ลิงก์ = <span class="up">l</span> = b − n + 1 = 1</div>
+<p>จำนวนสมการรอบอิสระ = จำนวนลิงก์ = <strong>1 สมการ</strong> ⇒ ทั้งวงจรมีตัวแปรอิสระตัวเดียวคือ <span class="m">j<sub>1</sub></span></p>
+
+<!-- ===================== 6 ===================== -->
+<h2 id="p6">6. สมการเฉพาะกิ่ง (branch v–i relation)</h2>
+<p>ขั้นนี้เป็นจุดเดียวที่ค่า <span class="m">R</span>, <span class="m">v<sub>s</sub></span>, <span class="m">i<sub>s</sub></span> เข้ามาในระบบสมการ</p>
+
+<figure>
+  <img src="assets/fig-04-branch-models.svg" alt="แบบจำลองและสมการเฉพาะกิ่ง">
+  <figcaption>รูปที่ 4 — เขียน v ของแต่ละกิ่งในรูปของ i ของกิ่งนั้น</figcaption>
+</figure>
+
+<div class="grid2">
+  <div class="card b2">
+    <h4>กิ่งที่ 2 — รูปทีวินิน</h4>
+    <p>เดินจากปม <span class="m">o</span> ขึ้นไปปม <span class="m">a</span>: ผ่านแหล่งจ่ายจากขั้ว − ไป + ⇒ ศักย์เพิ่ม <span class="m">v<sub>s</sub></span>
+       แล้วตกคร่อม <span class="m">R<sub>1</sub></span> ⇒ ศักย์ลด <span class="m">R<sub>1</sub>i<sub>2</sub></span></p>
+    <div class="eq m" style="font-size:18px">v(a) − v(o) = v<sub>s</sub> − R<sub>1</sub> i<sub>2</sub></div>
+    <div class="eq m box" style="font-size:18px">v<sub>2</sub> = R<sub>1</sub> i<sub>2</sub> − v<sub>s</sub></div>
+  </div>
+  <div class="card b1">
+    <h4>กิ่งที่ 1 — รูปนอร์ตัน</h4>
+    <p>กระแสของกิ่งแยกสองทาง: <span class="m">i<sub>1</sub> = i<sub>s</sub> + i<sub>R</sub></span>
+       ส่วนที่ผ่าน <span class="m">R<sub>2</sub>, R<sub>3</sub></span> คือ <span class="m">i<sub>R</sub> = i<sub>1</sub> − i<sub>s</sub></span></p>
+    <div class="eq m" style="font-size:18px">v(o) − v(a) = (R<sub>2</sub>+R<sub>3</sub>) i<sub>R</sub></div>
+    <div class="eq m box" style="font-size:18px">v<sub>1</sub> = (R<sub>2</sub>+R<sub>3</sub>)(i<sub>1</sub> − i<sub>s</sub>)</div>
+  </div>
+</div>
+
+<div class="card warn">
+<h4>กับดักข้อใหญ่ที่สุดของโจทย์นี้</h4>
+<p>อย่าเขียน <span class="m">v<sub>1</sub> = (R<sub>2</sub>+R<sub>3</sub>) i<sub>1</sub></span> เพราะกระแสของแหล่งจ่าย <span class="m">i<sub>s</sub></span>
+<strong>ไม่ได้</strong>ไหลผ่านตัวต้านทาน ต้องหักออกก่อนเสมอ</p>
+</div>
+
+<!-- ===================== 7 ===================== -->
+<h2 id="p7">7. เมทริกซ์ tie-set และการแปลงตัวแปร</h2>
+
+<figure>
+  <img src="assets/fig-05-tieset-matrix.svg" alt="เมทริกซ์ tie-set">
+  <figcaption>รูปที่ 5 — กฎเครื่องหมาย, เมทริกซ์ B และการแปลงตัวแปรทั้งสองทิศทาง</figcaption>
+</figure>
+
+<table>
+<thead><tr><th>กิ่ง k</th><th>อยู่ในวงรอบ?</th><th>ทิศเทียบกับ j₁</th><th>b<sub>1k</sub></th></tr></thead>
+<tbody>
+<tr><td>1 (ลิงก์)</td><td>ใช่</td><td>ทางเดียวกัน</td><td style="color:var(--loop);font-weight:700">+1</td></tr>
+<tr><td>2 (ทวิก)</td><td>ใช่</td><td>สวนทาง</td><td style="font-weight:700">−1</td></tr>
+</tbody>
+</table>
+
+<div class="eq m">
+  <span class="up">B</span> =
+  <span class="mat"><table><tr><td>+1</td><td>−1</td></tr></table></span>
+</div>
+
+<div class="grid2">
+  <div class="card b1">
+    <h4>การแปลงกระแส (จาก KCL)</h4>
+    <div class="eq m" style="font-size:18px">i<sub>b</sub> = B<sup>⊤</sup> j</div>
+    <div class="eq m" style="font-size:18px">i<sub>1</sub> = +j<sub>1</sub> &nbsp;,&nbsp; i<sub>2</sub> = −j<sub>1</sub></div>
+    <p class="note">ตรวจ: KCL ที่ปม <span class="m">a</span> ต้องได้ <span class="m">i<sub>1</sub>+i<sub>2</sub>=0</span>
+      และ <span class="m">j<sub>1</sub>+(−j<sub>1</sub>)=0</span> <span class="chk">✓</span></p>
+  </div>
+  <div class="card b2">
+    <h4>การแปลงแรงดัน (จาก KVL)</h4>
+    <div class="eq m" style="font-size:18px">B v<sub>b</sub> = 0</div>
+    <div class="eq m" style="font-size:18px">v<sub>1</sub> − v<sub>2</sub> = 0</div>
+    <p class="note">ตรวจ: ทั้งสองกิ่งคร่อมปมคู่เดียวกันและวางขั้วเหมือนกัน แรงดันจึงต้องเท่ากัน <span class="chk">✓</span></p>
+  </div>
+</div>
+
+<!-- ===================== 8 ===================== -->
+<h2 id="p8">8. ตั้งสมการรอบแล้วแก้</h2>
+
+<figure>
+  <img src="assets/fig-06-kvl-walk-and-solve.svg" alt="เดินรอบวงรอบและแก้สมการ">
+  <figcaption>รูปที่ 6 — เดินรอบวงรอบเก็บเครื่องหมาย แล้วแก้หา j₁</figcaption>
+</figure>
+
+<ol class="steps">
+  <li><strong>เดินรอบวงรอบตามทิศ j₁</strong> — ผ่านกิ่ง 1 ตามทิศได้ <span class="m">+v<sub>1</sub></span> ผ่านกิ่ง 2 สวนทิศได้ <span class="m">−v<sub>2</sub></span>
+    <div class="eq m">(+1)v<sub>1</sub> + (−1)v<sub>2</sub> = 0</div></li>
+  <li><strong>แทนสมการเฉพาะกิ่ง</strong>
+    <div class="eq m">(R<sub>2</sub>+R<sub>3</sub>)(i<sub>1</sub> − i<sub>s</sub>) − (R<sub>1</sub> i<sub>2</sub> − v<sub>s</sub>) = 0</div></li>
+  <li><strong>แทนการแปลงกระแส</strong> <span class="m">i<sub>1</sub>=j<sub>1</sub>, i<sub>2</sub>=−j<sub>1</sub></span>
+    <div class="eq m">(R<sub>2</sub>+R<sub>3</sub>)(j<sub>1</sub> − i<sub>s</sub>) + R<sub>1</sub> j<sub>1</sub> + v<sub>s</sub> = 0</div></li>
+  <li><strong>รวมพจน์ที่มี j₁</strong> — ได้สมการรอบ
+    <div class="eq box m">(R<sub>1</sub>+R<sub>2</sub>+R<sub>3</sub>) j<sub>1</sub> = (R<sub>2</sub>+R<sub>3</sub>) i<sub>s</sub> − v<sub>s</sub></div></li>
+</ol>
+
+<h3>อ่านผลลัพธ์เดียวกันในรูปเมทริกซ์มาตรฐาน</h3>
+<div class="eq m">(B R<sub>b</sub> B<sup>⊤</sup>) j = B R<sub>b</sub> i<sub>sb</sub> + B v<sub>sb</sub></div>
+<table>
+<thead><tr><th>ก้อน</th><th>คำนวณได้</th><th>ความหมายทางกายภาพ</th></tr></thead>
+<tbody>
+<tr><td class="m">R<sub>loop</sub> = B R<sub>b</sub> B<sup>⊤</sup></td><td class="m">(R<sub>2</sub>+R<sub>3</sub>) + R<sub>1</sub> = R<sub>T</sub></td><td>ผลรวมความต้านทานที่พบเมื่อเดินครบรอบวง</td></tr>
+<tr><td class="m">B R<sub>b</sub> i<sub>sb</sub></td><td class="m">(R<sub>2</sub>+R<sub>3</sub>) i<sub>s</sub></td><td>แรงดันสมมูลแบบทีวินินของแหล่งกระแสในกิ่งที่ 1</td></tr>
+<tr><td class="m">B v<sub>sb</sub></td><td class="m">−v<sub>s</sub></td><td>ติดลบเพราะ vₛ ดันในทิศสวนกับ j₁</td></tr>
+</tbody>
+</table>
+<p>ผลรวมให้ <span class="m">R<sub>T</sub> j<sub>1</sub> = (R<sub>2</sub>+R<sub>3</sub>)i<sub>s</sub> − v<sub>s</sub></span> ตรงกับที่แก้มือ <span class="chk">✓</span></p>
+
+<!-- ===================== 9 ===================== -->
+<h2 id="p9">9. คำตอบแรงดันกิ่งและกระแสกิ่ง</h2>
+
+<figure>
+  <img src="assets/fig-07-results.svg" alt="คำตอบกำกับบนวงจร">
+  <figcaption>รูปที่ 7 — ทิศทางจริงของกระแสและคำตอบเชิงสัญลักษณ์</figcaption>
+</figure>
+
+<h3>หา v₂ จากกิ่งที่ 2</h3>
+<div class="eq m">v<sub>2</sub> = R<sub>1</sub>i<sub>2</sub> − v<sub>s</sub> =
+  <span class="frac"><span class="n">R<sub>1</sub>v<sub>s</sub> − R<sub>1</sub>(R<sub>2</sub>+R<sub>3</sub>)i<sub>s</sub> − R<sub>T</sub>v<sub>s</sub></span><span class="d">R<sub>T</sub></span></span>
+  = − <span class="frac"><span class="n">(R<sub>2</sub>+R<sub>3</sub>)(v<sub>s</sub>+R<sub>1</sub>i<sub>s</sub>)</span><span class="d">R<sub>T</sub></span></span>
+</div>
+
+<h3>ตรวจซ้ำโดยอิสระจากกิ่งที่ 1</h3>
+<div class="eq m">v<sub>1</sub> = (R<sub>2</sub>+R<sub>3</sub>)(j<sub>1</sub> − i<sub>s</sub>) = (R<sub>2</sub>+R<sub>3</sub>)·
+  <span class="frac"><span class="n">−R<sub>1</sub>i<sub>s</sub> − v<sub>s</sub></span><span class="d">R<sub>T</sub></span></span>
+  = − <span class="frac"><span class="n">(R<sub>2</sub>+R<sub>3</sub>)(v<sub>s</sub>+R<sub>1</sub>i<sub>s</sub>)</span><span class="d">R<sub>T</sub></span></span>
+</div>
+<p>สองทางให้ผลตรงกัน และสอดคล้องกับ <span class="m">v<sub>1</sub> − v<sub>2</sub> = 0</span> ที่ได้จาก KVL <span class="chk">✓</span></p>
+
+<h3>ปริมาณระดับองค์ประกอบ</h3>
+<table>
+<thead><tr><th>ปริมาณ</th><th>นิพจน์</th><th>ทิศ / ขั้ว</th></tr></thead>
+<tbody>
+<tr><td>กระแสผ่าน R₁ และ vₛ</td><td class="m">i<sub>2</sub> = [v<sub>s</sub> − (R<sub>2</sub>+R<sub>3</sub>)i<sub>s</sub>] / R<sub>T</sub></td><td>ทิศ o → a</td></tr>
+<tr><td>กระแสผ่าน R₂, R₃</td><td class="m">i<sub>R</sub> = −(v<sub>s</sub> + R<sub>1</sub>i<sub>s</sub>) / R<sub>T</sub></td><td>ทิศ o → a (ค่าลบ ⇒ ไหลจริงจาก a → o)</td></tr>
+<tr><td>แรงดันคร่อม R₂</td><td class="m">R<sub>2</sub>(v<sub>s</sub>+R<sub>1</sub>i<sub>s</sub>) / R<sub>T</sub></td><td>+ ที่ด้านปม a</td></tr>
+<tr><td>แรงดันคร่อม R₃</td><td class="m">R<sub>3</sub>(v<sub>s</sub>+R<sub>1</sub>i<sub>s</sub>) / R<sub>T</sub></td><td>+ ที่ด้านบน</td></tr>
+<tr><td>แรงดันคร่อมแหล่งกระแส</td><td class="m">v(a) = (R<sub>2</sub>+R<sub>3</sub>)(v<sub>s</sub>+R<sub>1</sub>i<sub>s</sub>) / R<sub>T</sub></td><td>+ ที่ด้านบน</td></tr>
+</tbody>
+</table>
+
+<!-- ===================== 10 ===================== -->
+<h2 id="p10">10. ตรวจคำตอบ 4 ทาง</h2>
+
+<h3>10.1 ตรวจด้วยวิธีปม</h3>
+<p>เขียน KCL ที่ปม <span class="m">a</span> จากรูป (ก) โดยตรง โดยให้ <span class="m">v(o)=0</span></p>
+<div class="eq m">
+  <span class="frac"><span class="n">v(a) − v<sub>s</sub></span><span class="d">R<sub>1</sub></span></span> +
+  <span class="frac"><span class="n">v(a)</span><span class="d">R<sub>2</sub>+R<sub>3</sub></span></span> = i<sub>s</sub>
+  &nbsp;&nbsp;⇒&nbsp;&nbsp; v(a) =
+  <span class="frac"><span class="n">(R<sub>2</sub>+R<sub>3</sub>)(v<sub>s</sub>+R<sub>1</sub>i<sub>s</sub>)</span><span class="d">R<sub>T</sub></span></span>
+</div>
+<p>ตรงกับข้อ 9 ทุกประการ ทั้งที่ใช้กฎคนละข้อ (KCL แทน KVL) และตัวแปรคนละชุด <span class="chk">✓</span></p>
+
+<h3>10.2 ตรวจด้วยกรณีพิเศษ</h3>
+<table>
+<thead><tr><th>กรณี</th><th>สูตรให้</th><th>ผลที่ควรเป็นทางกายภาพ</th></tr></thead>
+<tbody>
+<tr><td class="m">i<sub>s</sub> = 0</td><td class="m">i<sub>2</sub> = v<sub>s</sub>/R<sub>T</sub></td><td>vₛ ขับกระแสผ่าน R₁, R₂, R₃ ที่อนุกรมกันทั้งหมด <span class="chk">✓</span></td></tr>
+<tr><td class="m">v<sub>s</sub> = 0</td><td class="m">i<sub>2</sub> = −(R<sub>2</sub>+R<sub>3</sub>)i<sub>s</sub>/R<sub>T</sub></td><td>ตัวแบ่งกระแส: iₛ แบ่งลงกิ่ง R₁ ตามสัดส่วน (R₂+R₃)/R_T <span class="chk">✓</span></td></tr>
+<tr><td class="m">R<sub>2</sub>+R<sub>3</sub> → ∞</td><td class="m">j<sub>1</sub> → i<sub>s</sub></td><td>ทางความต้านทานเปิดวงจร กระแสกิ่งที่ 1 ต้องเท่ากับ iₛ พอดี <span class="chk">✓</span></td></tr>
+<tr><td class="m">R<sub>1</sub> → 0</td><td class="m">v(a) → v<sub>s</sub></td><td>vₛ ต่อตรงคร่อมปม a–o <span class="chk">✓</span></td></tr>
+</tbody>
+</table>
+
+<h3>10.3 ตรวจด้วยวิธีเมช (supermesh) จากวงจรจริง</h3>
+<p>ให้ <span class="m">m<sub>1</sub>, m<sub>2</sub></span> เป็นกระแสเมชซ้าย–ขวา หมุนตามเข็มนาฬิกาทั้งคู่
+แหล่งกระแสอยู่บนกิ่งร่วมจึงต้องใช้ supermesh</p>
+<div class="eq m">m<sub>2</sub> − m<sub>1</sub> = i<sub>s</sub></div>
+<div class="eq m">−v<sub>s</sub> + R<sub>1</sub>m<sub>1</sub> + (R<sub>2</sub>+R<sub>3</sub>)m<sub>2</sub> = 0</div>
+<div class="eq m">m<sub>1</sub> = <span class="frac"><span class="n">v<sub>s</sub> − (R<sub>2</sub>+R<sub>3</sub>)i<sub>s</sub></span><span class="d">R<sub>T</sub></span></span> = i<sub>2</sub> &nbsp;<span class="chk">✓</span></div>
+
+<h3>10.4 ตรวจด้วยตัวเลขและสมดุลกำลัง</h3>
+<figure>
+  <img src="assets/fig-08-numeric-check.svg" alt="ตัวอย่างตัวเลขและการตรวจคำตอบ">
+  <figcaption>รูปที่ 8 — R₁=2 Ω, R₂=3 Ω, R₃=5 Ω, vₛ=10 V, iₛ=4 A</figcaption>
+</figure>
+
+<table>
+<thead><tr><th>ปริมาณ</th><th>ค่า</th></tr></thead>
+<tbody>
+<tr><td class="m">j<sub>1</sub></td><td>(8×4 − 10)/10 = <strong>2.2 A</strong></td></tr>
+<tr><td class="m">i<sub>1</sub> , i<sub>2</sub></td><td><strong>+2.2 A</strong> , <strong>−2.2 A</strong></td></tr>
+<tr><td class="m">v<sub>1</sub> = v<sub>2</sub></td><td>−8(10+8)/10 = <strong>−14.4 V</strong></td></tr>
+<tr><td class="m">v(a)</td><td><strong>+14.4 V</strong></td></tr>
+<tr><td>ตรวจ KCL ที่ปม a</td><td>(14.4−10)/2 + 14.4/8 = 2.2 + 1.8 = 4 A = iₛ <span class="chk">✓</span></td></tr>
+<tr><td>ตรวจสมดุลกำลัง</td><td>22 + 9.68 + 9.72 + 16.2 = 57.6 W = 4 A × 14.4 V <span class="chk">✓</span></td></tr>
+</tbody>
+</table>
+
+<!-- ===================== 11 ===================== -->
+<h2 id="p11">11. กับดักที่ทำให้ตอบผิดบ่อย</h2>
+<table>
+<thead><tr><th>#</th><th>กับดัก</th><th>ผลที่เกิด</th><th>วิธีกันพลาด</th></tr></thead>
+<tbody>
+<tr><td>1</td><td>กำหนดทิศ j₁ ตามใจ ไม่ยึดทิศลิงก์</td><td>ได้ i₁ = −j₁ เครื่องหมายกลับหมด</td><td>ท่องกฎ: ทิศกระแสวงรอบ = ทิศลิงก์เสมอ</td></tr>
+<tr><td>2</td><td>ใช้ v₁ = (R₂+R₃) i₁</td><td>ลืมหักกระแสของแหล่งจ่าย ผิดทั้งข้อ</td><td>กิ่งนอร์ตันต้องใช้ (i₁ − iₛ)</td></tr>
+<tr><td>3</td><td>คิดว่า R₂ ขนาน R₃</td><td>ได้ R₂R₃/(R₂+R₃) แทน R₂+R₃</td><td>ดูปม d — ดีกรี 2 ไม่มีทางแยก ⇒ อนุกรม</td></tr>
+<tr><td>4</td><td>วางขั้ว + ของ v<sub>k</sub> ไว้ที่หัวลูกศร</td><td>เครื่องหมายของ v₁, v₂ กลับด้าน</td><td>ประกาศข้อตกลงให้ชัดแล้วใช้ตลอด</td></tr>
+<tr><td>5</td><td>ลืมว่า vₛ ยกศักย์ขึ้นในทิศ o → a</td><td>ได้ v₂ = R₁i₂ + vₛ</td><td>ไล่เดินจากขั้ว − ไป + แล้วบวก vₛ</td></tr>
+<tr><td>6</td><td>ไม่ยุบปมดีกรี 2</td><td>ได้ b=5, n=4, l=2 ต้องแก้ 2 สมการ</td><td>คำตอบยังถูก แต่ยาวกว่าโดยไม่จำเป็น</td></tr>
+<tr><td>7</td><td>ตกใจที่ v₁, v₂ ติดลบ</td><td>คิดว่าคำนวณผิด</td><td>ค่าลบเป็นเรื่องปกติ แปลว่าศักย์ที่ปม a สูงกว่าปม o</td></tr>
+</tbody>
+</table>
+
+<h2>เอกสารฉบับเต็ม</h2>
+<ul>
+  <li><a href="problem.md">problem.md</a> — โจทย์ที่ถอดความ สิ่งที่กำหนดให้ และข้อตกลงสัญกรณ์</li>
+  <li><a href="figure-analysis.md">figure-analysis.md</a> — วิเคราะห์รูป (ก) และ (ข) แยกทีละรูป</li>
+  <li><a href="solution.md">solution.md</a> — เฉลยละเอียด 12 หัวข้อ พร้อมแบบฝึกหัดต่อยอด</li>
+  <li><a href="assets/make_figures.py">assets/make_figures.py</a> — สคริปต์สร้างสื่อประกอบทั้ง 8 รูป</li>
+</ul>
+
+</div>
+</body>
+</html>

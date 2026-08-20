@@ -1,0 +1,412 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Fundamental Cutset Analysis</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/github-markdown-css@5/github-markdown-light.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"
+  onload="renderMathInElement(document.body, {
+    delimiters: [
+      {left: '$$', right: '$$', display: true},
+      {left: '$', right: '$', display: false}
+    ],
+    throwOnError: false
+  });"></script>
+<style>
+@page {
+  size: A4;
+  margin: 20mm 18mm 20mm 18mm;
+}
+body {
+  font-family: -apple-system, BlinkMacSystemFont, 'Sarabun', 'Segoe UI', Helvetica, Arial, sans-serif;
+  font-size: 15px;
+  line-height: 1.7;
+  color: #1f2328;
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 40px 20px;
+}
+.markdown-body {
+  max-width: 100%;
+  font-size: 15px;
+  line-height: 1.7;
+}
+.markdown-body h1 {
+  border-bottom: 2px solid #0969da;
+  padding-bottom: 10px;
+  font-size: 26px;
+  margin-top: 24px;
+  margin-bottom: 16px;
+}
+.markdown-body h2 {
+  border-bottom: 1px solid #d0d7de;
+  padding-bottom: 6px;
+  font-size: 20px;
+  margin-top: 32px;
+  margin-bottom: 16px;
+}
+.markdown-body h3 {
+  font-size: 17px;
+  margin-top: 24px;
+  margin-bottom: 12px;
+}
+.markdown-body blockquote {
+  border-left: 4px solid #0969da;
+  background: #f6f8fa;
+  padding: 12px 16px;
+  margin: 16px 0;
+  border-radius: 0 6px 6px 0;
+  color: #57606a;
+}
+.markdown-body hr {
+  border: none;
+  border-top: 2px solid #d0d7de;
+  margin: 24px 0;
+}
+.markdown-body table {
+  border-collapse: collapse;
+  width: 100%;
+  margin: 16px 0;
+}
+.markdown-body th {
+  background: #f6f8fa;
+  border: 1px solid #d0d7de;
+  padding: 8px 12px;
+  font-weight: 600;
+  text-align: left;
+}
+.markdown-body td {
+  border: 1px solid #d0d7de;
+  padding: 8px 12px;
+}
+.markdown-body tr:nth-child(even) {
+  background: #f6f8fa;
+}
+.markdown-body img {
+  max-width: 100%;
+  height: auto;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+  margin: 16px 0;
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+}
+.markdown-body code {
+  background: #eff1f3;
+  padding: 2px 6px;
+  border-radius: 4px;
+  font-size: 13px;
+  font-family: 'SF Mono', 'Fira Code', monospace;
+}
+.markdown-body strong {
+  color: #1f2328;
+  font-weight: 600;
+}
+.markdown-body ul, .markdown-body ol {
+  padding-left: 28px;
+  margin: 12px 0;
+}
+.markdown-body li {
+  margin: 6px 0;
+}
+.katex {
+  font-size: 1.05em;
+}
+.katex-display {
+  margin: 16px 0;
+  overflow-x: visible;
+  text-align: center;
+}
+</style>
+</head>
+<body class="markdown-body">
+<h1 id="วิเคราะห์วงจรด้วยวิธีชุดตัดพื้นฐาน-fundamental-cutset-analysis">วิเคราะห์วงจรด้วยวิธีชุดตัดพื้นฐาน (Fundamental Cutset Analysis)</h1>
+<blockquote>
+<p>โจทย์ข้อนี้เป็นการประยุกต์ทฤษฎีกราฟโครงข่าย (Network Topology) ระดับ Circuit 2 โดยใช้แนวคิด <strong>Tree/Co-tree</strong>, <strong>Fundamental Cutset</strong> และ <strong>Fundamental Cutset Matrix ($Q_f$)</strong></p>
+<p>อ้างอิงหลัก: C.A. Desoer &amp; E.S. Kuh, <em>Basic Circuit Theory</em> (McGraw-Hill), Ch. 9–10; L.O. Chua, C.A. Desoer &amp; E.S. Kuh, <em>Linear and Nonlinear Circuits</em> (McGraw-Hill), Ch. 12</p>
+</blockquote>
+<hr>
+<h2 id="สารบัญ">สารบัญ</h2>
+<ol>
+<li><a href="#%E0%B9%82%E0%B8%88%E0%B8%97%E0%B8%A2%E0%B9%8C">โจทย์</a></li>
+<li><a href="#%E0%B8%82%E0%B8%B1%E0%B9%89%E0%B8%99%E0%B8%97%E0%B8%B5%E0%B9%88-1-%E0%B8%AD%E0%B9%88%E0%B8%B2%E0%B8%99%E0%B9%82%E0%B8%84%E0%B8%A3%E0%B8%87%E0%B8%AA%E0%B8%A3%E0%B9%89%E0%B8%B2%E0%B8%87%E0%B8%81%E0%B8%A3%E0%B8%B2%E0%B8%9F%E0%B8%88%E0%B8%B2%E0%B8%81%E0%B8%A3%E0%B8%B9%E0%B8%9B">อ่านโครงสร้างกราฟจากรูป</a></li>
+<li><a href="#%E0%B8%82%E0%B8%B1%E0%B9%89%E0%B8%99%E0%B8%97%E0%B8%B5%E0%B9%88-2-%E0%B8%97%E0%B8%A4%E0%B8%A9%E0%B8%8E%E0%B8%B5%E0%B8%82%E0%B8%AD%E0%B8%87-fundamental-cutset">ทฤษฎีของ Fundamental Cutset</a></li>
+<li><a href="#%E0%B8%82%E0%B8%B1%E0%B9%89%E0%B8%99%E0%B8%97%E0%B8%B5%E0%B9%88-3-%E0%B8%AB%E0%B8%B2%E0%B8%AA%E0%B8%A1%E0%B8%81%E0%B8%B2%E0%B8%A3%E0%B9%81%E0%B8%A3%E0%B8%87%E0%B8%94%E0%B8%B1%E0%B8%99%E0%B8%81%E0%B8%B4%E0%B9%88%E0%B8%87">หาสมการแรงดันกิ่ง (KVL)</a></li>
+<li><a href="#%E0%B8%82%E0%B8%B1%E0%B9%89%E0%B8%99%E0%B8%97%E0%B8%B5%E0%B9%88-4-%E0%B8%AA%E0%B8%A1%E0%B8%81%E0%B8%B2%E0%B8%A3%E0%B8%84%E0%B8%B8%E0%B8%93%E0%B8%AA%E0%B8%A1%E0%B8%9A%E0%B8%B1%E0%B8%95%E0%B8%B4%E0%B8%82%E0%B8%AD%E0%B8%87%E0%B9%81%E0%B8%95%E0%B9%88%E0%B8%A5%E0%B8%B0%E0%B8%81%E0%B8%B4%E0%B9%88%E0%B8%87">สมการคุณสมบัติของแต่ละกิ่ง</a></li>
+<li><a href="#%E0%B8%82%E0%B8%B1%E0%B9%89%E0%B8%99%E0%B8%97%E0%B8%B5%E0%B9%88-5-%E0%B8%A3%E0%B8%A7%E0%B8%A1%E0%B8%AA%E0%B8%A1%E0%B8%81%E0%B8%B2%E0%B8%A3%E0%B8%84%E0%B8%B8%E0%B8%93%E0%B8%AA%E0%B8%A1%E0%B8%9A%E0%B8%B1%E0%B8%95%E0%B8%B4%E0%B8%97%E0%B8%B1%E0%B9%89%E0%B8%87%E0%B8%AB%E0%B8%A1%E0%B8%94%E0%B9%80%E0%B8%9B%E0%B9%87%E0%B8%99%E0%B8%A3%E0%B8%B9%E0%B8%9B%E0%B9%80%E0%B8%A1%E0%B8%97%E0%B8%A3%E0%B8%B4%E0%B8%81%E0%B8%8B%E0%B9%8C">รวมสมการคุณสมบัติเป็น Branch Admittance Matrix</a></li>
+<li><a href="#%E0%B8%82%E0%B8%B1%E0%B9%89%E0%B8%99%E0%B8%97%E0%B8%B5%E0%B9%88-6-%E0%B8%9B%E0%B8%A3%E0%B8%B0%E0%B8%AA%E0%B8%B2%E0%B8%99%E0%B8%AA%E0%B8%A1%E0%B8%81%E0%B8%B2%E0%B8%A3%E0%B8%97%E0%B8%B1%E0%B9%89%E0%B8%87%E0%B8%AA%E0%B8%B2%E0%B8%A1%E0%B8%81%E0%B8%A5%E0%B8%B8%E0%B9%88%E0%B8%A1%E0%B9%80%E0%B8%82%E0%B9%89%E0%B8%B2%E0%B8%94%E0%B9%89%E0%B8%A7%E0%B8%A2%E0%B8%81%E0%B8%B1%E0%B8%99">ประสานสมการทั้งสามกลุ่ม</a></li>
+<li><a href="#%E0%B8%82%E0%B8%B1%E0%B9%89%E0%B8%99%E0%B8%97%E0%B8%B5%E0%B9%88-7-%E0%B9%81%E0%B8%97%E0%B8%99%E0%B8%84%E0%B9%88%E0%B8%B2%E0%B8%95%E0%B8%B1%E0%B8%A7%E0%B9%81%E0%B8%9B%E0%B8%A3%E0%B8%82%E0%B8%AD%E0%B8%87%E0%B9%82%E0%B8%88%E0%B8%97%E0%B8%A2%E0%B9%8C">แทนค่าตัวแปรของโจทย์</a></li>
+<li><a href="#%E0%B8%82%E0%B8%B1%E0%B9%89%E0%B8%99%E0%B8%97%E0%B8%B5%E0%B9%88-8-%E0%B8%95%E0%B8%A3%E0%B8%A7%E0%B8%88%E0%B8%97%E0%B8%B2%E0%B8%99%E0%B8%94%E0%B9%89%E0%B8%A7%E0%B8%A2%E0%B8%95%E0%B8%B1%E0%B8%A7%E0%B9%80%E0%B8%A5%E0%B8%82%E0%B8%88%E0%B8%A3%E0%B8%B4%E0%B8%87">ตรวจทานด้วยตัวเลขจริง</a></li>
+<li><a href="#%E0%B8%AA%E0%B8%A3%E0%B8%B8%E0%B8%9B%E0%B9%81%E0%B8%99%E0%B8%A7%E0%B8%84%E0%B8%B4%E0%B8%94%E0%B8%AA%E0%B8%B3%E0%B8%84%E0%B8%B1%E0%B8%8D">สรุปแนวคิดสำคัญ</a></li>
+</ol>
+<hr>
+<h2 id="โจทย์">โจทย์</h2>
+<p>จากวงจรข่ายความต้านทานใน <strong>รูปที่ 1 (ก)</strong> ซึ่งเขียนกราฟมีทิศทางกำกับได้ดัง <strong>รูปที่ 1 (ข)</strong> อันประกอบด้วยกลุ่มของปม คือ $\{a, b\}$ และกลุ่มของกิ่ง คือ $\{1,2,3\}$</p>
+<p><strong>กำหนด:</strong></p>
+<ul>
+<li>กิ่งที่ 1 กับกิ่งที่ 3 เป็น <strong>ลิงค์ (Link)</strong></li>
+<li>กิ่งที่ 2 เป็น <strong>ทรี (Tree/Twig)</strong></li>
+<li>$e$ คือ <strong>แรงดันกิ่งของทรี</strong></li>
+</ul>
+<p><strong>จงเขียนสมการชุดตัดให้อยู่ในรูปแบบเมทริกซ์-เวกเตอร์ ที่มีตัวแปรคือแรงดันกิ่งของทรี $e$</strong> (ยังไม่ต้องแทนค่า $E, R_1, R_2, R_3$)</p>
+<p><img src="1-a.png" alt="รูปที่ 1 (ก) วงจรข่ายความต้านทาน"></p>
+<p><img src="1-b.png" alt="รูปที่ 1 (ข) กราฟมีทิศทางกำกับ"></p>
+<hr>
+<h2 id="ขั้นที่-1-อ่านโครงสร้างกราฟจากรูป">ขั้นที่ 1: อ่านโครงสร้างกราฟจากรูป</h2>
+<p><img src="fundamental_cutset_graph.png" alt="กราฟกับขอบเขตชุดตัดพื้นฐาน"></p>
+<p>จากรูป มี 2 ปม $\{a,b\}$ และ 3 กิ่ง $\{1,2,3\}$ โดยดูทิศทางลูกศรแต่ละกิ่งได้ดังนี้:</p>
+<table>
+<thead>
+<tr>
+<th>กิ่ง</th>
+<th>ทิศทาง (จากลูกศรในรูป)</th>
+<th>สอดคล้องกับองค์ประกอบในวงจร</th>
+<th>ประเภท</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>กิ่ง 1</td>
+<td>$b \to a$</td>
+<td>กิ่งรวมของ $E$ กับ $R_1$ (กระแส $I_T$ ไหลจาก $b$ ผ่าน $E,R_1$ เข้าปม $a$)</td>
+<td><strong>ลิงค์ (Link)</strong></td>
+</tr>
+<tr>
+<td>กิ่ง 2</td>
+<td>$a \to b$</td>
+<td>$R_2$ (กระแส $I_1$ ไหลจาก $a$ ลง $b$)</td>
+<td><strong>ทรี (Tree/Twig)</strong></td>
+</tr>
+<tr>
+<td>กิ่ง 3</td>
+<td>$a \to b$</td>
+<td>$R_3$ (กระแส $I_2$ ไหลจาก $a$ ลง $b$)</td>
+<td><strong>ลิงค์ (Link)</strong></td>
+</tr>
+</tbody></table>
+<p>ตรวจสอบว่ากราฟถูกต้องตามทฤษฎี: $n=2$ ปม, $b=3$ กิ่ง</p>
+<ul>
+<li>จำนวนกิ่งทรี = $n-1 = 1$ กิ่ง (ตรงกับกิ่ง 2) ✓</li>
+<li>จำนวนลิงค์ = $b-(n-1) = 3-1 = 2$ กิ่ง (ตรงกับกิ่ง 1, 3) ✓</li>
+</ul>
+<p><strong>นิยามของ $e$</strong>: โจทย์กำหนดให้ $e$ = แรงดันกิ่งของทรี (กิ่ง 2) โดยยึดทิศทางอ้างอิงเดียวกับลูกศรของกิ่ง 2 คือ $+$ ที่ปม $a$ (หาง) และ $-$ ที่ปม $b$ (หัวลูกศร) — สังเกตว่านี่คือ $V_2$ ในวงจรจริงนั่นเอง</p>
+<hr>
+<h2 id="ขั้นที่-2-ทฤษฎีของ-fundamental-cutset">ขั้นที่ 2: ทฤษฎีของ Fundamental Cutset</h2>
+<p><strong>นิยาม</strong>: เมื่อตัดกิ่งทรี 1 กิ่งออกจากต้นไม้ (tree) ต้นไม้จะแยกออกเป็น 2 ส่วน (2 กลุ่มปม) เสมอ <strong>Fundamental Cutset</strong> ของกิ่งทรีนั้น คือเซตของกิ่ง<strong>ทั้งหมด</strong>ในกราฟ (ทั้งทรีและลิงค์) ที่เชื่อมระหว่าง 2 ส่วนนี้</p>
+<p>สำหรับกรณีนี้ ($n=2$): เมื่อตัดกิ่งทรี (กิ่ง 2) ออก ต้นไม้จะแยกเป็นปม $\{a\}$ กับปม $\{b\}$ ทันที (เพราะทรีมีแค่กิ่งเดียว) ดังนั้น <strong>fundamental cutset ของกิ่ง 2 คือกิ่งทั้ง 3 กิ่งทั้งหมด</strong> (เพราะทุกกิ่งเชื่อมระหว่าง $a$ กับ $b$)</p>
+<p><strong>ทิศทางอ้างอิงของชุดตัด</strong>: กำหนดให้ตรงกับทิศทางของกิ่งทรีที่นิยามมัน คือ $a \to b$</p>
+<p><strong>เครื่องหมายในเมทริกซ์ $Q_f$</strong>: เทียบทิศทางแต่ละกิ่งกับทิศทางอ้างอิงของชุดตัด ($a\to b$)</p>
+<ul>
+<li>เหมือนทิศทาง → $+1$</li>
+<li>สวนทิศทาง → $-1$</li>
+<li>ไม่อยู่ในชุดตัด → $0$</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th>กิ่ง</th>
+<th>ทิศทางกิ่ง</th>
+<th>เทียบกับทิศทางชุดตัด ($a\to b$)</th>
+<th>ค่าใน $Q_f$</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>1</td>
+<td>$b\to a$</td>
+<td>สวนทาง</td>
+<td>$-1$</td>
+</tr>
+<tr>
+<td>2</td>
+<td>$a\to b$ (ตัวมันเอง)</td>
+<td>ตามทาง</td>
+<td>$+1$</td>
+</tr>
+<tr>
+<td>3</td>
+<td>$a\to b$</td>
+<td>ตามทาง</td>
+<td>$+1$</td>
+</tr>
+</tbody></table>
+<p>$$
+Q_f = \begin{bmatrix} -1 & 1 & 1 \end{bmatrix} \quad \text{(ขนาด } 1\times 3\text{, เรียงตามกิ่ง 1,2,3)}
+$$</p>
+<p><strong>สมการ KCL ของชุดตัด</strong> (บริบทก่อนไปขั้นต่อไป): $Q_f I_b = 0$ ให้ $-I_1+I_2+I_3=0$ ซึ่งตรงกับ KCL ที่ปม $a$ พอดี ($I_1$ ไหลเข้า = $I_2+I_3$ ไหลออก)</p>
+<hr>
+<h2 id="ขั้นที่-3-หาสมการแรงดันกิ่ง-kvl">ขั้นที่ 3: หาสมการแรงดันกิ่ง (KVL)</h2>
+<p>ทฤษฎีบทมาตรฐาน (Desoer-Kuh) กล่าวว่า: แรงดันกิ่งทรี (twig voltage) เป็นตัวแปรอิสระ และแรงดันทุกกิ่งในกราฟเขียนได้ในรูป</p>
+<p>$$
+V_b = Q_f^{\,T}\, e
+$$</p>
+<p>โดย $e$ คือเวกเตอร์แรงดันกิ่งทรี (ที่นี่มีตัวเดียว คือ $e$)</p>
+<p>$$
+\begin{bmatrix} V_1 \\ V_2 \\ V_3 \end{bmatrix}
+=
+\begin{bmatrix} -1 \\ 1 \\ 1 \end{bmatrix} e
+$$</p>
+<p><strong>เขียนแยกสมการ</strong>:</p>
+<p>$$
+V_1 = -e, \qquad V_2 = e, \qquad V_3 = e
+$$</p>
+<h3 id="ตรวจทานความถูกต้อง-sanity-check">ตรวจทานความถูกต้อง (sanity check)</h3>
+<p>เนื่องจากกราฟนี้มีแค่ 2 ปม กรณีนี้จึงลดรูปเป็น<strong>การวิเคราะห์แบบ single-node-pair แบบคลาสสิก</strong> พอดี: ถ้าตั้ง $b$ เป็นปมอ้างอิง ($V_b=0$) แล้ว $e = V_a$ คือแรงดันปม $a$ นั่นเอง ตรวจสอบด้วยเมทริกซ์การต่อเนื่องแบบลดรูป (reduced incidence matrix, ตัดแถวปม $b$ ทิ้ง) จะได้ $A_{red} = [-1,\ 1,\ 1]$ ซึ่ง<strong>เท่ากับ $Q_f$ พอดี</strong> — เพราะเมื่อ $n=2$ ชุดตัดพื้นฐานหนึ่งเดียวก็คือ &quot;กิ่งทั้งหมดที่แตะปม $a$&quot; ซึ่งเป็นนิยามเดียวกับแถวเมทริกซ์การต่อเนื่องของปม $a$ พอดี และสูตร $V_b=A^T V_n$ (แรงดันกิ่ง = ผลต่างแรงดันปม) ก็ให้ผลเดียวกัน — ยืนยันว่าคำตอบถูกต้องสอดคล้องกันทั้งสองวิธี</p>
+<hr>
+<h2 id="ขั้นที่-4-สมการคุณสมบัติของแต่ละกิ่ง-branch-constitutive-relations">ขั้นที่ 4: สมการคุณสมบัติของแต่ละกิ่ง (Branch Constitutive Relations)</h2>
+<h3 id="หลักการทั่วไป-passive-sign-convention">หลักการทั่วไป: Passive Sign Convention</h3>
+<p>ก่อนเขียนสมการ ต้องยึด<strong>กฎเครื่องหมาย (passive sign convention)</strong> ให้สอดคล้องกับที่นิยาม $Q_f$ ไว้แล้ว: สำหรับกิ่งกราฟทุกกิ่ง เรากำหนดขั้ว <strong>+ อยู่ที่หาง (tail)</strong> ของลูกศร และ <strong>− อยู่ที่หัว (head)</strong> ของลูกศร โดยที่กระแสอ้างอิงไหลจาก + ไป − <strong>ภายในกิ่ง</strong> (นี่คือกฎเดียวกับที่ใช้ตอนกำหนด $V_2=e$ ไปแล้วในขั้นที่ 1) การยึดกฎนี้ให้สม่ำเสมอสำคัญมาก เพราะถ้าสลับขั้วแม้แต่กิ่งเดียว เครื่องหมายในสมการสุดท้ายจะผิดทันที</p>
+<h3 id="กิ่งที่-2-และ-3-ตัวต้านทานล้วน">กิ่งที่ 2 และ 3 (ตัวต้านทานล้วน)</h3>
+<p>ทั้งสองกิ่งนี้เป็น<strong>ตัวต้านทานเพียวๆ</strong> ทิศทางกระแสอ้างอิง ($a\to b$) ตรงกับทิศทางที่ใช้นิยาม $V_2,V_3$ อยู่แล้ว (+ ที่ $a$, − ที่ $b$) ดังนั้นกฎของโอห์มเขียนตรงไปตรงมาแบบ passive sign convention ปกติ:</p>
+<p>$$
+V_2 = R_2 I_2 \qquad\Longrightarrow\qquad I_2 = \frac{1}{R_2}V_2 = G_2 V_2
+$$</p>
+<p>$$
+V_3 = R_3 I_3 \qquad\Longrightarrow\qquad I_3 = \frac{1}{R_3}V_3 = G_3 V_3
+$$</p>
+<p>โดย $G_2=1/R_2$, $G_3=1/R_3$ คือ<strong>ค่าความนำไฟฟ้า (conductance)</strong> ของแต่ละกิ่ง</p>
+<h3 id="กิ่งที่-1-กิ่งผสม-แหล่งจ่ายแรงดัน-mathinline112endmath-อนุกรมกับ-mathinline113endmath">กิ่งที่ 1 (กิ่งผสม: แหล่งจ่ายแรงดัน $E$ อนุกรมกับ $R_1$)</h3>
+<p>กิ่งนี้ซับซ้อนกว่า เพราะในกราฟทอพอโลยี <strong>กิ่งที่ 1 คือการรวม $E$ กับ $R_1$ เข้าเป็นอุปกรณ์สองขั้วเดียว (two-terminal composite element)</strong> ตามภาพวงจร: กระแส $I_T$ ไหลออกจากขั้ว $+$ ของ $E$ ผ่าน $R_1$ เข้าสู่โหนด $a$ ขณะที่ขั้ว $-$ ของ $E$ ต่อกับโหนด $b$</p>
+<p><strong>ไล่ศักย์ไฟฟ้าทีละช่วง จากโหนด $b$ ไปโหนด $a$</strong> (ตามทิศทางอ้างอิงของกิ่ง 1 คือ $b\to a$):</p>
+<ol>
+<li>จากโหนด $b$ ผ่านแหล่งจ่าย $E$ (จากขั้ว $-$ ไป $+$): ศักย์ <strong>เพิ่มขึ้น</strong> $E$ โวลต์</li>
+<li>จากนั้นผ่าน $R_1$ ในทิศทางที่กระแส $I_1$ ไหล: ศักย์ <strong>ลดลง</strong> $I_1 R_1$ โวลต์</li>
+</ol>
+<p>รวมสองช่วงเข้าด้วยกัน:</p>
+<p>$$
+V(a) = V(b) + E - I_1 R_1
+$$</p>
+<p>จัดรูปใหม่โดยใช้นิยาม $V_1 \equiv V(b)-V(a)$ (ขั้ว $+$ ที่ $b$ ตามที่ตารางในขั้นที่ 1 กำหนดไว้ว่ากิ่ง 1 มีทิศ $b\to a$):</p>
+<p>$$
+\boxed{V_1 = R_1 I_1 - E}
+$$</p>
+<p><strong>นี่คือสมการคุณสมบัติของกิ่งผสม</strong> ซึ่งก็คือสมการ Thevenin (แหล่งจ่ายแรงดัน $E$ อนุกรมกับความต้านทาน $R_1$) พอดี</p>
+<p>จัดรูปใหม่เพื่อให้ได้กระแสเป็นฟังก์ชันของแรงดัน (จำเป็นสำหรับขั้นต่อไป):</p>
+<p>$$
+I_1 = \frac{V_1+E}{R_1} = \underbrace{\frac{1}{R_1}}_{G_1}V_1 + \underbrace{\frac{E}{R_1}}_{I_{s1}}
+$$</p>
+<p>$$
+\boxed{I_1 = G_1 V_1 + I_{s1}}
+$$</p>
+<p>รูปแบบนี้เรียกว่า <strong>Norton Equivalent Form</strong> ของกิ่ง — คือแปลง &quot;แหล่งแรงดัน $E$ อนุกรม $R_1$&quot; (Thevenin) ให้เป็น &quot;แหล่งกระแส $I_{s1}=E/R_1$ ขนาน $R_1$&quot; (Norton) นั่นเอง ทำไมต้องแปลง? เพราะ<strong>วิธีชุดตัด (เช่นเดียวกับวิธีโหนด) ทำงานบนพื้นฐานของ KCL</strong> ซึ่งบวกลบ &quot;กระแส&quot; เข้าด้วยกัน จึงจำเป็นต้องมีสมการในรูป $I=f(V)$ ไม่ใช่ $V=f(I)$ — นี่คือเหตุผลเชิงลึกว่าทำไมวิธี node/cutset analysis จึงนิยมแปลงทุกกิ่งเป็น Norton form ก่อนเสมอ</p>
+<hr>
+<h2 id="ขั้นที่-5-รวมสมการคุณสมบัติทั้งหมดเป็นรูปเมทริกซ์-branch-admittance-matrix-form">ขั้นที่ 5: รวมสมการคุณสมบัติทั้งหมดเป็นรูปเมทริกซ์ (Branch Admittance Matrix Form)</h2>
+<p>รวมสมการทั้ง 3 กิ่งเป็นระบบเมทริกซ์เดียว:</p>
+<p>$$
+\begin{bmatrix}I_1\\I_2\\I_3\end{bmatrix} = \begin{bmatrix}G_1&0&0\\0&G_2&0\\0&0&G_3\end{bmatrix}\begin{bmatrix}V_1\\V_2\\V_3\end{bmatrix} + \begin{bmatrix}I_{s1}\\0\\0\end{bmatrix}
+$$</p>
+<p>เขียนย่อ:</p>
+<p>$$
+\boxed{I_b = Y_b\, V_b + I_s}
+$$</p>
+<p>โดย:</p>
+<ul>
+<li>$Y_b = \text{diag}(G_1,G_2,G_3) = \text{diag}\!\left(\dfrac{1}{R_1},\dfrac{1}{R_2},\dfrac{1}{R_3}\right)$ เรียกว่า <strong>branch admittance matrix</strong> — เป็นเมทริกซ์แนวทแยงเสมอ <strong>ก็ต่อเมื่อไม่มีการควบคุมข้ามกิ่ง (no controlled sources / no mutual coupling)</strong></li>
+<li>$I_s = \begin{bmatrix}E/R_1\\0\\0\end{bmatrix}$ คือ <strong>เวกเตอร์แหล่งกระแสสมมูล (Norton source vector)</strong> ของแต่ละกิ่ง — มีค่าไม่เป็นศูนย์เฉพาะกิ่งที่มีแหล่งจ่ายอิสระอยู่จริง</li>
+</ul>
+<p>สมการรูปนี้ (companion form) เป็นมาตรฐานที่ใช้ทั้งในการวิเคราะห์วงจรด้วยมือ และเป็นรากฐานของอัลกอริทึม <strong>Modified Nodal Analysis (MNA)</strong> ที่โปรแกรมจำลองวงจรอย่าง SPICE ใช้จริงในการคำนวณ</p>
+<hr>
+<h2 id="ขั้นที่-6-ประสานสมการทั้งสามกลุ่มเข้าด้วยกัน">ขั้นที่ 6: ประสานสมการทั้งสามกลุ่มเข้าด้วยกัน</h2>
+<p>ตอนนี้เรามีสมการครบ 3 กลุ่มแล้ว:</p>
+<p>$$
+\text{(KCL)} \quad Q_f I_b = 0 \tag{1}
+$$</p>
+<p>$$
+\text{(KVL)} \quad V_b = Q_f^T e \tag{2}
+$$</p>
+<p>$$
+\text{(Element law)} \quad I_b = Y_b V_b + I_s \tag{3}
+$$</p>
+<p><strong>ขั้นตอนการยุบตัวแปร (elimination):</strong> เป้าหมายคือกำจัด $I_b$ และ $V_b$ ออกไป ให้เหลือแต่ $e$ ตัวเดียว</p>
+<p><strong>แทน (3) ลงใน (1):</strong></p>
+<p>$$
+Q_f\big(Y_b V_b + I_s\big) = 0
+$$</p>
+<p>$$
+Q_f Y_b V_b + Q_f I_s = 0 \tag{4}
+$$</p>
+<p><strong>แทน (2) ลงใน (4):</strong></p>
+<p>$$
+Q_f Y_b \big(Q_f^T e\big) + Q_f I_s = 0
+$$</p>
+<p>$$
+\big(Q_f Y_b Q_f^T\big) e = -Q_f I_s
+$$</p>
+<p><strong>นี่คือรูปแบบทั่วไปของสมการชุดตัด</strong> ที่เขียนในรูปเมทริกซ์-เวกเตอร์ โดยมี $e$ เป็นตัวแปรเดียว:</p>
+<p>$$
+\boxed{Y_C\, e = J_C}
+$$</p>
+<p>โดยนิยาม:</p>
+<ul>
+<li>$Y_C \equiv Q_f Y_b Q_f^T$ เรียกว่า <strong>Cutset Admittance Matrix</strong> — ขนาด $(n-1)\times(n-1)$ (ในที่นี้คือ $1\times1$) เป็นตัวที่บอก &quot;ความนำไฟฟ้ารวม&quot; ที่ตัวแปร $e$ มองเห็น</li>
+<li>$J_C \equiv -Q_f I_s$ เรียกว่า <strong>Equivalent Cutset Source Vector</strong> — เป็นผลรวมของแหล่งกระแสทั้งหมดที่ถูก &quot;โยน&quot; เข้ามาปะทะที่ชุดตัดนั้นๆ</li>
+</ul>
+<blockquote>
+<p>สังเกตว่ารูปแบบ $Y_C e = J_C$ นี้ <strong>มีโครงสร้างเหมือนกันเป๊ะ</strong> กับสมการโหนด $Y_n V_n = I_n$ ที่คุ้นเคยจาก nodal analysis ทั่วไป (Circuit 1) นั่นเพราะ <strong>cutset analysis คือการวางนัยทั่วไป (generalization) ของ nodal analysis</strong> ให้ใช้ได้กับกราฟที่ไม่จำเป็นต้องมี &quot;ต้นไม้แบบดาว (star tree)&quot; — ขณะที่ nodal analysis แบบดั้งเดิมมองว่าตัวแปรอิสระคือแรงดันแต่ละโหนดเทียบกับ ground เสมอ, cutset analysis ยืดหยุ่นกว่าเพราะเลือกต้นไม้ (tree) ได้อิสระ</p>
+</blockquote>
+<hr>
+<h2 id="ขั้นที่-7-แทนค่าตัวแปรของโจทย์-เชิงสัญลักษณ์">ขั้นที่ 7: แทนค่าตัวแปรของโจทย์ (เชิงสัญลักษณ์)</h2>
+<p>คำนวณ $Y_C = Q_f Y_b Q_f^T$ ทีละขั้นตอน (คูณเมทริกซ์จากขวาไปซ้าย):</p>
+<p><strong>ขั้นย่อย ก) หา $Y_b Q_f^T$:</strong></p>
+<p>$$
+Y_b Q_f^T = \begin{bmatrix}\frac{1}{R_1}&0&0\\0&\frac{1}{R_2}&0\\0&0&\frac{1}{R_3}\end{bmatrix}\begin{bmatrix}-1\\1\\1\end{bmatrix} = \begin{bmatrix}-\frac{1}{R_1}\\[4pt]\frac{1}{R_2}\\[4pt]\frac{1}{R_3}\end{bmatrix}
+$$</p>
+<p><strong>ขั้นย่อย ข) หา $Q_f\big(Y_b Q_f^T\big)$:</strong></p>
+<p>$$
+Y_C = \begin{bmatrix}-1&1&1\end{bmatrix}\begin{bmatrix}-\frac{1}{R_1}\\[4pt]\frac{1}{R_2}\\[4pt]\frac{1}{R_3}\end{bmatrix} = (-1)\!\left(-\frac{1}{R_1}\right)+(1)\!\left(\frac{1}{R_2}\right)+(1)\!\left(\frac{1}{R_3}\right)
+$$</p>
+<p>$$
+\boxed{Y_C = \frac{1}{R_1}+\frac{1}{R_2}+\frac{1}{R_3}} \quad (\text{ขนาด }1\times1\text{ เพราะมีทรีเดียว})
+$$</p>
+<p>คำนวณ $J_C = -Q_f I_s$:</p>
+<p>$$
+J_C = -\begin{bmatrix}-1&1&1\end{bmatrix}\begin{bmatrix}E/R_1\\0\\0\end{bmatrix} = -\Big[(-1)(E/R_1)+0+0\Big] = \frac{E}{R_1}
+$$</p>
+<p>$$
+\boxed{J_C = \frac{E}{R_1}}
+$$</p>
+<h3 id="✅-สมการชุดตัดฉบับสมบูรณ์-คำตอบที่โจทย์ต้องการ">✅ สมการชุดตัดฉบับสมบูรณ์ (คำตอบที่โจทย์ต้องการ)</h3>
+<p>$$
+\underbrace{\left(\frac{1}{R_1}+\frac{1}{R_2}+\frac{1}{R_3}\right)}_{Y_C}\; e \;=\; \underbrace{\frac{E}{R_1}}_{J_C}
+$$</p>
+<p>หรือเขียนในรูปเมทริกซ์-เวกเตอร์เต็มรูปแบบ (แสดงที่มาครบทุกขั้น):</p>
+<p>$$
+\begin{bmatrix}-1&1&1\end{bmatrix}\begin{bmatrix}\frac{1}{R_1}&0&0\\0&\frac{1}{R_2}&0\\0&0&\frac{1}{R_3}\end{bmatrix}\begin{bmatrix}-1\\1\\1\end{bmatrix} e \;=\; -\begin{bmatrix}-1&1&1\end{bmatrix}\begin{bmatrix}E/R_1\\0\\0\end{bmatrix}
+$$</p>
+<p>นี่คือคำตอบสุดท้ายในรูปแบบเมทริกซ์-เวกเตอร์ ที่มีตัวแปรเดียวคือแรงดันกิ่งทรี $e$ ตามที่โจทย์ต้องการเป๊ะ — ยังไม่ต้องแทนค่าตัวเลข $E,R_1,R_2,R_3$ ก็ยังคงเป็นสมการที่สมบูรณ์และแก้ได้ในเชิงสัญลักษณ์</p>
+<hr>
+<h2 id="ขั้นที่-8-ตรวจทานด้วยตัวเลขจริง-best-practice">ขั้นที่ 8: ตรวจทานด้วยตัวเลขจริง (best practice)</h2>
+<p>ลองแทนตัวเลขจริง $E=10\text{V}, R_1=10\Omega, R_2=20\Omega, R_3=30\Omega$:</p>
+<p>$$
+Y_C = \frac{1}{10}+\frac{1}{20}+\frac{1}{30} = 0.1+0.05+0.0333 = 0.1833\ \text{S}
+$$</p>
+<p>$$
+J_C = \frac{10}{10}=1\ \text{A}
+$$</p>
+<p>$$
+e = \frac{J_C}{Y_C} = \frac{1}{0.1833} \approx 5.4545\ \text{V}
+$$</p>
+<p><strong>ตรวจทานด้วยวิธี nodal analysis แบบดั้งเดิม (Circuit 1)</strong> โดยตั้ง $b$ เป็น ground, $e=V_a$: กระแสที่ไหลเข้าโหนด $a$ จาก $E,R_1$ ต้องเท่ากับกระแสที่ไหลออกผ่าน $R_2,R_3$:</p>
+<p>$$
+\frac{E-V_a}{R_1}=\frac{V_a}{R_2}+\frac{V_a}{R_3} \;\;\Rightarrow\;\; V_a \approx 5.4545\text{ V}
+$$</p>
+<p>ตรงกันพอดีกับค่า $e$ ที่ได้จากวิธีชุดตัด ✓ ยืนยันว่าการยุบสมการทั้งหมดถูกต้อง — และยังยืนยันสิ่งที่ระบุไว้ตอนท้ายขั้นที่ 3 ด้วยว่า สำหรับกราฟ 2 โหนดกรณีนี้ วิธีชุดตัดลดรูปเหลือเทียบเท่ากับวิธีโหนดพอดี</p>
+<hr>
+<h2 id="สรุปแนวคิดสำคัญ">สรุปแนวคิดสำคัญ</h2>
+<ol>
+<li><strong>สมการวิเคราะห์วงจรทุกวิธีมี 3 ชั้นเสมอ</strong>: topological KCL, topological KVL, และ element (constitutive) law — สิ่งที่ต่างกันระหว่างวิธี node/loop/cutset คือ<strong>ลำดับการยุบตัวแปร</strong>และ<strong>ตัวแปรอิสระที่เลือกเก็บไว้</strong>เท่านั้น</li>
+<li>กิ่งที่มีแหล่งจ่ายอนุกรมกับตัวต้านทานต้องแปลงเป็น <strong>Norton form</strong> ก่อนเสมอ เพื่อให้อยู่ในรูป $I=f(V)$ ที่เข้ากับ KCL ได้</li>
+<li>$Y_C = Q_f Y_b Q_f^T$ คือ Cutset Admittance Matrix ซึ่งมีโครงสร้างขนานกับ Nodal Admittance Matrix ทุกประการ — เป็นเหตุผลที่ทำให้ cutset method เป็น <strong>generalization</strong> ของ nodal analysis</li>
+<li>วิธีนี้ (และคู่ตรงข้ามของมันคือ loop method ผ่าน $Z_L = B_f Z_b B_f^T$) เป็นรากฐานของการวิเคราะห์วงจรเชิงระบบ (systematic circuit analysis) ที่ใช้ในซอฟต์แวร์ EDA/SPICE จริง</li>
+</ol>
+<hr>
+<h2 id="อ้างอิงหลัก">อ้างอิงหลัก</h2>
+<ul>
+<li>C.A. Desoer &amp; E.S. Kuh, <em>Basic Circuit Theory</em>, McGraw-Hill — บทที่ 9 (Network Topology), บทที่ 10 (Formulation of Network Equations)</li>
+<li>L.O. Chua, C.A. Desoer &amp; E.S. Kuh, <em>Linear and Nonlinear Circuits</em>, McGraw-Hill — บทที่ 12 (State Equations, Cutset/Loop methods)</li>
+</ul>
+
+</body>
+</html>

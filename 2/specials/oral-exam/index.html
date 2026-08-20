@@ -1,0 +1,281 @@
+<!doctype html>
+<html lang="th">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>เตรียมสอบปากเปล่า 303212 — วงจรไฟฟ้า II</title>
+  <meta name="description" content="คลังโจทย์และสื่อการสอนสำหรับเตรียมสอบปากเปล่า วิชา 303212 วงจรไฟฟ้า II ทั้ง 5 ข้อ">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Thai:wght@400;500;600;700&family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #080d17;
+      --panel: #0e1726;
+      --border: rgba(140, 185, 235, 0.16);
+      --ink: #e8f0fb;
+      --ink-soft: #a6b6cd;
+      --accent: #5b9dff;
+      --accent-soft: rgba(91, 157, 255, 0.12);
+      --green: #34d399;
+      --green-soft: rgba(52, 211, 153, 0.12);
+      --radius: 16px;
+    }
+
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      padding: 0;
+      min-height: 100vh;
+      background: var(--bg);
+      color: var(--ink);
+      font-family: "IBM Plex Sans Thai", Inter, system-ui, -apple-system, sans-serif;
+      line-height: 1.6;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    .wrap {
+      max-width: 960px;
+      margin: 0 auto;
+      padding: 40px 20px 80px;
+    }
+
+    header {
+      text-align: center;
+      margin-bottom: 40px;
+      padding-bottom: 24px;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .badge {
+      display: inline-block;
+      font-size: 0.78rem;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--accent);
+      background: var(--accent-soft);
+      border: 1px solid rgba(91, 157, 255, 0.25);
+      padding: 5px 14px;
+      border-radius: 999px;
+      margin-bottom: 14px;
+    }
+
+    h1 {
+      margin: 0 0 12px;
+      font-size: clamp(1.6rem, 3.8vw, 2.4rem);
+      font-weight: 700;
+      letter-spacing: -0.01em;
+    }
+
+    .sub {
+      color: var(--ink-soft);
+      font-size: clamp(0.95rem, 1.8vw, 1.08rem);
+      margin: 0 auto;
+      max-width: 620px;
+    }
+
+    /* Problem List */
+    .problem-list {
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+    }
+
+    .card {
+      background: var(--panel);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 24px 28px;
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+      transition: border-color 0.2s ease, transform 0.2s ease;
+    }
+
+    @media (min-width: 680px) {
+      .card {
+        flex-direction: row;
+        align-items: center;
+        justify-content: space-between;
+      }
+    }
+
+    .card:hover {
+      border-color: rgba(91, 157, 255, 0.35);
+      transform: translateY(-2px);
+    }
+
+    .card-info {
+      flex: 1;
+    }
+
+    .card-tag {
+      display: inline-block;
+      font-size: 0.76rem;
+      font-weight: 700;
+      padding: 3px 10px;
+      border-radius: 6px;
+      margin-bottom: 8px;
+    }
+
+    .tag-active {
+      background: var(--green-soft);
+      color: var(--green);
+      border: 1px solid rgba(52, 211, 153, 0.25);
+    }
+
+    .tag-soon {
+      background: rgba(166, 182, 205, 0.1);
+      color: var(--ink-soft);
+      border: 1px solid var(--border);
+    }
+
+    .card h2 {
+      margin: 0 0 6px;
+      font-size: 1.22rem;
+      font-weight: 700;
+    }
+
+    .card p {
+      margin: 0;
+      color: var(--ink-soft);
+      font-size: 0.92rem;
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      padding: 12px 22px;
+      border-radius: 12px;
+      font-size: 0.92rem;
+      font-weight: 700;
+      text-decoration: none;
+      white-space: nowrap;
+      transition: all 0.2s ease;
+      cursor: pointer;
+    }
+
+    .btn-primary {
+      background: var(--accent);
+      color: #080d17;
+      border: none;
+      box-shadow: 0 4px 16px rgba(91, 157, 255, 0.25);
+    }
+
+    .btn-primary:hover {
+      filter: brightness(1.12);
+      transform: scale(1.02);
+    }
+
+    .btn-disabled {
+      background: rgba(255, 255, 255, 0.04);
+      color: var(--ink-soft);
+      border: 1px solid var(--border);
+      cursor: not-allowed;
+      opacity: 0.6;
+    }
+
+    footer {
+      text-align: center;
+      margin-top: 48px;
+      color: var(--ink-soft);
+      font-size: 0.85rem;
+    }
+  </style>
+</head>
+<body>
+  <!-- Top Breadcrumbs Navigation -->
+  <nav style="position:sticky;top:0;z-index:60;backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);background:rgba(8,13,23,0.85);border-bottom:1px solid rgba(140,185,235,0.16);padding:12px 24px;font-family:'IBM Plex Sans Thai',sans-serif;">
+    <div style="max-width:960px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;font-size:0.88rem;flex-wrap:wrap;gap:10px;">
+      <div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap;color:#a6b6cd;">
+        <a href="../../../index.html" style="color:#a6b6cd;text-decoration:none;display:inline-flex;align-items:center;gap:4px;">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path><polyline points="9 22 9 12 15 12 15 22"></polyline></svg>
+          Portal
+        </a>
+        <span>/</span>
+        <a href="../../index.html" style="color:#a6b6cd;text-decoration:none;">⚡ Circuit 2</a>
+        <span>/</span>
+        <span style="color:#e8f0fb;font-weight:600;">Oral Exam Hub</span>
+      </div>
+      <div>
+        <a href="../../index.html" style="color:#5b9dff;text-decoration:none;">← กลับ Circuit 2 Hub</a>
+      </div>
+    </div>
+  </nav>
+
+  <div class="wrap">
+    
+    <header>
+      <span class="badge">303212 · Electrical Circuit Analysis II</span>
+      <h1>เตรียมสอบปากเปล่า (Oral Exam 5 ข้อ)</h1>
+      <p class="sub">เลือกข้อที่ต้องการเพื่อเข้าสู่บทเรียน สื่อการสอนแบบโต้ตอบ และบทซ้อมตอบกรรมการ</p>
+    </header>
+
+    <main class="problem-list">
+      
+      <!-- ข้อที่ 1 -->
+      <article class="card">
+        <div class="card-info">
+          <span class="card-tag tag-active">✅ พร้อมใช้งาน</span>
+          <h2>ข้อที่ 1 — วงข่ายความต้านทาน &amp; แบบจำลองแบตเตอรี่</h2>
+          <p>KCL/KVL, การระบุพารามิเตอร์แบตเตอรี่ 8 ตัว, วิธีลายมืออาจารย์ y = mx + c และคัมภีร์ซ้อมตอบสอบปากเปล่า</p>
+        </div>
+        <a href="problems/problem-1/solution3/interactive_dashboard.html" class="btn btn-primary">
+          🚀 เข้าสู่เฉลย &amp; สื่อโต้ตอบ (ข้อที่ 1)
+        </a>
+      </article>
+
+      <!-- ข้อที่ 2 -->
+      <article class="card">
+        <div class="card-info">
+          <span class="card-tag tag-soon">📌 รอดำเนินการ</span>
+          <h2>ข้อที่ 2 — โจทย์สอบปากเปล่า ข้อที่ 2</h2>
+          <p>โจทย์วิเคราะห์วงจรไฟฟ้าพิเศษข้อที่ 2 สำหรับเตรียมสอบปากเปล่า 303212</p>
+        </div>
+        <button class="btn btn-disabled" disabled>⏳ กำลังจัดเตรียมเนื้อหา</button>
+      </article>
+
+      <!-- ข้อที่ 3 -->
+      <article class="card">
+        <div class="card-info">
+          <span class="card-tag tag-active">✅ พร้อมใช้งาน</span>
+          <h2>ข้อที่ 3 — วงข่ายความนำไฟฟ้า &amp; สมการชุดตัด</h2>
+          <p>ความนำไฟฟ้า G [℧], ทฤษฎีกราฟวงจร (ต้นไม้ / กิ่งร่วม / รอยตัด), เมทริกซ์ชุดตัด [Q][Y<sub>b</sub>][Q]<sup>T</sup>, Supernode และคัมภีร์ซ้อมตอบสอบปากเปล่า 15 ข้อ</p>
+        </div>
+        <a href="problems/problem-3/solution3/interactive_dashboard.html" class="btn btn-primary">
+          🚀 เข้าสู่เฉลย &amp; สื่อโต้ตอบ (ข้อที่ 3)
+        </a>
+      </article>
+
+      <!-- ข้อที่ 4 -->
+      <article class="card">
+        <div class="card-info">
+          <span class="card-tag tag-active">✅ พร้อมใช้งาน</span>
+          <h2>ข้อที่ 4 — วงข่ายความนำไฟฟ้า &amp; แหล่งกำเนิดกระแสไม่อิสระ</h2>
+          <p>CCCS <span class="mono">αi<sub>x</sub></span>, Fundamental Cut-Set Matrix, KCL แบบไม่ข้ามขั้น, วิเคราะห์ความไวและจุด critical ของวงจร active</p>
+        </div>
+        <a href="problems/problem-4/solution3/interactive_dashboard.html" class="btn btn-primary">🚀 เข้าสู่เฉลย &amp; สื่อโต้ตอบ (ข้อที่ 4)</a>
+      </article>
+
+      <!-- ข้อที่ 5 -->
+      <article class="card">
+        <div class="card-info">
+          <span class="card-tag tag-active">✅ พร้อมใช้งาน</span>
+          <h2>ข้อที่ 5 — วงข่ายความนำไฟฟ้า &amp; Directed Graph</h2>
+          <p>Incidence Matrix, KCL, Cut-set Matrix, การตรวจเครื่องหมาย และคัมภีร์ซ้อมตอบปากเปล่า 15 ข้อ</p>
+        </div>
+        <a href="problems/problem-5/solution3/interactive_dashboard.html" class="btn btn-primary">🚀 เข้าสู่เฉลย &amp; สื่อโต้ตอบ (ข้อที่ 5)</a>
+      </article>
+
+    </main>
+
+    <footer>
+      ⚡ 303212 Electrical Circuit Analysis II — Oral Exam Learning Portal
+    </footer>
+
+  </div>
+</body>
+</html>

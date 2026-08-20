@@ -1,0 +1,19 @@
+{
+  "c0_volt": 4.03646705257708,
+  "eo_volt_conditional": 4.184467052577079,
+  "k_volt_per_coulomb": 0.00027215437959240935,
+  "aa_volt": 0.13763735614126876,
+  "ba_per_coulomb": 0.010237510237510428,
+  "ab_volt": 559.9457328258209,
+  "bb_per_coulomb": 0.01072501072501055,
+  "ri_ohm_assumed": 0.2,
+  "qn_coulomb": 2664.0000000000005,
+  "current_ampere": 0.7400000000000001,
+  "sse_volt2": 6.764158829299036e-25,
+  "rmse_volt": 1.5674864404894957e-14,
+  "max_abs_error_volt": 4.707345624410664e-14,
+  "source_file": "/Users/3rapat/student/internship/CODEFIN/project/vahalla-wealth/private-docs/other-project/uni-work/engineering-problem/circuit/2/specials/oral-exam/data303212qz02.md",
+  "rows": 2753,
+  "identifiability": "Eo and Ri are not separately identifiable at one constant current; Eo is conditional on ri_ohm_assumed.",
+  "family_equation": "Eo = 4.03646705257708 + 0.74 * Ri"
+}

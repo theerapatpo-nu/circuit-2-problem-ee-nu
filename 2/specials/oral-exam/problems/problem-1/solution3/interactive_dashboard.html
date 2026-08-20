@@ -1,0 +1,4047 @@
+<!doctype html>
+<html lang="th">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>ห้องเรียนวงจรแบตเตอรี่ — เตรียมสอบปากเปล่า 303212</title>
+  <meta name="description" content="สื่อการสอนโต้ตอบ: KCL/KVL, การหาพารามิเตอร์แบตเตอรี่, และคัมภีร์ซ้อมตอบสอบปากเปล่า">
+  <style>
+    :root {
+      --bg: #f6f8fc;
+      --bg2: #eef2f9;
+      --panel: rgba(255, 255, 255, .78);
+      --panel-solid: #fff;
+      --line: rgba(24, 49, 83, .13);
+      --line-strong: rgba(24, 49, 83, .22);
+      --ink: #12203a;
+      --ink-soft: #4a5b78;
+      --ink-faint: #7a89a3;
+      --accent: #2563eb;
+      --accent-soft: rgba(37, 99, 235, .10);
+      --teal: #0d9488;
+      --violet: #7c3aed;
+      --amber: #c2740b;
+      --rose: #dc2626;
+      --green: #15803d;
+      --shadow: 0 10px 40px rgba(20, 40, 80, .08);
+      --shadow-lg: 0 24px 70px rgba(20, 40, 80, .14);
+      --r: 18px;
+      --mono: ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+    }
+
+    @media (prefers-color-scheme:dark) {
+      :root {
+        --bg: #080d17;
+        --bg2: #0c1422;
+        --panel: rgba(19, 29, 47, .72);
+        --panel-solid: #131d2f;
+        --line: rgba(150, 185, 230, .16);
+        --line-strong: rgba(150, 185, 230, .28);
+        --ink: #e8f0fb;
+        --ink-soft: #a6b6cd;
+        --ink-faint: #78899f;
+        --accent: #5b9dff;
+        --accent-soft: rgba(91, 157, 255, .14);
+        --teal: #2dd4bf;
+        --violet: #a78bfa;
+        --amber: #fbbf24;
+        --rose: #fb7185;
+        --green: #4ade80;
+        --shadow: 0 10px 40px rgba(0, 0, 0, .35);
+        --shadow-lg: 0 24px 70px rgba(0, 0, 0, .45);
+      }
+    }
+
+    * {
+      box-sizing: border-box
+    }
+
+    html {
+      scroll-behavior: smooth;
+      -webkit-text-size-adjust: 100%
+    }
+
+    body {
+      margin: 0;
+      min-width: 320px;
+      color: var(--ink);
+      line-height: 1.75;
+      font-family: "Noto Sans Thai", "IBM Plex Sans Thai", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", sans-serif;
+      background:
+        radial-gradient(1100px 600px at 12% -5%, rgba(37, 99, 235, .10), transparent 60%),
+        radial-gradient(900px 520px at 92% 8%, rgba(124, 58, 237, .09), transparent 60%),
+        linear-gradient(170deg, var(--bg), var(--bg2));
+      background-attachment: fixed;
+    }
+
+    h1,
+    h2,
+    h3,
+    h4 {
+      line-height: 1.35;
+      margin: 0 0 .5em
+    }
+
+    p {
+      margin: 0 0 1em
+    }
+
+    a {
+      color: var(--accent)
+    }
+
+    code,
+    .mono {
+      font-family: var(--mono);
+      font-size: .92em
+    }
+
+    /* ---------- shell ---------- */
+    .wrap {
+      max-width: 1240px;
+      margin: 0 auto;
+      padding: 0 clamp(12px, 3vw, 28px) 80px
+    }
+
+    header.top {
+      padding: clamp(26px, 5vw, 54px) 0 18px;
+      text-align: center
+    }
+
+    .eyebrow {
+      display: inline-block;
+      font-size: .74rem;
+      letter-spacing: .16em;
+      text-transform: uppercase;
+      color: var(--accent);
+      background: var(--accent-soft);
+      border: 1px solid var(--line);
+      padding: 6px 14px;
+      border-radius: 999px;
+      margin-bottom: 14px;
+      font-weight: 600
+    }
+
+    header.top h1 {
+      font-size: clamp(1.5rem, 4.4vw, 2.5rem);
+      letter-spacing: -.01em
+    }
+
+    header.top .sub {
+      color: var(--ink-soft);
+      max-width: 60ch;
+      margin: 0 auto;
+      font-size: clamp(.92rem, 2.2vw, 1.03rem)
+    }
+
+    /* ---------- tabs ---------- */
+    .tabbar {
+      position: sticky;
+      top: 0;
+      z-index: 40;
+      margin: 22px 0 26px;
+      padding: 7px;
+      background: var(--panel);
+      backdrop-filter: blur(18px);
+      -webkit-backdrop-filter: blur(18px);
+      border: 1px solid var(--line);
+      border-radius: 16px;
+      box-shadow: var(--shadow);
+      display: flex;
+      gap: 5px;
+      overflow-x: auto;
+      scrollbar-width: thin
+    }
+
+    .tabbar::-webkit-scrollbar {
+      height: 5px
+    }
+
+    .tabbar::-webkit-scrollbar-thumb {
+      background: var(--line-strong);
+      border-radius: 9px
+    }
+
+    .tabbtn {
+      flex: 0 0 auto;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 10px 15px;
+      border: 0;
+      border-radius: 11px;
+      background: transparent;
+      color: var(--ink-soft);
+      font: inherit;
+      font-size: .9rem;
+      font-weight: 600;
+      cursor: pointer;
+      white-space: nowrap;
+      transition: .16s
+    }
+
+    .tabbtn .n {
+      display: grid;
+      place-items: center;
+      width: 21px;
+      height: 21px;
+      border-radius: 7px;
+      background: var(--line);
+      color: var(--ink-soft);
+      font-size: .72rem;
+      font-weight: 700;
+      flex: none
+    }
+
+    .tabbtn:hover {
+      background: var(--accent-soft);
+      color: var(--ink)
+    }
+
+    .tabbtn[aria-selected="true"] {
+      background: var(--accent);
+      color: #fff;
+      box-shadow: 0 4px 16px rgba(37, 99, 235, .32)
+    }
+
+    .tabbtn[aria-selected="true"] .n {
+      background: rgba(255, 255, 255, .24);
+      color: #fff
+    }
+
+    .panel[hidden] {
+      display: none
+    }
+
+    /* ---------- cards ---------- */
+    .card {
+      background: var(--panel);
+      backdrop-filter: blur(14px);
+      -webkit-backdrop-filter: blur(14px);
+      border: 1px solid var(--line);
+      border-radius: var(--r);
+      box-shadow: var(--shadow);
+      padding: clamp(18px, 3.2vw, 30px);
+      margin-bottom: 20px
+    }
+
+    .card h2 {
+      font-size: clamp(1.14rem, 2.9vw, 1.5rem);
+      display: flex;
+      gap: 11px;
+      align-items: flex-start
+    }
+
+    .card h2 .ic {
+      font-size: 1.15em;
+      line-height: 1.2;
+      flex: none
+    }
+
+    .card h3 {
+      font-size: clamp(1rem, 2.3vw, 1.14rem);
+      color: var(--ink);
+      margin-top: 1.6em
+    }
+
+    .card h3:first-of-type {
+      margin-top: .4em
+    }
+
+    .lead {
+      color: var(--ink-soft);
+      font-size: 1.02rem
+    }
+
+    .grid {
+      display: grid;
+      gap: 16px
+    }
+
+    @media(min-width:820px) {
+      .g2 {
+        grid-template-columns: 1fr 1fr
+      }
+
+      .g3 {
+        grid-template-columns: repeat(3, 1fr)
+      }
+    }
+
+    @media(min-width:640px) and (max-width:819px) {
+      .g3 {
+        grid-template-columns: 1fr 1fr
+      }
+    }
+
+    /* ---------- callouts ---------- */
+    .note {
+      border-left: 4px solid var(--accent);
+      background: var(--accent-soft);
+      padding: 14px 18px;
+      border-radius: 0 12px 12px 0;
+      margin: 16px 0
+    }
+
+    .warn {
+      border-left-color: var(--rose);
+      background: color-mix(in srgb, var(--rose) 11%, transparent)
+    }
+
+    .win {
+      border-left-color: var(--green);
+      background: color-mix(in srgb, var(--green) 12%, transparent)
+    }
+
+    .tip {
+      border-left-color: var(--amber);
+      background: color-mix(in srgb, var(--amber) 13%, transparent)
+    }
+
+    .note p:last-child,
+    .note ul:last-child {
+      margin-bottom: 0
+    }
+
+    .note .lbl {
+      font-weight: 700;
+      display: block;
+      margin-bottom: 4px
+    }
+
+    /* ---------- tables ---------- */
+    .tw {
+      overflow-x: auto;
+      margin: 16px 0;
+      border: 1px solid var(--line);
+      border-radius: 13px;
+      background: var(--panel-solid)
+    }
+
+    table {
+      border-collapse: collapse;
+      width: 100%;
+      min-width: 480px;
+      font-size: .9rem
+    }
+
+    th,
+    td {
+      padding: 9px 13px;
+      text-align: left;
+      border-bottom: 1px solid var(--line)
+    }
+
+    th {
+      background: var(--accent-soft);
+      font-weight: 700;
+      font-size: .83rem;
+      white-space: nowrap
+    }
+
+    tbody tr:last-child td {
+      border-bottom: 0
+    }
+
+    tbody tr:hover {
+      background: var(--accent-soft)
+    }
+
+    td.num,
+    th.num {
+      text-align: right;
+      font-family: var(--mono);
+      font-size: .85rem;
+      white-space: nowrap
+    }
+
+    /* ---------- math / eq ---------- */
+    .eq {
+      background: var(--panel-solid);
+      border: 1px solid var(--line);
+      border-radius: 12px;
+      padding: 15px 18px;
+      margin: 14px 0;
+      overflow-x: auto;
+      text-align: center;
+      font-family: var(--mono);
+      font-size: clamp(.84rem, 2vw, .98rem);
+      line-height: 2
+    }
+
+    .eq.left {
+      text-align: left
+    }
+
+    .eq b {
+      color: var(--accent);
+      font-weight: 700
+    }
+
+    .eq .hi {
+      background: color-mix(in srgb, var(--amber) 26%, transparent);
+      border-radius: 5px;
+      padding: 1px 5px
+    }
+
+    .eq .dim {
+      color: var(--ink-faint)
+    }
+
+    sub,
+    sup {
+      font-size: .72em
+    }
+
+    /* ---------- steps ---------- */
+    .step {
+      display: flex;
+      gap: 15px;
+      padding: 15px 0;
+      border-bottom: 1px dashed var(--line)
+    }
+
+    .step:last-child {
+      border-bottom: 0
+    }
+
+    .step .k {
+      flex: none;
+      width: 31px;
+      height: 31px;
+      border-radius: 10px;
+      display: grid;
+      place-items: center;
+      background: var(--accent);
+      color: #fff;
+      font-weight: 700;
+      font-size: .85rem;
+      font-family: var(--mono)
+    }
+
+    .step .body {
+      flex: 1;
+      min-width: 0
+    }
+
+    .step .body p:last-child {
+      margin-bottom: 0
+    }
+
+    .step h4 {
+      margin: 0 0 6px;
+      font-size: 1rem
+    }
+
+    /* ---------- stat tiles ---------- */
+    .stats {
+      display: grid;
+      gap: 12px;
+      grid-template-columns: repeat(auto-fit, minmax(148px, 1fr));
+      margin: 16px 0
+    }
+
+    .stat {
+      background: var(--panel-solid);
+      border: 1px solid var(--line);
+      border-radius: 13px;
+      padding: 14px 16px
+    }
+
+    .stat .lb {
+      font-size: .74rem;
+      color: var(--ink-faint);
+      text-transform: uppercase;
+      letter-spacing: .07em;
+      font-weight: 600
+    }
+
+    .stat .vl {
+      font-family: var(--mono);
+      font-size: clamp(1.02rem, 2.6vw, 1.28rem);
+      font-weight: 700;
+      color: var(--accent);
+      margin: 3px 0 1px
+    }
+
+    .stat .un {
+      font-size: .78rem;
+      color: var(--ink-soft)
+    }
+
+    .stat.t2 .vl {
+      color: var(--teal)
+    }
+
+    .stat.t3 .vl {
+      color: var(--violet)
+    }
+
+    .stat.t4 .vl {
+      color: var(--amber)
+    }
+
+    /* ---------- figures ---------- */
+    figure {
+      margin: 16px 0;
+      background: var(--panel-solid);
+      border: 1px solid var(--line);
+      border-radius: 13px;
+      padding: 14px;
+      text-align: center
+    }
+
+    figure img {
+      max-width: 100%;
+      height: auto;
+      border-radius: 8px;
+      background: #fff;
+      padding: 8px
+    }
+
+    figcaption {
+      color: var(--ink-faint);
+      font-size: .84rem;
+      margin-top: 9px
+    }
+
+    svg.chart {
+      width: 100%;
+      height: auto;
+      display: block;
+      overflow: visible
+    }
+
+    .chart text {
+      font-family: inherit;
+      font-size: 11px;
+      fill: var(--ink-faint)
+    }
+
+    .chart .ax {
+      stroke: var(--line-strong);
+      stroke-width: 1
+    }
+
+    .chart .gr {
+      stroke: var(--line);
+      stroke-width: 1;
+      stroke-dasharray: 3 4
+    }
+
+    .chart .lbx {
+      fill: var(--ink-soft);
+      font-size: 11.5px;
+      font-weight: 600
+    }
+
+    /* ---------- Q&A ---------- */
+    details.qa {
+      border: 1px solid var(--line);
+      border-radius: 13px;
+      margin-bottom: 11px;
+      background: var(--panel-solid);
+      overflow: hidden
+    }
+
+    details.qa[open] {
+      border-color: var(--accent);
+      box-shadow: 0 5px 22px rgba(37, 99, 235, .11)
+    }
+
+    details.qa>summary {
+      padding: 15px 18px;
+      cursor: pointer;
+      font-weight: 700;
+      list-style: none;
+      display: flex;
+      gap: 11px;
+      align-items: flex-start;
+      font-size: .97rem;
+      transition: .14s
+    }
+
+    details.qa>summary::-webkit-details-marker {
+      display: none
+    }
+
+    details.qa>summary:hover {
+      background: var(--accent-soft)
+    }
+
+    details.qa>summary .qn {
+      flex: none;
+      width: 26px;
+      height: 26px;
+      border-radius: 8px;
+      background: var(--accent);
+      color: #fff;
+      display: grid;
+      place-items: center;
+      font-size: .78rem;
+      font-family: var(--mono)
+    }
+
+    details.qa.danger>summary .qn {
+      background: var(--rose)
+    }
+
+    details.qa .qbody {
+      padding: 2px 18px 18px;
+      border-top: 1px solid var(--line)
+    }
+
+    .qsec {
+      margin: 15px 0
+    }
+
+    .qsec>.h {
+      font-size: .79rem;
+      font-weight: 700;
+      letter-spacing: .05em;
+      text-transform: uppercase;
+      color: var(--ink-faint);
+      margin-bottom: 6px
+    }
+
+    .script {
+      border-left: 4px solid var(--green);
+      background: color-mix(in srgb, var(--green) 9%, transparent);
+      padding: 14px 18px;
+      border-radius: 0 12px 12px 0;
+      font-size: .96rem
+    }
+
+    .script p {
+      margin: 0 0 .8em
+    }
+
+    .script p:last-child {
+      margin: 0
+    }
+
+    .trap {
+      list-style: none;
+      padding: 0;
+      margin: 0
+    }
+
+    .trap li {
+      padding: 6px 0 6px 26px;
+      position: relative;
+      color: var(--ink-soft);
+      font-size: .94rem
+    }
+
+    .trap li::before {
+      content: "✕";
+      position: absolute;
+      left: 0;
+      color: var(--rose);
+      font-weight: 700
+    }
+
+    /* ---------- lab ---------- */
+    .lab {
+      display: grid;
+      gap: 18px
+    }
+
+    @media(min-width:960px) {
+      .lab {
+        grid-template-columns: 330px 1fr
+      }
+    }
+
+    .ctrl {
+      background: var(--panel-solid);
+      border: 1px solid var(--line);
+      border-radius: 14px;
+      padding: 16px
+    }
+
+    .sl {
+      margin-bottom: 15px
+    }
+
+    .sl .row {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      gap: 8px;
+      margin-bottom: 5px
+    }
+
+    .sl .nm {
+      font-weight: 700;
+      font-size: .87rem
+    }
+
+    .sl .vv {
+      font-family: var(--mono);
+      font-size: .83rem;
+      color: var(--accent);
+      font-weight: 700
+    }
+
+    .sl input[type=range] {
+      width: 100%;
+      accent-color: var(--accent);
+      height: 22px;
+      cursor: pointer
+    }
+
+    .sl .hint {
+      font-size: .75rem;
+      color: var(--ink-faint);
+      margin-top: 2px
+    }
+
+    .btnrow {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+      margin-top: 6px
+    }
+
+    .btn {
+      padding: 9px 15px;
+      border-radius: 10px;
+      border: 1px solid var(--line-strong);
+      background: var(--panel-solid);
+      color: var(--ink);
+      font: inherit;
+      font-size: .85rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: .14s
+    }
+
+    .btn:hover {
+      background: var(--accent-soft);
+      border-color: var(--accent)
+    }
+
+    .btn.pri {
+      background: var(--accent);
+      color: #fff;
+      border-color: var(--accent)
+    }
+
+    .btn.pri:hover {
+      filter: brightness(1.09)
+    }
+
+    .readout {
+      display: grid;
+      gap: 9px;
+      grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+      margin-top: 14px
+    }
+
+    .ro {
+      background: var(--accent-soft);
+      border: 1px solid var(--line);
+      border-radius: 11px;
+      padding: 10px 12px
+    }
+
+    .ro .l {
+      font-size: .7rem;
+      color: var(--ink-faint);
+      text-transform: uppercase;
+      letter-spacing: .06em;
+      font-weight: 600
+    }
+
+    .ro .v {
+      font-family: var(--mono);
+      font-weight: 700;
+      font-size: 1rem;
+      color: var(--ink)
+    }
+
+    .badge {
+      display: inline-block;
+      padding: 2px 9px;
+      border-radius: 999px;
+      font-size: .74rem;
+      font-weight: 700;
+      font-family: var(--mono)
+    }
+
+    .b-ok {
+      background: color-mix(in srgb, var(--green) 20%, transparent);
+      color: var(--green)
+    }
+
+    .b-warn {
+      background: color-mix(in srgb, var(--amber) 22%, transparent);
+      color: var(--amber)
+    }
+
+    .b-bad {
+      background: color-mix(in srgb, var(--rose) 18%, transparent);
+      color: var(--rose)
+    }
+
+    .circuit-live text {
+      font-family: var(--mono);
+      font-size: 12px
+    }
+
+    .foot {
+      text-align: center;
+      color: var(--ink-faint);
+      font-size: .85rem;
+      padding: 26px 0 0;
+      border-top: 1px solid var(--line);
+      margin-top: 26px
+    }
+
+    ul.tick {
+      list-style: none;
+      padding: 0
+    }
+
+    ul.tick li {
+      padding: 5px 0 5px 26px;
+      position: relative
+    }
+
+    ul.tick li::before {
+      content: "→";
+      position: absolute;
+      left: 2px;
+      color: var(--accent);
+      font-weight: 700
+    }
+
+    .kbd {
+      font-family: var(--mono);
+      background: var(--panel-solid);
+      border: 1px solid var(--line-strong);
+      border-bottom-width: 2px;
+      border-radius: 6px;
+      padding: 1px 6px;
+      font-size: .82em
+    }
+
+    
+    /* ---------- Sticky Problem Toggle & Floating Drawer (Compact Icon-Only) ---------- */
+    #stickyProblemBtn {
+      position: fixed;
+      bottom: 24px;
+      left: 24px;
+      z-index: 9999;
+      display: inline-flex; /* แสดงผลทุกแท็บ */
+      align-items: center;
+      justify-content: center;
+      width: 38px;
+      height: 38px;
+      padding: 0;
+      border-radius: 50%;
+      background: var(--panel-solid);
+      border: 1.5px solid var(--accent);
+      color: var(--accent);
+      cursor: pointer;
+      box-shadow: 0 6px 20px rgba(0, 0, 0, 0.35);
+      backdrop-filter: blur(14px);
+      -webkit-backdrop-filter: blur(14px);
+      transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    #stickyProblemBtn:hover {
+      transform: scale(1.12);
+      background: var(--accent);
+      color: #fff;
+      box-shadow: 0 8px 24px rgba(37, 99, 235, 0.45);
+    }
+    #stickyProblemBtn.active {
+      background: var(--rose);
+      border-color: var(--rose);
+      color: #fff;
+    }
+    #stickyProblemBtn .arrow-icon {
+      display: inline-block;
+      transition: transform 0.3s ease;
+      font-size: 1.15rem;
+      line-height: 1;
+    }
+
+    /* Floating Drawer Backdrop & Modal */
+    #problemDrawerOverlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(5, 10, 20, 0.72);
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+      z-index: 9997;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.3s ease;
+    }
+
+    #problemDrawerOverlay.active {
+      opacity: 1;
+      pointer-events: auto;
+    }
+
+    #problemDrawerModal {
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -46%) scale(0.92);
+      opacity: 0;
+      pointer-events: none;
+      z-index: 9998;
+      width: min(860px, 94vw);
+      max-height: 90vh;
+      overflow-y: auto;
+      background: var(--panel-solid);
+      border: 1px solid var(--line-strong);
+      border-radius: 22px;
+      box-shadow: var(--shadow-lg);
+      padding: 24px;
+      transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.25s ease;
+    }
+
+    #problemDrawerModal.active {
+      transform: translate(-50%, -50%) scale(1);
+      opacity: 1;
+      pointer-events: auto;
+    }
+
+    .drawer-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 16px;
+      padding-bottom: 12px;
+      border-bottom: 1px solid var(--line);
+    }
+
+    .drawer-header h3 {
+      margin: 0;
+      font-size: 1.15rem;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .drawer-close-btn {
+      background: var(--accent-soft);
+      border: 1px solid var(--line);
+      color: var(--ink);
+      width: 34px;
+      height: 34px;
+      border-radius: 50%;
+      font-weight: 700;
+      cursor: pointer;
+      display: grid;
+      place-items: center;
+      transition: .15s;
+    }
+
+    .drawer-close-btn:hover {
+      background: var(--rose);
+      color: #fff;
+    }
+
+    .drawer-body img {
+      width: 100%;
+      height: auto;
+      border-radius: 14px;
+      border: 1px solid var(--line);
+      box-shadow: var(--shadow);
+      display: block;
+      margin-bottom: 14px;
+    }
+  
+    
+    /* ---------- Tabbar Mobile Scroll Wrapper & Arrows ---------- */
+    .tabbar-wrapper {
+      position: sticky;
+      top: 0;
+      z-index: 40;
+      margin: 22px 0 26px;
+    }
+    .tabbar-wrapper .tabbar {
+      position: static;
+      margin: 0;
+      scroll-behavior: smooth;
+    }
+    .tab-scroll-btn {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      z-index: 45;
+      padding: 8px 14px;
+      border-radius: 999px;
+      background: var(--panel-solid);
+      border: 1px solid var(--accent);
+      color: var(--ink);
+      font-size: 0.85rem;
+      font-weight: 800;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      box-shadow: 0 6px 20px rgba(0,0,0,0.4);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.25s ease, transform 0.2s ease, background 0.2s ease;
+    }
+    .tab-scroll-btn.show {
+      opacity: 1;
+      pointer-events: auto;
+    }
+    .tab-scroll-btn:hover {
+      background: var(--accent);
+      color: #fff;
+      transform: translateY(-50%) scale(1.06);
+    }
+    .tab-scroll-btn.left { left: -10px; }
+    .tab-scroll-btn.right { right: -10px; }
+
+    
+    /* Fixed Minimal Top-Left Back Button */
+    .top-back-btn {
+      position: fixed;
+      top: 14px;
+      left: 14px;
+      z-index: 9999;
+      width: 38px;
+      height: 38px;
+      border-radius: 50%;
+      background: var(--panel-solid);
+      border: 1.5px solid var(--line-strong);
+      color: var(--ink);
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      text-decoration: none;
+      font-size: 1.2rem;
+      font-weight: 800;
+      box-shadow: 0 6px 20px rgba(0, 0, 0, 0.35);
+      backdrop-filter: blur(14px);
+      -webkit-backdrop-filter: blur(14px);
+      transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    .top-back-btn:hover {
+      background: var(--accent);
+      color: #fff;
+      border-color: var(--accent);
+      transform: scale(1.12);
+    }
+
+</style>
+</head>
+
+<body>
+  <!-- Minimal Top-Right Back Button (Fixed) -->
+  <a href="../../../index.html" class="top-back-btn" title="กลับหน้าหลัก (Main Portal Hub)" aria-label="กลับหน้าหลัก">
+    ←
+  </a>
+
+  <!-- Sticky Problem Toggle Button -->
+    <!-- Sticky Problem Toggle Button (Compact Icon-Only) -->
+  <button id="stickyProblemBtn" aria-label="เปิดดูรูปภาพโจทย์" title="เปิดดูรูปภาพโจทย์ (image.png)">
+    <span class="arrow-icon">📐</span>
+  </button>
+
+  <!-- Floating Problem Drawer Backdrop & Modal -->
+  <div id="problemDrawerOverlay"></div>
+  <div id="problemDrawerModal" role="dialog" aria-labelledby="drawerTitle">
+    <div class="drawer-header">
+      <h3 id="drawerTitle"><span class="ic">📐</span>รูปภาพโจทย์ต้นฉบับ (image.png)</h3>
+      <button class="drawer-close-btn" id="closeDrawerBtn" title="ปิดรูปโจทย์">✕</button>
+    </div>
+    <div class="drawer-body">
+      <img id="drawerProblemImg" src="../image.png" alt="รูปโจทย์ต้นฉบับ">
+      <div class="note tip" style="margin:0">
+        <span class="lbl">💡 กำกับโจทย์แบบเร็ว</span>
+        <p>สมการแรงดันแบตเตอรี่: <span class="mono">vₛ(t) = Esub>o</sub> − K·q + Aₐe⁻ᴮᵃq −
+            A<sub>b</sub>e⁻ᴮᵇ⁽ᑫⁿ⁻ᑫ⁾</span> · <span class="mono">R<sub>L</sub> = 10 Ω</span> · <span
+            class="mono">i<sub>s</sub>(t)</span> จากไฟล์ข้อมูล</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="wrap">
+
+        <header class="top">
+      <span class="eyebrow">303212 · Electrical Circuit Analysis II</span>
+      <h1>ห้องเรียนวงจรแบตเตอรี่</h1>
+      <p class="sub">โจทย์สอบปากเปล่า — วงข่ายความต้านทานกับโมเดลแบตเตอรี่<br>
+        เรียงลำดับจากศูนย์จนถึงบทซ้อมตอบกรรมการ · ข้อมูลจริง 2,753 จุด คำนวณสดในหน้านี้</p>
+    </header>
+
+    <nav class="tabbar" role="tablist" aria-label="บทเรียน">
+      <button class="tabbtn" role="tab" aria-selected="true" aria-controls="p1" id="t1"><span
+          class="n">1</span>โจทย์จริง &amp; วงจร</button>
+      <button class="tabbtn" role="tab" aria-selected="false" aria-controls="p2" id="t2"><span
+          class="n">2</span>ปูพื้นฐานจาก 0</button>
+      <button class="tabbtn" role="tab" aria-selected="false" aria-controls="p3" id="t3"><span class="n">3</span>พิสูจน์
+        KCL &amp; KVL</button>
+      <button class="tabbtn" role="tab" aria-selected="false" aria-controls="p4" id="t4"><span
+          class="n">4</span>ลายมืออาจารย์ vs คอมพิวเตอร์</button>
+      <button class="tabbtn" role="tab" aria-selected="false" aria-controls="p5" id="t5"><span
+          class="n">5</span>คัมภีร์สอบปากเปล่า</button>
+      <button class="tabbtn" role="tab" aria-selected="false" aria-controls="p6" id="t6"><span
+          class="n">6</span>Simulation Lab</button>
+    </nav>
+
+    <!-- ======================= TAB 1 ======================= -->
+    <section class="panel" id="p1" role="tabpanel" aria-labelledby="t1">
+
+      <div class="card">
+        <h2><span class="ic">📋</span>โจทย์ฉบับเต็ม</h2>
+        <p class="lead">อ่านให้ครบทุกบรรทัดก่อน เพราะกรรมการจะถามจากถ้อยคำในโจทย์ตรงๆ โดยเฉพาะคำว่า
+          <b>“ตามทฤษฎีที่ผู้ผลิตกำหนด”</b> ที่ซ่อนอยู่ในนิยามของ Q<sub>n</sub>
+        </p>
+
+        <div class="note">
+          <span class="lbl">โจทย์ข้อ [1]</span>
+          <p>พิจารณาวงข่ายความต้านทานในรูปที่ 1 ด้วยการใช้<b>สมการชุดตัดหรือสมการโหนด</b> จงหาค่าของกระแส <span
+              class="mono">i(t)</span> ในหน่วยแอมป์ ณ เวลา <span class="mono">t ∈ {0, 1, 2, …, 2752}</span> วินาที
+            พร้อมหาค่าพารามิเตอร์ <span class="mono">E<sub>o</sub>, K, A<sub>a</sub>, B<sub>a</sub>, A<sub>b</sub>,
+              B<sub>b</sub>, R<sub>i</sub></span> และ <span class="mono">Q<sub>n</sub></span> ของ <span
+              class="mono">v<sub>s</sub>(t)</span> ซึ่งเป็นฟังก์ชันของเวลาของแหล่งกำเนิดแรงดันในหน่วยโวลต์ และมีนิยามว่า
+          </p>
+          <div class="eq">v<sub>s</sub>(t) = E<sub>o</sub> − K∫<sub>0</sub><sup>t</sup>i(α)dα +
+            A<sub>a</sub>·e<sup>−B<sub>a</sub>∫<sub>0</sub><sup>t</sup>i(α)dα</sup> −
+            A<sub>b</sub>·e<sup>−B<sub>b</sub>∫<sub>t</sub><sup>t<sub>n</sub></sup>i(α)dα</sup></div>
+          <p>กำหนด <span class="mono">Q<sub>n</sub></span>
+            คือค่าความจุประจุ<b>ตามทฤษฎีที่ผู้ผลิตกำหนดไว้</b>ช่วงเวลาตั้งแต่ 0 ถึง <span
+              class="mono">t<sub>n</sub></span> วินาที คือ <span class="mono">Q<sub>n</sub> =
+              ∫<sub>0</sub><sup>t<sub>n</sub></sup>i(α)dα</span> [coulomb] และ <span class="mono">t<sub>n</sub> =
+              3,600</span> วินาที · กำหนด <span class="mono">R<sub>L</sub> = 10 Ω</span> · <span
+              class="mono">i<sub>s</sub>(t)</span> คือแหล่งกำเนิดกระแสพึ่งพา (อยู่ในไฟล์ข้อมูล) · <span
+              class="mono">v(t)</span> คือแรงดันตกคร่อมตัวต้านทานภาระ (อยู่ในไฟล์ข้อมูล)</p>
+        </div>
+
+        <h3>สามคำที่ต้องขีดเส้นใต้ในโจทย์</h3>
+        <div class="grid g3">
+          <div class="stat">
+            <div class="lb">คำที่ 1</div>
+            <div class="vl" style="font-size:1rem">“สมการโหนด”</div>
+            <div class="un">โจทย์บอกวิธีมาให้แล้ว — ห้ามใช้ mesh analysis ให้ยุ่งยาก</div>
+          </div>
+          <div class="stat t2">
+            <div class="lb">คำที่ 2</div>
+            <div class="vl" style="font-size:1rem">“ตามทฤษฎี”</div>
+            <div class="un">Q<sub>n</sub> เป็นค่าตามฉลาก ไม่ใช่ค่าที่วัดได้ — จึงคำนวณถึง 3,600 s ได้</div>
+          </div>
+          <div class="stat t3">
+            <div class="lb">คำที่ 3</div>
+            <div class="vl" style="font-size:1rem">“∫<sub>t</sub><sup>t<sub>n</sub></sup>”</div>
+            <div class="un">ขอบล่างเป็น t ไม่ใช่ 0 — นี่คือ “ประจุที่ยังเหลือ”</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="card">
+        <h2><span class="ic">🔌</span>รูปวงจร — อ่านให้ออกทีละชิ้น</h2>
+        <figure>
+          <img id="circuitFig"
+            alt="รูปที่ 1 วงข่ายความต้านทานต่อเข้ากับแบตเตอรี่: แหล่งแรงดัน vs(t) อนุกรมกับ Ri จ่ายกระแส i(t) เข้าโหนดบน ซึ่งมีแหล่งกระแส is(t) และตัวต้านทาน RL ต่อขนานลงกราวด์">
+          <figcaption>รูปที่ 1 — วงข่ายความต้านทานต่อเข้ากับแบตเตอรี่</figcaption>
+        </figure>
+
+        <div class="note tip">
+          <span class="lbl">💡 ข้อสังเกตที่ทำคะแนนได้ทันทีที่เห็นรูป</span>
+          <p>วงจรนี้มี <b>แค่ 2 โหนด</b> — โหนดบน (Node 1) กับสายล่างทั้งเส้นที่เป็นโหนดเดียวกันหมด (Ground)
+            เพราะเป็นตัวนำอุดมคติ ดังนั้นต้องตั้งสมการโหนดแค่ <b>N − 1 = 1 สมการ</b> เท่านั้น
+            นี่คือเหตุผลที่โจทย์ที่ดูน่ากลัวข้อนี้ แก้ได้ด้วยสมการบรรทัดเดียว</p>
+        </div>
+
+        <h3>Component Matrix — ตารางที่ต้องชี้รูปแล้วพูดได้</h3>
+        <div class="tw">
+          <table>
+            <thead>
+              <tr>
+                <th>สัญลักษณ์</th>
+                <th>ชื่อ</th>
+                <th>สังเกตอะไรในรูป</th>
+                <th>ใช้ทำอะไรในการแก้โจทย์</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td class="mono">v<sub>s</sub>(t)</td>
+                <td>แหล่งแรงดัน (แบตเตอรี่)</td>
+                <td>วงกลม <b>+ อยู่บน</b> − อยู่ล่างต่อกราวด์</td>
+                <td>ตัวที่มีสมการ 6 พารามิเตอร์ที่ต้องหา</td>
+              </tr>
+              <tr>
+                <td class="mono">R<sub>i</sub></td>
+                <td>ความต้านทานภายใน</td>
+                <td>สี่เหลี่ยมบนสายบน ต่อ<b>อนุกรม</b>กับ v<sub>s</sub></td>
+                <td>ทำให้ v(t) = v<sub>s</sub>(t) − i·R<sub>i</sub></td>
+              </tr>
+              <tr>
+                <td class="mono">i(t)</td>
+                <td>กระแสจากแบตเตอรี่</td>
+                <td>ลูกศรทึบ <b>ชี้เข้าหาโหนดบน</b></td>
+                <td>คำตอบข้อแรก — ได้จาก KCL</td>
+              </tr>
+              <tr>
+                <td class="mono">i<sub>s</sub>(t)</td>
+                <td>แหล่งกระแสพึ่งพา</td>
+                <td><b>ข้าวหลามตัด</b> ลูกศรข้างใน <b>ชี้ลง</b> = ไหลออกจากโหนด</td>
+                <td>ข้อมูลนำเข้าจากไฟล์ (คอลัมน์ is)</td>
+              </tr>
+              <tr>
+                <td class="mono">R<sub>L</sub></td>
+                <td>ตัวต้านทานภาระ 10 Ω</td>
+                <td>สี่เหลี่ยมแนวตั้ง <b>ขนาน</b>กับ i<sub>s</sub></td>
+                <td>ให้กระแสโหลด i<sub>L</sub> = v/10</td>
+              </tr>
+              <tr>
+                <td class="mono">v(t)</td>
+                <td>แรงดันคร่อมภาระ</td>
+                <td>+ บน − ล่าง = แรงดันโหนดบนเทียบกราวด์</td>
+                <td>ข้อมูลนำเข้าจากไฟล์ (คอลัมน์ v) และเป้าหมายการฟิต</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div class="note warn">
+          <span class="lbl">💀 กับดักข้อที่ 1 — คำถามที่ทำให้คนตกมากที่สุด</span>
+          <p>กรรมการถาม: <b>“คุณรู้ได้อย่างไรว่า i<sub>s</sub> ไหลออกจากโหนด ไม่ใช่ไหลเข้า?”</b></p>
+          <p>ห้ามตอบว่า “เพราะสมการเป็นแบบนั้น” — ต้องตอบว่า <b>“ผมดูจากลูกศรข้างในสัญลักษณ์ข้าวหลามตัดครับ มันชี้ลง
+              คือชี้จากโหนดบนลงสู่กราวด์ ถ้าลูกศรชี้ขึ้น เครื่องหมายในสมการจะกลับเป็น i = −i<sub>s</sub> +
+              v/R<sub>L</sub> ทันที”</b></p>
+        </div>
+      </div>
+
+      <div class="card">
+        <h2><span class="ic">📊</span>ชุดข้อมูล 2,753 จุด — ดูของจริง</h2>
+        <p class="lead">ไฟล์ <span class="mono">data303212qz02.md</span> มี 3 คอลัมน์ คือ <span class="mono">t</span>,
+          <span class="mono">v(t)</span>, <span class="mono">i<sub>s</sub>(t)</span> ตารางล่างนี้ดึงตัวเลขจริงมาแสดง
+          พร้อมคอลัมน์ <span class="mono">i = i<sub>s</sub> + v/10</span> ที่คำนวณสดในหน้านี้ — สังเกตคอลัมน์ขวาสุดให้ดี
+        </p>
+        <div class="tw">
+          <table>
+            <thead>
+              <tr>
+                <th class="num">t [s]</th>
+                <th class="num">v(t) [V]</th>
+                <th class="num">i<sub>s</sub>(t) [A]</th>
+                <th class="num">v/10 [A]</th>
+                <th class="num">i = i<sub>s</sub> + v/10</th>
+              </tr>
+            </thead>
+            <tbody id="dataTable"></tbody>
+          </table>
+        </div>
+        <div class="btnrow"><button class="btn" id="moreRows">แสดงแถวเพิ่ม ▾</button><span
+            style="align-self:center;color:var(--ink-faint);font-size:.85rem" id="rowInfo"></span></div>
+        <div class="note win">
+          <span class="lbl">🏆 สิ่งที่ต้องมองให้เห็น</span>
+          <p>ที่ <span class="mono">t = 0</span>: <span class="mono">i<sub>s</sub> = 0.3225895591500284</span> และ <span
+              class="mono">v/10 = 0.4174104408499716</span> — <b>ทศนิยมสองตัวนี้เติมเต็มกันพอดีทุกหลักจนได้ 0.74
+              เป๊ะ</b> ไม่ใช่เรื่องบังเอิญ ผู้ออกข้อสอบสร้างคอลัมน์ i<sub>s</sub> จากสูตร <span
+              class="mono">i<sub>s</sub> = 0.74 − v/10</span> ตั้งแต่ต้น</p>
+        </div>
+      </div>
+</section>
+
+    <!-- ======================= TAB 2 ======================= -->
+    <section class="panel" id="p2" role="tabpanel" aria-labelledby="t2" hidden>
+
+      <div class="card">
+        <h2><span class="ic">💧</span>ปูพื้นฐานจากศูนย์ ด้วยภาพถังน้ำ</h2>
+        <p class="lead">อย่าเพิ่งข้ามไปหาสูตรนะครับ นิสิต 80% ที่ตอบสอบปากเปล่าไม่ได้ ไม่ได้ตกเพราะคำนวณผิด
+          แต่ตกเพราะกรรมการถามว่า <b>“แล้วโวลต์คืออะไรในทางกายภาพ”</b> แล้วตอบไม่ได้</p>
+
+        <svg class="chart" viewBox="0 0 760 300" role="img"
+          aria-label="แผนภาพเทียบระบบท่อน้ำกับวงจรไฟฟ้า: ถังน้ำยกสูงเทียบกับแรงดัน ปริมาณน้ำเทียบกับประจุ อัตราการไหลเทียบกับกระแส ท่อแคบเทียบกับความต้านทาน">
+          <defs>
+            <linearGradient id="wg" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0" stop-color="#5b9dff" stop-opacity=".85" />
+              <stop offset="1" stop-color="#2563eb" stop-opacity=".95" />
+            </linearGradient>
+          </defs>
+          <!-- tank -->
+          <rect x="52" y="42" width="132" height="112" rx="8" fill="none" stroke="currentColor" stroke-opacity=".38"
+            stroke-width="2.5" />
+          <rect x="57" y="74" width="122" height="75" rx="5" fill="url(#wg)" />
+          <line x1="57" y1="74" x2="179" y2="74" stroke="#fff" stroke-opacity=".7" stroke-width="2" />
+          <text x="118" y="34" text-anchor="middle" class="lbx">ถังน้ำยกสูง</text>
+          <text x="118" y="118" text-anchor="middle" fill="#fff" font-weight="700" font-size="12.5">ปริมาณน้ำ = ประจุ q
+            [C]</text>
+          <!-- height arrow -->
+          <line x1="30" y1="74" x2="30" y2="232" stroke="var(--violet)" stroke-width="2" marker-start="url(#ah)"
+            marker-end="url(#ah)" />
+          <defs>
+            <marker id="ah" markerWidth="8" markerHeight="8" refX="4" refY="4" orient="auto">
+              <path d="M0,0 L8,4 L0,8 z" fill="var(--violet)" />
+            </marker>
+          </defs>
+          <text x="24" y="155" text-anchor="middle" fill="var(--violet)" font-weight="700" font-size="12"
+            transform="rotate(-90 24 155)">ความสูง = แรงดัน v [V]</text>
+          <!-- pipe -->
+          <path d="M118 154 L118 232 L430 232" fill="none" stroke="currentColor" stroke-opacity=".38" stroke-width="13"
+            stroke-linecap="round" />
+          <path d="M118 154 L118 232 L430 232" fill="none" stroke="url(#wg)" stroke-width="7" stroke-linecap="round" />
+          <!-- narrow -->
+          <rect x="255" y="222" width="52" height="20" rx="4" fill="var(--amber)" fill-opacity=".9" />
+          <text x="281" y="270" text-anchor="middle" fill="var(--amber)" font-weight="700" font-size="12">ท่อแคบ</text>
+          <text x="281" y="286" text-anchor="middle" fill="var(--amber)" font-size="11.5">= ความต้านทาน R [Ω]</text>
+          <!-- flow arrow -->
+          <line x1="345" y1="232" x2="415" y2="232" stroke="var(--green)" stroke-width="3" marker-end="url(#ag)" />
+          <defs>
+            <marker id="ag" markerWidth="9" markerHeight="9" refX="5" refY="4.5" orient="auto">
+              <path d="M0,0 L9,4.5 L0,9 z" fill="var(--green)" />
+            </marker>
+          </defs>
+          <text x="382" y="216" text-anchor="middle" fill="var(--green)" font-weight="700" font-size="12">อัตราไหล =
+            กระแส i [A]</text>
+          <!-- turbine -->
+          <circle cx="470" cy="232" r="30" fill="none" stroke="var(--teal)" stroke-width="2.5" />
+          <path d="M470 208 L470 256 M448 220 L492 244 M448 244 L492 220" stroke="var(--teal)" stroke-width="2.5" />
+          <text x="470" y="285" text-anchor="middle" fill="var(--teal)" font-weight="700" font-size="12">กังหัน = โหลด
+            R_L</text>
+          <!-- mapping table -->
+          <line x1="560" y1="40" x2="560" y2="270" stroke="currentColor" stroke-opacity=".16" stroke-dasharray="4 5" />
+          <text x="585" y="60" class="lbx" font-size="13">ระบบน้ำ → วงจรไฟฟ้า</text>
+          <text x="585" y="92" fill="currentColor" fill-opacity=".72" font-size="12">ลิตร → คูลอมบ์ (C)</text>
+          <text x="585" y="118" fill="currentColor" fill-opacity=".72" font-size="12">ลิตร/วินาที → แอมป์ (A)</text>
+          <text x="585" y="144" fill="currentColor" fill-opacity=".72" font-size="12">ความสูง → โวลต์ (V)</text>
+          <text x="585" y="170" fill="currentColor" fill-opacity=".72" font-size="12">ความแคบท่อ → โอห์ม (Ω)</text>
+          <text x="585" y="204" fill="var(--rose)" font-weight="700" font-size="12">คอขวดในตัวถัง → R_i</text>
+          <text x="585" y="226" fill="var(--rose)" font-size="11.5">ทำให้ความดันปลายท่อ</text>
+          <text x="585" y="244" fill="var(--rose)" font-size="11.5">ต่ำกว่าความดันก้นถัง</text>
+        </svg>
+
+        <h3>1 · ประจุ — “ปริมาณน้ำในถัง”</h3>
+        <p>ในสายทองแดงมีอิเล็กตรอนอิสระว่ายวนเต็มไปหมด แต่ละตัวพก<b>ประจุ</b>ติดตัวมา หน่วยวัดคือ <b>คูลอมบ์ (C)</b></p>
+        <p>ประจุ 1 คูลอมบ์ใหญ่แค่ไหน? อิเล็กตรอน 1 ตัวมีประจุ <span class="mono">1.602 × 10<sup>−19</sup></span> C
+          ดังนั้น 1 คูลอมบ์ต้องใช้อิเล็กตรอนราว <b>6.24 ล้านล้านล้านตัว</b> — ไม่ต้องจำตัวเลขนี้ แต่ให้จำความรู้สึกว่า
+          <b>คูลอมบ์เป็นหน่วยที่ใหญ่มาก</b> พอเห็นเลข Q<sub>n</sub> = 2,664 C จะได้รู้ว่ามันคือประจุมหาศาล
+        </p>
+
+        <h3>2 · กระแส — “อัตราการไหล”</h3>
+        <p>ประจุอยู่นิ่งๆ ไม่เกิดอะไร มันต้อง<b>ไหล</b>ถึงจะทำงานได้ อัตราการไหลของประจุคือ <b>กระแส</b> หน่วยแอมแปร์
+        </p>
+        <div class="eq">i(t) = dq/dt <span class="dim">&nbsp;&nbsp;⟹&nbsp;&nbsp;</span> 1 A = 1 C/s <span
+            class="dim">&nbsp;&nbsp;และกลับด้านได้&nbsp;&nbsp;</span> <b>q(t) = ∫<sub>0</sub><sup>t</sup> i(α)dα</b>
+        </div>
+        <div class="note">
+          <span class="lbl">❓ ทำไมต้องใช้ α ไม่ใช้ t — คำถามที่กรรมการชอบถาม</span>
+          <p>เพราะ <span class="mono">t</span> ถูกใช้เป็น<b>ขอบบน</b>ของอินทิกรัลไปแล้ว ถ้าใช้ซ้ำจะขัดกันเอง
+            เหมือนเขียนโปรแกรมแล้วใช้ชื่อตัวแปรซ้ำในลูปกับนอกลูป — <span class="mono">α</span> เป็นแค่
+            “ตัวนับเวลาที่วิ่งอยู่ข้างใน” จาก 0 ถึง t ส่วน <span class="mono">t</span> คือจุดที่เราถามว่า
+            “สะสมมาถึงตอนนี้ได้เท่าไหร่”</p>
+        </div>
+
+        <h3>3 · แรงดัน — “ความสูงของถัง” (จุดที่คนพลาดมากที่สุด)</h3>
+        <p><b>แรงดันไม่ใช่ปริมาณไฟ ไม่ใช่ความเร็วไฟ</b> นิยามจริงคือพลังงานต่อประจุหนึ่งหน่วย</p>
+        <div class="eq">v = dW/dq <span class="dim">&nbsp;&nbsp;⟹&nbsp;&nbsp;</span> 1 V = 1 J/C</div>
+        <p>แปลเป็นภาษาคน: <i>“แรงดัน 1 โวลต์ หมายความว่าประจุทุกๆ 1 คูลอมบ์ที่ไหลผ่าน จะปล่อยพลังงานออกมา 1 จูล”</i></p>
+        <div class="note tip">
+          <span class="lbl">💡 ภาพที่ต้องเห็นให้ชัด</span>
+          <p>ถังน้ำใบเดียวกัน ปริมาณน้ำเท่าเดิมเป๊ะ — วางบนพื้นก็ไหลออกเรื่อยๆ แต่ปั่นกังหันไม่ไหว ยกขึ้นดาดฟ้าตึก 10
+            ชั้นปุ๊บ ปั่นได้สบาย</p>
+          <p><b>“ปริมาณน้ำ” (ประจุ) กับ “ความสูง” (แรงดัน) เป็นคนละเรื่องกันโดยสิ้นเชิง</b> แบตเตอรี่ก็เหมือนกัน —
+            มีทั้ง “เก็บประจุได้เท่าไหร่” (Q<sub>n</sub> หน่วยคูลอมบ์) และ “ดันออกมาด้วยแรงเท่าไหร่” (E<sub>o</sub>
+            หน่วยโวลต์) สองค่านี้ไม่เกี่ยวกันเลย</p>
+        </div>
+        <p>และ<b>แรงดันต้องวัดระหว่างสองจุดเสมอ</b> — ถามว่า “ถังสูงเท่าไหร่” ต้องถามต่อว่า “เทียบกับอะไร”
+          ในวงจรเราเลือกสายล่างเป็น <b>โหนดอ้างอิง (ground)</b> = 0 V แล้ววัดทุกอย่างเทียบเส้นนี้</p>
+
+        <h3>4 · ความต้านทาน — “ท่อแคบ”</h3>
+        <div class="eq">v = i·R <span class="dim">&nbsp;&nbsp;⟹&nbsp;&nbsp;</span> 1 Ω = 1 V/A <span
+            class="dim">&nbsp;&nbsp;ในโจทย์:&nbsp;&nbsp;</span> i<sub>L</sub>(t) = v(t)/R<sub>L</sub> = v(t)/10</div>
+        <p>ท่อยิ่งแคบ ยิ่งยาว ยิ่งขรุขระ → R ยิ่งมาก → ต้องยกถังสูงขึ้นถ้าอยากได้อัตราไหลเท่าเดิม</p>
+      </div>
+
+      <div class="card">
+        <h2><span class="ic">🔋</span>แบตเตอรี่จริง ไม่ใช่ถังน้ำในอุดมคติ</h2>
+        <p class="lead">ในวิชาปีหนึ่งเราวาดแบตเตอรี่เป็นแหล่งแรงดันคงที่ 9 V แล้วจบ แต่แบตจริงมี 2
+          พฤติกรรมที่โจทย์นี้ให้เราจำลอง</p>
+
+        <h3>พฤติกรรมที่ 1 — แรงดันภายในลดลงเมื่อคายประจุ</h3>
+        <p>เปิดวาล์วปล่อยน้ำ ระดับน้ำลด → ความดันก้นถังลด → ไหลช้าลง แบตเตอรี่ก็เหมือนกันเป๊ะ
+          นี่คือที่มาของสมการหน้าตาน่ากลัวในโจทย์ — แต่พอแยกเป็นก้อนแล้วจะเห็นว่าไม่มีอะไรเลย</p>
+
+        <div class="tw">
+          <table>
+            <thead>
+              <tr>
+                <th>ก้อนในสมการ</th>
+                <th>คืออะไร</th>
+                <th>เทียบกับถังน้ำ</th>
+                <th class="num">ขนาดในโจทย์นี้</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td class="mono">E<sub>o</sub></td>
+                <td>แรงดันฐานตอนแบตเต็ม</td>
+                <td>ความสูงน้ำตอนถังเต็ม</td>
+                <td class="num">≈ 4.08 V</td>
+              </tr>
+              <tr>
+                <td class="mono">− K·q(t)</td>
+                <td>ยิ่งจ่ายประจุ แรงดันยิ่งลดเป็นเส้นตรง</td>
+                <td>ระดับน้ำที่ค่อยๆ ลดสม่ำเสมอ</td>
+                <td class="num">0 → 0.554 V</td>
+              </tr>
+              <tr>
+                <td class="mono">+ A<sub>a</sub>e<sup>−B<sub>a</sub>q</sup></td>
+                <td>“หัวโค้ง” ตอนเริ่มใช้ ตกเร็วแล้วนิ่ง</td>
+                <td>ฟองอากาศก้นถังตอนเปิดวาล์ว ยุบเร็วแล้วหาย</td>
+                <td class="num">0.138 → 0 V</td>
+              </tr>
+              <tr>
+                <td class="mono">− A<sub>b</sub>e<sup>−B<sub>b</sub>(Q<sub>n</sub>−q)</sup></td>
+                <td>“หน้าผา” ตอนแบตใกล้หมด ดิ่งลงเหว</td>
+                <td>น้ำก้นถังเริ่มดูดอากาศ ความดันวูบหาย</td>
+                <td class="num">0 → 0.669 V</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div class="note win">
+          <span class="lbl">🏆 ก้อนที่ 4 คือก้อนที่ฉลาดที่สุดในสมการ</span>
+          <p>สังเกตว่าเลขชี้กำลังเป็น <span class="mono">−B<sub>b</sub>(Q<sub>n</sub> − q)</span> ไม่ใช่ <span
+              class="mono">−B<sub>b</sub>q</span> — เพราะ <b>(Q<sub>n</sub> − q) คือประจุที่ยังเหลืออยู่</b></p>
+          <p>ตอนเริ่มต้น (q = 0) เหลือเต็ม 2,664 C เลขชี้กำลังติดลบมาก เทอมนี้เกือบเป็นศูนย์ ไม่มีผล · แต่พอใกล้หมด (q →
+            Q<sub>n</sub>) ประจุคงเหลือลู่เข้าศูนย์ เทอมนี้พุ่งขึ้นเป็น A<sub>b</sub> — แรงดันเลยดิ่งเป็นหน้าผา</p>
+          <p><b>นี่คือเหตุผลที่โจทย์เขียนอินทิกรัลจาก t ถึง t<sub>n</sub> ในเทอมสุดท้าย —
+              มันกำลังนับประจุที่ยังไม่ได้ใช้</b></p>
+        </div>
+
+        <h3>พฤติกรรมที่ 2 — ความต้านทานภายใน R<sub>i</sub></h3>
+        <p>แบตเตอรี่ไม่ใช่ตัวนำสมบูรณ์ ข้างในมีอิเล็กโทรไลต์ แผ่นขั้ว สายเชื่อม ทั้งหมดต้านการไหลของประจุ</p>
+        <div class="eq"><span class="hi">v(t)</span> <span class="dim">(วัดที่ขั้ว)</span> = <b>v<sub>s</sub>(t)</b>
+          <span class="dim">(แรงดันเคมีข้างใน)</span> − <span class="hi">i(t)·R<sub>i</sub></span> <span
+            class="dim">(หายไปกับความต้านทานภายใน)</span>
+        </div>
+        <div class="note">
+          <span class="lbl">📖 ศัพท์ที่กรรมการชอบใช้ — OCV</span>
+          <p><b>Open-Circuit Voltage</b> คือแรงดันที่วัดได้ตอน<b>ไม่ต่อโหลด</b> (i = 0) พอ i = 0 เทอม iR<sub>i</sub>
+            หายไป เราจึงวัด v<sub>s</sub> ได้ตรงๆ — นี่คือเหตุผลที่โรงงานวัด OCV ตอนพักแบตเตอรี่ ไม่ใช่ตอนใช้งาน</p>
+          <p><b>ในโจทย์เรา กระแสไม่เคยเป็นศูนย์เลยสักวินาที เราจึงไม่เคยเห็น OCV ตรงๆ</b> — และนั่นคือรากของปัญหา
+            E<sub>o</sub> กับ R<sub>i</sub> แยกกันไม่ออก ที่จะเจอในแท็บ 4</p>
+        </div>
+      </div>
+
+      <div class="card">
+        <h2><span class="ic">✅</span>ตรวจความเข้าใจก่อนไปต่อ</h2>
+        <details class="qa">
+          <summary><span class="qn">1</span>แบตเตอรี่ A มี 2,664 C ที่ 4 V กับ B มี 1,000 C ที่ 12 V — อันไหนเก็บ “ไฟ”
+            ได้มากกว่า?</summary>
+          <div class="qbody">
+            <div class="qsec">
+              <div class="h">เฉลย</div>
+              <p>คำถามนี้กำกวมโดยเจตนา — ถ้าถาม<b>ประจุ</b> A มากกว่า (2,664 &gt; 1,000 C) แต่ถ้าถาม<b>พลังงาน</b>
+                ต้องคูณกัน: A ได้ราว 2,664 × 4 ≈ 10.7 kJ ส่วน B ได้ 1,000 × 12 = 12 kJ — B ชนะ</p>
+              <p><b>บทเรียน: ประจุกับพลังงานคนละเรื่อง อย่าสับสน</b> ในโจทย์เรา Q<sub>n</sub> = 2,664 <b>คูลอมบ์</b>
+                ไม่ใช่ 2,664 จูล</p>
+            </div>
+          </div>
+        </details>
+        <details class="qa">
+          <summary><span class="qn">2</span>ทำไมแรงดันที่ขั้วแบตตอนใช้งาน ถึงต่ำกว่าตอนวัดเปล่าๆ?</summary>
+          <div class="qbody">
+            <div class="qsec">
+              <div class="h">เฉลย</div>
+              <p>เพราะมี <span class="mono">i·R<sub>i</sub></span> ตกคร่อมความต้านทานภายใน พอ i = 0 เทอมนี้หายไป
+                ในโจทย์นี้แรงดันตกภายใน = 0.74 × 0.0584 ≈ <b>43 mV</b></p>
+            </div>
+          </div>
+        </details>
+        <details class="qa">
+          <summary><span class="qn">3</span>ถ้าเปลี่ยน <span
+              class="mono">−A<sub>b</sub>e<sup>−B<sub>b</sub>(Q<sub>n</sub>−q)</sup></span> เป็น <span
+              class="mono">−A<sub>b</sub>e<sup>−B<sub>b</sub>q</sup></span> จะเกิดอะไรขึ้น?</summary>
+          <div class="qbody">
+            <div class="qsec">
+              <div class="h">เฉลย</div>
+              <p>หน้าผาจะย้ายไปอยู่ตอน<b>ต้น</b>แทนตอนปลาย ซึ่งผิดฟิสิกส์ — แบตเตอรี่ที่ชาร์จเต็มไม่ควรมีแรงดันดิ่งลงเหว
+                ลองไปเล่นสไลเดอร์ในแท็บ 6 แล้วจะเห็นภาพชัด</p>
+            </div>
+          </div>
+        </details>
+      </div>
+    </section>
+
+    <!-- ======================= TAB 3 ======================= -->
+    <section class="panel" id="p3" role="tabpanel" aria-labelledby="t3" hidden>
+
+      <div class="card">
+        <h2><span class="ic">⚡</span>ขั้นที่ 1 — ตั้งสมการ KCL ที่ Node 1</h2>
+        <p class="lead"><b>KCL มาจากกฎอนุรักษ์ประจุ</b> โหนดเป็นแค่จุดต่อสายไฟ ไม่มีความสามารถเก็บประจุ
+          ถ้าเข้ามากกว่าออก ประจุจะกองสะสมจนศักย์พุ่งเป็นอนันต์ ซึ่งไม่เกิดขึ้นจริง</p>
+
+        <div class="step">
+          <div class="k">1</div>
+          <div class="body">
+            <h4>ระบุว่ากระแสไหนเข้า ไหนออก</h4>
+            <p><b>เข้า:</b> <span class="mono">i(t)</span> — ลูกศรทึบบนสายบนชี้เข้าหาโหนด<br>
+              <b>ออก:</b> <span class="mono">i<sub>s</sub>(t)</span> — ลูกศรในข้าวหลามตัดชี้ลง · และ <span
+                class="mono">i<sub>L</sub>(t)</span> — จาก passive sign convention กระแสในตัวต้านทานไหลจาก + ไป −
+            </p>
+          </div>
+        </div>
+        <div class="step">
+          <div class="k">2</div>
+          <div class="body">
+            <h4>เขียน KCL</h4>
+            <div class="eq left">i(t) = i<sub>s</sub>(t) + i<sub>L</sub>(t)</div>
+          </div>
+        </div>
+        <div class="step">
+          <div class="k">3</div>
+          <div class="body">
+            <h4>ใช้กฎของโอห์มกับ R<sub>L</sub></h4>
+            <div class="eq left">i<sub>L</sub>(t) = v(t) / R<sub>L</sub> = v(t) / 10</div>
+          </div>
+        </div>
+        <div class="step">
+          <div class="k">4</div>
+          <div class="body">
+            <h4>รวมกัน — ได้สมการโหนดของโจทย์ข้อนี้</h4>
+            <div class="eq"><b>i(t) = i<sub>s</sub>(t) + v(t)/10</b></div>
+            <p><b>สังเกตความสวยงาม:</b> ทางขวามือมีแต่ของที่รู้ค่าหมดแล้ว — i<sub>s</sub> กับ v อยู่ในไฟล์ข้อมูลทั้งคู่
+              ดังนั้นเราคำนวณ i(t) ได้ทันที <b>โดยไม่ต้องรู้อะไรเกี่ยวกับแบตเตอรี่เลยแม้แต่ตัวเดียว</b> —
+              นี่คือเหตุผลที่โจทย์สั่งให้หา i(t) ก่อนเป็นข้อแรก</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="card">
+        <h2><span class="ic">🔢</span>ขั้นที่ 2 — แทนค่าจริง ดูด้วยตาตัวเอง</h2>
+        <p class="lead">อาจารย์สุ่มมา 3 จุดในเฉลย เลื่อนแถบด้านล่างเพื่อดูจุดไหนก็ได้ใน 2,753 จุด —
+          แล้วสังเกตว่าคำตอบไม่เคยเปลี่ยน</p>
+
+        <div class="ctrl" style="margin-bottom:16px">
+          <div class="sl">
+            <div class="row"><span class="nm">เลือกเวลา t</span><span class="vv" id="kclT">0 s</span></div>
+            <input type="range" id="kclSlider" min="0" max="2752" value="0" step="1"
+              aria-label="เลือกเวลา t สำหรับตรวจสอบ KCL">
+            <div class="hint">ลากดูได้ทุกจุดตั้งแต่ 0 ถึง 2752 วินาที</div>
+          </div>
+          <div class="btnrow">
+            <button class="btn" data-jump="0">t = 0</button>
+            <button class="btn" data-jump="10">t = 10</button>
+            <button class="btn" data-jump="100">t = 100</button>
+            <button class="btn" data-jump="1000">t = 1000</button>
+            <button class="btn" data-jump="2700">t = 2700</button>
+            <button class="btn" data-jump="2752">t = 2752</button>
+          </div>
+          <div class="eq left" style="margin-top:14px" id="kclEq"></div>
+          <div class="readout">
+            <div class="ro">
+              <div class="l">v(t)</div>
+              <div class="v" id="roV">—</div>
+            </div>
+            <div class="ro">
+              <div class="l">i<sub>s</sub>(t)</div>
+              <div class="v" id="roIs">—</div>
+            </div>
+            <div class="ro">
+              <div class="l">v/10</div>
+              <div class="v" id="roIl">—</div>
+            </div>
+            <div class="ro">
+              <div class="l">i = i<sub>s</sub> + v/10</div>
+              <div class="v" id="roI" style="color:var(--green)">—</div>
+            </div>
+          </div>
+        </div>
+
+        <h3>ตรวจครบทั้ง 2,753 จุด — นี่คือหลักฐาน ไม่ใช่การเดา</h3>
+        <div class="stats">
+          <div class="stat">
+            <div class="lb">ค่าต่ำสุด</div>
+            <div class="vl">0.740000</div>
+            <div class="un">แอมป์</div>
+          </div>
+          <div class="stat">
+            <div class="lb">ค่าสูงสุด</div>
+            <div class="vl">0.740000</div>
+            <div class="un">แอมป์</div>
+          </div>
+          <div class="stat t2">
+            <div class="lb">ส่วนเบี่ยงเบน</div>
+            <div class="vl">1.1×10⁻¹⁶</div>
+            <div class="un">= machine epsilon</div>
+          </div>
+          <div class="stat t3">
+            <div class="lb">max |i − 0.74|</div>
+            <div class="vl">0</div>
+            <div class="un">ศูนย์พอดี</div>
+          </div>
+        </div>
+
+        <div class="note warn">
+          <span class="lbl">💀 กับดักข้อที่ 2</span>
+          <p>ถ้ากรรมการถาม <b>“คุณสุ่มมาแค่ 3 จุด จะรู้ได้ยังไงว่าจุดที่เหลือก็ 0.74”</b> — <b>ห้ามตอบว่า
+              “ก็มันดูคงที่”</b> เด็ดขาด</p>
+          <p>ต้องตอบว่า: <i>“สามจุดนั้นผมทำเพื่อแสดงวิธีคิดครับ หลักฐานจริงคือผมคำนวณครบทั้ง 2,753 แถว ได้ min = max =
+              0.74 A พอดี ส่วนเบี่ยงเบนมาตรฐาน 10⁻¹⁶ ซึ่งเป็น machine epsilon ของ double precision
+              ไม่ใช่การเปลี่ยนแปลงจริงของสัญญาณ”</i></p>
+        </div>
+
+        <h3>แล้ว i<sub>s</sub> ทำอะไรอยู่? — คำถามที่แยกเกียรตินิยมออกจากคนทั่วไป</h3>
+        <p>สังเกตกราฟข้างล่าง เมื่อแรงดันตกลง กระแสที่ไหลลงโหลด <span class="mono">v/10</span> ก็ลดตาม แต่ <span
+            class="mono">i<sub>s</sub></span> เพิ่มขึ้นชดเชยพอดี ทำให้ผลรวมคงที่ 0.74 A เป็นเส้นตรงแบน</p>
+        <svg class="chart" id="chartSignals" viewBox="0 0 760 330" role="img"
+          aria-label="กราฟแสดงกระแส i คงที่ 0.74 แอมป์ ขณะที่กระแสโหลดลดลงและ is เพิ่มขึ้นชดเชยกัน"></svg>
+        <div class="stats">
+          <div class="stat">
+            <div class="lb">ที่ t = 0</div>
+            <div class="vl" style="font-size:.98rem">0.4174 + 0.3226</div>
+            <div class="un">= 0.74 A</div>
+          </div>
+          <div class="stat t4">
+            <div class="lb">ที่ t = 2752</div>
+            <div class="vl" style="font-size:.98rem">0.2813 + 0.4587</div>
+            <div class="un">= 0.74 A</div>
+          </div>
+          <div class="stat t2">
+            <div class="lb">โหลดกินน้อยลง</div>
+            <div class="vl">−0.136</div>
+            <div class="un">แอมป์</div>
+          </div>
+          <div class="stat t3">
+            <div class="lb">i<sub>s</sub> ชดเชยเพิ่ม</div>
+            <div class="vl">+0.136</div>
+            <div class="un">แอมป์ — พอดีเป๊ะ</div>
+          </div>
+        </div>
+        <div class="note win">
+          <span class="lbl">🏆 ประโยคที่ควรพูดในห้องสอบ</span>
+          <p><i>“ตัว i<sub>s</sub> ถูกบังคับให้เป็น i<sub>s</sub>(t) = 0.74 − v(t)/10 ตลอดเวลาครับ
+              มันคือแหล่งกระแสพึ่งพาที่พึ่งพาแรงดันโหนด ซึ่งตรงกับสัญลักษณ์ข้าวหลามตัดในรูปพอดี
+              ในโลกจริงนี่คือหน้าที่ของ electronic load หรือ battery cycler ที่ใช้ทดสอบแบตเตอรี่ในแล็บ
+              เหตุผลที่ต้องคุมกระแสให้คงที่ก็เพราะมันทำให้แกนเวลาแปลงเป็นแกนประจุได้ด้วยการคูณค่าคงที่ตัวเดียว — q =
+              0.74t ครับ”</i></p>
+        </div>
+      </div>
+
+      <div class="card">
+        <h2><span class="ic">∫</span>ขั้นที่ 3 — อินทิเกรตหาประจุ</h2>
+        <div class="step">
+          <div class="k">1</div>
+          <div class="body">
+            <h4>จาก i = dq/dt กลับด้าน แล้วแทนค่าคงที่</h4>
+            <div class="eq left">q(t) = ∫<sub>0</sub><sup>t</sup> i(α)dα = ∫<sub>0</sub><sup>t</sup> 0.74 dα =
+              0.74·[α]<sub>0</sub><sup>t</sup> = <b>0.74t [C]</b></div>
+            <p><b>เช็กหน่วยด้วย</b> (กรรมการชอบถาม): [A]×[s] = [C/s]×[s] = <b>[C]</b> ✓</p>
+          </div>
+        </div>
+        <div class="step">
+          <div class="k">2</div>
+          <div class="body">
+            <h4>ความจุตามฉลาก Q<sub>n</sub> ที่ t<sub>n</sub> = 3,600 s</h4>
+            <div class="eq left">Q<sub>n</sub> = ∫<sub>0</sub><sup>3600</sup> 0.74 dα = 0.74 × 3600 = <b>2,664 C = 0.74
+                Ah = 740 mAh</b></div>
+          </div>
+        </div>
+        <div class="step">
+          <div class="k">3</div>
+          <div class="body">
+            <h4>พิสูจน์ว่า ∫<sub>t</sub><sup>t<sub>n</sub></sup> i dα = Q<sub>n</sub> − q(t)</h4>
+            <p>จากคุณสมบัติการแบ่งช่วงของอินทิกรัล (additivity) เมื่อ 0 &lt; t &lt; t<sub>n</sub>:</p>
+            <div class="eq left">∫<sub>0</sub><sup>t<sub>n</sub></sup> = ∫<sub>0</sub><sup>t</sup> +
+              ∫<sub>t</sub><sup>t<sub>n</sub></sup> <span class="dim">&nbsp;⟹&nbsp;</span> Q<sub>n</sub> = q(t) +
+              ∫<sub>t</sub><sup>t<sub>n</sub></sup> i dα<br>
+              <span class="dim">∴</span> <b>∫<sub>t</sub><sup>t<sub>n</sub></sup> i(α)dα = Q<sub>n</sub> − q(t) = 2664 −
+                0.74t</b>
+            </div>
+            <p>พูดเป็นภาษาคน: <i>“ประจุที่ยังเหลือ = ประจุทั้งหมด − ประจุที่ใช้ไปแล้ว”</i> — ตรงไปตรงมา
+              แต่ต้องเขียนให้เห็นขั้นตอน อย่าข้าม</p>
+          </div>
+        </div>
+
+        <div class="note warn">
+          <span class="lbl">💀 กับดักข้อที่ 3 — ข้อนี้ทำคนตกเยอะมาก</span>
+          <p>กรรมการถาม: <b>“ข้อมูลคุณมีถึงแค่ 2,752 วินาที แต่อินทิเกรตถึง 3,600 — คุณเดาเอาเหรอ?”</b></p>
+          <p>ห้ามตอบว่า “ก็ extrapolate ครับ” ต้องตอบว่า: <i>“ผมไม่ได้ extrapolate ครับ ผมใช้นิยาม โจทย์ระบุชัดว่า
+              Q<sub>n</sub> คือ ‘ค่าความจุประจุตามทฤษฎีที่ผู้ผลิตกำหนดไว้’ ซึ่งคือ rated capacity หรือค่าบนฉลากแบตเตอรี่
+              ไม่ใช่ปริมาณที่วัดจากการทดลองนี้ นิยามคือ ‘ถ้าจ่ายกระแสพิกัด 0.74 A ต่อเนื่อง 3,600 วินาที
+              จะได้ประจุเท่าไหร่’ ครับ”</i></p>
+        </div>
+
+        <h3>State of Charge — เปอร์เซ็นต์แบตที่เราเห็นบนมือถือ</h3>
+        <p>ปริมาณ <span class="mono">(Q<sub>n</sub> − q)/Q<sub>n</sub></span> ที่โผล่ออกมาตรงนี้ มีชื่อในวงการว่า
+          <b>State of Charge (SoC)</b> — วิธีนับแบบนี้เรียกว่า <b>Coulomb counting</b> ใช้จริงใน BMS ของรถ EV
+          ทุกคันในโลก
+        </p>
+        <svg class="chart" id="chartQ" viewBox="0 0 760 300" role="img"
+          aria-label="กราฟประจุสะสม q(t) เป็นเส้นตรงเพิ่มขึ้น และ SoC ลดลงจาก 100% เหลือ 23.6%"></svg>
+        <div class="stats">
+          <div class="stat">
+            <div class="lb">q ที่ปลายข้อมูล</div>
+            <div class="vl">2,036.48</div>
+            <div class="un">คูลอมบ์ (76.4% ของ Q<sub>n</sub>)</div>
+          </div>
+          <div class="stat t4">
+            <div class="lb">SoC ที่ปลายข้อมูล</div>
+            <div class="vl">23.6%</div>
+            <div class="un">แบตยังเหลืออีก 627.52 C</div>
+          </div>
+          <div class="stat t2">
+            <div class="lb">พลังงานที่จ่ายทั้งหมด</div>
+            <div class="vl">7,607</div>
+            <div class="un">จูล = 2.11 Wh</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="card">
+        <h2><span class="ic">🔁</span>ขั้นที่ 4 — KVL แล้วประกอบร่างสมการหลัก</h2>
+        <p class="lead"><b>KVL มาจากกฎอนุรักษ์พลังงาน</b> — เดินรอบลูปปิดครบหนึ่งรอบกลับจุดเดิม
+          ผลรวมการเปลี่ยนแปลงศักย์ต้องเป็นศูนย์ เพราะถ้าไม่เป็นศูนย์ แปลว่าพาประจุเดินครบรอบแล้วได้พลังงานฟรี</p>
+
+        <div class="tw">
+          <table>
+            <thead>
+              <tr>
+                <th>ก้าว</th>
+                <th>ผ่านอะไร</th>
+                <th>ศักย์เปลี่ยน</th>
+                <th>เพราะอะไร</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>1</td>
+                <td>ผ่าน v<sub>s</sub> จาก − ขึ้น +</td>
+                <td class="mono">+v<sub>s</sub>(t)</td>
+                <td>เดินจากขั้วต่ำไปขั้วสูง = ศักย์เพิ่ม</td>
+              </tr>
+              <tr>
+                <td>2</td>
+                <td>ผ่าน R<sub>i</sub> ตามทิศ i</td>
+                <td class="mono">−i(t)R<sub>i</sub></td>
+                <td>เดินตามทิศกระแสในตัวต้านทาน = ศักย์ตก</td>
+              </tr>
+              <tr>
+                <td>3</td>
+                <td>ลงจากโหนดบนผ่านโหลด</td>
+                <td class="mono">−v(t)</td>
+                <td>เดินจาก + ไป − = ศักย์ตก</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div class="eq">v<sub>s</sub>(t) − i(t)R<sub>i</sub> − v(t) = 0 <span class="dim">&nbsp;⟹&nbsp;</span> <b>v(t) =
+            v<sub>s</sub>(t) − 0.74·R<sub>i</sub></b></div>
+
+        <p>เอาสมการ v<sub>s</sub>(t) จากโจทย์แทนเข้าไป พร้อมกับ q(t) และ Q<sub>n</sub> − q(t) ที่พิสูจน์มาแล้ว
+          จัดกลุ่มพจน์คงที่ — <b>นี่คือก้าวที่สำคัญที่สุดในโจทย์ทั้งข้อ</b></p>
+
+        <div class="eq">v(t) = <span class="hi">(E<sub>o</sub> − 0.74R<sub>i</sub>)</span> − K·q(t) +
+          A<sub>a</sub>e<sup>−B<sub>a</sub>q(t)</sup> − A<sub>b</sub>e<sup>−B<sub>b</sub>(2664−q(t))</sup><br>
+          <span class="dim">โดยที่</span> <b>E<sub>o</sub>′ ≡ E<sub>o</sub> − 0.74R<sub>i</sub></b>
+        </div>
+
+        <div class="note warn">
+          <span class="lbl">⚠️ หยุดมองสมการนี้สักครู่</span>
+          <p><b>E<sub>o</sub> กับ R<sub>i</sub> ถูกมัดรวมเป็นก้อนเดียวชื่อ E<sub>o</sub>′ ไปแล้ว</b>
+            และมันจะไม่มีทางแยกออกจากกันได้อีกเลย ตราบใดที่ i ยังคงที่</p>
+          <p>นี่ไม่ใช่ความบกพร่องของวิธีแก้ — <b>มันคือธรรมชาติของข้อมูลชุดนี้</b> ดูรายละเอียดในแท็บ 4
+            และวิธีพูดเรื่องนี้ในแท็บ 5 คำถามที่ 8</p>
+        </div>
+
+        <p>ตอนนี้เรามีสมการที่มีตัวไม่รู้ 6 ตัว (E<sub>o</sub>′, K, A<sub>a</sub>, B<sub>a</sub>, A<sub>b</sub>,
+          B<sub>b</sub>) และข้อมูล 2,753 คู่ (q<sub>k</sub>, v<sub>k</sub>) — พร้อมแก้แล้ว ไปแท็บถัดไปกันครับ</p>
+      </div>
+    </section>
+
+    <!-- ======================= TAB 4 ======================= -->
+    <section class="panel" id="p4" role="tabpanel" aria-labelledby="t4" hidden>
+
+      <div class="card">
+        <h2><span class="ic">✍️</span>ไอเดียใหญ่ของอาจารย์ — “ตัดสิ่งที่เล็ก แล้วปัญหาจะกลายเป็นเรื่องง่าย”</h2>
+        <p class="lead">ปัญหาของเราคือสมการมีตัวไม่รู้ 6 ตัว และ 2 ตัวอยู่บนเลขชี้กำลัง แก้ตรงๆ ด้วยพีชคณิตไม่ได้
+          <b>แต่อาจารย์ไม่ใช้คอมพิวเตอร์เลย</b> — อาจารย์สังเกตอะไรบางอย่างที่ลึกกว่านั้น
+        </p>
+
+        <div class="eq">v = E<sub>o</sub>′ − Kq + <span class="hi">A<sub>a</sub>e<sup>−B<sub>a</sub>q</sup></span> <span
+            class="dim">← ตายเร็ว</span> − <span
+            class="hi">A<sub>b</sub>e<sup>−B<sub>b</sub>(Q<sub>n</sub>−q)</sup></span> <span class="dim">←
+            เกิดช้า</span></div>
+
+        <ul class="tick">
+          <li><b>เทอมที่ 3 ตายเร็ว</b> — q เพิ่มเรื่อยๆ e<sup>−B<sub>a</sub>q</sup> จึงหดลงเรื่อยๆ พอ q ใหญ่พอ
+            เทอมนี้แทบเป็นศูนย์</li>
+          <li><b>เทอมที่ 4 เกิดช้า</b> — (Q<sub>n</sub> − q) ใหญ่มากตอนต้น เทอมนี้จึงเกือบศูนย์ ต้องรอจน q ใกล้
+            Q<sub>n</sub> ถึงจะโผล่</li>
+          <li><b>ดังนั้นต้องมีช่วงตรงกลางที่ทั้งสองเทอมเป็นศูนย์พร้อมกัน!</b> ในช่วงนั้นสมการเหลือ <span class="mono">v
+              ≈ E<sub>o</sub>′ − Kq</span> ซึ่งคือเส้นตรง <span class="mono">y = mx + c</span> ที่เด็ก ม.ปลายก็แก้ได้
+          </li>
+        </ul>
+
+        <h3>หน้าต่างเชิงเส้นมีจริงไหม? — พิสูจน์เป็นตัวเลข</h3>
+        <p>ครูกำหนดเกณฑ์ว่าเทอมต้องเล็กกว่า <b>1 มิลลิโวลต์</b> ถึงจะตัดทิ้งได้ แล้วแก้หาว่าเงื่อนไขนั้นเกิดที่ q
+          เท่าไหร่</p>
+        <div class="tw">
+          <table>
+            <thead>
+              <tr>
+                <th>เทอม</th>
+                <th>เล็กกว่า 1 mV เมื่อ</th>
+                <th>คิดเป็นเวลา</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td class="mono">A<sub>a</sub>e<sup>−B<sub>a</sub>q</sup></td>
+                <td class="mono">q &gt; 481 C</td>
+                <td class="mono">t &gt; 650 s</td>
+              </tr>
+              <tr>
+                <td class="mono">A<sub>b</sub>e<sup>−B<sub>b</sub>(Q<sub>n</sub>−q)</sup></td>
+                <td class="mono">q &lt; 1,430 C</td>
+                <td class="mono">t &lt; 1,932 s</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="note win">
+          <span class="lbl">🏆 คำตอบที่พร้อมใช้ในห้องสอบ</span>
+          <p><b>หน้าต่างเชิงเส้นที่แท้จริงคือ q ∈ [481, 1430] C หรือ t ∈ [650, 1932] s</b> — และช่วงที่อาจารย์เลือกใช้
+            (q = 740 กับ 1,036 C) อยู่กลางหน้าต่างนี้พอดี</p>
+          <p>ถ้ากรรมการถาม <b>“ทำไมถึงเลือกช่วงนั้น”</b> ตอบด้วยตารางนี้ได้เลย ไม่ต้องตอบว่า “ดูจากกราฟแล้วมันตรงดีครับ”
+            ซึ่งอ่อนเกินไป</p>
+        </div>
+
+        <h3>ดูด้วยตา — แต่ละเทอมมีขนาดเท่าไหร่ในแต่ละช่วง</h3>
+        <svg class="chart" id="chartZones" viewBox="0 0 760 340" role="img"
+          aria-label="กราฟแสดงขนาดของแต่ละเทอมเทียบกับประจุ: เทอม Aa ยุบลงในช่วงต้น เทอม Ab พุ่งขึ้นในช่วงปลาย และแถบสีเขียวแสดงหน้าต่างเชิงเส้นตรงกลาง"></svg>
+      </div>
+
+      <div class="card">
+        <h2><span class="ic">📐</span>เดินตามลายมืออาจารย์ทีละบรรทัด</h2>
+
+        <div class="step">
+          <div class="k">5</div>
+          <div class="body">
+            <h4>หา K จากความชันช่วงเชิงเส้น</h4>
+            <p>เลือก t = 1000 s และ t = 1400 s → q = 740 C และ 1,036 C · อ่านแรงดัน v(1000) = 3.83514 V (อาจารย์อ่านเป็น
+              3.8353) และ v(1400) = 3.75450 V</p>
+            <p><b>ระวังเครื่องหมาย:</b> สมการคือ v = −Kq + E<sub>o</sub>′ ดังนั้น<b>ความชันของกราฟคือ −K ไม่ใช่ K</b>
+            </p>
+            <div class="eq left">−K = Δv/Δq = (3.83514 − 3.75450) / (740 − 1036) = 0.08064 / (−296) = −2.72429 ×
+              10<sup>−4</sup><br>∴ <b>K = 2.724 × 10<sup>−4</sup> V/C</b></div>
+            <p><span class="badge b-ok">ตรวจแล้ว</span> ความชันจริงที่คำนวณจากข้อมูลคือ 2.724286 × 10<sup>−4</sup> V/C —
+              <b>ตรงกับที่อาจารย์เขียนทุกหลัก</b>
+            </p>
+          </div>
+        </div>
+
+        <div class="step">
+          <div class="k">6</div>
+          <div class="body">
+            <h4>หา E<sub>o</sub>′ จากจุดตัดแกน</h4>
+            <div class="eq left">3.8353 = −(2.724 × 10<sup>−4</sup>)(740) + E<sub>o</sub>′ = −0.201576 +
+              E<sub>o</sub>′<br>∴ <b>E<sub>o</sub>′ = E<sub>o</sub> − 0.74R<sub>i</sub> = 4.036876 V</b></div>
+            <p><span class="badge b-ok">แม่นมาก</span> เทียบค่าคอมพิวเตอร์ (4.036467 V) <b>ต่างกันแค่ 0.41 mV หรือ
+                0.010%</b> — สำหรับการคำนวณด้วยมือจากข้อมูลแค่ 2 จุด นี่คือความแม่นยำที่น่าทึ่ง</p>
+          </div>
+        </div>
+
+        <div class="step">
+          <div class="k">7</div>
+          <div class="body">
+            <h4>หา R<sub>i</sub> — ขั้นตอนที่ต้องพูดให้ระวังที่สุด</h4>
+            <p>จาก E<sub>o</sub>′ = E<sub>o</sub> − 0.74R<sub>i</sub> ย้ายข้างได้ R<sub>i</sub> = (E<sub>o</sub> −
+              E<sub>o</sub>′)/0.74 <b>แต่เรายังไม่รู้ E<sub>o</sub></b> อาจารย์จึงต้อง<b>สมมติ</b>ว่า E<sub>o</sub> ≈
+              v(100) = 4.0801 V</p>
+            <div class="eq left">R<sub>i</sub> = (4.0801 − 4.036876) / 0.74 = 0.043224 / 0.74 = <b>0.0584 Ω</b></div>
+            <p><b>ทำไมเลือก v(100)?</b> เพราะที่ t = 100 s แรงดันเพิ่งผ่านช่วงหัวโค้งชันๆ มาแล้ว และคายประจุไปแค่ 74 C
+              จาก 2,664 C = 2.8% จึงเป็นจุดที่ “นิ่งที่สุดในช่วงต้น” — และผลลัพธ์ 58.4 mΩ
+              ก็สมจริงมากสำหรับเซลล์ลิเธียมไอออนขนาดเล็ก (ปกติ 20–100 mΩ)</p>
+            <div class="note warn" style="margin-bottom:0">
+              <span class="lbl">💀 กับดักข้อที่ 4 — ห้ามพูดผิดเด็ดขาด</span>
+              <p>❌ “ผม<b>คำนวณ</b> R<sub>i</sub> ได้ 0.0584 Ω” &nbsp;→&nbsp; ✅ “ผม<b>ประมาณ</b> R<sub>i</sub> ได้ 0.0584
+                Ω <b>ภายใต้สมมติฐานว่า E<sub>o</sub> ≈ v(100)</b>”</p>
+              <p>ความต่างของสองประโยคนี้คือความต่างระหว่าง 60 คะแนนกับ 100 คะแนน</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="step">
+          <div class="k">8</div>
+          <div class="body">
+            <h4>หา A<sub>a</sub> ที่ t = 0 (q = 0)</h4>
+            <p>ที่ q = 0: e<sup>−B<sub>a</sub>(0)</sup> = 1 และเทอมสุดท้าย A<sub>b</sub>e<sup>−28.57</sup> =
+              2.2×10<sup>−10</sup> V ตัดทิ้งได้สบายใจ</p>
+            <div class="eq left">4.1741 = 4.03687 + A<sub>a</sub> <span class="dim">⟹</span> <b>A<sub>a</sub> = 0.13723
+                V</b></div>
+            <p><span class="badge b-ok">ต่างกัน 0.30%</span> จากค่าคอมพิวเตอร์ 0.137637 V · <b>ความหมาย:</b>
+              A<sub>a</sub> คือความสูงของ “หัวโค้ง” = 137 mV จากแรงดันรวม 4.17 V คิดเป็น 3.3%</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="card" style="border-color:var(--rose);box-shadow:0 10px 44px rgba(220,38,38,.15)">
+        <h2><span class="ic">🔍</span>ขั้นที่ 9 — บรรทัดที่ทำให้เกิดเรื่อง (หัวใจของข้อสอบนี้)</h2>
+        <p class="lead">นี่คือจุดที่เฉลยชุดก่อนหน้าเขียนว่า <i>“สอดคล้องกันในทางอันดับมิติ”</i> แล้วสรุปว่า
+          <i>“ทั้งสองวิธีตรงกันอย่างสมบูรณ์แบบ”</i> — <b>ประโยคนั้นคือประโยคที่ทำให้ได้ 0 คะแนน</b>
+          เพราะกรรมการอ่านออกทันทีว่านิสิตเห็นความไม่ลงรอยแล้วเลือกจะพูดกลบ ครูตามไปหาสาเหตุจริงมาให้แล้ว
+        </p>
+
+        <h3>สิ่งที่อาจารย์เขียนในเฉลยหน้า 3</h3>
+        <div class="eq left">v(100) = E<sub>o</sub>′ + A<sub>a</sub>e<sup>−B<sub>a</sub>(74)</sup> − 0<br>
+          4.081 = 4.03687 + 0.13723·e<sup>−74B<sub>a</sub></sup><br>
+          0.04413 = 0.13723·e<sup>−74B<sub>a</sub></sup> <span class="dim">⟹</span> e<sup>−74B<sub>a</sub></sup> =
+          0.32153<br>
+          −74B<sub>a</sub> = ln(0.32153) = −1.13453 <span class="dim">⟹</span> <b>B<sub>a</sub> = 0.01533 [1/C]</b>
+        </div>
+        <p><b>ตัวเลขคำนวณถูกต้องทุกขั้นตอน</b> ครูตรวจแล้วได้ 0.015333 ตรงเป๊ะ — <b>แต่บรรทัดแรกขาดเทอมไปหนึ่งตัว</b>
+        </p>
+
+        <div class="eq">v(t) = E<sub>o</sub>′ <span class="hi">− K·q(t)</span> +
+          A<sub>a</sub>e<sup>−B<sub>a</sub>q(t)</sup> − A<sub>b</sub>e<sup>−B<sub>b</sub>(2664−q(t))</sup><br><span
+            class="dim" style="font-size:.88em">↑ เทอมนี้หายไปตอนแทนค่าที่ t = 100</span></div>
+
+        <h3>ทำไม 20 มิลลิโวลต์ถึงตัดทิ้งไม่ได้</h3>
+        <div class="grid g2">
+          <div class="stat" style="border-color:var(--green)">
+            <div class="lb">เทียบกับแรงดันรวม</div>
+            <div class="vl" style="color:var(--green)">0.5%</div>
+            <div class="un">20.2 mV จาก 4 V — ดูเล็กมาก น่าจะตัดได้</div>
+          </div>
+          <div class="stat" style="border-color:var(--rose)">
+            <div class="lb">เทียบกับเทอมที่กำลังแก้หา</div>
+            <div class="vl" style="color:var(--rose)">31.5%</div>
+            <div class="un">20.2 mV จาก A<sub>a</sub>e<sup>−74B<sub>a</sub></sup> = 64 mV — <b>ใหญ่เกินไป</b></div>
+          </div>
+        </div>
+        <p><b>เราไม่ได้เทียบกับ 4 โวลต์ครับ เราเทียบกับปริมาณที่กำลังจะแก้หา</b> —
+          และนั่นคือเหตุผลที่ผลลัพธ์เพี้ยนไปครึ่งหนึ่ง</p>
+
+        <h3>ทำใหม่โดยเก็บเทอมนั้นไว้ — ใช้วิธีเดียวกันทุกประการ</h3>
+        <div class="eq left">4.081 = 4.036876 <span class="hi">− 0.020158</span> +
+          0.13723·e<sup>−74B<sub>a</sub></sup><br>
+          0.064282 = 0.13723·e<sup>−74B<sub>a</sub></sup> <span class="dim">⟹</span> e<sup>−74B<sub>a</sub></sup> =
+          0.468422<br>
+          −74B<sub>a</sub> = ln(0.468422) = −0.758332 <span class="dim">⟹</span> <b
+            style="color:var(--green)">B<sub>a</sub> = 0.010248 [1/C]</b><br>
+          <span class="dim">เทียบค่าคอมพิวเตอร์ 0.0102375 →</span> <b style="color:var(--green)">ต่างกัน 0.1%</b>
+        </div>
+
+        <h3>พิสูจน์ด้วยการวัดผลจริงกับข้อมูลทั้ง 2,753 จุด</h3>
+        <div class="tw">
+          <table>
+            <thead>
+              <tr>
+                <th>ชุดพารามิเตอร์</th>
+                <th class="num">RMSE ทั้งชุด</th>
+                <th class="num">ค่าพลาดสูงสุด</th>
+                <th class="num">RMSE ช่วง t ∈ [1,400]</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>ลายมืออาจารย์ (B<sub>a</sub> = 0.01533)</td>
+                <td class="num">5.372 mV</td>
+                <td class="num">20.04 mV @ t≈106 s</td>
+                <td class="num">13.9 mV</td>
+              </tr>
+              <tr style="background:color-mix(in srgb,var(--green) 10%,transparent)">
+                <td><b>ใส่เทอม −Kq กลับ (B<sub>a</sub> = 0.010248)</b></td>
+                <td class="num"><b>0.252 mV</b></td>
+                <td class="num"><b>0.62 mV</b></td>
+                <td class="num"><b>0.22 mV</b></td>
+              </tr>
+              <tr>
+                <td>คอมพิวเตอร์ฟิตเต็มรูปแบบ</td>
+                <td class="num">1.1×10⁻¹⁰ mV</td>
+                <td class="num">6.3×10⁻¹⁰ mV</td>
+                <td class="num">—</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div class="note win">
+          <span class="lbl">🏆 หลักฐานปิดคดี — ดีขึ้น 21 เท่า</span>
+          <p>สังเกตว่า <b>ค่าพลาดสูงสุด 20.04 mV เท่ากับขนาดของเทอมที่ตัดทิ้ง (K × 74 = 20.2 mV) พอดี</b>
+            และมัน<b>เกาะอยู่ที่ t ≈ 106 s เท่านั้น</b> ไม่ได้กระจายทั่วทั้งชุด — ความคลาดเคลื่อนไม่ได้มั่วๆ
+            แต่ชี้กลับไปที่สาเหตุอย่างไม่มีข้อสงสัย</p>
+        </div>
+
+        <svg class="chart" id="chartResid" viewBox="0 0 760 300" role="img"
+          aria-label="กราฟความคลาดเคลื่อนของทั้งสองชุดพารามิเตอร์ แสดงว่าชุดของอาจารย์มีความคลาดเคลื่อนสูงสุด 20 มิลลิโวลต์กระจุกอยู่ช่วงต้น"></svg>
+
+        <div class="note tip">
+          <span class="lbl">🎤 วิธีพูดในห้องสอบ — ห้ามพูดว่า “อาจารย์คำนวณผิด”</span>
+          <p><i>“อาจารย์ใช้การประมาณตัดเทอม Kq ทิ้งในช่วงต้นครับ ซึ่งสมเหตุสมผลเพราะ 20 มิลลิโวลต์เทียบกับ 4 โวลต์คือ
+              0.5% แต่ผมลองตรวจดูแล้วพบว่าถ้าเทียบกับเทอมเลขชี้กำลังที่กำลังแก้หา ซึ่งมีขนาด 64 มิลลิโวลต์ มันคิดเป็น
+              31% ครับ ผมจึงลองเก็บเทอมนั้นไว้ แล้วได้ B<sub>a</sub> = 0.010248 ซึ่งพอเอาไปตรวจกับข้อมูลทั้ง 2,753 จุด
+              ให้ RMSE ดีขึ้นจาก 5.4 เป็น 0.25 มิลลิโวลต์ครับ”</i></p>
+          <p>สคริปต์เต็มพร้อมคำถามต่อเนื่อง อยู่ในแท็บ 5 คำถามที่ 7</p>
+        </div>
+      </div>
+
+      <div class="card">
+        <h2><span class="ic">⛰️</span>ขั้นที่ 10–11 — หา A<sub>b</sub> และ B<sub>b</sub> จากช่วงหน้าผา</h2>
+        <p class="lead">ที่ q = 1,998 C เทอม A<sub>a</sub> เหลือ e<sup>−30.6</sup> ≈ 5×10<sup>−14</sup> ตายสนิทไปนานแล้ว
+          ตัดทิ้งได้ (อาจารย์เขียนกำกับไว้มุมบนของเฉลยหน้า 4)</p>
+        <div class="eq left"><b>จุดที่ 1 · t = 2700 s, q = 1998 C:</b><br>
+          3.05 = 4.03687 − (2.724×10<sup>−4</sup>)(1998) − A<sub>b</sub>e<sup>−666B<sub>b</sub></sup> = 3.49257 −
+          A<sub>b</sub>e<sup>−666B<sub>b</sub></sup><br>
+          <span class="dim">⟹</span> <b>A<sub>b</sub>e<sup>−666B<sub>b</sub></sup> = 0.44257</b> &nbsp;&nbsp;···(1)
+        </div>
+        <div class="eq left"><b>จุดที่ 2 · t = 2750 s, q = 2035 C:</b><br>
+          2.8244 = 4.03687 − 0.55433 − A<sub>b</sub>e<sup>−629B<sub>b</sub></sup> = 3.48254 −
+          A<sub>b</sub>e<sup>−629B<sub>b</sub></sup><br>
+          <span class="dim">⟹</span> <b>A<sub>b</sub>e<sup>−629B<sub>b</sub></sup> = 0.65820</b> &nbsp;&nbsp;···(2)
+        </div>
+
+        <div class="note">
+          <span class="lbl">💡 เทคนิคเด็ด — หารสมการทิ้ง A<sub>b</sub></span>
+          <p>เรามีตัวไม่รู้ 2 ตัวแต่คูณกันอยู่ ถ้าเอา (1) หาร (2) ตัว A<sub>b</sub> จะหายไปเอง เหลือแค่กฎเลขชี้กำลัง</p>
+          <div class="eq left" style="margin-bottom:0">e<sup>−666B<sub>b</sub></sup> / e<sup>−629B<sub>b</sub></sup> =
+            e<sup>−37B<sub>b</sub></sup> = 0.44257/0.65820 = 0.67240<br>
+            −37B<sub>b</sub> = ln(0.67240) = −0.396896 <span class="dim">⟹</span> <b>B<sub>b</sub> = 0.010727 ≈ 0.0107
+              [1/C]</b><br>
+            แทนกลับ (1): A<sub>b</sub> = 0.44257 / e<sup>−666(0.0107)</sup> = 0.44257 / 8.033×10<sup>−4</sup> =
+            <b>551.176 V</b>
+          </div>
+        </div>
+        <p><span class="badge b-ok">B<sub>b</sub> ต่างกัน 0.23%</span> <span class="badge b-warn">A<sub>b</sub> ต่างกัน
+            1.6%</span> จากค่าคอมพิวเตอร์ (0.0107250 และ 559.946)</p>
+
+        <div class="note tip">
+          <span class="lbl">⚠️ ความไวที่กรรมการอาจถาม</span>
+          <p>ถ้าใช้ B<sub>b</sub> แบบไม่ปัดเศษ (0.010727) จะได้ A<sub>b</sub> = 560.7 V ซึ่งใกล้ค่าคอมพิวเตอร์กว่า —
+            <b>ปัด B<sub>b</sub> แค่หลักที่ 5 ทำให้ A<sub>b</sub> ขยับไป 10 โวลต์</b>
+          </p>
+          <p>เพราะ A<sub>b</sub> อยู่ในรูป e<sup>666·B<sub>b</sub></sup> ความไวจึงถูกขยาย 666 เท่า: <span
+              class="mono">δA<sub>b</sub>/A<sub>b</sub> = 666·δB<sub>b</sub></span></p>
+        </div>
+      </div>
+
+      <div class="card">
+        <h2><span class="ic">💻</span>วิธีคอมพิวเตอร์ — และการค้นพบที่ไม่มีใครพูดถึง</h2>
+        <p class="lead">วิธีของอาจารย์ใช้ข้อมูลแค่ <b>6 จุด</b> จาก 2,753 จุด ที่เหลืออีก 2,747 จุดถูกทิ้งไปเฉยๆ
+          ทั้งที่มันมีข้อมูลอยู่ การฟิตด้วยคอมพิวเตอร์คือการถามว่า <i>“มีชุดพารามิเตอร์ไหนไหม
+            ที่ทำให้เส้นโค้งลากผ่านใกล้ทุกจุดพร้อมกันที่สุด”</i></p>
+
+        <h3>กลเม็ดที่ทำให้ปัญหาง่ายลงครึ่งหนึ่ง — Variable Projection</h3>
+        <div class="eq left">v̂ = <b>E<sub>o</sub>′</b>·(1) + <b>K</b>·(−q) +
+          <b>A<sub>a</sub></b>·(e<sup>−B<sub>a</sub>q</sup>) +
+          <b>A<sub>b</sub></b>·(−e<sup>−B<sub>b</sub>(Q<sub>n</sub>−q)</sup>)
+        </div>
+        <p><b>ถ้าเรารู้ B<sub>a</sub> กับ B<sub>b</sub> แล้ว</b>
+          ทั้งสี่เทอมที่เหลือเป็น<b>เชิงเส้น</b>ในพารามิเตอร์ทันที! แก้ได้ด้วยสมการปกติแบบปิดรูป ไม่ต้องวนซ้ำเลย</p>
+        <p><b>ดังนั้นปัญหา 6 มิติ ยุบเหลือแค่ 2 มิติ</b> — เราแค่ค้นหา (B<sub>a</sub>, B<sub>b</sub>) ในระนาบ 2 มิติ
+          แล้วให้พีชคณิตเชิงเส้นจัดการที่เหลือ วิธีนี้ชื่อ <b>Variable Projection (VARPRO)</b> ของ Golub &amp; Pereyra
+          (1973) ข้อดีคือเสถียรมาก ไม่ติด local minimum ง่ายๆ</p>
+
+        <div class="stats">
+          <div class="stat">
+            <div class="lb">RMSE</div>
+            <div class="vl">1.08×10⁻¹³</div>
+            <div class="un">โวลต์</div>
+          </div>
+          <div class="stat t2">
+            <div class="lb">ค่าพลาดสูงสุด</div>
+            <div class="vl">6.3×10⁻¹³</div>
+            <div class="un">โวลต์</div>
+          </div>
+          <div class="stat t3">
+            <div class="lb">จุดข้อมูลที่ใช้</div>
+            <div class="vl">2,753</div>
+            <div class="un">ครบทุกจุด</div>
+          </div>
+        </div>
+
+        <div class="note warn">
+          <span class="lbl">🔬 อ่านผลลัพธ์ให้เป็น — ข้อสังเกตที่ต้องพูดในห้องสอบ</span>
+          <p>RMSE ระดับ <b>10⁻¹³ โวลต์</b> คือความละเอียดที่เครื่องมือวัดในโลกจริงทำไม่ได้แม้แต่ 1% ของนั้น มันคือระดับ
+            <b>machine epsilon</b> ของเลขทศนิยม 64 บิต
+          </p>
+          <p><b>⟹ ข้อมูลชุดนี้ถูกสร้างขึ้นจากสมการเดียวกันนี้เป๊ะ ไม่ใช่ข้อมูลวัดจริง</b></p>
+          <p>ถ้าเป็นข้อมูลวัดจริงจากแล็บ RMSE จะอยู่ราว 10⁻³ ถึง 10⁻² V เพราะมี noise จาก ADC, การเปลี่ยนอุณหภูมิ,
+            hysteresis และ sensor bias</p>
+        </div>
+
+        <h3>🔎 การค้นพบ: พารามิเตอร์ถูกออกแบบมาด้วยธรรมเนียม Shepherd/Tremblay</h3>
+        <p>ลองเอา B<sub>a</sub> กับ B<sub>b</sub> ไปคูณกับ Q<sub>n</sub> ดู — เลขซ้ำแบบนี้ไม่ใช่เรื่องบังเอิญ</p>
+        <div class="eq left">B<sub>a</sub> × Q<sub>n</sub> = 0.010237510238 × 2664 = 27.272727… = 300/11<br>
+          B<sub>b</sub> × Q<sub>n</sub> = 0.010725010725 × 2664 = 28.571428… = 200/7<br><br>
+          <span class="dim">เขียนใหม่:</span> &nbsp;<b>B<sub>a</sub> = 3/(0.110·Q<sub>n</sub>) = 3/293.04</b>
+          &nbsp;&nbsp;และ&nbsp;&nbsp; <b>B<sub>b</sub> = 3/(0.105·Q<sub>n</sub>) = 3/279.72</b>
+        </div>
+        <div class="note win">
+          <span class="lbl">🏆 ทั้งคู่อยู่ในรูป B = 3/Q<sub>exp</sub> พอดีเป๊ะ</span>
+          <p>นี่คือ<b>ธรรมเนียมมาตรฐานของแบบจำลอง Shepherd/Tremblay</b> ที่ใช้ใน MATLAB Simscape! เหตุผลของเลข 3 คือ
+            เมื่อ q = Q<sub>exp</sub> เทอมเลขชี้กำลังจะเหลือ e<sup>−3</sup> = 4.98% ≈ 5% คือ “ตายไป 95% แล้ว”
+            ซึ่งเป็นนิยามของจุดจบช่วงเลขชี้กำลัง</p>
+          <p>ดังนั้นผู้ออกข้อสอบตั้งค่าไว้ว่า <b>ช่วงเลขชี้กำลังตอนต้นกินประจุ 11.0% ของความจุ และช่วงหน้าผาตอนปลายกิน
+              10.5%</b> — เป็นตัวเลขที่สมจริงสำหรับเซลล์ลิเธียมไอออน</p>
+          <p>ถ้าพูดเรื่องนี้ได้ กรรมการจะรู้ทันทีว่านิสิต<b>ไม่ได้แค่รันโปรแกรมแล้วลอกตัวเลขมา</b>
+            แต่เข้าใจว่าตัวเลขแต่ละตัวมาจากไหน</p>
+        </div>
+      </div>
+
+      <div class="card" style="border-color:var(--violet)">
+        <h2><span class="ic">🧩</span>ปรากฏการณ์ E<sub>o</sub> กับ R<sub>i</sub> ที่แยกกันไม่ออก</h2>
+        <p class="lead">หัวข้อที่ลึกที่สุดของโจทย์ข้อนี้ และเป็นเนื้อหาระดับปริญญาโท</p>
+
+        <h3>อธิบายแบบไม่ใช้คณิตศาสตร์ก่อน</h3>
+        <p>ลองนึกภาพว่ามีคนบอกว่า <i>“ผมมีเลขสองตัว เอามาลบกันได้ 5”</i> แล้วถามว่าเลขสองตัวนั้นคืออะไร —
+          <b>ตอบไม่ได้ครับ</b> เพราะเป็นได้ทั้ง 10−5, 100−95, 7−2, … มีคำตอบเป็นอนันต์
+        </p>
+        <p>สถานการณ์ของ E<sub>o</sub> กับ R<sub>i</sub> เหมือนกันเป๊ะ — ข้อมูลบอกเราแค่ว่า <span
+            class="mono">E<sub>o</sub> − 0.74R<sub>i</sub> = 4.036467 V</span></p>
+        <div class="eq"><b>E<sub>o</sub> = 4.036467 + 0.74·R<sub>i</sub></b> <span class="dim">←
+            คำตอบเรียงตัวบนเส้นตรงนี้ มีเป็นอนันต์</span></div>
+
+        <div class="tw">
+          <table>
+            <thead>
+              <tr>
+                <th class="num">ถ้าสมมติ R<sub>i</sub></th>
+                <th class="num">จะได้ E<sub>o</sub></th>
+                <th class="num">แรงดันตกภายใน</th>
+                <th>ทำนาย v(t) ได้เท่ากันไหม</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td class="num">0 Ω</td>
+                <td class="num">4.036467 V</td>
+                <td class="num">0 mV</td>
+                <td><span class="badge b-ok">✓ เท่ากันทุกจุด</span></td>
+              </tr>
+              <tr>
+                <td class="num">0.0584 Ω <span style="font-size:.8em">(ของอาจารย์)</span></td>
+                <td class="num">4.079683 V</td>
+                <td class="num">43.2 mV</td>
+                <td><span class="badge b-ok">✓ เท่ากันทุกจุด</span></td>
+              </tr>
+              <tr>
+                <td class="num">0.2 Ω</td>
+                <td class="num">4.184467 V</td>
+                <td class="num">148.0 mV</td>
+                <td><span class="badge b-ok">✓ เท่ากันทุกจุด</span></td>
+              </tr>
+              <tr style="background:color-mix(in srgb,var(--rose) 9%,transparent)">
+                <td class="num">10 Ω</td>
+                <td class="num">11.436467 V</td>
+                <td class="num">7,400 mV</td>
+                <td><span class="badge b-ok">✓ เท่ากันทุกจุด (!)</span></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <p><b>แถวสุดท้ายคือสิ่งที่ทำให้เห็นภาพชัดที่สุด</b> — แม้จะสมมติว่าแบตเตอรี่มีความต้านทานภายในเท่ากับโหลด
+          และแรงดันภายใน 11.4 โวลต์ แบบจำลองก็ยังทำนายแรงดันที่วัดได้ตรงเป๊ะทุกจุดเหมือนเดิม
+          <b>ข้อมูลชุดนี้แยกสองกรณีนี้ออกจากกันไม่ได้เลย</b> — ไปลองเล่นสไลเดอร์ในแท็บ 6 แล้วจะเห็นกับตา
+        </p>
+
+        <h3>อธิบายแบบคณิตศาสตร์ (สำหรับกรรมการที่ถามลึก)</h3>
+        <div class="eq left">∂v̂/∂E<sub>o</sub> = 1 <span class="dim">&nbsp;&nbsp;และ&nbsp;&nbsp;</span>
+          ∂v̂/∂R<sub>i</sub> = −i(t) = −0.74 <span class="dim">&nbsp;(คงที่ทุกแถว)</span><br><br>
+          <span class="dim">⟹ คอลัมน์ทั้งสองของ Jacobian เป็นสัดส่วนกันพอดี ⟹</span> <b>rank = 1 ไม่ใช่ 2</b> <span
+            class="dim">⟹ X<sup>T</sup>X เป็น singular</span>
+        </div>
+        <div class="note warn">
+          <span class="lbl">📖 Structural vs Practical Non-identifiability</span>
+          <p>ปัญหานี้เรียกว่า <b>structural non-identifiability</b> — จุดสำคัญคือ <b>มันแก้ไม่ได้ด้วยการเพิ่มข้อมูล</b>
+            ต่อให้มีข้อมูลล้านจุดที่ไม่มี noise เลย ก็ยังแยกไม่ออกอยู่ดี ตราบใดที่กระแสยังคงที่</p>
+          <p>ต่างจาก <b>practical non-identifiability</b> ที่แก้ได้ด้วยการลด noise หรือเพิ่มจำนวนตัวอย่าง</p>
+        </div>
+
+        <h3>แล้วในโลกจริงเขาแก้ยังไง — Current Pulse Test / HPPC</h3>
+        <ul class="tick">
+          <li>พักแบตเตอรี่จนแรงดันนิ่ง แล้ววัด → นี่คือ OCV จริง (เพราะ i = 0 เทอม iR<sub>i</sub> หายไป)</li>
+          <li>จ่ายกระแสพัลส์ Δi เข้าไปทันที</li>
+          <li>แรงดันกระโดดลง Δv ในเสี้ยววินาที — <b>เร็วเกินกว่าที่เคมีจะตอบสนอง</b> ดังนั้นการกระโดดนี้มาจาก
+            R<sub>i</sub> ล้วนๆ: <span class="mono">R<sub>i</sub> = |Δv/Δi|</span></li>
+          <li>รู้ R<sub>i</sub> แล้วจึงคำนวณ <span class="mono">E<sub>o</sub> = E<sub>o</sub>′ +
+              0.74R<sub>i</sub></span> ได้</li>
+        </ul>
+        <div class="note win">
+          <span class="lbl">🎤 ประโยคเด็ดสำหรับตอบกรรมการ</span>
+          <p><i>“ความต้านทานภายในเห็นได้จากการ<b>เปลี่ยนแปลง</b>ของกระแสครับ ไม่ใช่จากตัวกระแสเอง
+              ข้อมูลชุดนี้กระแสคงที่ตลอด จึงไม่มี excitation ให้ R<sub>i</sub> แสดงตัวออกมาแยกจาก E<sub>o</sub>”</i></p>
+        </div>
+      </div>
+
+      <div class="card">
+        <h2><span class="ic">⚖️</span>ตารางเปรียบเทียบฉบับตรงไปตรงมา</h2>
+        <p class="lead">ตารางนี้ไม่เขียนว่า “ตรงกัน 100%” ทั้งที่ไม่ตรง — บอกความจริงทั้งหมดพร้อมเหตุผล</p>
+        <div class="tw">
+          <table>
+            <thead>
+              <tr>
+                <th>พารามิเตอร์</th>
+                <th class="num">มือ (อาจารย์)</th>
+                <th class="num">มือ (แก้เทอม Kq)</th>
+                <th class="num">คอมพิวเตอร์</th>
+                <th class="num">คลาดเคลื่อน</th>
+                <th>อธิบายได้ว่า</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td class="mono">i(t)</td>
+                <td class="num">0.74</td>
+                <td class="num">0.74</td>
+                <td class="num">0.74</td>
+                <td class="num">0%</td>
+                <td>ได้จาก KCL ตรงๆ ไม่มีการประมาณ</td>
+              </tr>
+              <tr>
+                <td class="mono">Q<sub>n</sub></td>
+                <td class="num">2664</td>
+                <td class="num">2664</td>
+                <td class="num">2664</td>
+                <td class="num">0%</td>
+                <td>ได้จากนิยาม ไม่มีการประมาณ</td>
+              </tr>
+              <tr>
+                <td class="mono">E<sub>o</sub>′</td>
+                <td class="num">4.036876</td>
+                <td class="num">4.036876</td>
+                <td class="num">4.036467</td>
+                <td class="num">0.010%</td>
+                <td>ใช้ 2 จุดในหน้าต่างเชิงเส้นที่ถูก</td>
+              </tr>
+              <tr>
+                <td class="mono">K</td>
+                <td class="num">2.724e−4</td>
+                <td class="num">2.724e−4</td>
+                <td class="num">2.7215e−4</td>
+                <td class="num">0.09%</td>
+                <td>ความชันจากช่วงที่เลขชี้กำลังตายแล้ว</td>
+              </tr>
+              <tr>
+                <td class="mono">A<sub>a</sub></td>
+                <td class="num">0.13723</td>
+                <td class="num">0.13723</td>
+                <td class="num">0.137637</td>
+                <td class="num">0.30%</td>
+                <td>อ่านที่ q = 0 ตรงๆ แทบไม่มีการประมาณ</td>
+              </tr>
+              <tr style="background:color-mix(in srgb,var(--amber) 12%,transparent)">
+                <td class="mono"><b>B<sub>a</sub></b></td>
+                <td class="num">0.01533</td>
+                <td class="num"><b>0.010248</b></td>
+                <td class="num">0.0102375</td>
+                <td class="num"><b>49.7% → 0.1%</b></td>
+                <td><b>ตัดเทอม Kq ที่มีขนาด 31% ของเป้าหมาย</b></td>
+              </tr>
+              <tr>
+                <td class="mono">B<sub>b</sub></td>
+                <td class="num">0.0107</td>
+                <td class="num">0.0107</td>
+                <td class="num">0.0107250</td>
+                <td class="num">0.23%</td>
+                <td>หารสมการทิ้ง A<sub>b</sub> — วิธีนี้แม่นมาก</td>
+              </tr>
+              <tr>
+                <td class="mono">A<sub>b</sub></td>
+                <td class="num">551.176</td>
+                <td class="num">551.176</td>
+                <td class="num">559.946</td>
+                <td class="num">1.6%</td>
+                <td>ไวต่อ B<sub>b</sub> 666 เท่า จากการปัดเศษ</td>
+              </tr>
+              <tr style="background:var(--accent-soft)">
+                <td><b>RMSE รวม</b></td>
+                <td class="num"><b>5.372 mV</b></td>
+                <td class="num"><b>0.252 mV</b></td>
+                <td class="num"><b>1.1e−10 mV</b></td>
+                <td class="num">—</td>
+                <td>ตัวชี้วัดคุณภาพที่แท้จริง</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="note win">
+          <span class="lbl">🎤 ข้อสรุปที่ควรพูด</span>
+          <p><i>“วิธีคำนวณด้วยมือแบบ piecewise asymptotic ให้ค่าที่แม่นยำมากใน 5 จาก 6 พารามิเตอร์ โดยคลาดเคลื่อนไม่ถึง
+              2% ทั้งที่ใช้ข้อมูลแค่ 6 จุด นี่แสดงว่าโครงสร้างของแบบจำลองแยกช่วงได้ชัดเจนจริง ส่วนพารามิเตอร์ตัวที่ 6
+              คือ B<sub>a</sub> คลาดเคลื่อนเพราะการตัดเทอม Kq ในช่วงที่มันยังไม่เล็กพอ ซึ่งพอแก้แล้วก็เข้าที่ครับ”</i>
+          </p>
+        </div>
+
+        <h3>ความหมายทางกายภาพของแต่ละพารามิเตอร์ (ต้องท่องได้)</h3>
+        <div class="tw">
+          <table>
+            <thead>
+              <tr>
+                <th>ตัว</th>
+                <th class="num">ค่า</th>
+                <th>พูดว่าอะไรในห้องสอบ</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td class="mono">E<sub>o</sub></td>
+                <td class="num">≈ 4.08 V</td>
+                <td>แรงดันวงจรเปิดตอนแบตเต็ม ก่อนหักแรงดันตกใดๆ — “ความสูงของถังตอนน้ำเต็ม”</td>
+              </tr>
+              <tr>
+                <td class="mono">K</td>
+                <td class="num">2.72e−4 V/C</td>
+                <td>ค่าคงที่โพลาไรเซชัน — จ่ายประจุ 1 C แรงดันตก 0.27 mV · รวมทั้งชุด K·Q<sub>n</sub> = 0.725 V</td>
+              </tr>
+              <tr>
+                <td class="mono">A<sub>a</sub></td>
+                <td class="num">0.1376 V</td>
+                <td>ความสูงของ “หัวโค้ง” ตอนเริ่มใช้งาน = 137 mV</td>
+              </tr>
+              <tr>
+                <td class="mono">B<sub>a</sub></td>
+                <td class="num">0.01024 /C</td>
+                <td>ความเร็วที่หัวโค้งยุบ — ยุบ 95% ภายใน 3/B<sub>a</sub> = 293 C คือ 11% ของความจุ</td>
+              </tr>
+              <tr>
+                <td class="mono">A<sub>b</sub></td>
+                <td class="num">559.9 V</td>
+                <td>ค่าอ้างอิงทางคณิตศาสตร์ที่ q = Q<sub>n</sub> — <b>ไม่ใช่แรงดันจริง</b> (ผลจริงในช่วงข้อมูลไม่เกิน
+                  0.669 V)</td>
+              </tr>
+              <tr>
+                <td class="mono">B<sub>b</sub></td>
+                <td class="num">0.01073 /C</td>
+                <td>ความชันของหน้าผา — เริ่มมีผลเมื่อประจุคงเหลือน้อยกว่า 3/B<sub>b</sub> = 280 C คือ 10.5%</td>
+              </tr>
+              <tr>
+                <td class="mono">R<sub>i</sub></td>
+                <td class="num">≈ 0.058 Ω</td>
+                <td>ทำให้เกิดแรงดันตก 43 mV และสูญเสียกำลัง i²R<sub>i</sub> = 32 mW เป็นความร้อน</td>
+              </tr>
+              <tr>
+                <td class="mono">Q<sub>n</sub></td>
+                <td class="num">2664 C</td>
+                <td>ความจุตามฉลาก = 0.74 Ah = 740 mAh</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <!-- ======================= TAB 5 ======================= -->
+    <section class="panel" id="p5" role="tabpanel" aria-labelledby="t5" hidden>
+
+      <div class="card">
+        <h2><span class="ic">🎓</span>คัมภีร์ซ้อมตอบสอบปากเปล่า</h2>
+        <p class="lead"><b>การสอบปากเปล่าไม่ได้วัดว่านิสิตคำนวณเป็นไหม</b> — ข้อสอบเขียนวัดไปแล้ว มันวัดอย่างเดียวเลยคือ
+          <b>“นิสิตเข้าใจสิ่งที่ตัวเองเขียนหรือเปล่า”</b> กรรมการจะถามลึกลงไปเรื่อยๆ จนกว่าจะเจอชั้นที่นิสิตตอบไม่ได้
+          แล้ววัดว่าชั้นนั้นลึกแค่ไหน
+        </p>
+        <p class="lead">ดังนั้นกลยุทธ์คือ <b>ทำให้ชั้นที่ตอบไม่ได้ ลึกที่สุดเท่าที่จะทำได้</b>
+          ทุกคำตอบข้างล่างเขียนให้ลึก 3 ชั้นแล้ว — ชั้นแรกตอบคำถาม ชั้นสองบอกว่าทำไม
+          ชั้นสามบอกว่าถ้าเงื่อนไขเปลี่ยนจะเป็นยังไง</p>
+
+        <h3>กติกา 6 ข้อ ก่อนเข้าห้องสอบ</h3>
+        <ul class="tick">
+          <li><b>ห้ามพูดว่า “ประมาณ” โดยไม่บอกว่าประมาณอะไรทิ้ง</b> — พูด “ผมตัดเทอม
+            A<sub>a</sub>e<sup>−B<sub>a</sub>q</sup> ทิ้ง เพราะที่ q &gt; 481 C มันเล็กกว่า 1 mV ครับ” ไม่ใช่
+            “ผมประมาณเอาครับ”</li>
+          <li><b>ตัวเลขทุกตัวต้องมีหน่วย</b> ตกหน่วยคือเสียคะแนนฟรี พูด “ศูนย์จุดเจ็ดสี่ <b>แอมป์</b>” ทุกครั้ง</li>
+          <li><b>ถ้าไม่รู้ ให้บอกว่าไม่รู้ แล้วบอกวิธีที่จะไปหาคำตอบ</b> — ได้คะแนนมากกว่าเดามั่ว 10 เท่า</li>
+          <li><b>ห้ามพูดว่า “อาจารย์ผิด”</b> ให้พูดว่า “อาจารย์ใช้การประมาณแบบ… ผมลองอีกแบบแล้วได้…”</li>
+          <li><b>ชี้รูปวงจรทุกครั้งที่พูดถึงองค์ประกอบ</b> กรรมการดูมือนิสิตด้วย ไม่ได้ฟังอย่างเดียว</li>
+          <li><b>ตอบให้จบประโยค แล้วหยุด</b> อย่าพูดต่อเรื่อยเปื่อยจนไปเปิดประเด็นที่ตัวเองไม่พร้อม</li>
+        </ul>
+      </div>
+
+      <div class="card">
+        <h2><span class="ic">🎤</span>14 คำถามพร้อมบทพูดจริง</h2>
+        <p class="lead">คลิกเปิดทีละข้อ ซ้อมพูดออกเสียงจริง อย่าอ่านในใจ — <b>ข้อ 7 กับ 8 ซ้อมให้มากที่สุด</b></p>
+
+        <details class="qa">
+          <summary><span class="qn">1</span>เล่าให้ฟังหน่อยว่าโจทย์ข้อนี้เกี่ยวกับอะไร และคุณแก้ยังไง</summary>
+          <div class="qbody">
+            <div class="qsec">
+              <div class="h">🎯 เขาต้องการฟังอะไร</div>
+              <p>นี่คือคำถามเปิด กรรมการกำลังดูว่านิสิตมี “แผนที่ในหัว” หรือเปล่า ถ้าเล่าได้เป็นลำดับ
+                คะแนนตั้งต้นจะสูงและคำถามต่อไปจะใจดีขึ้น</p>
+            </div>
+            <div class="qsec">
+              <div class="h">💀 กับดัก</div>
+              <ul class="trap">
+                <li>รีบพุ่งเข้าสมการทันที ทำให้ดูเหมือนท่องมา — ต้องเริ่มจากภาพใหญ่ก่อนเสมอ</li>
+              </ul>
+            </div>
+            <div class="qsec">
+              <div class="h">🎤 บทพูด (ซ้อมจับเวลา ~60 วินาที)</div>
+              <div class="script">
+                <p>“โจทย์ข้อนี้เป็นการหาพารามิเตอร์ของแบบจำลองแบตเตอรี่ จากข้อมูลการทดสอบคายประจุจริง 2,753 จุดครับ</p>
+                <p>วงจรมีสี่ส่วน — ทางซ้ายเป็นแบตเตอรี่ ซึ่งแทนด้วยแหล่งแรงดัน v<sub>s</sub>(t)
+                  ต่ออนุกรมกับความต้านทานภายใน R<sub>i</sub> <i>(ชี้รูป)</i> ทางขวามีสองกิ่งขนานกัน คือแหล่งกระแสพึ่งพา
+                  i<sub>s</sub>(t) กับตัวต้านทานภาระ R<sub>L</sub> สิบโอห์ม</p>
+                <p><b>ขั้นแรก</b> ใช้สมการโหนดที่โหนดบน ได้ว่า i(t) = i<sub>s</sub>(t) + v(t)/10
+                  ซึ่งทางขวามือรู้ค่าหมดจากไฟล์ข้อมูล ผมคำนวณครบทั้ง 2,753 แถว พบว่ากระแสคงที่ที่ <b>0.74 แอมป์</b> ตลอด
+                  ไม่เปลี่ยนเลย — นี่คือการทดสอบแบบ constant-current discharge ครับ</p>
+                <p><b>ขั้นที่สอง</b> พอกระแสคงที่ อินทิกรัลก็ง่ายมาก ได้ประจุสะสม q(t) = 0.74t คูลอมบ์ และความจุตามฉลาก
+                  Q<sub>n</sub> = 0.74 × 3600 = 2,664 คูลอมบ์ หรือ 0.74 แอมป์-ชั่วโมงครับ</p>
+                <p><b>ขั้นที่สาม</b> ใช้ KVL ลูปซ้ายเชื่อมแรงดันที่วัดได้เข้ากับสมการแบตเตอรี่ ได้ v(t) = (E<sub>o</sub>
+                  − 0.74R<sub>i</sub>) − Kq + A<sub>a</sub>e<sup>−B<sub>a</sub>q</sup> −
+                  A<sub>b</sub>e<sup>−B<sub>b</sub>(2664−q)</sup> แล้วแก้หาพารามิเตอร์ด้วยวิธีแยกช่วง —
+                  ช่วงกลางที่เทอมเลขชี้กำลังตายหมดแล้วเป็นเส้นตรง ใช้หา K กับ E<sub>o</sub>′ ช่วงต้นใช้หา A<sub>a</sub>,
+                  B<sub>a</sub> ช่วงปลายใช้หา A<sub>b</sub>, B<sub>b</sub> ครับ</p>
+                <p>มีข้อสังเกตสำคัญหนึ่งข้อ — <b>E<sub>o</sub> กับ R<sub>i</sub> แยกจากกันไม่ได้</b> จากข้อมูลชุดนี้
+                  เพราะกระแสคงที่ ผมขออธิบายตอนที่อาจารย์ถามถึงนะครับ”</p>
+              </div>
+            </div>
+            <div class="qsec">
+              <div class="h">⚡ ทำไมประโยคสุดท้ายสำคัญ</div>
+              <p>มันคือการ <b>“วางเบ็ด”</b> ให้กรรมการถามในเรื่องที่เราเตรียมมาแน่นที่สุด —
+                เทคนิคของคนที่สอบผ่านมาแล้วหลายรอบ</p>
+            </div>
+          </div>
+        </details>
+
+        <details class="qa">
+          <summary><span class="qn">2</span>ทำไมสมการโหนดถึงเป็น i = i<sub>s</sub> + v/R<sub>L</sub> — คุณรู้ได้ยังไงว่า
+            i<sub>s</sub> ไหลออกไม่ใช่ไหลเข้า</summary>
+          <div class="qbody">
+            <div class="qsec">
+              <div class="h">🎯 เขาต้องการฟังอะไร</div>
+              <p>ว่านิสิต<b>อ่านรูปวงจรเป็น</b> ไม่ใช่จำสมการมา นี่คือคำถามที่ทำให้คนตกเยอะที่สุด
+                เพราะทุกคนตอบส่วนแรกได้ แต่ตอบส่วนหลังไม่ได้</p>
+            </div>
+            <div class="qsec">
+              <div class="h">💀 กับดัก</div>
+              <ul class="trap">
+                <li>“เพราะสมการมันเป็นแบบนั้น”</li>
+                <li>“เพราะโจทย์บอกมา” — คำตอบต้องมาจากลูกศรในรูปเท่านั้น</li>
+              </ul>
+            </div>
+            <div class="qsec">
+              <div class="h">🎤 บทพูด</div>
+              <div class="script">
+                <p>“ผมเริ่มจากนิยามก่อนครับ KCL มาจากกฎอนุรักษ์ประจุ — โหนดเป็นแค่จุดต่อสายไฟ ไม่มีความสามารถเก็บประจุ
+                  ดังนั้นอัตราประจุไหลเข้าต้องเท่ากับอัตราไหลออก มิฉะนั้นประจุจะกองสะสมจนศักย์พุ่งเป็นอนันต์
+                  ซึ่งไม่เกิดขึ้นจริงครับ</p>
+                <p>ทีนี้ที่โหนดบนของวงจรนี้ <i>(ชี้รูป)</i></p>
+                <p><b>กระแส i(t) ไหลเข้า</b> — ผมดูจากลูกศรทึบบนสายบนครับ มันชี้ไปทางขวา คือชี้เข้าหาโหนด</p>
+                <p><b>กระแส i<sub>s</sub>(t) ไหลออก</b> — ผมดูจากลูกศรที่อยู่ข้างในสัญลักษณ์ข้าวหลามตัดครับ
+                  <b>มันชี้ลง</b> คือชี้จากโหนดบนลงสู่สายล่างที่เป็นกราวด์ ถ้าลูกศรชี้ขึ้น เครื่องหมายในสมการจะกลับเป็น
+                  i = −i<sub>s</sub> + v/R<sub>L</sub> ทันทีครับ
+                </p>
+                <p><b>กระแสผ่าน R<sub>L</sub> ไหลออก</b> — ผมดูจากเครื่องหมายขั้วของ v(t) ครับ บวกอยู่บน ลบอยู่ล่าง
+                  ตามหลัก passive sign convention กระแสในตัวต้านทานต้องไหลจากขั้วบวกไปขั้วลบ คือไหลจากบนลงล่าง</p>
+                <p>เมื่อรวมกัน: i = i<sub>s</sub> + i<sub>L</sub> แล้วใช้กฎของโอห์มกับ R<sub>L</sub> ได้ i<sub>L</sub> =
+                  v/R<sub>L</sub> จึงได้ i = i<sub>s</sub> + v/10 ครับ”</p>
+              </div>
+            </div>
+            <div class="qsec">
+              <div class="h">⚡ ถ้าเขาถามต่อ “ทำไมข้าวหลามตัดไม่ใช่วงกลม”</div>
+              <div class="script">
+                <p>“ข้าวหลามตัดหมายถึงแหล่งกำเนิด<b>พึ่งพา</b> (dependent source) ครับ
+                  คือค่าของมันถูกกำหนดโดยตัวแปรอื่นในวงจรหรือโดยระบบควบคุมภายนอก ต่างจากวงกลมที่เป็นแหล่งอิสระ
+                  ในกรณีนี้มันทำหน้าที่เหมือน electronic load ที่ปรับตัวเองเพื่อรักษากระแสรวมให้คงที่ครับ”</p>
+              </div>
+            </div>
+            <div class="qsec">
+              <div class="h">⚡ ถ้าเขาถามต่อ “ทำไมใช้สมการโหนดแค่สมการเดียว”</div>
+              <div class="script">
+                <p>“เพราะวงจรนี้มีแค่ 2 โหนดครับ — โหนดบนหนึ่ง
+                  กับสายล่างซึ่งเป็นตัวนำอุดมคติเส้นเดียวจึงเป็นโหนดเดียวกันทั้งเส้น เมื่อเลือกสายล่างเป็นโหนดอ้างอิง
+                  จำนวนสมการโหนดที่ต้องตั้งคือ N − 1 = 1 สมการครับ”</p>
+              </div>
+            </div>
+          </div>
+        </details>
+
+        <details class="qa">
+          <summary><span class="qn">3</span>คุณสุ่มคำนวณมาแค่ 3 จุด แล้วสรุปว่ากระแสคงที่ทั้ง 2,753 จุดได้ยังไง
+          </summary>
+          <div class="qbody">
+            <div class="qsec">
+              <div class="h">🎯 เขาต้องการฟังอะไร</div>
+              <p>ว่านิสิตแยกออกระหว่าง “สังเกตเห็น” กับ “พิสูจน์แล้ว” — คำถามเรื่องความเข้มงวดทางวิทยาศาสตร์</p>
+            </div>
+            <div class="qsec">
+              <div class="h">💀 กับดัก</div>
+              <ul class="trap">
+                <li>“ดูแล้วมันคงที่ครับ”</li>
+                <li>“สามจุดก็พอแล้วครับ” — การอนุมานจาก 3 จุดไปทั้งชุดคือ inductive fallacy</li>
+              </ul>
+            </div>
+            <div class="qsec">
+              <div class="h">🎤 บทพูด</div>
+              <div class="script">
+                <p>“สามจุดนั้นผมทำเพื่อ<b>แสดงวิธีคิด</b>ให้เห็นครับ ไม่ใช่หลักฐาน หลักฐานจริงคือผมคำนวณครบทั้ง 2,753
+                  แถวด้วยโปรแกรม แล้วรายงานเป็นสถิติ:</p>
+                <p>ค่าต่ำสุด 0.74 แอมป์ ค่าสูงสุด 0.74 แอมป์ ค่าเฉลี่ย 0.74 แอมป์ ส่วนเบี่ยงเบนมาตรฐาน 1.1 × 10⁻¹⁶
+                  แอมป์ครับ</p>
+                <p>ตัวเลข 10⁻¹⁶ นี้สำคัญนะครับ มันไม่ใช่การเปลี่ยนแปลงจริงของสัญญาณ แต่คือ <b>machine epsilon
+                    ของเลขทศนิยม 64 บิต</b> ซึ่งอยู่ที่ 2.2 × 10⁻¹⁶ พอดี — เป็นข้อจำกัดของการปัดเศษในคอมพิวเตอร์
+                  ไม่ใช่ฟิสิกส์</p>
+                <p>ที่จริงถ้าดูตัวเลขในไฟล์ให้ละเอียด จะเห็นเลยครับว่ามันถูกออกแบบมา ที่ t = 0: i<sub>s</sub> =
+                  0.3225895591500284 และ v/10 = 0.4174104408499716 — <b>ทศนิยมสองตัวนี้เติมเต็มกันพอดีทุกหลักจนได้ 0.74
+                    เป๊ะ</b> ผู้ออกข้อสอบสร้างคอลัมน์ i<sub>s</sub> ขึ้นจากสูตร i<sub>s</sub> = 0.74 − v/10
+                  ตั้งแต่ต้นครับ”</p>
+              </div>
+            </div>
+            <div class="qsec">
+              <div class="h">⚡ ถ้าเขาถามต่อ “ถ้าเป็นข้อมูลวัดจริงจากแล็บจะต่างยังไง”</div>
+              <div class="script">
+                <p>“จะมี noise ครับ กระแสจะแกว่งราว ±1 ถึง 5 มิลลิแอมป์จาก ADC resolution และ shunt resistor drift
+                  ผมจะไม่พูดว่า ‘คงที่’ แต่จะรายงานเป็น 0.740 ± 0.003 A แล้วเช็คว่าค่าเบี่ยงเบนกระจายแบบสุ่มรอบศูนย์
+                  หรือมี drift เป็นแนวโน้ม ถ้ามี drift แสดงว่าอุปกรณ์ควบคุมกระแสมีปัญหาครับ”</p>
+              </div>
+            </div>
+          </div>
+        </details>
+
+        <details class="qa">
+          <summary><span class="qn">4</span>ทำไมกระแสถึงคงที่ ทั้งที่แรงดันเปลี่ยนตลอด — แหล่งกระแสตัวนั้นทำอะไรอยู่
+          </summary>
+          <div class="qbody">
+            <div class="qsec">
+              <div class="h">🎯 เขาต้องการฟังอะไร</div>
+              <p>ความเข้าใจเชิงกลไก ไม่ใช่แค่ผลลัพธ์ตัวเลข — คำถามที่แยกนิสิตเกียรตินิยมออกจากนิสิตทั่วไป</p>
+            </div>
+            <div class="qsec">
+              <div class="h">🎤 บทพูด</div>
+              <div class="script">
+                <p>“ตัว i<sub>s</sub> ทำหน้าที่ <b>ชดเชย</b> ครับ ผมขออธิบายด้วยตัวเลขสองปลาย</p>
+                <p>ที่ t = 0 แรงดันสูงสุด 4.174 โวลต์ กระแสที่ไหลลงโหลดคือ 4.174/10 = 0.417 แอมป์ และ i<sub>s</sub>
+                  อยู่ที่ 0.323 แอมป์ รวมกันได้ 0.74</p>
+                <p>ที่ t = 2752 แรงดันตกเหลือ 2.813 โวลต์ กระแสลงโหลดเหลือ 0.281 แอมป์ — <b>หายไป 0.136 แอมป์</b> แต่
+                  i<sub>s</sub> ก็เพิ่มขึ้นจาก 0.323 เป็น 0.459 แอมป์ <b>คือเพิ่มขึ้น 0.136 แอมป์พอดี</b> รวมกันได้ 0.74
+                  เท่าเดิมครับ</p>
+                <p>พูดอีกอย่างคือ i<sub>s</sub> ถูกบังคับให้เป็น i<sub>s</sub>(t) = 0.74 − v(t)/10 ตลอดเวลา —
+                  มันคือ<b>แหล่งกระแสพึ่งพาที่พึ่งพาแรงดันโหนด</b>นั่นเอง ซึ่งตรงกับสัญลักษณ์ข้าวหลามตัดในรูปพอดีครับ
+                </p>
+                <p>ในโลกจริง นี่คือหน้าที่ของ <b>electronic load</b> หรือ <b>battery cycler</b>
+                  ที่ใช้ทดสอบแบตเตอรี่ในแล็บ มันมีวงจรป้อนกลับที่วัดกระแสแล้วปรับตัวเองตลอดเวลา</p>
+                <p>เหตุผลที่ต้องคุมกระแสให้คงที่ก็เพราะ
+                  <b>มันทำให้แกนเวลาแปลงเป็นแกนประจุได้ด้วยการคูณค่าคงที่ตัวเดียว</b> — q = 0.74t ครับ ถ้ากระแสไม่คงที่
+                  ต้องอินทิเกรตเชิงตัวเลขทีละสเต็ป ซึ่งจะสะสมความคลาดเคลื่อน วิธีนี้เป็นมาตรฐานสากลตาม IEC 61960 ครับ”
+                </p>
+              </div>
+            </div>
+          </div>
+        </details>
+
+        <details class="qa">
+          <summary><span class="qn">5</span>Q<sub>n</sub> ได้จากการอินทิเกรตถึง 3,600 วินาที แต่ข้อมูลมีถึงแค่ 2,752 —
+            คุณเดาเอาเหรอ</summary>
+          <div class="qbody">
+            <div class="qsec">
+              <div class="h">🎯 เขาต้องการฟังอะไร</div>
+              <p>ว่านิสิตอ่านนิยามในโจทย์ละเอียดหรือเปล่า และแยกออกระหว่าง “ค่าที่วัดได้” กับ “ค่าตามข้อกำหนด”</p>
+            </div>
+            <div class="qsec">
+              <div class="h">💀 กับดัก</div>
+              <ul class="trap">
+                <li>“ก็ extrapolate ครับ”</li>
+                <li>“ก็อินทิเกรตต่อไปครับ” — นั่นคือการอ้างข้อมูลที่ไม่มี</li>
+              </ul>
+            </div>
+            <div class="qsec">
+              <div class="h">🎤 บทพูด</div>
+              <div class="script">
+                <p>“ผมไม่ได้ extrapolate ครับ ผมใช้<b>นิยาม</b></p>
+                <p>โจทย์ระบุไว้ชัดว่า Q<sub>n</sub> คือ <i>‘ค่าความจุประจุ…ตามทฤษฎีที่ผู้ผลิตกำหนดไว้’</i>
+                  ซึ่งในวงการเรียกว่า <b>rated capacity</b> หรือ <b>nameplate capacity</b> —
+                  เป็นตัวเลขที่พิมพ์บนฉลากแบตเตอรี่ครับ ไม่ใช่ปริมาณที่วัดจากการทดลองนี้</p>
+                <p>นิยามของมันคือ ‘ถ้าจ่ายกระแสพิกัด 0.74 แอมป์ ต่อเนื่องเป็นเวลา t<sub>n</sub> = 3,600 วินาที
+                  จะได้ประจุเท่าไหร่’ คำตอบคือ 0.74 × 3600 = 2,664 คูลอมบ์ หรือ 0.74 แอมป์-ชั่วโมงครับ —
+                  นี่คือการคำนวณตามสเปก ไม่ใช่การอนุมานจากข้อมูล</p>
+                <p>ส่วนประจุที่<b>วัดได้จริง</b>ในการทดลองนี้ หยุดอยู่ที่ q(2752) = 2,036.48 คูลอมบ์ครับ ซึ่งคิดเป็น
+                  <b>76.4%</b> ของความจุตามฉลาก แปลว่าตอนข้อมูลจบ แบตเตอรี่ยังเหลือ <b>State of Charge 23.6%</b> อีก
+                  627.52 คูลอมบ์
+                </p>
+                <p>ผมคิดว่าการทดลองหยุดตรงนั้นเพราะแรงดันตกถึง 2.81 โวลต์แล้ว ซึ่งใกล้ cut-off voltage
+                  ของเซลล์ลิเธียมไอออน (ปกติ 2.5–3.0 โวลต์) ถ้าคายต่อจะทำให้เซลล์เสียหายถาวรครับ”</p>
+              </div>
+            </div>
+            <div class="qsec">
+              <div class="h">⚡ ถ้าเขาถามต่อ “ความจุจริงเท่ากับความจุตามฉลากไหม”</div>
+              <div class="script">
+                <p>“ไม่เท่าครับ และปกติจะน้อยกว่า เพราะความจุที่ใช้ได้จริงขึ้นกับกระแสที่ดึง (Peukert effect) อุณหภูมิ
+                  และอายุของเซลล์ ในอุตสาหกรรมเราวัดเป็น <b>State of Health (SoH)</b> = ความจุจริงหารด้วยความจุตามฉลาก
+                  แบตเตอรี่รถ EV ถือว่าหมดอายุเมื่อ SoH ตกถึง 80% ครับ”</p>
+              </div>
+            </div>
+          </div>
+        </details>
+
+        <details class="qa">
+          <summary><span class="qn">6</span>ทำไมคุณถึงเลือกช่วง q ตรงนั้น ถ้าผมเลือกช่วงอื่นจะได้ค่าเดิมไหม</summary>
+          <div class="qbody">
+            <div class="qsec">
+              <div class="h">🎯 เขาต้องการฟังอะไร</div>
+              <p>ว่าการเลือกช่วงมีเหตุผลเชิงปริมาณรองรับ ไม่ใช่มองกราฟแล้วเดาว่า “ตรงนี้ดูตรงดี”</p>
+            </div>
+            <div class="qsec">
+              <div class="h">💀 กับดัก</div>
+              <ul class="trap">
+                <li>“ผมดูจากกราฟว่าช่วงนี้เป็นเส้นตรงครับ” — อ่อนเกินไป กรรมการจะถามต่อว่า “ตรงแค่ไหนถึงเรียกว่าตรง”
+                </li>
+              </ul>
+            </div>
+            <div class="qsec">
+              <div class="h">🎤 บทพูด</div>
+              <div class="script">
+                <p>“ผมมีเกณฑ์เชิงปริมาณครับ ผมกำหนดว่าเทอมเลขชี้กำลังต้องเล็กกว่า <b>1 มิลลิโวลต์</b>
+                  ถึงจะถือว่าตัดทิ้งได้ แล้วแก้หาว่าเงื่อนไขนั้นเกิดที่ q เท่าไหร่</p>
+                <p><b>เทอมช่วงต้น</b> A<sub>a</sub>e<sup>−B<sub>a</sub>q</sup> &lt; 1 mV เมื่อ q &gt; 481 คูลอมบ์
+                  คือหลัง t = 650 วินาที</p>
+                <p><b>เทอมช่วงปลาย</b> A<sub>b</sub>e<sup>−B<sub>b</sub>(Q<sub>n</sub>−q)</sup> &lt; 1 mV เมื่อ q &lt;
+                  1,430 คูลอมบ์ คือก่อน t = 1,932 วินาที</p>
+                <p>ดังนั้น<b>หน้าต่างเชิงเส้นที่แท้จริงคือ q ระหว่าง 481 ถึง 1,430 คูลอมบ์</b> ครับ และจุดที่ใช้ (q =
+                  740 กับ 1,036 คูลอมบ์) อยู่กลางหน้าต่างพอดี</p>
+                <p>ถ้าอาจารย์เลือกช่วงอื่นที่ยังอยู่ในหน้าต่างนี้ จะได้ค่าใกล้เคียงกันครับ ผมลองแล้ว — เลือก q ∈ [1000,
+                  1400] ได้ K = 2.7396 × 10⁻⁴ ต่างจาก 2.724 × 10⁻⁴ แค่ 0.6% ครับ</p>
+                <p>แต่ถ้าเลือกออกนอกหน้าต่าง จะพังทันที เช่นถ้าใช้ q ∈ [0, 200] ความชันจะชันเกินจริงมาก เพราะยังมีเทอม
+                  A<sub>a</sub> ปนอยู่ครับ”</p>
+              </div>
+            </div>
+            <div class="qsec">
+              <div class="h">⚡ ถ้าเขาถามต่อ “ทำไมไม่ทำ least-squares ทั้งช่วงเลย”</div>
+              <div class="script">
+                <p>“ถูกต้องครับ ถ้าใช้ least-squares บนช่วง q ∈ [481, 1430] ทั้งหมด จะแม่นกว่าและทนต่อ noise มากกว่า
+                  เพราะใช้จุดข้อมูลนับพันแทนที่จะใช้แค่ 2 จุด ในโค้ดผมทำแบบนั้นด้วยครับ แต่วิธี 2
+                  จุดมีข้อดีที่ทำมือได้ในห้องสอบและตรวจสอบได้ง่าย เหมาะกับการวิเคราะห์เบื้องต้นครับ”</p>
+              </div>
+            </div>
+          </div>
+        </details>
+
+        <details class="qa danger">
+          <summary><span class="qn">7</span>⚠️ อันตรายสูงสุด — ค่า B<sub>a</sub> ที่คุณฟิตได้ ไม่ตรงกับที่ผมคำนวณ
+            คุณคิดว่าใครผิด</summary>
+          <div class="qbody">
+            <div class="qsec">
+              <div class="h">🎯 เขาต้องการฟังอะไร</div>
+              <p>นี่คือ <b>คำถามชี้ชะตา</b> กรรมการรู้ว่ามีความไม่ลงรอย เขาต้องการดูสองอย่าง — (1) นิสิตเห็นมันหรือเปล่า
+                (2) นิสิตจะกลบ จะโทษคนอื่น หรือจะอธิบายด้วยหลักฐาน</p>
+            </div>
+            <div class="qsec">
+              <div class="h">💀 กับดักที่ทำให้ได้ 0</div>
+              <ul class="trap">
+                <li>“น่าจะใกล้เคียงกันครับ อันดับมิติเดียวกัน” → <b>กลบเกลื่อน = ได้ 0</b>
+                  (นี่คือสิ่งที่เฉลยชุดก่อนหน้าเขียนไว้)</li>
+                <li>“อาจารย์คำนวณผิดครับ” → <b>หักหน้า + ยังไม่ได้อธิบายเหตุผล = ได้ 0</b></li>
+                <li>“ผมไม่ทราบครับ” → เสียโอกาสทำคะแนนสูงสุดของทั้งการสอบ</li>
+                <li>“คอมพิวเตอร์แม่นกว่าครับ” → ไม่ตอบคำถามว่า <i>ทำไม</i></li>
+              </ul>
+            </div>
+            <div class="qsec">
+              <div class="h">🎤 บทพูด (ซ้อมข้อนี้ให้มากที่สุด)</div>
+              <div class="script">
+                <p>“ผมเห็นความต่างนี้ครับ และผมตามไปหาสาเหตุแล้ว ขออนุญาตอธิบายเป็นสามชั้นนะครับ</p>
+                <p><b>ชั้นที่หนึ่ง — ความต่างอยู่ตรงไหน</b> ค่าจากการคำนวณด้วยมือได้ B<sub>a</sub> = 0.01533
+                  ส่วนค่าจากการฟิตข้อมูลทั้ง 2,753 จุดได้ 0.010238 ต่างกันประมาณ 50% ครับ
+                  ซึ่งมากเกินกว่าจะเป็นเรื่องการปัดเศษ</p>
+                <p><b>ชั้นที่สอง — สาเหตุ</b> ในขั้นตอนที่แก้หา B<sub>a</sub> ณ t = 100 วินาที สมการที่ใช้คือ v(100) =
+                  E<sub>o</sub>′ + A<sub>a</sub>e<sup>−74B<sub>a</sub></sup> แต่สมการเต็มมีเทอม <b>−K·q(t)</b>
+                  อยู่ด้วยครับ ตรงนั้นเทอมนั้นถูกตัดทิ้งไป</p>
+                <p><b>ชั้นที่สาม — ทำไมตัดทิ้งไม่ได้</b> ขนาดของเทอมนั้นคือ K × 74 = 2.724×10⁻⁴ × 74 = <b>20.2
+                    มิลลิโวลต์</b>ครับ ถ้าเทียบกับแรงดันรวม 4 โวลต์ มันคือ 0.5% เล็กมากจริงๆ ตัดทิ้งดูสมเหตุสมผล</p>
+                <p><b>แต่เราไม่ได้เทียบกับ 4 โวลต์ครับ</b> เราเทียบกับปริมาณที่กำลังจะแก้หา ซึ่งคือ
+                  A<sub>a</sub>e<sup>−74B<sub>a</sub></sup> ที่มีขนาดแค่ <b>64 มิลลิโวลต์</b> — เทอมที่ตัดทิ้งจึงคิดเป็น
+                  <b>31%</b> ของเป้าหมาย ไม่ใช่ 0.5% ครับ
+                </p>
+                <p>ผมลองแก้สมการใหม่โดยเก็บเทอมนั้นไว้ ใช้วิธีเดียวกันทุกประการ ได้ 0.064282 =
+                  0.13723·e<sup>−74B<sub>a</sub></sup> จึงได้ <b>B<sub>a</sub> = 0.010248</b>
+                  ซึ่งตรงกับค่าที่ฟิตด้วยคอมพิวเตอร์ที่ 0.1% ครับ</p>
+                <p>และผมตรวจยืนยันด้วยการแทนกลับ ค่า RMSE เทียบกับข้อมูลจริงทั้ง 2,753 จุด ดีขึ้นจาก <b>5.37 มิลลิโวลต์
+                    เหลือ 0.25 มิลลิโวลต์</b> คือดีขึ้น 21 เท่าครับ</p>
+                <p>ที่น่าสนใจคือ <b>ความคลาดเคลื่อนสูงสุดของชุดเดิมอยู่ที่ 20.0 มิลลิโวลต์
+                    ตรงกับขนาดของเทอมที่ตัดทิ้งพอดี</b> และมันเกาะอยู่ที่ t ≈ 106 วินาทีเท่านั้น ไม่ได้กระจายทั่วทั้งชุด
+                  — ซึ่งยืนยันสาเหตุอย่างชัดเจนครับ</p>
+                <p>ผมจึงคิดว่า<b>ไม่มีใครผิดครับ</b> มันเป็นข้อจำกัดของการประมาณแบบตัดเทอม ซึ่งใช้ได้ดีมากในอีก 5
+                  พารามิเตอร์ที่คลาดเคลื่อนไม่ถึง 2% แต่ในจุดนี้เทอมที่ตัดยังใหญ่เกินไปครับ”</p>
+              </div>
+            </div>
+            <div class="qsec">
+              <div class="h">⚡ ถ้าเขาถามต่อ “ทำไมพารามิเตอร์ตัวอื่นถึงไม่มีปัญหานี้”</div>
+              <div class="script">
+                <p>“เพราะจุดที่ใช้อยู่ในตำแหน่งที่การประมาณถูกต้องจริงครับ — A<sub>a</sub> อ่านที่ q = 0 ซึ่งเทอม Kq
+                  เป็นศูนย์พอดี ไม่มีอะไรถูกตัดทิ้ง ส่วน K กับ E<sub>o</sub>′ อ่านในช่วงกลางที่เลขชี้กำลังเล็กกว่า 0.1
+                  มิลลิโวลต์จริง และ A<sub>b</sub>, B<sub>b</sub> อ่านที่ปลายซึ่ง<b>เก็บเทอม Kq ไว้ครบ</b>ครับ —
+                  ในเฉลยหน้า 4 มีการคำนวณ K × 1998 = 0.5443 และ K × 2035 = 0.5543 ไว้ชัดเจน จุดเดียวที่หายไปคือที่ t =
+                  100 ครับ”</p>
+              </div>
+            </div>
+            <div class="qsec">
+              <div class="h">⚡ ถ้าเขาเซ้าซี้ “งั้นก็แปลว่าเฉลยผิดสิ”</div>
+              <div class="script">
+                <p>“ผมมองว่าเป็น<b>การเลือกใช้การประมาณ</b>ครับ ไม่ใช่ความผิดพลาดเชิงตรรกะ วิธี piecewise asymptotic
+                  ทั้งหมดตั้งอยู่บนการตัดเทอมที่เล็ก การตัดเทอมหนึ่งเพิ่มในจุดหนึ่งจึงอยู่ในกรอบเดียวกัน
+                  สิ่งที่ผมทำคือตรวจว่าเงื่อนไข ‘เล็กพอ’ เป็นจริงหรือไม่ในแต่ละจุด แล้วรายงานผลตามหลักฐานครับ —
+                  ซึ่งผมคิดว่านั่นคือสิ่งที่วิศวกรควรทำ”</p>
+              </div>
+            </div>
+          </div>
+        </details>
+
+        <details class="qa danger">
+          <summary><span class="qn">8</span>⚠️ ค่า R<sub>i</sub> = 0.0584 Ω ของคุณ เชื่อถือได้แค่ไหน</summary>
+          <div class="qbody">
+            <div class="qsec">
+              <div class="h">🎯 เขาต้องการฟังอะไร</div>
+              <p>เรื่อง <b>structural identifiability</b> ซึ่งเป็นเนื้อหาระดับปริญญาโท
+                กรรมการที่ถามข้อนี้กำลังทดสอบเพดานความรู้ของนิสิต</p>
+            </div>
+            <div class="qsec">
+              <div class="h">💀 กับดัก</div>
+              <ul class="trap">
+                <li>“เชื่อถือได้ครับ ผมคำนวณจากสูตร” — ค่านี้มาจากสมมติฐาน ไม่ได้มาจากข้อมูล</li>
+              </ul>
+            </div>
+            <div class="qsec">
+              <div class="h">🎤 บทพูด</div>
+              <div class="script">
+                <p>“ตอบตรงๆ ครับ — <b>ข้อมูลชุดนี้ไม่สามารถกำหนดค่า R<sub>i</sub> ได้เลย</b> ค่า 0.0584
+                  โอห์มมาจากสมมติฐานเพิ่มเติมที่ใส่เข้าไป ไม่ได้มาจากข้อมูล</p>
+                <p>ขออธิบายเหตุผลครับ เพราะกระแสคงที่ 0.74 แอมป์ตลอด เทอม i·R<sub>i</sub> จึงเป็นค่าคงที่
+                  0.74R<sub>i</sub> ตลอดเวลาเช่นกัน มันจึงรวมเข้ากับ E<sub>o</sub> ซึ่งก็เป็นค่าคงที่ กลายเป็นก้อนเดียว:
+                  E<sub>o</sub>′ = E<sub>o</sub> − 0.74R<sub>i</sub> = 4.036467 V —
+                  <b>สิ่งที่ข้อมูลเห็นคือผลต่างก้อนนี้เท่านั้นครับ ไม่ใช่ตัวเลขสองตัวแยกกัน</b>
+                </p>
+                <p>พูดง่ายๆ เหมือนมีคนบอกว่า ‘ผมมีเลขสองตัว ลบกันได้ 4.036’ แล้วถามว่าเลขสองตัวคืออะไร — ตอบไม่ได้ครับ
+                  มีคำตอบเป็นอนันต์บนเส้นตรง E<sub>o</sub> = 4.036467 + 0.74R<sub>i</sub></p>
+                <p>ถ้าดูเชิงคณิตศาสตร์ อนุพันธ์ของแบบจำลองเทียบกับสองพารามิเตอร์นี้คือ ∂v̂/∂E<sub>o</sub> = 1 และ
+                  ∂v̂/∂R<sub>i</sub> = −0.74 — <b>คอลัมน์ทั้งสองของเมทริกซ์จาโคเบียนเป็นสัดส่วนกันพอดีทุกแถว</b>
+                  เมทริกซ์จึงมี rank เท่ากับ 1 ไม่ใช่ 2 และ X<sup>T</sup>X เป็น singular ครับ ปรากฏการณ์นี้เรียกว่า
+                  <b>structural non-identifiability</b>
+                </p>
+                <p>จุดสำคัญคือ <b>มันแก้ไม่ได้ด้วยการเพิ่มข้อมูล</b> ต่อให้มีข้อมูลล้านจุดที่ไม่มี noise เลย
+                  ก็ยังแยกไม่ออกอยู่ดี ตราบใดที่กระแสยังคงที่ — ต่างจาก practical non-identifiability ที่แก้ได้ด้วยการลด
+                  noise ครับ</p>
+                <p>ค่า 0.0584 โอห์มได้มาจากการสมมติว่า E<sub>o</sub> ≈ v(100) = 4.0801 โวลต์
+                  ซึ่งเป็นการประมาณเชิงวิศวกรรมที่มีเหตุผล เพราะที่ 100 วินาทีคายประจุไปแค่ 2.8% และผลลัพธ์ 58
+                  มิลลิโอห์มก็สมจริงสำหรับเซลล์ลิเธียมไอออนขนาดเล็ก ซึ่งปกติอยู่ที่ 20–100 มิลลิโอห์มครับ
+                  <b>แต่มันเป็นสมมติฐาน ไม่ใช่ผลจากข้อมูล</b> ผมจึงรายงานว่า <i>ประมาณได้</i> 0.0584 โอห์ม ไม่ใช่
+                  <i>คำนวณได้</i>”
+                </p>
+              </div>
+            </div>
+            <div class="qsec">
+              <div class="h">⚡ ถ้าเขาถามต่อ “ต้องทำการทดลองแบบไหนถึงจะแยกได้”</div>
+              <div class="script">
+                <p>“ต้องทำให้กระแส<b>เปลี่ยนแปลง</b>ครับ วิธีมาตรฐานคือ <b>Current Pulse Test</b> หรือ <b>HPPC</b></p>
+                <p>ขั้นตอนคือ พักแบตเตอรี่จนแรงดันนิ่งแล้ววัด — ตอนนั้น i = 0 เทอม iR<sub>i</sub> หายไป เราจึงเห็น OCV
+                  ตรงๆ จากนั้นจ่ายกระแสพัลส์ Δi เข้าไปทันที แรงดันจะกระโดดลง Δv ในเสี้ยววินาที
+                  ซึ่งเร็วเกินกว่าที่กระบวนการทางเคมีจะตอบสนองทัน การกระโดดนั้นจึงมาจาก R<sub>i</sub> ล้วนๆ:
+                  R<sub>i</sub> = |Δv/Δi| ตอน t → 0⁺</p>
+                <p>รู้ R<sub>i</sub> แล้วจึงคำนวณ E<sub>o</sub> = E<sub>o</sub>′ + 0.74R<sub>i</sub> ได้ครับ หลักการคือ
+                  <b>ความต้านทานเห็นได้จากการเปลี่ยนแปลงของกระแส ไม่ใช่จากตัวกระแสเอง</b>”
+                </p>
+              </div>
+            </div>
+            <div class="qsec">
+              <div class="h">⚡ ถ้าเขาถามต่อ “การตอบว่าแยกไม่ได้ ถือว่าทำโจทย์ไม่เสร็จหรือเปล่า”</div>
+              <div class="script">
+                <p>“ผมมองว่าตรงกันข้ามครับ การรายงาน E<sub>o</sub> กับ R<sub>i</sub>
+                  เป็นค่าเดี่ยวที่ฟิตได้พร้อมกันจากข้อมูลชุดนี้ จะเป็นข้อสรุปที่<b>เกินกว่าข้อมูลรองรับ</b>
+                  ซึ่งในทางวิศวกรรมถือว่าอันตรายกว่า เพราะถ้ามีคนเอาค่านั้นไปออกแบบระบบระบายความร้อนโดยเชื่อว่า
+                  R<sub>i</sub> ถูกต้อง ก็อาจคำนวณความร้อน i²R<sub>i</sub> ผิดได้ครับ
+                  ผมจึงรายงานทั้งค่าประมาณและขอบเขตความเชื่อมั่นของมัน”</p>
+              </div>
+            </div>
+          </div>
+        </details>
+
+        <details class="qa">
+          <summary><span class="qn">9</span>A<sub>b</sub> = 560 โวลต์ แบตเตอรี่ 4 โวลต์ — ทำไมมีเลข 560 โผล่มา</summary>
+          <div class="qbody">
+            <div class="qsec">
+              <div class="h">🎯 เขาต้องการฟังอะไร</div>
+              <p>ว่านิสิตแยกออกระหว่าง “พารามิเตอร์ทางคณิตศาสตร์” กับ “ปริมาณทางกายภาพ” — ดูเหมือนจับผิด แต่จริงๆ
+                ทดสอบความเข้าใจโครงสร้างสมการ</p>
+            </div>
+            <div class="qsec">
+              <div class="h">💀 กับดัก</div>
+              <ul class="trap">
+                <li>“น่าจะฟิตผิดครับ”</li>
+                <li>“โมเดลอาจจะไม่ดีครับ” — เสียคะแนนฟรี ทั้งที่คำตอบไม่ยาก</li>
+              </ul>
+            </div>
+            <div class="qsec">
+              <div class="h">🎤 บทพูด</div>
+              <div class="script">
+                <p>“ค่า 560 โวลต์<b>ไม่ใช่แรงดันที่เกิดขึ้นจริงในวงจร</b>ครับ
+                  มันคือค่าสัมประสิทธิ์ที่จุดอ้างอิงทางคณิตศาสตร์</p>
+                <p>ดูจากสมการครับ เทอมนี้คือ −A<sub>b</sub>e<sup>−B<sub>b</sub>(Q<sub>n</sub>−q)</sup> ค่า A<sub>b</sub>
+                  จะปรากฏเต็มขนาดก็ต่อเมื่อเลขชี้กำลังเป็นศูนย์ คือเมื่อ q = Q<sub>n</sub> พอดี —
+                  <b>แต่จุดนั้นคือจุดที่แบตเตอรี่คายประจุหมดเกลี้ยง 100% ซึ่งอยู่นอกช่วงข้อมูลของเราครับ</b>
+                </p>
+                <p>ข้อมูลของเราหยุดที่ q = 2,036.48 คูลอมบ์ ยังเหลือ 627.52 คูลอมบ์
+                  ดังนั้นค่าจริงของเทอมนี้ที่จุดสุดท้ายคือ 560 × e<sup>−0.010725×627.52</sup> = 560 × 1.19×10⁻³ =
+                  <b>0.669 โวลต์</b> — หกร้อยหกสิบเก้ามิลลิโวลต์ครับ ไม่ใช่ 560 โวลต์ และตลอดช่วงข้อมูลทั้งหมด
+                  เทอมนี้ไม่เคยเกิน 0.67 โวลต์เลย
+                </p>
+                <p>ที่ q = 0 ตอนเริ่มต้น เทอมนี้มีค่า 560 × e<sup>−28.57</sup> = 2.2×10⁻¹⁰ โวลต์ —
+                  เล็กกว่าหนึ่งนาโนโวลต์ครับ ไม่มีผลใดๆ</p>
+                <p>พูดอีกอย่างคือ A<sub>b</sub> เป็นค่าที่ได้จากการ <b>extrapolate สมการออกไปนอกช่วงข้อมูล</b>
+                  จึงต้องระวังมากในการตีความ ถ้ามีคนเอาแบบจำลองนี้ไปทำนายแรงดันที่ q ใกล้ 2,664 คูลอมบ์
+                  จะได้ค่าติดลบมหาศาลซึ่งไม่มีความหมายทางกายภาพครับ <b>นี่คือขอบเขตความใช้ได้ของแบบจำลอง (domain of
+                    validity)</b> ที่ต้องระบุไว้เสมอเวลาส่งมอบงาน”</p>
+              </div>
+            </div>
+            <div class="qsec">
+              <div class="h">⚡ ถ้าเขาถามต่อ “รู้ได้ยังไงว่า A<sub>b</sub> ที่ฟิตได้เชื่อถือได้”</div>
+              <div class="script">
+                <p>“ต้องดูความไวครับ A<sub>b</sub> อยู่ในรูป A<sub>b</sub> = 0.44257·e<sup>666B<sub>b</sub></sup>
+                  ดังนั้น δA<sub>b</sub>/A<sub>b</sub> = 666·δB<sub>b</sub> — <b>ความคลาดเคลื่อนของ B<sub>b</sub>
+                    ถูกขยาย 666 เท่า</b> ตัวอย่างจริงคือ ถ้าใช้ B<sub>b</sub> = 0.0107 ได้ A<sub>b</sub> = 551 โวลต์
+                  แต่ถ้าใช้ 0.010727 ซึ่งต่างกันแค่ 0.25% ได้ 561 โวลต์ ต่างกัน 10 โวลต์ครับ ดังนั้นผมจะรายงาน
+                  A<sub>b</sub> คู่กับ B<sub>b</sub> เสมอ และระบุว่าปริมาณที่มีความหมายจริงคือ<b>ผลคูณ</b>
+                  A<sub>b</sub>e<sup>−B<sub>b</sub>(Q<sub>n</sub>−q)</sup> ในช่วงข้อมูล ไม่ใช่ A<sub>b</sub> เดี่ยวๆ
+                  ครับ”</p>
+              </div>
+            </div>
+          </div>
+        </details>
+
+        <details class="qa">
+          <summary><span class="qn">10</span>วิชานี้สอนเรื่องผลการแปลงลาปลาซ ทำไมคุณไม่ใช้</summary>
+          <div class="qbody">
+            <div class="qsec">
+              <div class="h">🎯 เขาต้องการฟังอะไร</div>
+              <p>ว่านิสิตรู้ว่าเครื่องมือแต่ละชิ้นใช้กับปัญหาแบบไหน ไม่ใช่หยิบมาใช้เพราะเพิ่งเรียนมา</p>
+            </div>
+            <div class="qsec">
+              <div class="h">💀 กับดัก</div>
+              <ul class="trap">
+                <li>“ใช้ไม่ได้ครับ” ห้วนๆ — เสียคะแนน เพราะที่จริงลาปลาซ<b>ช่วยได้บางส่วน</b> ต้องบอกให้ครบทั้งสองด้าน
+                </li>
+              </ul>
+            </div>
+            <div class="qsec">
+              <div class="h">🎤 บทพูด</div>
+              <div class="script">
+                <p>“ลาปลาซช่วยได้ครับ แต่ช่วยไม่ครบทั้งโจทย์ ผมขอแยกเป็นสองส่วนนะครับ</p>
+                <p><b>ส่วนที่ลาปลาซช่วยได้จริง</b> มีสามเรื่อง</p>
+                <p>หนึ่ง — <b>คุณสมบัติการปริพันธ์ทางเวลา</b> ในเอกสารคำสอนสมการ (7.3-14) ระบุว่า ℒ{∫₀ᵗ i(α)dα} = I(s)/s
+                  ซึ่งยืนยันเชิงระบบว่าเทอมอินทิกรัลประจุคือตัวดำเนินการ 1/s และในกรณีของเรา กระแสคงที่ 0.74 แอมป์ มี
+                  I(s) = 0.74/s ดังนั้น Q(s) = 0.74/s² ซึ่งแปลงกลับได้ q(t) = 0.74t
+                  ตรงกับที่ผมอินทิเกรตในโดเมนเวลาพอดีครับ — เป็นการตรวจสอบข้ามวิธี</p>
+                <p>สอง — <b>ทฤษฎีบทค่าเริ่มต้นและค่าสุดท้าย</b> ใช้ตรวจขอบเขตแรงดันได้ เช่น v<sub>s</sub>(0⁺) =
+                  E<sub>o</sub> + A<sub>a</sub> − A<sub>b</sub>e<sup>−B<sub>b</sub>Q<sub>n</sub></sup></p>
+                <p>สาม — ถ้าวงจรมีตัวเก็บประจุหรือตัวเหนี่ยวนำ เช่นเวลาเราขยายแบบจำลองเป็น RC network เพื่อจับ transient
+                  ลาปลาซจะเป็นเครื่องมือหลักทันทีครับ</p>
+                <p><b>ส่วนที่ลาปลาซช่วยไม่ได้</b> คือหัวใจของโจทย์นี้ครับ — การหาค่าพารามิเตอร์</p>
+                <p>เหตุผลคือ ลาปลาซเป็นเครื่องมือสำหรับระบบ <b>LTI</b> (เชิงเส้นและไม่แปรตามเวลา) แต่แบบจำลองนี้มีเทอม
+                  A<sub>a</sub>e<sup>−B<sub>a</sub>q(t)</sup> ซึ่ง<b>ไม่เชิงเส้นในพารามิเตอร์</b> — ตัว B<sub>a</sub>
+                  อยู่บนเลขชี้กำลัง จะดึงออกมาเป็นสัมประสิทธิ์เชิงเส้นไม่ได้ ดังนั้นแม้จะแปลงเข้าโดเมน s ได้ ก็ยังแก้หา
+                  B<sub>a</sub> ด้วยพีชคณิตเชิงเส้นไม่ได้อยู่ดีครับ</p>
+                <p>อีกเหตุผลคือ ข้อมูลเป็นแบบไม่ต่อเนื่อง 2,753 จุด งานจริงจึงเป็นปัญหา <b>parameter identification</b>
+                  ซึ่งต้องใช้การหาค่าเหมาะสมที่สุด ไม่ใช่การแปลงโดเมนครับ</p>
+                <p>สรุปคือ ลาปลาซเป็นเครื่องมือ<b>วิเคราะห์โครงสร้าง</b>
+                  ส่วนโจทย์นี้ต้องการเครื่องมือ<b>ประมาณค่าพารามิเตอร์</b>
+                  ผมเลยใช้ลาปลาซตรวจความสัมพันธ์ระหว่างกระแสกับประจุ แล้วใช้ least-squares หาพารามิเตอร์ครับ”</p>
+              </div>
+            </div>
+          </div>
+        </details>
+
+        <details class="qa">
+          <summary><span class="qn">11</span>ทำไมเทอมสุดท้ายอินทิเกรตจาก t ถึง t<sub>n</sub> ไม่ใช่จาก 0 ถึง t
+            เหมือนเทอมอื่น</summary>
+          <div class="qbody">
+            <div class="qsec">
+              <div class="h">🎯 เขาต้องการฟังอะไร</div>
+              <p>ว่านิสิตเข้าใจ<b>ความหมายทางกายภาพ</b>ของโครงสร้างสมการ ไม่ใช่แค่มองว่าเป็นสัญลักษณ์</p>
+            </div>
+            <div class="qsec">
+              <div class="h">🎤 บทพูด</div>
+              <div class="script">
+                <p>“เพราะสองเทอมนี้จำลองปรากฏการณ์คนละอย่าง และวัดจากคนละปลายครับ</p>
+                <p><b>เทอม A<sub>a</sub>e<sup>−B<sub>a</sub>q(t)</sup> วัดจาก ‘ประจุที่ใช้ไปแล้ว’</b>
+                  มันจำลองพฤติกรรมช่วงเริ่มคายประจุ ที่แรงดันตกเร็วในตอนแรกแล้วค่อยๆ นิ่ง ตอน q = 0 เทอมนี้เต็มขนาด
+                  A<sub>a</sub> แล้วยุบลงเรื่อยๆ ตามการใช้งาน — เหมือนฟองอากาศที่ก้นถังตอนเปิดวาล์วแรกๆ ยุบเร็วแล้วหาย
+                </p>
+                <p><b>เทอม A<sub>b</sub>e<sup>−B<sub>b</sub>∫ₜ^tⁿ i dα</sup> วัดจาก ‘ประจุที่ยังเหลือ’</b> มันจำลอง knee
+                  หรือหน้าผาแรงดันตอนแบตใกล้หมด ต้องรอจนประจุคงเหลือน้อยๆ เทอมนี้ถึงจะโผล่ขึ้นมา</p>
+                <p>และผมพิสูจน์ได้ว่าอินทิกรัลนั้นเท่ากับอะไรครับ จากคุณสมบัติการแบ่งช่วง ∫₀^tⁿ = ∫₀ᵗ + ∫ₜ^tⁿ ดังนั้น
+                  Q<sub>n</sub> = q(t) + ∫ₜ^tⁿ i dα จึงได้ ∫ₜ^tⁿ i(α)dα = Q<sub>n</sub> − q(t) = 2664 − 0.74t</p>
+                <p><b>นี่คือ ‘ประจุคงเหลือ’ ตรงๆ ครับ</b> และถ้าหารด้วย Q<sub>n</sub> ก็คือ <b>State of Charge</b>
+                  ที่เราเห็นเป็นเปอร์เซ็นต์แบตบนหน้าจอมือถือนั่นเอง</p>
+                <p>ถ้าเขียนเทอมนี้เป็น e<sup>−B<sub>b</sub>q(t)</sup> แทน หน้าผาจะย้ายไปอยู่ตอนแบตเต็ม
+                  ซึ่งผิดฟิสิกส์ครับ — แบตเตอรี่ที่ชาร์จเต็มไม่ควรมีแรงดันดิ่งลงเหว”</p>
+              </div>
+            </div>
+            <div class="qsec">
+              <div class="h">⚡ ถ้าเขาถามต่อ “แล้วเครื่องหมายลบหน้า A<sub>b</sub> ล่ะ”</div>
+              <div class="script">
+                <p>“เพราะมันเป็นการ<b>ลด</b>แรงดันครับ ตอนใกล้หมดประจุ แรงดันต้องตกลง
+                  เครื่องหมายลบทำให้เทอมนี้ดึงแรงดันลง ต่างจากเทอม A<sub>a</sub>
+                  ที่เป็นบวกเพราะมันคือส่วนเกินเหนือเส้นตรงในช่วงต้นครับ”</p>
+              </div>
+            </div>
+          </div>
+        </details>
+
+        <details class="qa">
+          <summary><span class="qn">12</span>ถ้ากระแสไม่คงที่ คุณต้องเปลี่ยนวิธีคิดยังไงบ้าง</summary>
+          <div class="qbody">
+            <div class="qsec">
+              <div class="h">🎯 เขาต้องการฟังอะไร</div>
+              <p>ว่านิสิตแยกออกว่าอะไรคือ “กฎที่จริงเสมอ” กับอะไรคือ “ผลพลอยได้จากเงื่อนไขพิเศษของโจทย์นี้”</p>
+            </div>
+            <div class="qsec">
+              <div class="h">🎤 บทพูด</div>
+              <div class="script">
+                <p>“ผมขอแยกเป็นสองกลุ่มครับ — อะไรที่ยังใช้ได้ กับอะไรที่ต้องเปลี่ยน</p>
+                <p><b>สิ่งที่ยังใช้ได้เหมือนเดิม</b> คือกฎวงจรทั้งหมดครับ KCL ที่ i = i<sub>s</sub> + v/10 ยังจริง KVL
+                  ที่ v = v<sub>s</sub> − iR<sub>i</sub> ยังจริง เพราะทั้งสองเป็นกฎอนุรักษ์
+                  ไม่ได้ขึ้นกับว่ากระแสคงที่หรือไม่</p>
+                <p><b>สิ่งที่ต้องเปลี่ยน</b> มีสามเรื่องครับ</p>
+                <p><b>หนึ่ง — การหาประจุ</b> สูตร q = 0.74t ใช้ไม่ได้แล้ว ต้องอินทิเกรตเชิงตัวเลขทีละสเต็ปจากค่า
+                  i<sub>k</sub> จริง ผมจะใช้กฎสี่เหลี่ยมคางหมู q<sub>k</sub> = q<sub>k−1</sub> + (i<sub>k</sub> +
+                  i<sub>k−1</sub>)/2 · Δt ซึ่งมีความคลาดเคลื่อนอันดับ O(Δt²) ดีกว่าผลรวมรีมันน์ที่เป็น O(Δt) ครับ
+                  และต้องระวังการสะสมความคลาดเคลื่อนเพราะเป็นการบวกต่อเนื่อง 2,753 ครั้ง</p>
+                <p><b>สอง — เทอม iR<sub>i</sub> กลายเป็นฟังก์ชันของเวลา</b> แทนที่จะเป็นค่าคงที่ จึงรวมเข้ากับ
+                  E<sub>o</sub> ไม่ได้อีกต่อไป</p>
+                <p><b>สาม — และนี่คือข่าวดีครับ E<sub>o</sub> กับ R<sub>i</sub> จะแยกออกจากกันได้</b> เพราะอนุพันธ์
+                  ∂v̂/∂R<sub>i</sub> = −i(t) ไม่คงที่อีกต่อไป คอลัมน์จาโคเบียนสองคอลัมน์จึงไม่เป็นสัดส่วนกันแล้ว
+                  เมทริกซ์มี rank เต็ม — ปัญหา structural non-identifiability หายไปทันที</p>
+                <p>แต่มีข้อควรระวังครับ — กระแสต้องเปลี่ยนแปลง<b>เร็วพอ</b>ด้วย ถ้ามันค่อยๆ เปลี่ยนช้าๆ
+                  จะแยกไม่ออกจากพลวัตทางเคมีของแบตเตอรี่ ในทางปฏิบัติจึงใช้พัลส์สั้นๆ ที่คมชัด ซึ่งก็คือ HPPC test ครับ”
+                </p>
+              </div>
+            </div>
+          </div>
+        </details>
+
+        <details class="qa">
+          <summary><span class="qn">13</span>โจทย์แบบนี้เอาไปใช้ทำอะไรได้จริงบ้าง</summary>
+          <div class="qbody">
+            <div class="qsec">
+              <div class="h">🎯 เขาต้องการฟังอะไร</div>
+              <p>ว่านิสิตเห็นภาพว่าสิ่งที่เรียนเชื่อมกับอุตสาหกรรมยังไง — ตอบดีจะสร้างความประทับใจปิดท้าย</p>
+            </div>
+            <div class="qsec">
+              <div class="h">🎤 บทพูด</div>
+              <div class="script">
+                <p>“แบบจำลองนี้คือหัวใจของ <b>Battery Management System</b> หรือ BMS ครับ ซึ่งอยู่ในรถ EV แบตสำรองบ้าน
+                  และโรงไฟฟ้ากักเก็บพลังงานทุกที่ ผมขอยกสามการใช้งานครับ</p>
+                <p><b>หนึ่ง — ประเมิน State of Charge</b> คือเปอร์เซ็นต์แบตที่ผู้ใช้เห็น
+                  วิธีนับประจุอย่างเดียวจะสะสมความคลาดเคลื่อนไปเรื่อยๆ จึงต้องใช้แบบจำลองแรงดันนี้มาช่วยแก้ โดยใส่ใน
+                  <b>Extended Kalman Filter</b> — ใช้ Coulomb counting ทำนายไปข้างหน้า แล้วใช้แรงดันที่วัดได้แก้ไขกลับ
+                  ทำให้ SoC แม่นยำและไม่ drift ครับ
+                </p>
+                <p><b>สอง — จำกัดกำลังไฟ</b> BMS ต้องตอบให้ได้ทุกเสี้ยววินาทีว่า
+                  ‘ตอนนี้ดึงกระแสได้สูงสุดเท่าไหร่โดยแรงดันไม่ตกต่ำกว่า cut-off’ ซึ่งคำนวณจาก v = v<sub>s</sub> −
+                  iR<sub>i</sub> ตรงๆ ครับ เป็นเหตุผลว่าทำไมรถ EV ถึงเร่งได้ไม่แรงเท่าเดิมตอนแบตใกล้หมด — เพราะ
+                  v<sub>s</sub> ต่ำลงและอยู่ในโซนหน้าผาแล้ว</p>
+                <p><b>สาม — ประเมินการเสื่อมสภาพ</b> ถ้าติดตามค่า R<sub>i</sub> กับความจุจริงตามอายุการใช้งาน
+                  จะเห็นแนวโน้ม — R<sub>i</sub> ที่เพิ่มขึ้นและความจุที่ลดลงคือสัญญาณของ <b>State of Health</b> ครับ
+                  ใช้ทำนายว่าเมื่อไหร่ควรเปลี่ยนแบตเตอรี่</p>
+                <p>และเรื่อง E<sub>o</sub> กับ R<sub>i</sub> แยกไม่ออกที่ผมเล่าไปเมื่อกี้
+                  ก็เป็นปัญหาจริงในอุตสาหกรรมครับ ทำให้ BMS ต้องออกแบบให้มีจังหวะ ‘พัก’ หรือฉีดพัลส์เป็นระยะ
+                  เพื่อให้ประมาณค่าพารามิเตอร์ได้แม่นยำ ไม่ใช่แค่วัดไปเรื่อยๆ”</p>
+              </div>
+            </div>
+          </div>
+        </details>
+
+        <details class="qa">
+          <summary><span class="qn">14</span>ถ้าให้ทำโจทย์นี้ใหม่ คุณจะทำอะไรต่างจากเดิม</summary>
+          <div class="qbody">
+            <div class="qsec">
+              <div class="h">🎯 เขาต้องการฟังอะไร</div>
+              <p>ความสามารถในการวิจารณ์งานตัวเอง — คำถามปิดที่กรรมการใช้ประเมินวุฒิภาวะทางวิชาการ</p>
+            </div>
+            <div class="qsec">
+              <div class="h">💀 กับดัก</div>
+              <ul class="trap">
+                <li>“ผมคิดว่าทำดีแล้วครับ” — แสดงว่ามองไม่เห็นข้อจำกัดของงานตัวเอง</li>
+              </ul>
+            </div>
+            <div class="qsec">
+              <div class="h">🎤 บทพูด</div>
+              <div class="script">
+                <p>“มีสามเรื่องครับ</p>
+                <p><b>หนึ่ง — ผมจะขอข้อมูลที่มีพัลส์กระแส</b> เพื่อแยก E<sub>o</sub> กับ R<sub>i</sub> ออกจากกันให้ได้
+                  ตอนนี้เป็นข้อจำกัดที่ใหญ่ที่สุดของงาน</p>
+                <p><b>สอง — ผมจะทำ validation แบบแยกชุดข้อมูล</b> ตอนนี้ผมฟิตด้วยข้อมูลทั้ง 2,753 จุด
+                  แล้ววัดความคลาดเคลื่อนกับข้อมูลชุดเดียวกัน ซึ่งวัดได้แค่ว่า ‘ฟิตได้ดีแค่ไหน’ ไม่ได้วัดว่า
+                  ‘ทำนายได้ดีแค่ไหน’ ถ้าทำใหม่ผมจะแบ่งข้อมูลเป็นชุดฟิตกับชุดทดสอบ หรือใช้ cross-validation ครับ</p>
+                <p><b>สาม — ผมจะรายงานช่วงความเชื่อมั่นของพารามิเตอร์</b> ไม่ใช่แค่ค่าเดี่ยว
+                  โดยคำนวณจากเมทริกซ์ความแปรปรวนร่วม σ²(J<sup>T</sup>J)<sup>−1</sup> ซึ่งจะทำให้เห็นชัดว่า A<sub>b</sub>
+                  มีความไม่แน่นอนสูงกว่าตัวอื่นมาก</p>
+                <p>และถ้าเป็นข้อมูลจริงจากแล็บ ผมจะขอเพิ่มการวัดที่หลายอุณหภูมิด้วยครับ
+                  เพราะพารามิเตอร์แบตเตอรี่ทุกตัวขึ้นกับอุณหภูมิ แบบจำลองปัจจุบันสมมติว่าอุณหภูมิคงที่
+                  ซึ่งใช้ไม่ได้กับรถ EV ที่วิ่งจริง”</p>
+              </div>
+            </div>
+          </div>
+        </details>
+      </div>
+
+      <div class="card">
+        <h2><span class="ic">📝</span>ตารางตัวเลขที่ต้องท่องให้ขึ้นใจ</h2>
+        <p class="lead">อ่านซ้ำก่อนเข้าห้องสอบ 10 นาที</p>
+        <div class="tw">
+          <table>
+            <thead>
+              <tr>
+                <th>ปริมาณ</th>
+                <th class="num">ค่า</th>
+                <th>ประโยคที่ใช้พูด</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td class="mono">i(t)</td>
+                <td class="num">0.74 A</td>
+                <td>“คงที่ทุกจุด ตรวจครบ 2,753 แถว min = max = 0.74”</td>
+              </tr>
+              <tr>
+                <td class="mono">q(t)</td>
+                <td class="num">0.74t C</td>
+                <td>“อินทิเกรตค่าคงที่ ได้เส้นตรงผ่านจุดกำเนิด”</td>
+              </tr>
+              <tr>
+                <td class="mono">Q<sub>n</sub></td>
+                <td class="num">2,664 C = 0.74 Ah</td>
+                <td>“ค่าตามฉลากผู้ผลิต ไม่ใช่ค่าที่วัดได้”</td>
+              </tr>
+              <tr>
+                <td class="mono">q ปลายข้อมูล</td>
+                <td class="num">2,036.48 C</td>
+                <td>“76.4% ของ Q<sub>n</sub> — SoC เหลือ 23.6%”</td>
+              </tr>
+              <tr>
+                <td class="mono">E<sub>o</sub>′</td>
+                <td class="num">4.0369 / 4.0365 V</td>
+                <td>“นี่คือก้อน E<sub>o</sub> − 0.74R<sub>i</sub> ที่ข้อมูลเห็นได้จริง”</td>
+              </tr>
+              <tr>
+                <td class="mono">K</td>
+                <td class="num">2.724×10⁻⁴ V/C</td>
+                <td>“จ่ายประจุ 1 คูลอมบ์ แรงดันตก 0.27 มิลลิโวลต์”</td>
+              </tr>
+              <tr>
+                <td class="mono">A<sub>a</sub></td>
+                <td class="num">0.1372 V</td>
+                <td>“ความสูงหัวโค้งช่วงต้น 137 มิลลิโวลต์”</td>
+              </tr>
+              <tr>
+                <td class="mono">B<sub>a</sub></td>
+                <td class="num">0.01024 /C</td>
+                <td>“หัวโค้งยุบ 95% ภายใน 293 คูลอมบ์ = 11% ของความจุ”</td>
+              </tr>
+              <tr>
+                <td class="mono">A<sub>b</sub></td>
+                <td class="num">560 V</td>
+                <td>“ค่าอ้างอิงที่ q = Q<sub>n</sub> ผลจริงในช่วงข้อมูลไม่เกิน 0.67 โวลต์”</td>
+              </tr>
+              <tr>
+                <td class="mono">B<sub>b</sub></td>
+                <td class="num">0.01073 /C</td>
+                <td>“หน้าผาเริ่มเมื่อประจุคงเหลือต่ำกว่า 280 คูลอมบ์ = 10.5%”</td>
+              </tr>
+              <tr>
+                <td class="mono">R<sub>i</sub></td>
+                <td class="num">≈ 0.0584 Ω</td>
+                <td>“<b>ประมาณ</b>ได้ ภายใต้สมมติฐาน E<sub>o</sub> ≈ v(100)”</td>
+              </tr>
+              <tr>
+                <td class="mono">RMSE คอมพิวเตอร์</td>
+                <td class="num">1.1×10⁻¹³ V</td>
+                <td>“ระดับ machine epsilon แปลว่าข้อมูลสร้างจากสมการนี้เอง”</td>
+              </tr>
+              <tr>
+                <td class="mono">แรงดันตกใน R<sub>i</sub></td>
+                <td class="num">43 mV</td>
+                <td>“0.74 × 0.0584”</td>
+              </tr>
+              <tr>
+                <td class="mono">กำลังสูญเป็นความร้อน</td>
+                <td class="num">32 mW</td>
+                <td>“i²R<sub>i</sub>”</td>
+              </tr>
+              <tr>
+                <td class="mono">พลังงานที่จ่ายทั้งหมด</td>
+                <td class="num">7,607 J = 2.11 Wh</td>
+                <td>“∫v·i dt ตลอด 2,752 วินาที”</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <h3>เช็กลิสต์คืนก่อนสอบ</h3>
+        <div id="checklist"></div>
+
+        <div class="note win">
+          <span class="lbl">💬 คำสุดท้าย</span>
+          <p>ในห้องสอบ กรรมการจะถามคำถามที่ไม่มีในคัมภีร์นี้แน่นอน — และนั่นคือเรื่องปกติ
+            สิ่งที่ทำให้ตอบได้ไม่ใช่การท่องจำ แต่คือการที่นิสิตรู้ว่า <b>ทุกอย่างในโจทย์นี้สืบย้อนกลับไปหาสองกฎเท่านั้น
+              คือ กฎอนุรักษ์ประจุ (KCL) กับกฎอนุรักษ์พลังงาน (KVL)</b> ส่วนที่เหลือคือคณิตศาสตร์ที่ตามมาเอง</p>
+          <p>ถ้าตอบไม่ได้จริงๆ ให้พูดว่า <i>“ตรงนี้ผมไม่แน่ใจครับ แต่ผมคิดว่าน่าจะตรวจได้โดย…”</i> แล้วบอกวิธีตรวจ —
+            <b>กรรมการให้คะแนนวิธีคิด ไม่ได้ให้คะแนนความจำ</b>
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ======================= TAB 6 ======================= -->
+    <section class="panel" id="p6" role="tabpanel" aria-labelledby="t6" hidden>
+
+      <div class="card">
+        <h2><span class="ic">🔬</span>Simulation Lab &amp; Parameter Studio</h2>
+        <p class="lead">ตรงนี้คือที่ที่ความเข้าใจจะเกิดขึ้นจริง — <b>ลากสไลเดอร์แล้วดูว่ากราฟเปลี่ยนตรงไหน</b>
+          เส้นจางคือข้อมูลจริง 2,753 จุด เส้นทึบคือแบบจำลองของคุณ ตัวเลข RMSE บอกว่าห่างกันแค่ไหน</p>
+
+        <div class="note tip">
+          <span class="lbl">🎯 ภารกิจ 3 ข้อ ที่ควรลองก่อนเข้าห้องสอบ</span>
+          <ol style="margin:0;padding-left:20px">
+            <li><b>เปิดสวิตช์ 🔒 ล็อก E<sub>o</sub>′ ไว้ แล้วลาก R<sub>i</sub> จาก 0 ไป 2 Ω</b> — E<sub>o</sub>
+              จะขยับตามเอง และ<b>กราฟจะไม่ขยับเลยแม้แต่พิกเซลเดียว</b> ทั้งที่ R<sub>i</sub> เปลี่ยนไป 34 เท่า นี่คือ
+              structural non-identifiability ที่เห็นด้วยตา · จากนั้น<b>ปิดสวิตช์แล้วลาก R<sub>i</sub> ใหม่</b>
+              คราวนี้กราฟจะเลื่อนลงทั้งเส้น เพราะ E<sub>o</sub>′ เปลี่ยน — <b>สรุปคือข้อมูลเห็นแค่ผลต่าง E<sub>o</sub> −
+                0.74R<sub>i</sub> ไม่เห็นตัวใครตัวมัน</b></li>
+            <li><b>ลาก B<sub>a</sub> จาก 0.0102 ไป 0.0153</b> (ค่าลายมืออาจารย์) แล้วดู RMSE กระโดดจาก 0.0002 เป็น 0.005
+              V และดูว่าความคลาดเคลื่อนไปกองอยู่ตรงช่วงต้นเท่านั้น</li>
+            <li><b>ลาก A<sub>b</sub> ลงไปเหลือ 0</b> แล้วดูว่าหน้าผาช่วงปลายหายไป กลายเป็นเส้นตรงยาวๆ —
+              นั่นคือหน้าที่ของเทอมที่ 4</li>
+          </ol>
+        </div>
+
+        <div class="lab">
+          <div class="ctrl">
+            <h3 style="margin-top:0">พารามิเตอร์แบบจำลอง</h3>
+            <div class="sl">
+              <div class="row"><span class="nm">E<sub>o</sub> — แรงดันฐาน</span><span class="vv" id="vEo"></span></div>
+              <input type="range" id="sEo" min="3.8" max="6.5" step="0.0001" value="4.079683" aria-label="Eo แรงดันฐาน">
+              <div class="hint">ยกทั้งเส้นขึ้นลงพร้อมกัน</div>
+            </div>
+            <div class="sl">
+              <div class="row"><span class="nm">R<sub>i</sub> — ความต้านทานภายใน</span><span class="vv" id="vRi"></span>
+              </div>
+              <input type="range" id="sRi" min="0" max="2" step="0.0001" value="0.0584"
+                aria-label="Ri ความต้านทานภายใน">
+              <label class="hint" style="display:flex;gap:7px;align-items:center;cursor:pointer;margin-top:5px">
+                <input type="checkbox" id="lockC0" checked style="accent-color:var(--rose);width:15px;height:15px">
+                <span>🔒 <b>ล็อก E<sub>o</sub>′</b> — ลาก R<sub>i</sub> แล้ว E<sub>o</sub> จะขยับตามเอง <b
+                    style="color:var(--rose)">กราฟจะไม่ขยับเลย</b> (นี่คือ non-identifiability)</span>
+              </label>
+            </div>
+            <div class="sl">
+              <div class="row"><span class="nm">K — ค่าคงที่โพลาไรเซชัน</span><span class="vv" id="vK"></span></div>
+              <input type="range" id="sK" min="0" max="0.0006" step="0.0000005" value="0.0002721543795926"
+                aria-label="K ค่าคงที่โพลาไรเซชัน">
+              <div class="hint">ควบคุมความชันของช่วงกลาง</div>
+            </div>
+            <div class="sl">
+              <div class="row"><span class="nm">A<sub>a</sub> — ความสูงหัวโค้ง</span><span class="vv" id="vAa"></span>
+              </div>
+              <input type="range" id="sAa" min="0" max="0.5" step="0.0005" value="0.1376373561405"
+                aria-label="Aa ความสูงหัวโค้ง">
+              <div class="hint">ยกหัวกราฟช่วงต้นเท่านั้น</div>
+            </div>
+            <div class="sl">
+              <div class="row"><span class="nm">B<sub>a</sub> — ความเร็วยุบหัวโค้ง</span><span class="vv"
+                  id="vBa"></span></div>
+              <input type="range" id="sBa" min="0.001" max="0.04" step="0.000005" value="0.0102375102375"
+                aria-label="Ba ความเร็วยุบหัวโค้ง">
+              <div class="hint">ค่าลายมืออาจารย์ = 0.01533 · ค่าฟิต = 0.010238</div>
+            </div>
+            <div class="sl">
+              <div class="row"><span class="nm">A<sub>b</sub> — แอมพลิจูดหน้าผา</span><span class="vv" id="vAb"></span>
+              </div>
+              <input type="range" id="sAb" min="0" max="1500" step="0.5" value="559.9457328264"
+                aria-label="Ab แอมพลิจูดหน้าผา">
+              <div class="hint">ลากไป 0 แล้วดูหน้าผาหายไป</div>
+            </div>
+            <div class="sl">
+              <div class="row"><span class="nm">B<sub>b</sub> — ความชันหน้าผา</span><span class="vv" id="vBb"></span>
+              </div>
+              <input type="range" id="sBb" min="0.004" max="0.02" step="0.0000025" value="0.010725010725"
+                aria-label="Bb ความชันหน้าผา">
+              <div class="hint">ระวัง — ขยับนิดเดียว A<sub>b</sub> เปลี่ยนมาก</div>
+            </div>
+
+            <div class="btnrow">
+              <button class="btn pri" data-preset="fit">ค่าฟิตคอมพิวเตอร์</button>
+              <button class="btn" data-preset="hand">ค่าลายมืออาจารย์</button>
+              <button class="btn" data-preset="fixed">ลายมือ + แก้ B<sub>a</sub></button>
+            </div>
+
+            <div class="readout">
+              <div class="ro">
+                <div class="l">E<sub>o</sub>′ = E<sub>o</sub> − 0.74R<sub>i</sub></div>
+                <div class="v" id="roC0"></div>
+              </div>
+              <div class="ro">
+                <div class="l">RMSE</div>
+                <div class="v" id="roRmse"></div>
+              </div>
+              <div class="ro">
+                <div class="l">ค่าพลาดสูงสุด</div>
+                <div class="v" id="roMax"></div>
+              </div>
+              <div class="ro">
+                <div class="l">คุณภาพ</div>
+                <div class="v" id="roGrade"></div>
+              </div>
+            </div>
+            <p class="hint" style="margin:12px 0 0">เส้นอ้างอิง “ข้อมูลจริง”
+              ในหน้านี้สร้างขึ้นใหม่จากพารามิเตอร์ชุดที่ฟิตได้ ซึ่งตรงกับไฟล์ <span
+                class="mono">data303212qz02.md</span> ที่ระดับ 1.1×10⁻¹³ V ดังนั้นพรีเซ็ต “ค่าฟิตคอมพิวเตอร์” จึงอ่านค่า
+              RMSE ได้ <b>0 พอดี</b> ส่วนพรีเซ็ตอื่นให้ตัวเลขตรงกับที่คำนวณใน <span class="mono">solve_circuit.py</span>
+              ทุกหลัก</p>
+          </div>
+
+          <div>
+            <div class="ctrl" style="margin-bottom:16px">
+              <div class="sl" style="margin-bottom:8px">
+                <div class="row"><span class="nm">⏱ Time Scrubber</span><span class="vv" id="vT"></span></div>
+                <input type="range" id="sT" min="0" max="2752" step="1" value="1000"
+                  aria-label="เลื่อนเวลาเพื่อดูสถานะวงจร">
+              </div>
+              <svg class="chart circuit-live" id="circuitLive" viewBox="0 0 700 210" role="img"
+                aria-label="แผนภาพวงจรที่แสดงค่ากระแสและแรงดันสดตามเวลาที่เลือก"></svg>
+              <div class="readout">
+                <div class="ro">
+                  <div class="l">q(t)</div>
+                  <div class="v" id="roQ"></div>
+                </div>
+                <div class="ro">
+                  <div class="l">SoC</div>
+                  <div class="v" id="roSoc"></div>
+                </div>
+                <div class="ro">
+                  <div class="l">v วัดได้</div>
+                  <div class="v" id="roVm"></div>
+                </div>
+                <div class="ro">
+                  <div class="l">v แบบจำลอง</div>
+                  <div class="v" id="roVh"></div>
+                </div>
+              </div>
+            </div>
+
+            <div class="card" style="margin:0 0 16px;padding:16px">
+              <h3 style="margin-top:0">แรงดัน v เทียบกับประจุ q</h3>
+              <svg class="chart" id="chartMain" viewBox="0 0 720 340" role="img"
+                aria-label="กราฟเปรียบเทียบแรงดันที่วัดได้กับแบบจำลองตามประจุสะสม"></svg>
+            </div>
+
+            <div class="card" style="margin:0;padding:16px">
+              <h3 style="margin-top:0">ความคลาดเคลื่อน (แบบจำลอง − วัดได้)</h3>
+              <svg class="chart" id="chartErr" viewBox="0 0 720 220" role="img"
+                aria-label="กราฟความคลาดเคลื่อนระหว่างแบบจำลองกับข้อมูลที่วัดได้"></svg>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="card">
+        <h2><span class="ic">🧪</span>ห้องทดลองที่ 2 — แต่ละเทอมมีส่วนเท่าไหร่ ณ เวลานั้น</h2>
+        <p class="lead">เลื่อน Time Scrubber ด้านบน แล้วดูว่าตอนนั้นแรงดันประกอบขึ้นจากอะไรบ้าง —
+          นี่คือภาพที่ทำให้เข้าใจว่าทำไม “หน้าต่างเชิงเส้น” ถึงมีอยู่จริง</p>
+        <svg class="chart" id="chartDecomp" viewBox="0 0 720 260" role="img"
+          aria-label="แผนภูมิแท่งแสดงส่วนประกอบของแรงดันจากแต่ละเทอมในสมการ"></svg>
+        <div class="tw">
+          <table>
+            <thead>
+              <tr>
+                <th>เทอม</th>
+                <th class="num">ค่า ณ เวลานี้</th>
+                <th>สถานะ</th>
+              </tr>
+            </thead>
+            <tbody id="decompTable"></tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <div class="foot">
+      <p><b>ห้องเรียนวงจรแบตเตอรี่</b> — สื่อประกอบ <a href="CLAUDE_SOLUTION.md">CLAUDE_SOLUTION.md</a> · <a
+          href="solve_circuit.py">solve_circuit.py</a> · <a href="solve_circuit.m">solve_circuit.m</a> · <a
+          href="README.md">README.md</a></p>
+      <p>ข้อมูลทั้งหมดในหน้านี้คำนวณสดจากพารามิเตอร์จริงที่ฟิตได้จาก <a
+          href="../data303212qz02.md">data303212qz02.md</a> (2,753 จุด · RMSE 1.1×10⁻¹³ V)</p>
+    </div>
+
+  </div><!-- /wrap -->
+
+  <script>
+    (function () {
+      "use strict";
+
+      /* ===== ค่าคงที่จากโจทย์ ===== */
+      var I0 = 0.74, RL = 10, TN = 3600, QN = I0 * TN;      // 2664 C
+
+      /* ===== พารามิเตอร์ 3 ชุด ===== */
+      var FIT = {
+        Eo: 4.079683, Ri: 0.0584, C0: 4.036467052577255, K: 2.721543795925744e-4,
+        Aa: 0.137637356140472, Ba: 0.010237510237518, Ab: 559.945732826407, Bb: 0.010725010725012
+      };
+      var HAND = {
+        Eo: 4.0801, Ri: 0.0584, C0: 4.036876, K: 2.724e-4,
+        Aa: 0.13723, Ba: 0.01533, Ab: 551.176, Bb: 0.0107
+      };
+      var FIXED = {
+        Eo: 4.0801, Ri: 0.0584, C0: 4.036876, K: 2.724e-4,
+        Aa: 0.13723, Ba: 0.010248, Ab: 551.176, Bb: 0.0107
+      };
+
+      /* ===== แบบจำลอง ===== */
+      function vModel(q, p) {
+        return p.C0 - p.K * q + p.Aa * Math.exp(-p.Ba * q) - p.Ab * Math.exp(-p.Bb * (QN - q));
+      }
+      /* ===== สร้างข้อมูล 2,753 จุด จากพารามิเตอร์จริง (ตรงกับไฟล์ที่ 1.1e-13 V) ===== */
+      var N = 2753, T = new Float64Array(N), Q = new Float64Array(N),
+        V = new Float64Array(N), IS = new Float64Array(N);
+      for (var k = 0; k < N; k++) {
+        T[k] = k; Q[k] = I0 * k;
+        V[k] = vModel(Q[k], FIT);
+        IS[k] = I0 - V[k] / RL;
+      }
+
+      /* ===== helper ===== */
+      var $ = function (s) { return document.querySelector(s); };
+      var NS = "http://www.w3.org/2000/svg";
+      function el(n, a) { var e = document.createElementNS(NS, n); for (var k in a) e.setAttribute(k, a[k]); return e; }
+      function fmt(x, d) { return x.toFixed(d == null ? 4 : d); }
+      function eng(x, d) {
+        if (x === 0) return "0";
+        var a = Math.abs(x);
+        if (a >= 1e-3 && a < 1e5) return x.toFixed(d == null ? 4 : d);
+        var e = Math.floor(Math.log10(a)), m = x / Math.pow(10, e);
+        return m.toFixed(3) + "×10" + sup(e);
+      }
+      function sup(n) {
+        var m = {
+          "-": "⁻", "0": "⁰", "1": "¹", "2": "²", "3": "³", "4": "⁴",
+          "5": "⁵", "6": "⁶", "7": "⁷", "8": "⁸", "9": "⁹"
+        };
+        return String(n).split("").map(function (c) { return m[c] || c; }).join("");
+      }
+
+      /* ===== ตัววาดกราฟเส้น ===== */
+      function LineChart(svg, opt) {
+        while (svg.firstChild) svg.removeChild(svg.firstChild);
+        var vb = svg.getAttribute("viewBox").split(" ").map(Number);
+        var W = vb[2], H = vb[3];
+        var m = opt.margin || { t: 16, r: 16, b: 38, l: 58 };
+        var iw = W - m.l - m.r, ih = H - m.t - m.b;
+        var x0 = opt.xmin, x1 = opt.xmax, y0 = opt.ymin, y1 = opt.ymax;
+        var sx = function (x) { return m.l + (x - x0) / (x1 - x0) * iw; };
+        var sy = function (y) { return m.t + ih - (y - y0) / (y1 - y0) * ih; };
+        var g = el("g", {});
+        svg.appendChild(g);
+
+        /* grid + ticks */
+        var ny = opt.yticks || 5, nx = opt.xticks || 6, i;
+        for (i = 0; i <= ny; i++) {
+          var yv = y0 + (y1 - y0) * i / ny, py = sy(yv);
+          g.appendChild(el("line", { x1: m.l, x2: m.l + iw, y1: py, y2: py, "class": "gr" }));
+          var tx = el("text", { x: m.l - 8, y: py + 4, "text-anchor": "end" });
+          tx.textContent = opt.yfmt ? opt.yfmt(yv) : yv.toFixed(2);
+          g.appendChild(tx);
+        }
+        for (i = 0; i <= nx; i++) {
+          var xv = x0 + (x1 - x0) * i / nx, px = sx(xv);
+          g.appendChild(el("line", { x1: px, x2: px, y1: m.t, y2: m.t + ih, "class": "gr" }));
+          var tx2 = el("text", { x: px, y: m.t + ih + 18, "text-anchor": "middle" });
+          tx2.textContent = opt.xfmt ? opt.xfmt(xv) : Math.round(xv);
+          g.appendChild(tx2);
+        }
+        g.appendChild(el("line", { x1: m.l, x2: m.l + iw, y1: m.t + ih, y2: m.t + ih, "class": "ax" }));
+        g.appendChild(el("line", { x1: m.l, x2: m.l, y1: m.t, y2: m.t + ih, "class": "ax" }));
+
+        if (opt.xlabel) {
+          var xl = el("text", { x: m.l + iw / 2, y: H - 4, "text-anchor": "middle", "class": "lbx" });
+          xl.textContent = opt.xlabel; g.appendChild(xl);
+        }
+        if (opt.ylabel) {
+          var yl = el("text", {
+            x: 13, y: m.t + ih / 2, "text-anchor": "middle", "class": "lbx",
+            transform: "rotate(-90 13 " + (m.t + ih / 2) + ")"
+          });
+          yl.textContent = opt.ylabel; g.appendChild(yl);
+        }
+
+        return {
+          g: g, sx: sx, sy: sy, m: m, iw: iw, ih: ih,
+          band: function (xa, xb, color, label) {
+            var r = el("rect", {
+              x: sx(xa), y: m.t, width: Math.max(0, sx(xb) - sx(xa)), height: ih,
+              fill: color, "fill-opacity": ".13"
+            });
+            g.insertBefore(r, g.firstChild);
+            if (label) {
+              /* วางไว้ก้นแถบ เพื่อไม่ให้ชนกับ legend ที่อยู่มุมบนซ้าย */
+              var t = el("text", {
+                x: (sx(xa) + sx(xb)) / 2, y: m.t + ih - 9, "text-anchor": "middle",
+                "class": "lbx", "font-size": "11"
+              });
+              t.textContent = label; g.appendChild(t);
+            }
+          },
+          line: function (xs, ys, color, w, dash, op) {
+            var d = "", started = false;
+            for (var j = 0; j < xs.length; j++) {
+              var y = ys[j];
+              if (!isFinite(y)) { started = false; continue; }
+              y = Math.min(y1, Math.max(y0, y));
+              d += (started ? "L" : "M") + sx(xs[j]).toFixed(1) + " " + sy(y).toFixed(1) + " ";
+              started = true;
+            }
+            var a = {
+              d: d, fill: "none", stroke: color, "stroke-width": w || 2,
+              "stroke-linejoin": "round", "stroke-linecap": "round"
+            };
+            if (dash) a["stroke-dasharray"] = dash;
+            if (op) a["stroke-opacity"] = op;
+            g.appendChild(el("path", a));
+          },
+          vline: function (x, color, label) {
+            g.appendChild(el("line", {
+              x1: sx(x), x2: sx(x), y1: m.t, y2: m.t + ih,
+              stroke: color, "stroke-width": 1.6, "stroke-dasharray": "5 4"
+            }));
+            if (label) {
+              var t = el("text", { x: sx(x), y: m.t - 4, "text-anchor": "middle", "class": "lbx", fill: color });
+              t.textContent = label; g.appendChild(t);
+            }
+          },
+          dot: function (x, y, color, r) {
+            g.appendChild(el("circle", {
+              cx: sx(x), cy: sy(Math.min(y1, Math.max(y0, y))),
+              r: r || 4, fill: color, stroke: "var(--panel-solid)", "stroke-width": 1.5
+            }));
+          },
+          legend: function (items) {
+            var lg = el("g", {}), x = m.l + 6;
+            items.forEach(function (it) {
+              lg.appendChild(el("line", {
+                x1: x, x2: x + 17, y1: m.t + 9, y2: m.t + 9, stroke: it.c,
+                "stroke-width": it.w || 2.5,
+                "stroke-dasharray": it.d || "none"
+              }));
+              var t = el("text", { x: x + 22, y: m.t + 13, "font-size": "11.5" });
+              t.textContent = it.t; lg.appendChild(t);
+              x += 30 + it.t.length * 6.4;
+            });
+            g.appendChild(lg);
+          }
+        };
+      }
+
+      /* ===== สีจาก CSS variables ===== */
+      function cv(n) { return getComputedStyle(document.documentElement).getPropertyValue(n).trim() || "#888"; }
+      var C = {};
+      function refreshColors() {
+        C.accent = cv("--accent"); C.teal = cv("--teal"); C.violet = cv("--violet");
+        C.amber = cv("--amber"); C.rose = cv("--rose"); C.green = cv("--green");
+        C.faint = cv("--ink-faint");
+      }
+      refreshColors();
+
+      /* ===== แท็บ ===== */
+      var tabs = [].slice.call(document.querySelectorAll(".tabbtn"));
+      var drawn = {};
+      tabs.forEach(function (btn) {
+        btn.addEventListener("click", function () {
+          tabs.forEach(function (b) {
+            var on = (b === btn);
+            b.setAttribute("aria-selected", on ? "true" : "false");
+            document.getElementById(b.getAttribute("aria-controls")).hidden = !on;
+          });
+          var id = btn.getAttribute("aria-controls");
+          if (!drawn[id]) { drawn[id] = true; drawFor(id); }
+          window.scrollTo({ top: 0, behavior: "smooth" });
+        });
+      });
+
+      /* ===== TAB 1 : ตารางข้อมูล ===== */
+      var ROWS = [0, 1, 2, 3, 10, 50, 100, 200, 500, 1000, 1351, 1400, 1892, 2000, 2400, 2600, 2700, 2750, 2752];
+      var shown = 8;
+      function renderTable() {
+        var tb = $("#dataTable"); if (!tb) return;
+        tb.innerHTML = "";
+        ROWS.slice(0, shown).forEach(function (k) {
+          var tr = document.createElement("tr");
+          tr.innerHTML =
+            '<td class="num">' + k + '</td>' +
+            '<td class="num">' + V[k].toFixed(10) + '</td>' +
+            '<td class="num">' + IS[k].toFixed(10) + '</td>' +
+            '<td class="num">' + (V[k] / RL).toFixed(10) + '</td>' +
+            '<td class="num" style="color:var(--green);font-weight:700">' + (IS[k] + V[k] / RL).toFixed(10) + '</td>';
+          tb.appendChild(tr);
+        });
+        $("#rowInfo").textContent = "แสดง " + Math.min(shown, ROWS.length) + " จาก " + ROWS.length + " แถวตัวอย่าง (ข้อมูลจริงมี 2,753 แถว)";
+        if (shown >= ROWS.length) $("#moreRows").style.display = "none";
+      }
+      $("#moreRows").addEventListener("click", function () { shown = ROWS.length; renderTable(); });
+      renderTable();
+
+      /* รูปวงจร */
+      var fig = $("#circuitFig");
+      if (fig) {
+        fig.src = "../circuit_fig1.png";
+        fig.onerror = function () {
+          this.onerror = null;
+          this.parentNode.innerHTML =
+            '<div class="note" style="margin:0;text-align:left"><span class="lbl">📐 รูปวงจร</span>' +
+            '<p>เปิดไฟล์ <span class="mono">circuit_fig1.png</span> ในโฟลเดอร์แม่ (<span class="mono">../circuit_fig1.png</span>) ' +
+            'หรือดูแผนภาพวงจรสดในแท็บที่ 6 ซึ่งวาดขึ้นใหม่ทั้งหมดด้วย SVG</p></div>';
+        };
+      }
+
+      /* ===== TAB 3 : KCL scrubber ===== */
+      function updKcl(k) {
+        var v = V[k], is = IS[k], il = v / RL;
+        $("#kclT").textContent = k + " s";
+        $("#roV").textContent = v.toFixed(7);
+        $("#roIs").textContent = is.toFixed(7);
+        $("#roIl").textContent = il.toFixed(7);
+        $("#roI").textContent = (is + il).toFixed(7);
+        $("#kclEq").innerHTML =
+          "i(" + k + ") = i<sub>s</sub>(" + k + ") + v(" + k + ")/10<br>" +
+          "i(" + k + ") = " + is.toFixed(13) + " + " + v.toFixed(13) + "/10<br>" +
+          "i(" + k + ") = " + is.toFixed(13) + " + " + il.toFixed(13) + " = <b>" +
+          (is + il).toFixed(2) + " A</b>";
+      }
+      var kclS = $("#kclSlider");
+      if (kclS) {
+        kclS.addEventListener("input", function () { updKcl(+this.value); });
+        [].slice.call(document.querySelectorAll("[data-jump]")).forEach(function (b) {
+          b.addEventListener("click", function () {
+            kclS.value = this.getAttribute("data-jump"); updKcl(+kclS.value);
+          });
+        });
+        updKcl(0);
+      }
+
+      /* ===== เช็กลิสต์ ===== */
+      var CHECKS = [
+        "เล่าโจทย์ทั้งหมดได้ใน 60 วินาที โดยไม่ดูโพย",
+        "ชี้รูปวงจรแล้วบอกได้ทุกชิ้นว่าคืออะไร ต่อยังไง ทิศทางไหน",
+        "อธิบายได้ว่ารู้ได้ยังไงว่า iₛ ไหลออก (ลูกศรชี้ลงในข้าวหลามตัด)",
+        "เขียน KCL และ KVL ใหม่ได้จากศูนย์ บนกระดาษเปล่า",
+        "พิสูจน์ได้ว่า ∫ₜ^tₙ i dα = Qₙ − q(t)",
+        "อธิบายได้ว่าทำไม Qₙ ถึงคำนวณถึง 3,600 วินาทีได้ ทั้งที่ข้อมูลมีถึง 2,752",
+        "⚠️ ท่องคำตอบข้อ 7 (เรื่อง Bₐ) ได้คล่อง — สำคัญที่สุด",
+        "⚠️ ท่องคำตอบข้อ 8 (เรื่อง Rᵢ แยกไม่ออก) ได้คล่อง",
+        "อธิบายได้ว่า Aᵇ = 560 V ไม่ใช่แรงดันจริง",
+        "บอกได้ว่าลาปลาซช่วยอะไรได้ และช่วยอะไรไม่ได้",
+        "เล่นสไลเดอร์ในแท็บ 6 จนรู้สึกได้ว่าพารามิเตอร์แต่ละตัวคุมรูปร่างกราฟส่วนไหน"
+      ];
+      var cl = $("#checklist");
+      if (cl) {
+        CHECKS.forEach(function (txt, i) {
+          var lab = document.createElement("label");
+          lab.style.cssText = "display:flex;gap:10px;align-items:flex-start;padding:7px 0;cursor:pointer;font-size:.95rem";
+          var cb = document.createElement("input");
+          cb.type = "checkbox"; cb.style.cssText = "margin-top:5px;accent-color:var(--accent);width:17px;height:17px;flex:none";
+          var sp = document.createElement("span"); sp.innerHTML = txt;
+          cb.addEventListener("change", function () {
+            sp.style.opacity = this.checked ? ".5" : "1";
+            sp.style.textDecoration = this.checked ? "line-through" : "none";
+          });
+          lab.appendChild(cb); lab.appendChild(sp); cl.appendChild(lab);
+        });
+      }
+
+      /* ===== กราฟคงที่ ===== */
+      function drawSignals() {
+        var svg = $("#chartSignals"); if (!svg) return;
+        var ch = LineChart(svg, {
+          xmin: 0, xmax: 2752, ymin: 0, ymax: 0.85, xticks: 6, yticks: 5,
+          xlabel: "เวลา t [วินาที]", ylabel: "กระแส [A]", yfmt: function (y) { return y.toFixed(2); }
+        });
+        var xs = [], a = [], b = [], c = [];
+        for (var k = 0; k < N; k += 4) { xs.push(T[k]); a.push(I0); b.push(IS[k]); c.push(V[k] / RL); }
+        ch.line(xs, b, C.violet, 2.2);
+        ch.line(xs, c, C.amber, 2.2);
+        ch.line(xs, a, C.green, 3);
+        ch.legend([{ c: C.green, t: "i = 0.74 A (คงที่)", w: 3 },
+        { c: C.violet, t: "iₛ(t) เพิ่มขึ้น" },
+        { c: C.amber, t: "v/10 ลดลง" }]);
+      }
+      function drawQ() {
+        var svg = $("#chartQ"); if (!svg) return;
+        var ch = LineChart(svg, {
+          xmin: 0, xmax: 2752, ymin: 0, ymax: 2200, xticks: 6, yticks: 5,
+          xlabel: "เวลา t [วินาที]", ylabel: "ประจุ q(t) [C]", yfmt: function (y) { return Math.round(y); }
+        });
+        var xs = [], q = [], soc = [];
+        for (var k = 0; k < N; k += 4) { xs.push(T[k]); q.push(Q[k]); soc.push((1 - Q[k] / QN) * 2200); }
+        ch.line(xs, q, C.accent, 2.6);
+        ch.line(xs, soc, C.teal, 2.2, "6 4");
+        ch.dot(2752, Q[2752], C.rose, 5);
+        ch.legend([{ c: C.accent, t: "q(t) = 0.74t [C]" }, { c: C.teal, t: "SoC (%) — สเกลขวา", d: "6 4" }]);
+      }
+      function drawZones() {
+        var svg = $("#chartZones"); if (!svg) return;
+        var ch = LineChart(svg, {
+          xmin: 0, xmax: 2100, ymin: 0, ymax: 0.75, xticks: 7, yticks: 5,
+          xlabel: "ประจุสะสม q [C]", ylabel: "ขนาดของเทอม [V]", yfmt: function (y) { return y.toFixed(2); }
+        });
+        ch.band(481, 1430, C.green, "หน้าต่างเชิงเส้น q ∈ [481, 1430] C");
+        var xs = [], ea = [], eb = [], lin = [];
+        for (var k = 0; k < N; k += 3) {
+          xs.push(Q[k]);
+          ea.push(FIT.Aa * Math.exp(-FIT.Ba * Q[k]));
+          eb.push(FIT.Ab * Math.exp(-FIT.Bb * (QN - Q[k])));
+          lin.push(FIT.K * Q[k]);
+        }
+        ch.line(xs, lin, C.faint, 2, "4 4");
+        ch.line(xs, ea, C.amber, 2.6);
+        ch.line(xs, eb, C.rose, 2.6);
+        ch.vline(740, C.accent, "q=740"); ch.vline(1036, C.accent, "q=1036");
+        ch.legend([{ c: C.amber, t: "Aₐe^(−Bₐq) — หัวโค้ง" },
+        { c: C.rose, t: "Aᵇe^(−Bᵇ(Qₙ−q)) — หน้าผา" },
+        { c: C.faint, t: "K·q", d: "4 4" }]);
+      }
+      function drawResid() {
+        var svg = $("#chartResid"); if (!svg) return;
+        var ch = LineChart(svg, {
+          xmin: 0, xmax: 2752, ymin: -25, ymax: 25, xticks: 6, yticks: 4,
+          xlabel: "เวลา t [วินาที]", ylabel: "ความคลาดเคลื่อน [mV]", yfmt: function (y) { return y.toFixed(0); }
+        });
+        var xs = [], rh = [], rf = [];
+        for (var k = 0; k < N; k += 2) {
+          xs.push(T[k]);
+          rh.push((vModel(Q[k], HAND) - V[k]) * 1000);
+          rf.push((vModel(Q[k], FIXED) - V[k]) * 1000);
+        }
+        ch.line(xs, rh, C.rose, 2.4);
+        ch.line(xs, rf, C.green, 2.4);
+        ch.dot(106, (vModel(Q[106], HAND) - V[106]) * 1000, C.rose, 5);
+        ch.legend([{ c: C.rose, t: "ลายมืออาจารย์ (Bₐ=0.01533) — พลาดสูงสุด 20 mV" },
+        { c: C.green, t: "แก้เทอม Kq (Bₐ=0.010248)" }]);
+      }
+
+      /* ===== TAB 6 : Lab ===== */
+      var IDS = ["Eo", "Ri", "K", "Aa", "Ba", "Ab", "Bb"];
+
+      /* P คือแหล่งความจริงของพารามิเตอร์ ไม่ใช่ตัว slider —
+         เพราะ step ของ input[range] จะปัดค่าทิ้ง ทำให้ preset "ค่าฟิตคอมพิวเตอร์"
+         ไม่ได้ RMSE ระดับ 1e-13 ตามจริง  slider ทำหน้าที่แค่รับ input กับแสดงตำแหน่ง */
+      var P = {};
+      function setP(src) {
+        P.Ri = src.Ri;
+        P.Eo = src.C0 + I0 * src.Ri;
+        ["K", "Aa", "Ba", "Ab", "Bb"].forEach(function (id) { P[id] = src[id]; });
+        IDS.forEach(function (id) { $("#s" + id).value = P[id]; });
+      }
+      function readP() {
+        var p = {};
+        IDS.forEach(function (id) { p[id] = P[id]; });
+        p.C0 = p.Eo - I0 * p.Ri;
+        return p;
+      }
+      setP(FIT);
+      function grade(rmse) {
+        if (rmse < 1e-6) return ['<span class="badge b-ok">สมบูรณ์แบบ</span>'];
+        if (rmse < 1e-3) return ['<span class="badge b-ok">ดีมาก</span>'];
+        if (rmse < 1e-2) return ['<span class="badge b-warn">พอใช้</span>'];
+        return ['<span class="badge b-bad">ยังไม่ตรง</span>'];
+      }
+      var STEP6 = 4;
+      function updateLab() {
+        var p = readP(), tk = +$("#sT").value;
+        $("#vEo").textContent = fmt(p.Eo, 5) + " V";
+        $("#vRi").textContent = fmt(p.Ri, 4) + " Ω";
+        $("#vK").textContent = eng(p.K) + " V/C";
+        $("#vAa").textContent = fmt(p.Aa, 5) + " V";
+        $("#vBa").textContent = fmt(p.Ba, 6) + " /C";
+        $("#vAb").textContent = fmt(p.Ab, 2) + " V";
+        $("#vBb").textContent = fmt(p.Bb, 6) + " /C";
+        $("#vT").textContent = tk + " s  (q = " + fmt(Q[tk], 2) + " C)";
+        $("#roC0").textContent = fmt(p.C0, 6) + " V";
+
+        /* readout ใต้แผนภาพวงจร */
+        $("#roQ").textContent = fmt(Q[tk], 2) + " C";
+        $("#roSoc").textContent = fmt((1 - Q[tk] / QN) * 100, 1) + " %";
+        $("#roVm").textContent = fmt(V[tk], 5) + " V";
+        $("#roVh").textContent = fmt(vModel(Q[tk], p), 5) + " V";
+
+        /* error stats */
+        var sse = 0, mx = 0, n = 0;
+        for (var k = 0; k < N; k++) {
+          var r = vModel(Q[k], p) - V[k];
+          sse += r * r; n++;
+          if (Math.abs(r) > mx) mx = Math.abs(r);
+        }
+        var rmse = Math.sqrt(sse / n);
+        $("#roRmse").textContent = eng(rmse, 6) + " V";
+        $("#roMax").textContent = eng(mx, 6) + " V";
+        $("#roGrade").innerHTML = grade(rmse)[0];
+
+        /* main chart */
+        var svg = $("#chartMain");
+        var ch = LineChart(svg, {
+          xmin: 0, xmax: 2100, ymin: 2.6, ymax: 4.35, xticks: 7, yticks: 6,
+          xlabel: "ประจุสะสม q [C]", ylabel: "แรงดัน v [V]", yfmt: function (y) { return y.toFixed(2); }
+        });
+        ch.band(481, 1430, C.green, null);
+        var xs = [], vm = [], vh = [], j;
+        for (j = 0; j < N; j += STEP6) { xs.push(Q[j]); vm.push(V[j]); vh.push(vModel(Q[j], p)); }
+        ch.line(xs, vm, C.faint, 5, null, .42);
+        ch.line(xs, vh, C.accent, 2.2);
+        ch.dot(Q[tk], V[tk], C.rose, 5);
+        ch.vline(Q[tk], C.rose, null);
+        ch.legend([{ c: C.faint, t: "ข้อมูลจริง 2,753 จุด", w: 5 }, { c: C.accent, t: "แบบจำลองของคุณ" }]);
+
+        /* error chart */
+        var svg2 = $("#chartErr");
+        var mxm = Math.max(mx * 1000, 1);
+        var ch2 = LineChart(svg2, {
+          xmin: 0, xmax: 2100, ymin: -mxm * 1.15, ymax: mxm * 1.15, xticks: 7, yticks: 4,
+          margin: { t: 16, r: 16, b: 38, l: 62 },
+          xlabel: "ประจุสะสม q [C]", ylabel: "ผิดพลาด [mV]",
+          yfmt: function (y) { return Math.abs(y) >= 10 ? y.toFixed(0) : y.toFixed(2); }
+        });
+        var er = [];
+        for (j = 0; j < N; j += STEP6) er.push((vModel(Q[j], p) - V[j]) * 1000);
+        ch2.line(xs, er, C.rose, 2);
+
+        updCircuit(tk, p);
+        updDecomp(tk, p);
+      }
+      function updCircuit(tk, p) {
+        var svg = $("#circuitLive");
+        while (svg.firstChild) svg.removeChild(svg.firstChild);
+        var v = V[tk], is = IS[tk], il = v / RL, vs = v + I0 * p.Ri;
+        var ink = cv("--ink"), soft = cv("--line-strong");
+        function T2(x, y, t, c, w, anc) {
+          var e = el("text", { x: x, y: y, fill: c || ink, "text-anchor": anc || "middle" });
+          if (w) e.setAttribute("font-weight", w);
+          e.textContent = t; svg.appendChild(e); return e;
+        }
+        function L(x1, y1, x2, y2, c, w) {
+          svg.appendChild(el("line", {
+            x1: x1, y1: y1, x2: x2, y2: y2, stroke: c || soft, "stroke-width": w || 2.4,
+            "stroke-linecap": "round"
+          }));
+        }
+        /* wires */
+        L(80, 40, 180, 40); L(230, 40, 470, 40); L(470, 40, 600, 40);
+        L(80, 40, 80, 60); L(80, 120, 80, 160); L(80, 160, 600, 160);
+        L(340, 40, 340, 72); L(340, 118, 340, 160);
+        L(600, 40, 600, 70); L(600, 120, 600, 160);
+        /* source */
+        svg.appendChild(el("circle", { cx: 80, cy: 90, r: 30, fill: "none", stroke: C.accent, "stroke-width": 2.6 }));
+        T2(80, 80, "+", C.accent, "700"); T2(80, 108, "−", C.accent, "700");
+        T2(24, 86, "vₛ(t)", C.accent, "700");
+        T2(24, 104, fmt(vs, 4) + " V", C.accent);
+        /* Ri */
+        svg.appendChild(el("rect", {
+          x: 180, y: 28, width: 50, height: 24, rx: 4, fill: "none",
+          stroke: C.violet, "stroke-width": 2.6
+        }));
+        T2(205, 20, "Rᵢ = " + fmt(p.Ri, 4) + " Ω", C.violet, "700");
+        T2(205, 68, "−" + fmt(I0 * p.Ri * 1000, 1) + " mV", C.violet);
+        /* i arrow */
+        var mk = el("marker", { id: "arw", markerWidth: "9", markerHeight: "9", refX: "5", refY: "4.5", orient: "auto" });
+        mk.appendChild(el("path", { d: "M0,0 L9,4.5 L0,9 z", fill: C.green }));
+        var defs = el("defs", {}); defs.appendChild(mk); svg.appendChild(defs);
+        svg.appendChild(el("line", {
+          x1: 265, y1: 40, x2: 315, y2: 40, stroke: C.green, "stroke-width": 3,
+          "marker-end": "url(#arw)"
+        }));
+        T2(290, 26, "i = 0.74 A", C.green, "700");
+        /* is diamond */
+        svg.appendChild(el("path", {
+          d: "M340 72 L363 95 L340 118 L317 95 Z", fill: "none",
+          stroke: C.amber, "stroke-width": 2.6
+        }));
+        L(340, 83, 340, 105, C.amber, 2.2);
+        svg.appendChild(el("path", { d: "M335 100 L340 108 L345 100 Z", fill: C.amber }));
+        T2(276, 92, "iₛ(t)", C.amber, "700");
+        T2(276, 110, fmt(is, 4) + " A", C.amber);
+        /* RL */
+        svg.appendChild(el("rect", {
+          x: 588, y: 70, width: 24, height: 50, rx: 4, fill: "none",
+          stroke: C.teal, "stroke-width": 2.6
+        }));
+        T2(645, 88, "Rʟ = 10 Ω", C.teal, "700");
+        T2(645, 106, fmt(il, 4) + " A", C.teal);
+        T2(560, 84, "+", ink, "700"); T2(560, 116, "−", ink, "700");
+        T2(548, 102, "v(t)", ink, "700", "end");
+        T2(548, 120, fmt(v, 4) + " V", ink, null, "end");
+        /* ground */
+        L(340, 160, 340, 175); L(325, 175, 355, 175); L(331, 181, 349, 181); L(337, 187, 343, 187);
+        T2(660, 158, "t = " + tk + " s", C.faint, "700", "end");
+      }
+      function updDecomp(tk, p) {
+        var q = Q[tk];
+        var base = p.C0, lin = -p.K * q,
+          ea = p.Aa * Math.exp(-p.Ba * q),
+          eb = -p.Ab * Math.exp(-p.Bb * (QN - q)),
+          ohm = -I0 * p.Ri;
+        var items = [
+          { n: "Eₒ (แรงดันฐาน)", v: p.Eo, c: C.accent, note: "ค่าคงที่" },
+          { n: "− i·Rᵢ (แรงดันตกภายใน)", v: ohm, c: C.violet, note: "คงที่ตลอด เพราะ i คงที่" },
+          { n: "− K·q (โพลาไรเซชัน)", v: lin, c: C.faint, note: "โตเป็นเส้นตรงตามประจุที่ใช้" },
+          {
+            n: "+ Aₐe^(−Bₐq) (หัวโค้ง)", v: ea, c: C.amber,
+            note: ea > 0.001 ? "ยังทำงานอยู่" : "ตายแล้ว (< 1 mV)"
+          },
+          {
+            n: "− Aᵇe^(−Bᵇ(Qₙ−q)) (หน้าผา)", v: eb, c: C.rose,
+            note: Math.abs(eb) > 0.001 ? "เริ่มทำงานแล้ว" : "ยังไม่ทำงาน (< 1 mV)"
+          }
+        ];
+        var tb = $("#decompTable"); tb.innerHTML = "";
+        items.forEach(function (it) {
+          var tr = document.createElement("tr");
+          tr.innerHTML = '<td><span style="color:' + it.c + ';font-weight:700">●</span> ' + it.n + '</td>' +
+            '<td class="num">' + (it.v >= 0 ? "+" : "") + it.v.toFixed(6) + ' V</td>' +
+            '<td style="font-size:.87rem;color:var(--ink-soft)">' + it.note + '</td>';
+          tb.appendChild(tr);
+        });
+        var tot = document.createElement("tr");
+        tot.style.background = "var(--accent-soft)";
+        tot.innerHTML = '<td><b>รวม = v(t) ที่ขั้ว</b></td><td class="num"><b>' +
+          (p.Eo + ohm + lin + ea + eb).toFixed(6) + ' V</b></td>' +
+          '<td style="font-size:.87rem"><b>วัดได้จริง ' + V[tk].toFixed(6) + ' V</b></td>';
+        tb.appendChild(tot);
+
+        /* bar chart */
+        var svg = $("#chartDecomp");
+        while (svg.firstChild) svg.removeChild(svg.firstChild);
+        var W = 720, H = 260, m = { t: 24, r: 20, b: 56, l: 20 };
+        var bars = items.map(function (it) { return { v: it.v, c: it.c, n: it.n.split(" (")[0] }; });
+        var maxA = Math.max.apply(null, bars.map(function (b) { return Math.abs(b.v); }));
+        maxA = Math.max(maxA, 0.05);
+        var bw = (W - m.l - m.r) / bars.length, mid = m.t + (H - m.t - m.b) / 2;
+        svg.appendChild(el("line", { x1: m.l, x2: W - m.r, y1: mid, y2: mid, "class": "ax" }));
+        bars.forEach(function (b, i) {
+          var h = Math.abs(b.v) / maxA * ((H - m.t - m.b) / 2 - 6);
+          var x = m.l + i * bw + bw * 0.22, w = bw * 0.56;
+          var y = b.v >= 0 ? mid - h : mid;
+          svg.appendChild(el("rect", {
+            x: x, y: y, width: w, height: Math.max(h, 1.5), rx: 3,
+            fill: b.c, "fill-opacity": ".82"
+          }));
+          var t1 = el("text", {
+            x: x + w / 2, y: (b.v >= 0 ? y - 6 : y + h + 15), "text-anchor": "middle",
+            "font-size": "11.5", "font-weight": "700", fill: b.c
+          });
+          t1.textContent = (b.v >= 0 ? "+" : "") + b.v.toFixed(3);
+          svg.appendChild(t1);
+          var t2 = el("text", { x: x + w / 2, y: H - 24, "text-anchor": "middle", "font-size": "11" });
+          t2.textContent = b.n; svg.appendChild(t2);
+        });
+        var lb = el("text", { x: W / 2, y: H - 5, "text-anchor": "middle", "class": "lbx" });
+        lb.textContent = "ส่วนประกอบของแรงดัน ณ t = " + tk + " s (q = " + q.toFixed(1) + " C)";
+        svg.appendChild(lb);
+      }
+
+      IDS.forEach(function (id) {
+        $("#s" + id).addEventListener("input", function () {
+          var val = parseFloat(this.value);
+          /* โหมดล็อก Eo′ : ลาก Ri แล้วให้ Eo ขยับตามเพื่อรักษา Eo′ = Eo − 0.74Ri ให้คงเดิม
+             ผลคือกราฟไม่ขยับเลยแม้แต่พิกเซลเดียว = เห็น structural non-identifiability ด้วยตา */
+          if (id === "Ri" && $("#lockC0").checked) {
+            var c0 = P.Eo - I0 * P.Ri;
+            P.Ri = val;
+            P.Eo = c0 + I0 * val;
+            $("#sEo").value = P.Eo;
+          } else {
+            P[id] = val;
+          }
+          updateLab();
+        });
+      });
+      $("#lockC0").addEventListener("change", updateLab);
+      $("#sT").addEventListener("input", updateLab);
+      [].slice.call(document.querySelectorAll("[data-preset]")).forEach(function (b) {
+        b.addEventListener("click", function () {
+          var k = this.getAttribute("data-preset");
+          setP(k === "hand" ? HAND : k === "fixed" ? FIXED : FIT);
+          updateLab();
+        });
+      });
+
+      function drawFor(id) {
+        refreshColors();
+        if (id === "p3") { drawSignals(); drawQ(); }
+        if (id === "p4") { drawZones(); drawResid(); }
+        if (id === "p6") { updateLab(); }
+      }
+
+      /* วาดใหม่เมื่อสลับธีมหรือปรับขนาดจอ */
+      var rt;
+      function redrawAll() {
+        clearTimeout(rt);
+        rt = setTimeout(function () {
+          refreshColors();
+          Object.keys(drawn).forEach(function (id) { if (drawn[id]) drawFor(id); });
+        }, 180);
+      }
+      window.addEventListener("resize", redrawAll);
+      if (window.matchMedia) {
+        var mq = window.matchMedia("(prefers-color-scheme: dark)");
+        if (mq.addEventListener) mq.addEventListener("change", redrawAll);
+        else if (mq.addListener) mq.addListener(redrawAll);
+      }
+    })();
+
+    /* ===== Sticky Problem Arrow Button & Drawer Logic ===== */
+    (function () {
+      var btn = document.getElementById("stickyProblemBtn");
+      var overlay = document.getElementById("problemDrawerOverlay");
+      var modal = document.getElementById("problemDrawerModal");
+      var closeBtn = document.getElementById("closeDrawerBtn");
+      var drawerImg = document.getElementById("drawerProblemImg");
+
+      if (!btn || !overlay || !modal) return;
+
+      // Fallback image source if image.png fails
+      if (drawerImg) {
+        drawerImg.onerror = function () {
+          this.onerror = null;
+          this.src = "../circuit_fig1.png";
+        };
+      }
+
+      function toggleDrawer(show) {
+        var isOpen = modal.classList.contains("active");
+        var target = (typeof show === "boolean") ? show : !isOpen;
+        if (target) {
+          modal.classList.add("active");
+          overlay.classList.add("active");
+          btn.classList.add("active");
+          btn.innerHTML = '<span class="arrow-icon">✕</span>'; btn.setAttribute("title", "ปิดรูปโจทย์");
+        } else {
+          modal.classList.remove("active");
+          overlay.classList.remove("active");
+          btn.classList.remove("active");
+          btn.innerHTML = '<span class="arrow-icon">📐</span>'; btn.setAttribute("title", "เปิดดูรูปภาพโจทย์ (image.png)");
+        }
+      }
+
+      btn.addEventListener("click", function (e) { e.stopPropagation(); toggleDrawer(); });
+      if (closeBtn) closeBtn.addEventListener("click", function () { toggleDrawer(false); });
+      overlay.addEventListener("click", function () { toggleDrawer(false); });
+
+      document.addEventListener("keydown", function (e) {
+        if (e.key === "Escape" && modal.classList.contains("active")) {
+          toggleDrawer(false);
+        }
+      });
+
+      // Check current tab to show/hide sticky button (Hide on tab p1, show on tabs p2..p6)
+      function updateStickyVisibility(tabId) {
+        btn.style.display = "inline-flex";
+      }
+
+      // Hook into tab switching logic
+      var tabButtons = document.querySelectorAll(".tabbtn");
+      tabButtons.forEach(function (tb) {
+        tb.addEventListener("click", function () {
+          var targetId = this.getAttribute("aria-controls");
+          updateStickyVisibility(targetId);
+        });
+      });
+
+      // Initial check
+      var activeTab = document.querySelector('.tabbtn[aria-selected="true"]');
+      if (activeTab) {
+        updateStickyVisibility(activeTab.getAttribute("aria-controls"));
+      }
+    })();
+
+  
+
+/* ===== Mobile Tab Scroll Arrow Controller (Direct Tab Switch & Arrow Hide) ===== */
+(function(){
+  var tabbar = document.getElementById("mainTabbar");
+  var btnLeft = document.getElementById("tabScrollLeft");
+  var btnRight = document.getElementById("tabScrollRight");
+
+  if (!tabbar || !btnLeft || !btnRight) return;
+
+  var tabs = Array.prototype.slice.call(tabbar.querySelectorAll(".tabbtn"));
+
+  function getActiveIndex() {
+    for (var i = 0; i < tabs.length; i++) {
+      if (tabs[i].getAttribute("aria-selected") === "true") return i;
+    }
+    return 0;
+  }
+
+  function updateArrowState() {
+    var idx = getActiveIndex();
+    
+    // Hide left arrow on first tab (idx === 0)
+    if (idx > 0) {
+      btnLeft.classList.add("show");
+    } else {
+      btnLeft.classList.remove("show");
+    }
+
+    // Hide right arrow on last tab (idx === tabs.length - 1)
+    if (idx < tabs.length - 1) {
+      btnRight.classList.add("show");
+    } else {
+      btnRight.classList.remove("show");
+    }
+
+    // Ensure active tab is scrolled into view
+    if (tabs[idx]) {
+      tabs[idx].scrollIntoView({ behavior: "smooth", inline: "center", block: "nearest" });
+    }
+  }
+
+  // Click Left Arrow -> Switch to Previous Tab
+  btnLeft.addEventListener("click", function(e){
+    e.preventDefault();
+    var idx = getActiveIndex();
+    if (idx > 0) {
+      tabs[idx - 1].click();
+    }
+  });
+
+  // Click Right Arrow -> Switch to Next Tab
+  btnRight.addEventListener("click", function(e){
+    e.preventDefault();
+    var idx = getActiveIndex();
+    if (idx < tabs.length - 1) {
+      tabs[idx + 1].click();
+    }
+  });
+
+  // Tab click handler updates arrow state
+  tabs.forEach(function(b){
+    b.addEventListener("click", function(){
+      setTimeout(updateArrowState, 50);
+    });
+  });
+
+  // Initial check
+  setTimeout(updateArrowState, 100);
+
+  // Global helper to switch tab by panel ID (e.g. p1..p6)
+  window.switchToPanel = function(panelId) {
+    for (var i = 0; i < tabs.length; i++) {
+      if (tabs[i].getAttribute("aria-controls") === panelId) {
+        tabs[i].click();
+        window.scrollTo({ top: 0, behavior: "smooth" });
+        break;
+      }
+    }
+  };
+})();
+
+</script>
+</body>
+
+</html>
