@@ -274,7 +274,7 @@ def fig_02() -> None:
     body += pill(1000, 425, 90, "กิ่ง 1", RED)
     body += pill(925, 238, 90, "กิ่ง 2", BLUE)
     body += pill(840, 425, 90, "กิ่ง 3", BLUE)
-    body += lines(825, 685, ["1: O→B", "2: B→A", "3: O→A"], 16, MUTED, "start", 0)
+    body += lines(825, 665, ["1: O→B", "2: B→A", "3: O→A"], 16, MUTED, "start", 28)
     save("fig-02-circuit-anatomy.svg", body, width, height, "ปม อุปกรณ์ และกิ่งประกอบโจทย์ 4.5")
 
 
