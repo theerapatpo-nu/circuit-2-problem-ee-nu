@@ -27,6 +27,39 @@ R_T=R_1+R_2+R_3,\qquad K=v_s+R_1i_s
 
 ---
 
+## 0.1 พจนานุกรมเมทริกซ์สำหรับผู้เริ่มต้น
+
+ก่อนคำนวณ ต้องรู้ว่า “หนึ่งแถว/หนึ่งหลัก” แทนอะไร ห้ามจำเพียงรูปร่างของสูตร
+
+| สัญลักษณ์ | ขนาด | แต่ละแถว/หลักหมายถึง | ค่าในโจทย์นี้ |
+|---|---:|---|---|
+| \(\mathbf B\) | \(1\times3\) | 1 แถวแทนวงรอบ \(j_1\); 3 หลักแทนกิ่ง 1,2,3 | \([1\ 1\ {-1}]\) |
+| \(\mathbf B^{\mathsf T}\) | \(3\times1\) | กลับแถวของ \(\mathbf B\) ให้เป็นหลัก | \([1\ 1\ {-1}]^{\mathsf T}\) |
+| \(\mathbf Z_b\) | \(3\times3\) | แนวทแยงแถว \(k\) คือความต้านทานของกิ่ง \(k\) | \(\operatorname{diag}(R_3,R_2,R_1)\) |
+| \(\mathbf i_{sb}\) | \(3\times1\) | แหล่งกระแสที่ขนานอยู่ในกิ่ง 1,2,3 | \([i_s\ i_s\ 0]^{\mathsf T}\) |
+| \(\mathbf v_{sb}\) | \(3\times1\) | แรงดันแหล่งกำเนิดแบบมีเครื่องหมายตามทิศกิ่ง | \([0\ 0\ {-v_s}]^{\mathsf T}\) |
+| \(\mathbf j\) | \(1\times1\) | กระแสวงรอบอิสระ | \([j_1]\) |
+
+### กฎคูณเมทริกซ์ที่ใช้จริงในข้อนี้
+
+1. คูณได้เมื่อ “จำนวนหลักของตัวซ้าย = จำนวนแถวของตัวขวา”
+2. คูณชุด \(\mathbf B\mathbf Z_b\mathbf B^{\mathsf T}\) จากขวาไปซ้ายก่อน:
+   \(\mathbf Z_b\mathbf B^{\mathsf T}\) แล้วจึงคูณ \(\mathbf B\)
+3. แถวคูณหลักคือ dot product เช่น
+   \([a\ b\ c][x\ y\ z]^{\mathsf T}=ax+by+cz\)
+4. ตรวจขนาดได้ว่า
+
+\[
+\underbrace{(1\times3)}_{\mathbf B}
+\underbrace{(3\times3)}_{\mathbf Z_b}
+\underbrace{(3\times1)}_{\mathbf B^{\mathsf T}}
+=\underbrace{(1\times1)}_{\mathbf Z_l}.
+\]
+
+ผล \(1\times1\) คือสเกลาร์หนึ่งค่า เพราะโจทย์มีวงรอบอิสระเพียงวงเดียว
+
+---
+
 ## 1. ทำไมวิธีนี้จึงเริ่มที่ “รูป”
 
 เอกสารบรรยายบทที่ 4 ให้สมการแม่แบบ
@@ -144,20 +177,119 @@ v_3=R_1i_3-v_s
 > จุดจำ: ลำดับแนวทแยงของ \(\mathbf Z_b\) คือ \(R_3,R_2,R_1\) ไม่ใช่ \(R_1,R_2,R_3\)
 > เพราะเวกเตอร์กิ่งเรียงเป็น [1,2,3] และกิ่ง 1 มี \(R_3\), กิ่ง 2 มี \(R_2\), กิ่ง 3 มี \(R_1\)
 
+![การประกอบสมการกิ่งทีละแถว](assets/fig-05-branch-vector-assembly.svg)
+
+### ตรวจว่ารูปเวกเตอร์ให้สมการกิ่งเดิมครบทั้งสามแถว
+
+เริ่มจากสมการ Lecture (4-3)
+
+\[
+\mathbf v_b=\mathbf Z_b\mathbf i_b+\mathbf v_{sb}-\mathbf Z_b\mathbf i_{sb}.
+\]
+
+เขียนทุกเมทริกซ์ลงไปจริง:
+
+\[
+\begin{bmatrix}v_1\\v_2\\v_3\end{bmatrix}
+=
+\begin{bmatrix}R_3&0&0\\0&R_2&0\\0&0&R_1\end{bmatrix}
+\begin{bmatrix}i_1\\i_2\\i_3\end{bmatrix}
++\begin{bmatrix}0\\0\\-v_s\end{bmatrix}
+-
+\begin{bmatrix}R_3&0&0\\0&R_2&0\\0&0&R_1\end{bmatrix}
+\begin{bmatrix}i_s\\i_s\\0\end{bmatrix}.
+\]
+
+คูณสองผลคูณเมทริกซ์ก่อน:
+
+\[
+\mathbf Z_b\mathbf i_b
+=\begin{bmatrix}R_3i_1\\R_2i_2\\R_1i_3\end{bmatrix},
+\qquad
+\mathbf Z_b\mathbf i_{sb}
+=\begin{bmatrix}R_3i_s\\R_2i_s\\0\end{bmatrix}.
+\]
+
+จึงได้
+
+\[
+\begin{bmatrix}v_1\\v_2\\v_3\end{bmatrix}
+=
+\begin{bmatrix}R_3i_1\\R_2i_2\\R_1i_3\end{bmatrix}
++\begin{bmatrix}0\\0\\-v_s\end{bmatrix}
+-\begin{bmatrix}R_3i_s\\R_2i_s\\0\end{bmatrix}
+=
+\begin{bmatrix}
+R_3i_1-R_3i_s\\
+R_2i_2-R_2i_s\\
+R_1i_3-v_s
+\end{bmatrix}.
+\]
+
+อ่านทีละแถวจะกลับไปได้ \(v_1=R_3(i_1-i_s)\),
+\(v_2=R_2(i_2-i_s)\), และ \(v_3=R_1i_3-v_s\) ครบถ้วน
+
 ---
 
 ## 4. คูณเมทริกซ์แบบสามก้อน
 
 ![โต๊ะคำนวณเมทริกซ์](assets/fig-03-matrix-workbench.svg)
 
+สมการแม่แบบจาก Lecture (4-4) คือ
+
+\[
+\underbrace{\mathbf B\mathbf Z_b\mathbf B^{\mathsf T}}_{\text{ก้อน 1: }\mathbf Z_l}
+\mathbf j
+=
+\underbrace{\mathbf B\mathbf Z_b\mathbf i_{sb}}_{\text{ก้อน 2: แรงขับกระแส}}
+-
+\underbrace{\mathbf B\mathbf v_{sb}}_{\text{ก้อน 3: แรงขับแรงดัน}}.
+\]
+
+| ก้อน | สูตรตาม Lecture | แทนค่าของข้อ 4.4 | ผลลัพธ์ |
+|---|---|---|---|
+| 1. \(\mathbf Z_l\) | \(\mathbf B\mathbf Z_b\mathbf B^{\mathsf T}\) | \([1\ 1\ {-1}]\operatorname{diag}(R_3,R_2,R_1)[1\ 1\ {-1}]^{\mathsf T}\) | \(R_1+R_2+R_3\) |
+| 2. \(\mathbf e_{si}\) | \(+\mathbf B\mathbf Z_b\mathbf i_{sb}\) | \([1\ 1\ {-1}]\operatorname{diag}(R_3,R_2,R_1)[i_s\ i_s\ 0]^{\mathsf T}\) | \((R_2+R_3)i_s\) |
+| 3. \(\mathbf e_{sv}\) | \(-\mathbf B\mathbf v_{sb}\) | \(-[1\ 1\ {-1}][0\ 0\ {-v_s}]^{\mathsf T}\) | \(-v_s\) |
+
+> **ตรวจเครื่องหมาย:** ภายใต้สมการกิ่ง \(v_3=R_1i_3-v_s\), สมาชิกตัวที่ 3 ของ
+> \(\mathbf v_{sb}\) ต้องเป็น \(-v_s\). ถ้าใส่ \(+v_s\), ผลคูณจริงจะเป็น
+> \(-[1\ 1\ {-1}][0\ 0\ v_s]^{\mathsf T}=+v_s\) ซึ่งไม่ตรงกับสมการกิ่งที่เลือก
+
+![ผลคูณกลางของเมทริกซ์สามก้อน](assets/fig-06-full-three-blocks.svg)
+
 ### ก้อนที่ 1 — ความต้านทานรอบ
+
+เขียนทรานสโพสก่อน:
+
+\[
+\mathbf B^{\mathsf T}=\begin{bmatrix}1\\1\\-1\end{bmatrix}.
+\]
+
+คูณจากขวาไปซ้าย โดยหา \(\mathbf Z_b\mathbf B^{\mathsf T}\) ทีละแถว:
+
+\[
+\begin{bmatrix}R_3&0&0\\0&R_2&0\\0&0&R_1\end{bmatrix}
+\begin{bmatrix}1\\1\\-1\end{bmatrix}
+=
+\begin{bmatrix}
+R_3(1)+0(1)+0(-1)\\
+0(1)+R_2(1)+0(-1)\\
+0(1)+0(1)+R_1(-1)
+\end{bmatrix}
+=\begin{bmatrix}R_3\\R_2\\-R_1\end{bmatrix}.
+\]
+
+จากนั้นคูณ \(\mathbf B\) ทางซ้าย:
 
 \[
 \mathbf B\mathbf Z_b\mathbf B^{\mathsf T}
-=
-\begin{bmatrix}1&1&-1\end{bmatrix}
-\begin{bmatrix}R_3&0&0\\0&R_2&0\\0&0&R_1\end{bmatrix}
-\begin{bmatrix}1\\1\\-1\end{bmatrix}
+=\begin{bmatrix}1&1&-1\end{bmatrix}
+\begin{bmatrix}R_3\\R_2\\-R_1\end{bmatrix}
+\]
+
+\[
+=1(R_3)+1(R_2)+(-1)(-R_1)
 =R_1+R_2+R_3=R_T.
 \]
 
@@ -165,26 +297,57 @@ v_3=R_1i_3-v_s
 
 ### ก้อนที่ 2 — แรงขับจาก Norton
 
+คูณ \(\mathbf Z_b\mathbf i_{sb}\) ก่อน:
+
+\[
+\begin{bmatrix}R_3&0&0\\0&R_2&0\\0&0&R_1\end{bmatrix}
+\begin{bmatrix}i_s\\i_s\\0\end{bmatrix}
+=
+\begin{bmatrix}
+R_3i_s+0i_s+0(0)\\
+0i_s+R_2i_s+0(0)\\
+0i_s+0i_s+R_1(0)
+\end{bmatrix}
+=\begin{bmatrix}R_3i_s\\R_2i_s\\0\end{bmatrix}.
+\]
+
+แล้วทำ dot product กับ \(\mathbf B\):
+
 \[
 \mathbf B\mathbf Z_b\mathbf i_{sb}
-=R_3i_s+R_2i_s=(R_2+R_3)i_s.
+=1(R_3i_s)+1(R_2i_s)+(-1)(0)
+=(R_2+R_3)i_s.
 \]
 
 เหตุผลเชิงภาพ: แหล่งกระแสอยู่ในกิ่ง 1 และ 2 เท่านั้น จึงไม่มีพจน์ \(R_1i_s\)
 
 ### ก้อนที่ 3 — แรงขับจาก Thévenin
 
+เริ่มจาก dot product ที่ยังไม่ใส่เครื่องหมายลบหน้าก้อน:
+
 \[
--\mathbf B\mathbf v_{sb}
-=-\begin{bmatrix}1&1&-1\end{bmatrix}
+\mathbf B\mathbf v_{sb}
+=\begin{bmatrix}1&1&-1\end{bmatrix}
 \begin{bmatrix}0\\0\\-v_s\end{bmatrix}
-=-v_s.
+=1(0)+1(0)+(-1)(-v_s)=+v_s.
+\]
+
+สมการแม่แบบมีเครื่องหมายลบหน้าก้อนนี้ จึงต้องทำอีกหนึ่งบรรทัด:
+
+\[
+-\mathbf B\mathbf v_{sb}=-(+v_s)=-v_s.
 \]
 
 รวมสามก้อน:
 
 \[
-\boxed{R_Tj_1=(R_2+R_3)i_s-v_s}
+\underbrace{R_T}_{\text{ก้อน 1}}j_1
+=\underbrace{(R_2+R_3)i_s}_{\text{ก้อน 2}}
++\underbrace{(-v_s)}_{\text{ก้อน 3}}
+\]
+
+\[
+\boxed{R_Tj_1=(R_2+R_3)i_s-v_s}.
 \]
 
 จึงได้
@@ -198,6 +361,8 @@ v_3=R_1i_3-v_s
 ## 5. แตกคำตอบจาก \(j_1\)
 
 ![แผนที่คำตอบจาก j1](assets/fig-04-answer-map.svg)
+
+![บันไดการแทนค่าจาก j1 ไปหาแรงดันกิ่ง](assets/fig-07-substitution-ladder.svg)
 
 ### 5.1 กระแสกิ่ง
 
@@ -219,16 +384,58 @@ i_3=\frac{v_s-(R_2+R_3)i_s}{R_T}}
 
 \[
 v_1=R_3(j_1-i_s)
-=-\frac{R_3(v_s+R_1i_s)}{R_T},
+=R_3\left[
+\frac{(R_2+R_3)i_s-v_s}{R_T}-i_s
+\right]
 \]
+
+\[
+=R_3\left[
+\frac{(R_2+R_3)i_s-v_s-R_Ti_s}{R_T}
+\right]
+\]
+
+\[
+=R_3\left[
+\frac{(R_2+R_3)i_s-v_s-(R_1+R_2+R_3)i_s}{R_T}
+\right]
+\]
+
+\[
+=R_3\left[\frac{-v_s-R_1i_s}{R_T}\right]
+=-\frac{R_3(v_s+R_1i_s)}{R_T}.
+\]
+
+กิ่ง 2 ใช้วงเล็บเดียวกัน แต่คูณด้วย \(R_2\):
 
 \[
 v_2=R_2(j_1-i_s)
-=-\frac{R_2(v_s+R_1i_s)}{R_T},
+=R_2\left[\frac{-v_s-R_1i_s}{R_T}\right]
+=-\frac{R_2(v_s+R_1i_s)}{R_T}.
+\]
+
+กิ่ง 3 ต้องแทน \(i_3=-j_1\) ก่อน:
+
+\[
+v_3=R_1i_3-v_s=R_1(-j_1)-v_s
 \]
 
 \[
-v_3=-R_1j_1-v_s
+=-R_1\frac{(R_2+R_3)i_s-v_s}{R_T}-v_s
+\]
+
+\[
+=\frac{-R_1(R_2+R_3)i_s+R_1v_s-R_Tv_s}{R_T}
+\]
+
+เพราะ \(R_1-R_T=-(R_2+R_3)\), จึงได้
+
+\[
+v_3
+=\frac{-R_1(R_2+R_3)i_s-(R_2+R_3)v_s}{R_T}
+\]
+
+\[
 =-\frac{(R_2+R_3)(v_s+R_1i_s)}{R_T}.
 \]
 

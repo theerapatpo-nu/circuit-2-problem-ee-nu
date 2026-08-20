@@ -1,0 +1,69 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 850"
+  role="img" aria-labelledby="title desc">
+  <title id="title">ประกอบสมการกิ่งเป็นเวกเตอร์</title>
+  <desc id="desc">แปลงสมการกิ่งทั้งสามเป็นเมทริกซ์อิมพีแดนซ์และเวกเตอร์แหล่งกำเนิด</desc>
+  <defs>
+    <marker id="arrowBlue" markerUnits="userSpaceOnUse" markerWidth="18" markerHeight="18" refX="16" refY="9" orient="auto">
+      <path d="M0,0 L18,9 L0,18 Z" fill="#2563eb"/>
+    </marker>
+    <marker id="arrowRed" markerUnits="userSpaceOnUse" markerWidth="18" markerHeight="18" refX="16" refY="9" orient="auto">
+      <path d="M0,0 L18,9 L0,18 Z" fill="#dc2626"/>
+    </marker>
+    <marker id="arrowDark" markerUnits="userSpaceOnUse" markerWidth="18" markerHeight="18" refX="16" refY="9" orient="auto">
+      <path d="M0,0 L18,9 L0,18 Z" fill="#172033"/>
+    </marker>
+    <filter id="shadow" x="-15%" y="-15%" width="130%" height="140%">
+      <feDropShadow dx="0" dy="7" stdDeviation="9" flood-color="#0f172a" flood-opacity=".12"/>
+    </filter>
+    <style>
+      .bg { fill:#f8fafc; } .paper { fill:#fff; stroke:#dbe3ee; stroke-width:2; }
+      .title { font:700 31px 'Noto Sans Thai','Sarabun','Segoe UI',sans-serif; fill:#0f172a; }
+      .head { font:700 24px 'Noto Sans Thai','Sarabun','Segoe UI',sans-serif; fill:#172033; }
+      .body { font:500 20px 'Noto Sans Thai','Sarabun','Segoe UI',sans-serif; fill:#334155; }
+      .small { font:500 17px 'Noto Sans Thai','Sarabun','Segoe UI',sans-serif; fill:#64748b; }
+      .math { font:italic 25px Georgia,'Times New Roman',serif; fill:#172033; }
+      .mathBig { font:italic 32px Georgia,'Times New Roman',serif; font-weight:700; fill:#172033; }
+      .chip { font:700 19px 'Noto Sans Thai','Sarabun','Segoe UI',sans-serif; }
+      .wire { fill:none; stroke:#172033; stroke-width:7; stroke-linecap:round; stroke-linejoin:round; }
+      .tree { fill:none; stroke:#172033; stroke-width:11; stroke-linecap:round; }
+      .link { fill:none; stroke:#dc2626; stroke-width:8; stroke-linecap:round; }
+      .guide { fill:none; stroke:#94a3b8; stroke-width:2; stroke-dasharray:7 7; }
+    </style>
+  </defs>
+  <rect class="bg" width="1200" height="850" rx="28"/>
+
+  <text class="title" x="60" y="62">จากสมการกิ่ง 3 บรรทัด → เวกเตอร์ 1 สมการ</text>
+  <text class="small" x="60" y="98">อ่านทีละแถว ห้ามเดาเครื่องหมายจากหน้าตาของเมทริกซ์</text>
+  <g filter="url(#shadow)">
+    <rect class="paper" x="55" y="135" width="1090" height="160" rx="22"/>
+    <rect x="55" y="135" width="125" height="160" rx="22" fill="#dbeafe"/>
+    <text class="head" x="118" y="190" text-anchor="middle">กิ่ง 1</text>
+    <text class="math" x="250" y="200">v₁ = R₃i₁ − R₃iₛ</text>
+    <text class="small" x="250" y="244">แถว 1: Z₁₁=R₃,  vₛ₁=0,  iₛ₁=+iₛ</text>
+    <rect x="815" y="165" width="285" height="92" rx="15" fill="#eff6ff"/>
+    <text class="math" x="958" y="205" text-anchor="middle">[R₃  0  0] i</text>
+    <text class="math" x="958" y="239" text-anchor="middle">+ 0 − R₃(+iₛ)</text>
+
+    <rect class="paper" x="55" y="320" width="1090" height="160" rx="22"/>
+    <rect x="55" y="320" width="125" height="160" rx="22" fill="#dbeafe"/>
+    <text class="head" x="118" y="375" text-anchor="middle">กิ่ง 2</text>
+    <text class="math" x="250" y="385">v₂ = R₂i₂ − R₂iₛ</text>
+    <text class="small" x="250" y="429">แถว 2: Z₂₂=R₂,  vₛ₂=0,  iₛ₂=+iₛ</text>
+    <rect x="815" y="350" width="285" height="92" rx="15" fill="#eff6ff"/>
+    <text class="math" x="958" y="390" text-anchor="middle">[0  R₂  0] i</text>
+    <text class="math" x="958" y="424" text-anchor="middle">+ 0 − R₂(+iₛ)</text>
+
+    <rect class="paper" x="55" y="505" width="1090" height="160" rx="22"/>
+    <rect x="55" y="505" width="125" height="160" rx="22" fill="#ffedd5"/>
+    <text class="head" x="118" y="560" text-anchor="middle">กิ่ง 3</text>
+    <text class="math" x="250" y="570">v₃ = R₁i₃ − vₛ</text>
+    <text class="small" x="250" y="614">แถว 3: Z₃₃=R₁,  vₛ₃=−vₛ,  iₛ₃=0</text>
+    <rect x="815" y="535" width="285" height="92" rx="15" fill="#fff7ed"/>
+    <text class="math" x="958" y="575" text-anchor="middle">[0  0  R₁] i</text>
+    <text class="math" x="958" y="609" text-anchor="middle">+ (−vₛ) − R₁(0)</text>
+  </g>
+  <rect x="145" y="705" width="910" height="90" rx="18" fill="#0f172a"/>
+  <text x="600" y="746" text-anchor="middle" font-family="Georgia,serif" font-size="26" font-style="italic" fill="#fff">v = Zᵦi + vₛᵦ − Zᵦiₛᵦ</text>
+  <text x="600" y="778" text-anchor="middle" font-family="Georgia,serif" font-size="20" fill="#cbd5e1">Zᵦ=diag(R₃,R₂,R₁),  iₛᵦ=[iₛ iₛ 0]ᵀ,  vₛᵦ=[0 0 −vₛ]ᵀ</text>
+
+</svg>

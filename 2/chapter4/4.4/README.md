@@ -68,6 +68,9 @@ R_T=R_1+R_2+R_3,\qquad K=v_s+R_1i_s
 | 2 | [fig-02-read-b-from-tree.svg](solution-2/assets/fig-02-read-b-from-tree.svg) | รูปทรีวาดใหม่แบบสมมาตรและการอ่าน \(+1,+1,-1\) |
 | 3 | [fig-03-matrix-workbench.svg](solution-2/assets/fig-03-matrix-workbench.svg) | โต๊ะเตรียม \(B,Z_b,i_{sb},v_{sb}\) และผลคูณสามก้อน |
 | 4 | [fig-04-answer-map.svg](solution-2/assets/fig-04-answer-map.svg) | แผนที่จาก \(j_1\) ไปยังกระแสและแรงดันกิ่ง |
+| 5 | [fig-05-branch-vector-assembly.svg](solution-2/assets/fig-05-branch-vector-assembly.svg) | ประกอบสมการกิ่งสามบรรทัดเป็น \(Z_b,i_{sb},v_{sb}\) ทีละแถว |
+| 6 | [fig-06-full-three-blocks.svg](solution-2/assets/fig-06-full-three-blocks.svg) | ผลคูณกลางทุกบรรทัดของเมทริกซ์สามก้อนและกล่องตรวจเครื่องหมาย |
+| 7 | [fig-07-substitution-ladder.svg](solution-2/assets/fig-07-substitution-ladder.svg) | บันไดแทน \(j_1\) กลับไปหา \(i_1,i_2,i_3,v_1,v_2,v_3\) |
 
 สร้างภาพใหม่ทั้งหมดได้ด้วย
 

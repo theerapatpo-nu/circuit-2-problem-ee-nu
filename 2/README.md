@@ -15,9 +15,10 @@
 | — | Fundamental Cutset Analysis | [fundamental-cutset-analysis](fundamental-cutset-analysis) |
 | [4.3] | สมการรอบ แรงดันกิ่ง และกระแสกิ่ง (Loop / Tie-set Analysis) | [chapter4/4.3](chapter4/4.3) |
 | [4.4] | สมการรอบหลักมูล แรงดันกิ่ง และกระแสกิ่ง (Loop / Tie-set Analysis) | [chapter4/4.4](chapter4/4.4) |
+| [4.5] | สมการรอบหลักมูล วงจรข่ายที่มีแหล่งกำเนิดไม่อิสระ CCCS | [chapter4/4.5](chapter4/4.5) |
 
 ## กฎการตั้งชื่อไฟล์/โฟลเดอร์
 
-- โฟลเดอร์โจทย์: `chapter<N>-exercise-<NN>-<topic>` เช่น `chapter1-exercise-1-3-cutset-equations`
-- รูปประกอบ: `figure-<X>-<Y>-<description>.png` เช่น `figure-1-2-directed-graph.png`
-- เอกสารบรรยาย: เก็บใน `lectures/`
+- โฟลเดอร์โจทย์: `chapter<N>-exercise-<NN>-<topic>` เช่น `chapter1-exercise-1-3-cutset-equations` หรือ `chapter4/<X.X>`
+- รูปประกอบ: `figure-<X>-<Y>-<description>.png` หรือ `figures/`
+- เอกสารบรรยาย: เก็บใน `lecture/` หรือ `lectures/`

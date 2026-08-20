@@ -165,7 +165,7 @@
 
   <main class="page">
     <nav class="jump" aria-label="สารบัญย่อ">
-      <a href="#roadmap">แผน 4 ขั้น</a><a href="#picture">อ่านรูป</a><a href="#branches">Branch Cards</a>
+      <a href="#roadmap">แผน 4 ขั้น</a><a href="#notation">รู้จัก Matrix</a><a href="#picture">อ่านรูป</a><a href="#branches">Branch Cards</a>
       <a href="#matrix">คูณ Matrix</a><a href="#answers">คำตอบ</a><a href="#exam">ข้อสอบ</a>
       <a href="#lab">ลองตัวเลข</a><a href="#sources">อ้างอิง</a>
     </nav>
@@ -193,6 +193,28 @@
           R_T=R_1+R_2+R_3
           \end{gathered}\]
         </div>
+      </section>
+
+      <section id="notation">
+        <h2>ก่อนเริ่ม · รู้จักทุกแถวและทุกหลัก</h2>
+        <p class="lead">เมทริกซ์ไม่ใช่กล่องสูตร แต่เป็นตารางที่เก็บข้อมูลของวงรอบและกิ่งตามลำดับ [1,2,3]</p>
+        <div class="table-wrap">
+          <table>
+            <thead><tr><th>ตัวแปร</th><th>ขนาด</th><th>อ่านอย่างไร</th><th>ค่าในข้อ 4.4</th></tr></thead>
+            <tbody>
+              <tr><td>\(\mathbf B\)</td><td>\(1\times3\)</td><td>แถว = วง \(j_1\); หลัก = กิ่ง 1,2,3</td><td>\([1\ 1\ {-1}]\)</td></tr>
+              <tr><td>\(\mathbf Z_b\)</td><td>\(3\times3\)</td><td>แนวทแยงเก็บ R ของกิ่ง 1,2,3</td><td>\(\operatorname{diag}(R_3,R_2,R_1)\)</td></tr>
+              <tr><td>\(\mathbf i_{sb}\)</td><td>\(3\times1\)</td><td>แหล่งกระแสในกิ่ง 1,2,3</td><td>\([i_s\ i_s\ 0]^{\mathsf T}\)</td></tr>
+              <tr><td>\(\mathbf v_{sb}\)</td><td>\(3\times1\)</td><td>แรงดันแหล่งแบบมีเครื่องหมายตามทิศกิ่ง</td><td>\([0\ 0\ {-v_s}]^{\mathsf T}\)</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="grid2">
+          <div class="card blue"><h4>กฎแถวคูณหลัก</h4>\[[a\ b\ c]\begin{bmatrix}x\\y\\z\end{bmatrix}=ax+by+cz\]</div>
+          <div class="card green"><h4>ตรวจขนาด</h4>\[(1\times3)(3\times3)(3\times1)=(1\times1)\]</div>
+        </div>
+        <div class="card warn"><strong>เหตุผลที่ \(\mathbf Z_b\neq\operatorname{diag}(R_1,R_2,R_3)\):</strong>
+          กิ่ง 1 บรรจุ \(R_3\), กิ่ง 2 บรรจุ \(R_2\), กิ่ง 3 บรรจุ \(R_1\). ตำแหน่งเมทริกซ์เรียงตามเลขกิ่ง ไม่ได้เรียงตามชื่อ R</div>
       </section>
 
       <section id="picture">
@@ -232,6 +254,28 @@
           \mathbf v_{sb}=\begin{bmatrix}0\\0\\-v_s\end{bmatrix}\]
         </div>
         <div class="card warn"><strong>จุดดัก:</strong> แนวทแยงคือ \(R_3,R_2,R_1\) เพราะเรียงตาม “กิ่ง 1,2,3” ไม่ได้เรียงตามเลขตัวต้านทาน</div>
+        <figure><img src="assets/fig-05-branch-vector-assembly.svg" alt="ประกอบสมการกิ่งเป็นเวกเตอร์ทีละแถว"><figcaption>สมาชิกทุกตัวมาจากสมการกิ่งจริงหนึ่งแถว ไม่มีการเดา</figcaption></figure>
+        <details open>
+          <summary>แทนเมทริกซ์และกระจายกลับเป็นสมการกิ่งทั้งสาม</summary>
+          <div>
+            \[
+            \begin{bmatrix}v_1\\v_2\\v_3\end{bmatrix}
+            =\begin{bmatrix}R_3&amp;0&amp;0\\0&amp;R_2&amp;0\\0&amp;0&amp;R_1\end{bmatrix}
+            \begin{bmatrix}i_1\\i_2\\i_3\end{bmatrix}
+            +\begin{bmatrix}0\\0\\-v_s\end{bmatrix}
+            -\begin{bmatrix}R_3&amp;0&amp;0\\0&amp;R_2&amp;0\\0&amp;0&amp;R_1\end{bmatrix}
+            \begin{bmatrix}i_s\\i_s\\0\end{bmatrix}
+            \]
+            \[
+            =\begin{bmatrix}R_3i_1\\R_2i_2\\R_1i_3\end{bmatrix}
+            +\begin{bmatrix}0\\0\\-v_s\end{bmatrix}
+            -\begin{bmatrix}R_3i_s\\R_2i_s\\0\end{bmatrix}
+            \]
+            \[
+            =\begin{bmatrix}R_3(i_1-i_s)\\R_2(i_2-i_s)\\R_1i_3-v_s\end{bmatrix}
+            \]
+          </div>
+        </details>
       </section>
 
       <section id="matrix">
@@ -246,16 +290,50 @@
           <div class="card"><h4>ก้อน 2</h4>\[\mathbf B\mathbf Z_b\mathbf i_{sb}=(R_2+R_3)i_s\]</div>
           <div class="card"><h4>ก้อน 3</h4>\[-\mathbf B\mathbf v_{sb}=-v_s\]</div>
         </div>
+        <figure><img src="assets/fig-06-full-three-blocks.svg" alt="คูณเมทริกซ์สามก้อนพร้อมผลคูณกลางทุกบรรทัด"><figcaption>เริ่มจากผลคูณด้านขวา แล้วจึงทำ dot product กับ \(\mathbf B\)</figcaption></figure>
         <div class="formula final">\[\boxed{j_1=\dfrac{(R_2+R_3)i_s-v_s}{R_1+R_2+R_3}}\]</div>
-        <details>
-          <summary>เปิดดูการคูณเต็มเพื่อใช้ตรวจคำตอบ</summary>
+        <details open>
+          <summary>เปิดดูผลคูณกลางทุกบรรทัดและตรวจเครื่องหมาย</summary>
           <div>
-            \[\begin{bmatrix}1&amp;1&amp;-1\end{bmatrix}
+            <h4>ก้อน 1 · \(\mathbf Z_l=\mathbf B\mathbf Z_b\mathbf B^{\mathsf T}\)</h4>
+            \[
+            \mathbf Z_b\mathbf B^{\mathsf T}
+            =
             \begin{bmatrix}R_3&amp;0&amp;0\\0&amp;R_2&amp;0\\0&amp;0&amp;R_1\end{bmatrix}
-            \begin{bmatrix}1\\1\\-1\end{bmatrix}=R_T\]
-            \[\begin{bmatrix}1&amp;1&amp;-1\end{bmatrix}
+            \begin{bmatrix}1\\1\\-1\end{bmatrix}
+            =\begin{bmatrix}R_3\\R_2\\-R_1\end{bmatrix}
+            \]
+            \[
+            \mathbf B(\mathbf Z_b\mathbf B^{\mathsf T})
+            =1(R_3)+1(R_2)+(-1)(-R_1)=R_T
+            \]
+            <h4>ก้อน 2 · \(+\mathbf B\mathbf Z_b\mathbf i_{sb}\)</h4>
+            \[
+            \mathbf Z_b\mathbf i_{sb}
+            =
             \begin{bmatrix}R_3&amp;0&amp;0\\0&amp;R_2&amp;0\\0&amp;0&amp;R_1\end{bmatrix}
-            \begin{bmatrix}i_s\\i_s\\0\end{bmatrix}=(R_2+R_3)i_s\]
+            \begin{bmatrix}i_s\\i_s\\0\end{bmatrix}
+            =\begin{bmatrix}R_3i_s\\R_2i_s\\0\end{bmatrix}
+            \]
+            \[
+            \mathbf B(\mathbf Z_b\mathbf i_{sb})
+            =1(R_3i_s)+1(R_2i_s)+(-1)(0)=(R_2+R_3)i_s
+            \]
+            <h4>ก้อน 3 · \(-\mathbf B\mathbf v_{sb}\)</h4>
+            \[
+            \mathbf B\mathbf v_{sb}
+            =1(0)+1(0)+(-1)(-v_s)=+v_s
+            \]
+            \[
+            -\mathbf B\mathbf v_{sb}=-(+v_s)=-v_s
+            \]
+            <div class="card warn"><strong>ตรวจเครื่องหมาย:</strong> ใช้ \(\mathbf v_{sb}=[0,0,-v_s]^{\mathsf T}\)
+              เพราะ Branch Card กิ่ง 3 คือ \(v_3=R_1i_3-v_s\). การใส่ \(+v_s\) จะให้ผล \(+v_s\) ทางขวา ซึ่งไม่ใช่โจทย์ภายใต้ข้อตกลงนี้</div>
+            \[
+            \underbrace{R_T}_{\text{ก้อน 1}}j_1
+            =\underbrace{(R_2+R_3)i_s}_{\text{ก้อน 2}}
+            +\underbrace{(-v_s)}_{\text{ก้อน 3}}
+            \]
           </div>
         </details>
       </section>
@@ -263,7 +341,37 @@
       <section id="answers">
         <h2>4 · แตกคำตอบจาก \(j_1\)</h2>
         <figure><img src="assets/fig-04-answer-map.svg" alt="แผนที่จากกระแสวงรอบไปกระแสและแรงดันกิ่ง"><figcaption>ฝั่งกระแสอ่านจาก \(\mathbf B^{\mathsf T}\); ฝั่งแรงดันแทนกลับใน Branch Cards</figcaption></figure>
+        <figure><img src="assets/fig-07-substitution-ladder.svg" alt="บันไดแทนค่าจาก j1 ไปถึงแรงดันกิ่ง"><figcaption>แสดงการแทนค่าและทำส่วนร่วมโดยไม่ข้ามบรรทัด</figcaption></figure>
         <p>ให้ \(K=v_s+R_1i_s\) และ \(R_T=R_1+R_2+R_3\)</p>
+        <details open>
+          <summary>หาค่า \(j_1-i_s\), \(v_1\), \(v_2\), \(v_3\) ทุกขั้น</summary>
+          <div>
+            \[
+            j_1-i_s
+            =\frac{(R_2+R_3)i_s-v_s}{R_T}-\frac{R_Ti_s}{R_T}
+            \]
+            \[
+            =\frac{(R_2+R_3)i_s-v_s-(R_1+R_2+R_3)i_s}{R_T}
+            =-\frac{v_s+R_1i_s}{R_T}=-\frac K{R_T}
+            \]
+            \[
+            v_1=R_3(j_1-i_s)=-\frac{R_3K}{R_T},\qquad
+            v_2=R_2(j_1-i_s)=-\frac{R_2K}{R_T}
+            \]
+            <p>สำหรับกิ่ง 3: \(i_3=-j_1\)</p>
+            \[
+            v_3=R_1(-j_1)-v_s
+            =-R_1\frac{(R_2+R_3)i_s-v_s}{R_T}-\frac{R_Tv_s}{R_T}
+            \]
+            \[
+            =\frac{-R_1(R_2+R_3)i_s+R_1v_s-R_Tv_s}{R_T}
+            \]
+            \[
+            =-\frac{(R_2+R_3)(v_s+R_1i_s)}{R_T}
+            =-\frac{(R_2+R_3)K}{R_T}
+            \]
+          </div>
+        </details>
         <div class="table-wrap">
           <table>
             <thead><tr><th>ปริมาณ</th><th>คำตอบเชิงสัญลักษณ์</th><th>อ่านจาก</th></tr></thead>

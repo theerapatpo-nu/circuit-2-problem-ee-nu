@@ -1,0 +1,320 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>โจทย์ [4.5] — Fundamental Tie-set Analysis (วงจรข่ายที่มีแหล่งกำเนิดไม่อิสระ CCCS) | Circuit Analysis 2</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Chakra+Petch:ital,wght@0,300;0,400;0,600;0,700;1,400&family=Fira+Code:wght@400;500;600;700&family=Sarabun:ital,wght@0,300;0,400;0,600;0,700;1,400&display=swap" rel="stylesheet">
+  <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+  <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+  <style>
+    :root {
+      --bg: #090d16;
+      --card-bg: rgba(16, 24, 40, 0.75);
+      --card-border: rgba(255, 255, 255, 0.08);
+      --text: #f1f5f9;
+      --text-muted: #94a3b8;
+      --primary: #38bdf8;
+      --accent: #f59e0b;
+      --accent-glow: rgba(245, 158, 11, 0.25);
+      --success: #10b981;
+      --surface: rgba(30, 41, 59, 0.5);
+      --font-th: 'Sarabun', sans-serif;
+      --font-head: 'Chakra Petch', sans-serif;
+      --font-code: 'Fira Code', monospace;
+    }
+    body.light {
+      --bg: #f8fafc;
+      --card-bg: rgba(255, 255, 255, 0.88);
+      --card-border: rgba(0, 0, 0, 0.08);
+      --text: #0f172a;
+      --text-muted: #64748b;
+      --primary: #0284c7;
+      --accent: #d97706;
+      --accent-glow: rgba(217, 119, 6, 0.15);
+      --surface: rgba(241, 245, 249, 0.8);
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      background-color: var(--bg);
+      color: var(--text);
+      font-family: var(--font-th);
+      line-height: 1.7;
+      min-height: 100vh;
+      background-image: 
+        radial-gradient(ellipse at 20% 0%, rgba(245, 158, 11, 0.12) 0%, transparent 50%),
+        radial-gradient(ellipse at 80% 100%, rgba(56, 189, 248, 0.08) 0%, transparent 50%);
+    }
+    .top-nav {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      background: rgba(9, 13, 22, 0.85);
+      backdrop-filter: blur(16px);
+      border-bottom: 1px solid var(--card-border);
+      padding: 0.8rem 1.5rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    body.light .top-nav { background: rgba(248, 250, 252, 0.85); }
+    .breadcrumbs {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      font-size: 0.9rem;
+      color: var(--text-muted);
+      flex-wrap: wrap;
+    }
+    .breadcrumbs a {
+      color: var(--primary);
+      text-decoration: none;
+      font-weight: 500;
+      transition: color 0.2s;
+    }
+    .breadcrumbs a:hover { text-decoration: underline; }
+    .breadcrumbs .current {
+      color: var(--text);
+      font-weight: 600;
+    }
+    .theme-toggle {
+      background: var(--surface);
+      border: 1px solid var(--card-border);
+      color: var(--text);
+      padding: 0.4rem 0.8rem;
+      border-radius: 8px;
+      cursor: pointer;
+      font-size: 0.85rem;
+      font-family: var(--font-head);
+    }
+    .container {
+      max-width: 1000px;
+      margin: 2rem auto;
+      padding: 0 1.5rem 4rem;
+    }
+    .header-card {
+      background: var(--card-bg);
+      border: 1px solid var(--card-border);
+      border-radius: 16px;
+      padding: 2rem;
+      margin-bottom: 2rem;
+      backdrop-filter: blur(12px);
+      box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+    }
+    .badge {
+      display: inline-block;
+      padding: 0.3rem 0.8rem;
+      border-radius: 999px;
+      font-size: 0.8rem;
+      font-family: var(--font-head);
+      font-weight: 600;
+      background: rgba(245, 158, 11, 0.15);
+      color: var(--accent);
+      border: 1px solid rgba(245, 158, 11, 0.3);
+      margin-bottom: 1rem;
+    }
+    h1 {
+      font-family: var(--font-head);
+      font-size: 1.8rem;
+      margin-bottom: 0.5rem;
+      color: var(--text);
+    }
+    .subtitle {
+      color: var(--text-muted);
+      font-size: 1rem;
+    }
+    .section-card {
+      background: var(--card-bg);
+      border: 1px solid var(--card-border);
+      border-radius: 16px;
+      padding: 1.8rem;
+      margin-bottom: 1.5rem;
+      backdrop-filter: blur(8px);
+    }
+    .section-card h2 {
+      font-family: var(--font-head);
+      font-size: 1.3rem;
+      margin-bottom: 1rem;
+      color: var(--primary);
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+    .statement-box {
+      background: var(--surface);
+      border-left: 4px solid var(--accent);
+      padding: 1.2rem;
+      border-radius: 0 12px 12px 0;
+      font-size: 1.05rem;
+      margin-bottom: 1.5rem;
+    }
+    .figures-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1.5rem;
+      margin-top: 1.5rem;
+    }
+    @media (max-width: 768px) {
+      .figures-grid { grid-template-columns: 1fr; }
+    }
+    .figure-item {
+      background: var(--surface);
+      border: 1px solid var(--card-border);
+      border-radius: 12px;
+      padding: 1rem;
+      text-align: center;
+    }
+    .figure-item img {
+      max-width: 100%;
+      height: auto;
+      border-radius: 8px;
+      background: #ffffff;
+      padding: 0.5rem;
+    }
+    .figure-caption {
+      margin-top: 0.8rem;
+      font-size: 0.9rem;
+      color: var(--text-muted);
+      font-weight: 500;
+    }
+    .formula-box {
+      background: var(--surface);
+      border: 1px solid var(--card-border);
+      border-radius: 12px;
+      padding: 1.2rem;
+      margin-bottom: 1rem;
+      overflow-x: auto;
+    }
+    .nav-actions {
+      display: flex;
+      gap: 1rem;
+      margin-top: 2rem;
+      flex-wrap: wrap;
+    }
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 0.8rem 1.5rem;
+      border-radius: 10px;
+      text-decoration: none;
+      font-family: var(--font-head);
+      font-weight: 600;
+      font-size: 0.95rem;
+      transition: all 0.2s;
+    }
+    .btn-primary {
+      background: var(--accent);
+      color: #000000;
+      box-shadow: 0 4px 14px var(--accent-glow);
+    }
+    .btn-primary:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 20px var(--accent-glow);
+    }
+    .btn-outline {
+      background: var(--surface);
+      color: var(--text);
+      border: 1px solid var(--card-border);
+    }
+    .btn-outline:hover {
+      background: rgba(255, 255, 255, 0.1);
+      transform: translateY(-2px);
+    }
+  </style>
+</head>
+<body>
+
+  <nav class="top-nav">
+    <div class="breadcrumbs">
+      <a href="../../../index.html">🏠 Portal</a>
+      <span>›</span>
+      <a href="../../index.html">⚡ Circuit 2</a>
+      <span>›</span>
+      <a href="../index.html">📖 บทที่ 4 (Loop Analysis)</a>
+      <span>›</span>
+      <span class="current">โจทย์ [4.5]</span>
+    </div>
+    <button class="theme-toggle" onclick="toggleTheme()">🌓 Theme</button>
+  </nav>
+
+  <div class="container">
+    
+    <div class="header-card">
+      <span class="badge">โจทย์ท้ายบทที่ 4 · หน้า 105</span>
+      <h1>โจทย์ [4.5] — Fundamental Tie-set Analysis</h1>
+      <p class="subtitle">การวิเคราะห์วงจรข่ายความต้านทานที่มีแหล่งกำเนิดไม่อิสระประเภทแหล่งจ่ายกระแสควบคุมด้วยกระแส (CCCS)</p>
+    </div>
+
+    <!-- Section 1: Problem Statement -->
+    <div class="section-card">
+      <h2>📜 คำโจทย์ภาษาไทย (Problem Statement)</h2>
+      <div class="statement-box">
+        พิจารณาวงจรข่ายความต้านทานไฟฟ้าในรูปที่ 4บ.5(ก) กำหนดให้แหล่งกำเนิดกระแสอิสระต่อขนานกับตัวต้านทาน \(R_1\) ตั้งอยู่บน <strong>กิ่งที่ 3</strong> และกำหนดให้แหล่งกำเนิดกระแสไม่อิสระต่อขนานกับตัวต้านทาน \(R_2\) ตั้งอยู่บน <strong>กิ่งที่ 2</strong> และตัวต้านทาน \(R_3\) ตั้งอยู่บน <strong>กิ่งที่ 1</strong> ดังที่แสดงทรีของวงจรข่ายไว้ในรูปที่ 4บ.5(ข) ถ้ากำหนดให้ \(j_1\) เป็นกระแสวงรอบหลักมูลแล้ว <strong>จงเขียนสมการรอบหลักมูลและจงคำนวณหาค่าของแรงดันกิ่งและกระแสกิ่ง</strong>
+      </div>
+
+      <div class="figures-grid">
+        <div class="figure-item">
+          <img src="figures/fig-4b5-a-resistive-network.png" alt="รูปที่ 4บ.5(ก) วงจรข่ายความต้านทาน">
+          <div class="figure-caption">รูปที่ 4บ.5(ก) วงจรข่ายความต้านทาน (Resistive Network)</div>
+        </div>
+        <div class="figure-item">
+          <img src="figures/fig-4b5-b-tree-of-graph.png" alt="รูปที่ 4บ.5(ข) ทรีของกราฟของวงจรข่าย">
+          <div class="figure-caption">รูปที่ 4บ.5(ข) ทรีของกราฟของวงจรข่าย (Tree of Graph)</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Section 2: Topology & Matrix Formulation -->
+    <div class="section-card">
+      <h2>📐 การวิเคราะห์ทางโทโปโลยีและเมทริกซ์หลักมูล</h2>
+      
+      <p style="margin-bottom: 1rem; color: var(--text-muted);">
+        วงจรมีจำนวนปม \(n = 3\), จำนวนกิ่ง \(b = 3\) ทำให้มีจำนวนวงรอบหลักมูล \(l = b - n + 1 = 1\) วงรอบ
+      </p>
+
+      <div class="formula-box">
+        <strong>1. เมทริกซ์วงรอบหลักมูล (Fundamental Tie-set Matrix):</strong>
+        $$\mathbf{B} = \begin{bmatrix} 1 & 1 & -1 \end{bmatrix}$$
+        $$\mathbf{i}_b = \mathbf{B}^{\mathsf T} \mathbf{j} \implies i_1 = +j_1,\quad i_2 = +j_1,\quad i_3 = -j_1$$
+      </div>
+
+      <div class="formula-box">
+        <strong>2. ตัวแปรควบคุม (Controlling Variable):</strong>
+        $$i_x = I_0 - i_3 = I_0 + j_1$$
+      </div>
+
+      <div class="formula-box">
+        <strong>3. สมการรอบหลักมูล (Fundamental Loop Equation):</strong>
+        $$\mathbf{B} \mathbf{v}_b = 0 \implies v_1 + v_2 - v_3 = 0$$
+        $$[R_1 + (1 - \alpha)R_2 + R_3]\,j_1 = (\alpha R_2 - R_1)\,I_0$$
+      </div>
+
+      <div class="formula-box">
+        <strong>4. กระแสวงรอบหลักมูล (\(j_1\)):</strong>
+        $$j_1 = \frac{(\alpha R_2 - R_1)\,I_0}{R_1 + (1 - \alpha)R_2 + R_3}$$
+      </div>
+    </div>
+
+    <!-- Navigation Actions -->
+    <div class="nav-actions">
+      <a href="../4.4/index.html" class="btn btn-outline">⬅️ ดูโจทย์ก่อนหน้า [4.4]</a>
+      <a href="../index.html" class="btn btn-primary">📖 กลับสู่หน้ารวมบทที่ 4</a>
+      <a href="../lecture/303212S1Y2569lec04_5048.pdf" class="btn btn-outline" target="_blank">📄 เปิดเอกสาร Lecture 04 (PDF)</a>
+    </div>
+
+  </div>
+
+  <script>
+    function toggleTheme() {
+      document.body.classList.toggle('light');
+      localStorage.setItem('theme', document.body.classList.contains('light') ? 'light' : 'dark');
+    }
+    if (localStorage.getItem('theme') === 'light') {
+      document.body.classList.add('light');
+    }
+  </script>
+</body>
+</html>

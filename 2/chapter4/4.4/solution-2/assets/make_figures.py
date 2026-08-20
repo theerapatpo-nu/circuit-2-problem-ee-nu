@@ -221,12 +221,123 @@ def figure_04() -> None:
     save("fig-04-answer-map.svg", body, "แผนที่คำตอบจากกระแสวงรอบ", "แตกกระแสวงรอบเป็นกระแสกิ่งและแรงดันกิ่ง พร้อมเงื่อนไขตรวจคำตอบ")
 
 
+def figure_05() -> None:
+    body = '''
+  <text class="title" x="60" y="62">จากสมการกิ่ง 3 บรรทัด → เวกเตอร์ 1 สมการ</text>
+  <text class="small" x="60" y="98">อ่านทีละแถว ห้ามเดาเครื่องหมายจากหน้าตาของเมทริกซ์</text>
+  <g filter="url(#shadow)">
+    <rect class="paper" x="55" y="135" width="1090" height="160" rx="22"/>
+    <rect x="55" y="135" width="125" height="160" rx="22" fill="#dbeafe"/>
+    <text class="head" x="118" y="190" text-anchor="middle">กิ่ง 1</text>
+    <text class="math" x="250" y="200">v₁ = R₃i₁ − R₃iₛ</text>
+    <text class="small" x="250" y="244">แถว 1: Z₁₁=R₃,  vₛ₁=0,  iₛ₁=+iₛ</text>
+    <rect x="815" y="165" width="285" height="92" rx="15" fill="#eff6ff"/>
+    <text class="math" x="958" y="205" text-anchor="middle">[R₃  0  0] i</text>
+    <text class="math" x="958" y="239" text-anchor="middle">+ 0 − R₃(+iₛ)</text>
+
+    <rect class="paper" x="55" y="320" width="1090" height="160" rx="22"/>
+    <rect x="55" y="320" width="125" height="160" rx="22" fill="#dbeafe"/>
+    <text class="head" x="118" y="375" text-anchor="middle">กิ่ง 2</text>
+    <text class="math" x="250" y="385">v₂ = R₂i₂ − R₂iₛ</text>
+    <text class="small" x="250" y="429">แถว 2: Z₂₂=R₂,  vₛ₂=0,  iₛ₂=+iₛ</text>
+    <rect x="815" y="350" width="285" height="92" rx="15" fill="#eff6ff"/>
+    <text class="math" x="958" y="390" text-anchor="middle">[0  R₂  0] i</text>
+    <text class="math" x="958" y="424" text-anchor="middle">+ 0 − R₂(+iₛ)</text>
+
+    <rect class="paper" x="55" y="505" width="1090" height="160" rx="22"/>
+    <rect x="55" y="505" width="125" height="160" rx="22" fill="#ffedd5"/>
+    <text class="head" x="118" y="560" text-anchor="middle">กิ่ง 3</text>
+    <text class="math" x="250" y="570">v₃ = R₁i₃ − vₛ</text>
+    <text class="small" x="250" y="614">แถว 3: Z₃₃=R₁,  vₛ₃=−vₛ,  iₛ₃=0</text>
+    <rect x="815" y="535" width="285" height="92" rx="15" fill="#fff7ed"/>
+    <text class="math" x="958" y="575" text-anchor="middle">[0  0  R₁] i</text>
+    <text class="math" x="958" y="609" text-anchor="middle">+ (−vₛ) − R₁(0)</text>
+  </g>
+  <rect x="145" y="705" width="910" height="90" rx="18" fill="#0f172a"/>
+  <text x="600" y="746" text-anchor="middle" font-family="Georgia,serif" font-size="26" font-style="italic" fill="#fff">v = Zᵦi + vₛᵦ − Zᵦiₛᵦ</text>
+  <text x="600" y="778" text-anchor="middle" font-family="Georgia,serif" font-size="20" fill="#cbd5e1">Zᵦ=diag(R₃,R₂,R₁),  iₛᵦ=[iₛ iₛ 0]ᵀ,  vₛᵦ=[0 0 −vₛ]ᵀ</text>
+'''
+    save("fig-05-branch-vector-assembly.svg", body, "ประกอบสมการกิ่งเป็นเวกเตอร์", "แปลงสมการกิ่งทั้งสามเป็นเมทริกซ์อิมพีแดนซ์และเวกเตอร์แหล่งกำเนิด", 850)
+
+
+def figure_06() -> None:
+    body = '''
+  <text class="title" x="60" y="62">คูณเมทริกซ์ 3 ก้อน: แสดงผลกลางทุกบรรทัด</text>
+  <text class="small" x="60" y="98">กฎสำหรับมือใหม่: คูณจากขวาไปซ้ายก่อน แล้วจึงทำ dot product กับ B</text>
+  <g filter="url(#shadow)">
+    <rect class="paper" x="55" y="135" width="1090" height="190" rx="22"/>
+    <circle cx="105" cy="185" r="25" fill="#2563eb"/><text x="105" y="194" text-anchor="middle" font-size="23" font-weight="700" fill="#fff">1</text>
+    <text class="head" x="145" y="193">Zₗ = B Zᵦ Bᵀ</text>
+    <text class="math" x="105" y="244">ZᵦBᵀ = [R₃, R₂, −R₁]ᵀ</text>
+    <path d="M485 240 H540" stroke="#94a3b8" stroke-width="4" marker-end="url(#arrowDark)"/>
+    <text class="math" x="575" y="244">B(ZᵦBᵀ) = 1(R₃)+1(R₂)+(−1)(−R₁)</text>
+    <text class="chip" x="1090" y="294" text-anchor="end" fill="#2563eb">= R₁+R₂+R₃</text>
+
+    <rect class="paper" x="55" y="350" width="1090" height="190" rx="22"/>
+    <circle cx="105" cy="400" r="25" fill="#059669"/><text x="105" y="409" text-anchor="middle" font-size="23" font-weight="700" fill="#fff">2</text>
+    <text class="head" x="145" y="408">eₛᵢ = +B Zᵦ iₛᵦ</text>
+    <text class="math" x="105" y="459">Zᵦiₛᵦ = [R₃iₛ, R₂iₛ, 0]ᵀ</text>
+    <path d="M500 455 H555" stroke="#94a3b8" stroke-width="4" marker-end="url(#arrowDark)"/>
+    <text class="math" x="590" y="459">B(Zᵦiₛᵦ) = 1(R₃iₛ)+1(R₂iₛ)+(−1)(0)</text>
+    <text class="chip" x="1090" y="509" text-anchor="end" fill="#047857">= (R₂+R₃)iₛ</text>
+
+    <rect class="paper" x="55" y="565" width="1090" height="220" rx="22"/>
+    <circle cx="105" cy="615" r="25" fill="#dc2626"/><text x="105" y="624" text-anchor="middle" font-size="23" font-weight="700" fill="#fff">3</text>
+    <text class="head" x="145" y="623">eₛᵥ = −B vₛᵦ</text>
+    <text class="math" x="105" y="674">Bvₛᵦ = 1(0)+1(0)+(−1)(−vₛ) = +vₛ</text>
+    <path d="M680 670 H735" stroke="#94a3b8" stroke-width="4" marker-end="url(#arrowDark)"/>
+    <text class="math" x="770" y="674">−Bvₛᵦ = −(+vₛ)</text>
+    <rect x="105" y="714" width="990" height="47" rx="12" fill="#fff1f2"/>
+    <text class="chip" x="600" y="746" text-anchor="middle" fill="#be123c">จึงได้ −vₛ · ต้องใช้ vₛᵦ=[0,0,−vₛ]ᵀ ภายใต้ข้อตกลง v₃=R₁i₃−vₛ</text>
+  </g>
+  <rect x="205" y="825" width="790" height="70" rx="17" fill="#0f172a"/>
+  <text x="600" y="870" text-anchor="middle" font-family="Georgia,serif" font-size="29" font-style="italic" fill="#fff">(R₁+R₂+R₃)j₁ = (R₂+R₃)iₛ − vₛ</text>
+'''
+    save("fig-06-full-three-blocks.svg", body, "การคูณเมทริกซ์สามก้อนทุกขั้น", "ผลคูณกลางของอิมพีแดนซ์วงรอบ แหล่งกระแส และแหล่งแรงดัน พร้อมตรวจเครื่องหมาย", 940)
+
+
+def figure_07() -> None:
+    body = '''
+  <text class="title" x="60" y="62">บันไดแทนกลับ: จาก j₁ ไปถึง v₁, v₂, v₃</text>
+  <text class="small" x="60" y="98">แต่ละลูกศรคือการแทนค่าจริงหนึ่งครั้ง ไม่มีการข้ามการทำส่วนร่วม</text>
+  <g filter="url(#shadow)">
+    <rect class="paper" x="55" y="140" width="1090" height="115" rx="22"/>
+    <text class="head" x="90" y="184">ขั้น A · กระแสวงรอบ</text>
+    <text class="mathBig" x="600" y="220" text-anchor="middle">j₁ = [(R₂+R₃)iₛ−vₛ] / Rₜ</text>
+
+    <rect class="paper" x="55" y="295" width="1090" height="115" rx="22"/>
+    <text class="head" x="90" y="339">ขั้น B · คูณ Bᵀ</text>
+    <text class="math" x="600" y="375" text-anchor="middle">i = Bᵀj₁ = [j₁, j₁, −j₁]ᵀ</text>
+
+    <rect class="paper" x="55" y="450" width="1090" height="170" rx="22"/>
+    <text class="head" x="90" y="494">ขั้น C · แทนใน Branch Cards</text>
+    <text class="math" x="105" y="545">v₁ = R₃(j₁−iₛ)</text>
+    <text class="math" x="440" y="545">v₂ = R₂(j₁−iₛ)</text>
+    <text class="math" x="775" y="545">v₃ = R₁(−j₁)−vₛ</text>
+    <text class="small" x="600" y="590" text-anchor="middle">แทน j₁ ด้วยเศษส่วนจากขั้น A ในทั้งสามสมการ</text>
+
+    <rect class="paper" x="55" y="660" width="1090" height="170" rx="22"/>
+    <text class="head" x="90" y="704">ขั้น D · ทำส่วนร่วม Rₜ</text>
+    <text class="math" x="105" y="755">j₁−iₛ = [(R₂+R₃)iₛ−vₛ−Rₜiₛ]/Rₜ</text>
+    <text class="math" x="105" y="800">= −(vₛ+R₁iₛ)/Rₜ</text>
+
+    <rect x="145" y="870" width="910" height="90" rx="18" fill="#0f172a"/>
+    <text x="600" y="909" text-anchor="middle" font-family="Georgia,serif" font-size="24" font-style="italic" fill="#fff">v₁=−R₃K/Rₜ,  v₂=−R₂K/Rₜ</text>
+    <text x="600" y="943" text-anchor="middle" font-family="Georgia,serif" font-size="24" font-style="italic" fill="#fff">v₃=−(R₂+R₃)K/Rₜ,  K=vₛ+R₁iₛ</text>
+  </g>
+'''
+    save("fig-07-substitution-ladder.svg", body, "บันไดการแทนค่ากระแสและแรงดัน", "ขั้นตอนจากกระแสวงรอบผ่านกระแสกิ่งและสมการกิ่งไปสู่แรงดันกิ่ง", 1010)
+
+
 def main() -> None:
     figure_01()
     figure_02()
     figure_03()
     figure_04()
-    print("Generated 4 SVG files in", OUT)
+    figure_05()
+    figure_06()
+    figure_07()
+    print("Generated 7 SVG files in", OUT)
 
 
 if __name__ == "__main__":

@@ -258,6 +258,7 @@
       <strong>สารบัญ</strong>
       <nav>
         <a href="#answer">คำตอบย่อ</a>
+        <a href="#beginner">เริ่มจากศูนย์</a>
         <a href="#problem">โจทย์และสัญกรณ์</a>
         <a href="#duality">Loop / Cut-set duality</a>
         <a href="#tieset">สร้างเมทริกซ์ B</a>
@@ -308,6 +309,37 @@
           เปิด <a href="solution-2/index.html">Solution 2 — Visual Matrix</a> เพื่อวงทิศบนรูป อ่าน
           \(\mathbf B\) และคูณเมทริกซ์เป็นสามก้อน โดยไม่ต้องเริ่มจากสมการยาวหลายบรรทัด
         </div>
+      </section>
+
+      <section id="beginner">
+        <h2>เริ่มจากศูนย์ — เมทริกซ์แต่ละตัวคืออะไร</h2>
+        <p class="lead">ทุกเวกเตอร์เรียงตามกิ่ง <strong>[1,2,3]</strong> เหมือนกันตลอดข้อ ห้ามสลับลำดับกลางทาง</p>
+        <div class="table-wrap">
+          <table>
+            <thead><tr><th>ตัวแปร</th><th>ขนาด</th><th>ความหมาย</th><th>ค่าในข้อนี้</th></tr></thead>
+            <tbody>
+              <tr><td>\(\mathbf B\)</td><td>\(1\times3\)</td><td>แถวแทนวง \(j_1\); หลักแทนกิ่ง 1,2,3</td><td>\([1\ 1\ {-1}]\)</td></tr>
+              <tr><td>\(\mathbf B^{\mathsf T}\)</td><td>\(3\times1\)</td><td>กลับแถวเป็นหลักเพื่อสร้างกระแสกิ่ง</td><td>\([1\ 1\ {-1}]^{\mathsf T}\)</td></tr>
+              <tr><td>\(\mathbf Z_b\)</td><td>\(3\times3\)</td><td>ความต้านทานเรียงตามเลขกิ่ง</td><td>\(\operatorname{diag}(R_3,R_2,R_1)\)</td></tr>
+              <tr><td>\(\mathbf i_{sb}\)</td><td>\(3\times1\)</td><td>แหล่งกระแสในกิ่ง 1,2,3</td><td>\([i_s\ i_s\ 0]^{\mathsf T}\)</td></tr>
+              <tr><td>\(\mathbf v_{sb}\)</td><td>\(3\times1\)</td><td>แรงดันแหล่งแบบมีเครื่องหมายตามทิศกิ่ง</td><td>\([0\ 0\ {-v_s}]^{\mathsf T}\)</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="card blue">
+          <strong>ตรวจขนาดก่อนคูณ</strong>
+          \[
+          \underbrace{(1\times3)}_{B}
+          \underbrace{(3\times3)}_{Z_b}
+          \underbrace{(3\times1)}_{B^{\mathsf T}}
+          =\underbrace{(1\times1)}_{Z_l}
+          \]
+          ผลเป็น \(1\times1\) เพราะมีวงรอบอิสระเพียงวงเดียว
+        </div>
+        <figure>
+          <img src="solution-2/assets/fig-01-exam-roadmap.svg" alt="แผนทำโจทย์จากรูปไปสู่เมทริกซ์สำหรับผู้เริ่มต้น">
+          <figcaption>ลำดับการทำงาน: กำหนดวง → อ่านเครื่องหมาย → กรอกเมทริกซ์ → คูณทีละก้อน</figcaption>
+        </figure>
       </section>
 
       <section id="problem">
@@ -395,8 +427,12 @@
           <div class="card blue">\[v_2=R_2(i_2-i_s)\]</div>
           <div class="card warn">\[v_3=R_1i_3-v_s\]</div>
         </div>
-        <details>
-          <summary>ดูรูปเมทริกซ์ของสมการกิ่ง</summary>
+        <figure>
+          <img src="solution-2/assets/fig-05-branch-vector-assembly.svg" alt="การแปลงสมการกิ่งสามบรรทัดเป็นเวกเตอร์ทีละแถว">
+          <figcaption>ทุกแถวของเมทริกซ์ย้อนกลับไปหาสมการกิ่งจริงได้ จึงไม่ต้องเดาสมาชิกของเวกเตอร์</figcaption>
+        </figure>
+        <details open>
+          <summary>กระจายสมการกิ่งแบบเมทริกซ์ทุกบรรทัด</summary>
           <div>
             \[
               \mathbf Z_b=\operatorname{diag}(R_3,R_2,R_1),\quad
@@ -406,7 +442,28 @@
             \[
               \mathbf v_b=\mathbf Z_b\mathbf i_b+\mathbf v_{sb}-\mathbf Z_b\mathbf i_{sb}
             \]
-            <p>\(\mathbf v_{sb}\) เก็บแรงดันตกแบบมีเครื่องหมายตามทิศกิ่ง จึงใช้ \(-v_s\) ที่กิ่ง 3</p>
+            \[
+            \begin{bmatrix}v_1\\v_2\\v_3\end{bmatrix}
+            =
+            \begin{bmatrix}R_3&amp;0&amp;0\\0&amp;R_2&amp;0\\0&amp;0&amp;R_1\end{bmatrix}
+            \begin{bmatrix}i_1\\i_2\\i_3\end{bmatrix}
+            +\begin{bmatrix}0\\0\\-v_s\end{bmatrix}
+            -
+            \begin{bmatrix}R_3&amp;0&amp;0\\0&amp;R_2&amp;0\\0&amp;0&amp;R_1\end{bmatrix}
+            \begin{bmatrix}i_s\\i_s\\0\end{bmatrix}
+            \]
+            \[
+            =\begin{bmatrix}R_3i_1\\R_2i_2\\R_1i_3\end{bmatrix}
+            +\begin{bmatrix}0\\0\\-v_s\end{bmatrix}
+            -\begin{bmatrix}R_3i_s\\R_2i_s\\0\end{bmatrix}
+            \]
+            \[
+            =\begin{bmatrix}
+            R_3i_1-R_3i_s\\R_2i_2-R_2i_s\\R_1i_3-v_s
+            \end{bmatrix}
+            \]
+            <p>แถวสุดท้ายให้ \(v_1=R_3(i_1-i_s)\), \(v_2=R_2(i_2-i_s)\),
+              \(v_3=R_1i_3-v_s\) ครบทั้งสามกิ่ง</p>
           </div>
         </details>
       </section>
@@ -417,24 +474,58 @@
           <img src="assets/fig-05-matrix-solve.svg" alt="การประกอบสมการวงรอบแบบเมทริกซ์">
           <figcaption>แยก loop impedance, Norton drive และ Thévenin drive เพื่อตรวจเครื่องหมาย</figcaption>
         </figure>
+        <figure>
+          <img src="solution-2/assets/fig-06-full-three-blocks.svg" alt="ผลคูณกลางทุกบรรทัดของเมทริกซ์สามก้อน">
+          <figcaption>คูณจากขวาไปซ้ายก่อน แล้วทำ dot product กับ \(\mathbf B\)</figcaption>
+        </figure>
         <details open>
-          <summary>พิสูจน์สมการวงรอบทีละก้อน</summary>
+          <summary>พิสูจน์สมการวงรอบทุกผลคูณกลาง</summary>
           <div>
             \[
               \mathbf B\mathbf Z_b\mathbf B^{\mathsf T}\mathbf j
               =\mathbf B\mathbf Z_b\mathbf i_{sb}-\mathbf B\mathbf v_{sb}
             \]
+            <h4>ก้อน 1 · อิมพีแดนซ์วงรอบ</h4>
             \[
-              \mathbf B\mathbf Z_b\mathbf B^{\mathsf T}=R_1+R_2+R_3=R_T
+            \mathbf Z_b\mathbf B^{\mathsf T}
+            =\begin{bmatrix}R_3&amp;0&amp;0\\0&amp;R_2&amp;0\\0&amp;0&amp;R_1\end{bmatrix}
+            \begin{bmatrix}1\\1\\-1\end{bmatrix}
+            =\begin{bmatrix}R_3\\R_2\\-R_1\end{bmatrix}
             \]
             \[
-              \mathbf B\mathbf Z_b\mathbf i_{sb}=(R_2+R_3)i_s,\qquad
-              \mathbf B\mathbf v_{sb}=v_s
+            \mathbf B(\mathbf Z_b\mathbf B^{\mathsf T})
+            =1(R_3)+1(R_2)+(-1)(-R_1)=R_T
             \]
+            <h4>ก้อน 2 · แหล่งกระแส</h4>
+            \[
+            \mathbf Z_b\mathbf i_{sb}
+            =\begin{bmatrix}R_3i_s\\R_2i_s\\0\end{bmatrix}
+            \]
+            \[
+            \mathbf B(\mathbf Z_b\mathbf i_{sb})
+            =1(R_3i_s)+1(R_2i_s)+(-1)(0)=(R_2+R_3)i_s
+            \]
+            <h4>ก้อน 3 · แหล่งแรงดัน</h4>
+            \[
+            \mathbf B\mathbf v_{sb}
+            =1(0)+1(0)+(-1)(-v_s)=+v_s
+            \]
+            \[
+            -\mathbf B\mathbf v_{sb}=-(+v_s)=-v_s
+            \]
+            <div class="card warn">
+              <strong>ห้ามสลับเครื่องหมาย:</strong> เนื่องจาก \(v_3=R_1i_3-v_s\), ต้องใช้
+              \(\mathbf v_{sb}=[0,0,-v_s]^{\mathsf T}\). ถ้าใช้ \(+v_s\), ผลคูณจริงจะเป็น \(+v_s\)
+              ทางขวาและไม่ตรงกับสมการกิ่งเดิม
+            </div>
             <div class="answer">
               \[
-                R_Tj_1=(R_2+R_3)i_s-v_s,\qquad
-                j_1=\frac{(R_2+R_3)i_s-v_s}{R_T}
+              \underbrace{R_T}_{\text{ก้อน 1}}j_1
+              =\underbrace{(R_2+R_3)i_s}_{\text{ก้อน 2}}
+              +\underbrace{(-v_s)}_{\text{ก้อน 3}}
+              \]
+              \[
+              j_1=\frac{(R_2+R_3)i_s-v_s}{R_T}
               \]
             </div>
           </div>
@@ -447,6 +538,40 @@
           <img src="assets/fig-06-symbolic-results.svg" alt="คำตอบเชิงสัญลักษณ์ของกระแสและแรงดันทุกกิ่ง">
           <figcaption>แรงดันปมคือ \(V_B=-v_1\) และ \(V_A=-v_3\) เมื่อ \(V_O=0\)</figcaption>
         </figure>
+        <figure>
+          <img src="solution-2/assets/fig-07-substitution-ladder.svg" alt="บันไดการแทนค่าจาก j1 ไปกระแสและแรงดันกิ่ง">
+          <figcaption>ทุกลูกศรแทนการแทนค่าหนึ่งครั้งและการทำส่วนร่วมหนึ่งขั้น</figcaption>
+        </figure>
+        <details open>
+          <summary>ดูการทำส่วนร่วมเพื่อหาแรงดันกิ่งทุกบรรทัด</summary>
+          <div>
+            <p>ให้ \(K=v_s+R_1i_s\) และ \(R_T=R_1+R_2+R_3\)</p>
+            \[
+            j_1-i_s
+            =\frac{(R_2+R_3)i_s-v_s}{R_T}-\frac{R_Ti_s}{R_T}
+            \]
+            \[
+            =\frac{(R_2+R_3)i_s-v_s-(R_1+R_2+R_3)i_s}{R_T}
+            =-\frac{K}{R_T}
+            \]
+            \[
+            v_1=R_3(j_1-i_s)=-\frac{R_3K}{R_T},\qquad
+            v_2=R_2(j_1-i_s)=-\frac{R_2K}{R_T}
+            \]
+            <p>สำหรับกิ่ง 3 ใช้ \(i_3=-j_1\):</p>
+            \[
+            v_3=-R_1j_1-v_s
+            =-R_1\frac{(R_2+R_3)i_s-v_s}{R_T}-\frac{R_Tv_s}{R_T}
+            \]
+            \[
+            =\frac{-R_1(R_2+R_3)i_s+R_1v_s-R_Tv_s}{R_T}
+            \]
+            \[
+            =-\frac{(R_2+R_3)(v_s+R_1i_s)}{R_T}
+            =-\frac{(R_2+R_3)K}{R_T}
+            \]
+          </div>
+        </details>
         <div class="table-wrap">
           <table>
             <thead><tr><th>ปริมาณ</th><th>คำตอบ</th></tr></thead>

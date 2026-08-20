@@ -45,6 +45,60 @@ $$
 
 ---
 
+# 0. คู่มืออ่านเมทริกซ์สำหรับนิสิตที่เริ่มจากศูนย์
+
+ส่วนนี้กำหนดความหมายก่อนคำนวณ เพื่อไม่ให้ต้องจินตนาการว่าแถวและหลักมาจากที่ใด
+
+| ตัวแปร | ขนาด | แถวแทนอะไร | หลักแทนอะไร |
+|---|---:|---|---|
+| $\mathbf B$ | $1\times3$ | วงรอบหลักมูล $j_1$ | กิ่ง $1,2,3$ ตามลำดับ |
+| $\mathbf B^{\mathsf T}$ | $3\times1$ | กิ่ง $1,2,3$ | วงรอบ $j_1$ |
+| $\mathbf Z_b$ | $3\times3$ | กิ่งที่รับแรงดัน | กิ่งที่มีกระแส; วงจรนี้ไม่มี mutual resistance จึงเป็นแนวทแยง |
+| $\mathbf i_b,\mathbf v_b$ | $3\times1$ | สมาชิกที่ $k$ คือกระแส/แรงดันกิ่ง $k$ | หนึ่งหลัก |
+| $\mathbf i_{sb},\mathbf v_{sb}$ | $3\times1$ | สมาชิกที่ $k$ คือแหล่งกำเนิดในกิ่ง $k$ | หนึ่งหลัก |
+| $\mathbf j$ | $1\times1$ | สมาชิกเดียวคือ $j_1$ | หนึ่งหลัก |
+
+## 0.1 ลำดับกิ่งเป็นกติกาที่ห้ามเปลี่ยนกลางทาง
+
+ทุกเวกเตอร์ในเฉลยเรียงเป็น $[1,2,3]$ ดังนั้น
+
+$$
+\mathbf i_b=\begin{bmatrix}i_1\\i_2\\i_3\end{bmatrix},\quad
+\mathbf v_b=\begin{bmatrix}v_1\\v_2\\v_3\end{bmatrix}.
+$$
+
+กิ่ง 1 มี $R_3$, กิ่ง 2 มี $R_2$, และกิ่ง 3 มี $R_1$ จึงต้องเขียน
+
+$$
+\mathbf Z_b=\operatorname{diag}(R_3,R_2,R_1),
+$$
+
+ไม่ใช่ $\operatorname{diag}(R_1,R_2,R_3)$. ดัชนีของ $R$ บอกชื่ออุปกรณ์ แต่ตำแหน่งในเมทริกซ์บอกเลขกิ่ง
+
+## 0.2 กฎคูณที่ใช้ตลอดข้อ
+
+ถ้าแถว $[a\ b\ c]$ คูณหลัก $[x\ y\ z]^{\mathsf T}$ จะได้
+
+$$
+\begin{bmatrix}a&b&c\end{bmatrix}
+\begin{bmatrix}x\\y\\z\end{bmatrix}=ax+by+cz.
+$$
+
+สำหรับผลคูณสามตัวให้คูณจากขวาไปซ้ายก่อน ตัวอย่าง
+
+$$
+\underbrace{\mathbf B}_{1\times3}
+\underbrace{\mathbf Z_b}_{3\times3}
+\underbrace{\mathbf B^{\mathsf T}}_{3\times1}
+=\underbrace{\mathbf Z_l}_{1\times1}.
+$$
+
+ผล $1\times1$ เป็นตัวเลขสเกลาร์หนึ่งค่า เพราะวงจรนี้มีวงรอบอิสระเพียงหนึ่งวง
+
+![แผนการคูณเมทริกซ์สำหรับผู้เริ่มต้น](solution-2/assets/fig-01-exam-roadmap.svg)
+
+---
+
 # 1. กรอบความคิด: ความสมมาตรของ loop/tie-set กับ cut-set
 
 ## 1.1 ตัวแปรอิสระของวงจรถูกกำหนดโดยโทโพโลยี
@@ -265,11 +319,72 @@ $$
 
 ซึ่งตรงกับรูปแบบสมการ (4-3) ของเอกสารบรรยาย และเมื่อกระจายแต่ละแถวจะได้สมการกิ่งทั้งสามข้างต้นพอดี
 
+![การประกอบสมการกิ่งเป็นเวกเตอร์ทีละแถว](solution-2/assets/fig-05-branch-vector-assembly.svg)
+
+### 4.5 กระจายสมการเมทริกซ์กลับเป็นสามแถวเพื่อพิสูจน์
+
+แทนเมทริกซ์ทุกตัวโดยยังไม่ยุบขั้น:
+
+$$
+\begin{bmatrix}v_1\\v_2\\v_3\end{bmatrix}
+=
+\begin{bmatrix}R_3&0&0\\0&R_2&0\\0&0&R_1\end{bmatrix}
+\begin{bmatrix}i_1\\i_2\\i_3\end{bmatrix}
++\begin{bmatrix}0\\0\\-v_s\end{bmatrix}
+-
+\begin{bmatrix}R_3&0&0\\0&R_2&0\\0&0&R_1\end{bmatrix}
+\begin{bmatrix}i_s\\i_s\\0\end{bmatrix}.
+$$
+
+ผลคูณเมทริกซ์สองชุดคือ
+
+$$
+\begin{bmatrix}R_3&0&0\\0&R_2&0\\0&0&R_1\end{bmatrix}
+\begin{bmatrix}i_1\\i_2\\i_3\end{bmatrix}
+=\begin{bmatrix}R_3i_1\\R_2i_2\\R_1i_3\end{bmatrix},
+$$
+
+$$
+\begin{bmatrix}R_3&0&0\\0&R_2&0\\0&0&R_1\end{bmatrix}
+\begin{bmatrix}i_s\\i_s\\0\end{bmatrix}
+=\begin{bmatrix}R_3i_s\\R_2i_s\\0\end{bmatrix}.
+$$
+
+แทนผลคูณกลับ:
+
+$$
+\begin{bmatrix}v_1\\v_2\\v_3\end{bmatrix}
+=
+\begin{bmatrix}R_3i_1\\R_2i_2\\R_1i_3\end{bmatrix}
++\begin{bmatrix}0\\0\\-v_s\end{bmatrix}
+-\begin{bmatrix}R_3i_s\\R_2i_s\\0\end{bmatrix}
+$$
+
+$$
+=\begin{bmatrix}
+R_3i_1-R_3i_s\\
+R_2i_2-R_2i_s\\
+R_1i_3-v_s
+\end{bmatrix}.
+$$
+
+ดังนั้นแถว 1, 2, 3 คือสมการในหัวข้อ 4.1, 4.2, 4.3 ตามลำดับ ไม่มีสมการใดถูกเพิ่มหรือละทิ้ง
+
 ---
 
 # 5. สร้างและแก้สมการวงรอบในรูปเมทริกซ์
 
 ![การประกอบสมการเมทริกซ์และแก้หา j1](assets/fig-05-matrix-solve.svg)
+
+ในหัวข้อนี้จะไม่ยุบผลคูณสามตัวในบรรทัดเดียว แต่จะแสดงผลคูณกลางทุกตัว
+
+| ก้อน | ขนาดก่อนคูณ | ผลที่ต้องได้ | ความหมาย |
+|---|---|---|---|
+| $\mathbf B\mathbf Z_b\mathbf B^{\mathsf T}$ | $(1\times3)(3\times3)(3\times1)$ | $1\times1$ | อิมพีแดนซ์วงรอบ $\mathbf Z_l$ |
+| $\mathbf B\mathbf Z_b\mathbf i_{sb}$ | $(1\times3)(3\times3)(3\times1)$ | $1\times1$ | แรงขับจากแหล่งกระแส |
+| $-\mathbf B\mathbf v_{sb}$ | $(1\times3)(3\times1)$ | $1\times1$ | แรงขับจากแหล่งแรงดัน |
+
+![การคูณเมทริกซ์สามก้อนโดยแสดงผลกลาง](solution-2/assets/fig-06-full-three-blocks.svg)
 
 เริ่มจาก $\mathbf B\mathbf v_b=\mathbf0$ แล้วแทนสมการกิ่งและ
 $\mathbf i_b=\mathbf B^{\mathsf T}\mathbf j$
@@ -288,30 +403,103 @@ $$
 =\mathbf B\mathbf Z_b\mathbf i_{sb}-\mathbf B\mathbf v_{sb}}
 $$
 
-คำนวณทีละก้อน
+คำนวณทีละก้อน โดยคูณจากขวาไปซ้าย
+
+### ก้อนที่ 1: $\mathbf Z_l=\mathbf B\mathbf Z_b\mathbf B^{\mathsf T}$
+
+ขั้นแรก ทรานสโพสแถว $\mathbf B$ ให้เป็นหลัก
+
+$$
+\mathbf B^{\mathsf T}=\begin{bmatrix}1\\1\\-1\end{bmatrix}.
+$$
+
+ขั้นที่สอง คูณ $\mathbf Z_b\mathbf B^{\mathsf T}$ ทีละแถว
+
+$$
+\begin{bmatrix}R_3&0&0\\0&R_2&0\\0&0&R_1\end{bmatrix}
+\begin{bmatrix}1\\1\\-1\end{bmatrix}
+=\begin{bmatrix}
+R_3(1)+0(1)+0(-1)\\
+0(1)+R_2(1)+0(-1)\\
+0(1)+0(1)+R_1(-1)
+\end{bmatrix}
+=\begin{bmatrix}R_3\\R_2\\-R_1\end{bmatrix}.
+$$
+
+ขั้นที่สาม นำ $\mathbf B$ มาทำ dot product
 
 $$
 \mathbf B\mathbf Z_b\mathbf B^{\mathsf T}
 =\begin{bmatrix}1&1&-1\end{bmatrix}
-\begin{bmatrix}R_3&0&0\\0&R_2&0\\0&0&R_1\end{bmatrix}
-\begin{bmatrix}1\\1\\-1\end{bmatrix}
-=R_1+R_2+R_3=R_T
+\begin{bmatrix}R_3\\R_2\\-R_1\end{bmatrix}
 $$
+
+$$
+=1(R_3)+1(R_2)+(-1)(-R_1)
+=R_1+R_2+R_3=R_T.
+$$
+
+### ก้อนที่ 2: $+\mathbf B\mathbf Z_b\mathbf i_{sb}$
+
+ขั้นแรก คูณ $\mathbf Z_b\mathbf i_{sb}$
+
+$$
+\begin{bmatrix}R_3&0&0\\0&R_2&0\\0&0&R_1\end{bmatrix}
+\begin{bmatrix}i_s\\i_s\\0\end{bmatrix}
+=\begin{bmatrix}
+R_3i_s+0i_s+0(0)\\
+0i_s+R_2i_s+0(0)\\
+0i_s+0i_s+R_1(0)
+\end{bmatrix}
+=\begin{bmatrix}R_3i_s\\R_2i_s\\0\end{bmatrix}.
+$$
+
+ขั้นที่สอง คูณด้วย $\mathbf B$
 
 $$
 \mathbf B\mathbf Z_b\mathbf i_{sb}
 =\begin{bmatrix}1&1&-1\end{bmatrix}
 \begin{bmatrix}R_3i_s\\R_2i_s\\0\end{bmatrix}
-=(R_2+R_3)i_s
 $$
+
+$$
+=1(R_3i_s)+1(R_2i_s)+(-1)(0)
+=(R_2+R_3)i_s.
+$$
+
+### ก้อนที่ 3: $-\mathbf B\mathbf v_{sb}$
+
+คำนวณ $\mathbf B\mathbf v_{sb}$ ก่อน
 
 $$
 \mathbf B\mathbf v_{sb}
 =\begin{bmatrix}1&1&-1\end{bmatrix}
-\begin{bmatrix}0\\0\\-v_s\end{bmatrix}=v_s
+\begin{bmatrix}0\\0\\-v_s\end{bmatrix}
 $$
 
+$$
+=1(0)+1(0)+(-1)(-v_s)=+v_s.
+$$
+
+จากนั้นใช้เครื่องหมายลบที่อยู่หน้าก้อนตามสมการ (4-4)
+
+$$
+-\mathbf B\mathbf v_{sb}=-(+v_s)=-v_s.
+$$
+
+> **เหตุผลที่สมาชิกตัวที่ 3 เป็น $-v_s$:** เรากำหนดสมการกิ่งไว้ว่า
+> $v_3=R_1i_3-v_s$ จึงต้องเขียน $\mathbf v_{sb}=[0,0,-v_s]^{\mathsf T}$.
+> หากใส่ $+v_s$ ผลจะกลับเครื่องหมายและไม่ตรงกับสมการกิ่งที่พิสูจน์ในหัวข้อ 4.3
+
 ดังนั้น
+
+$$
+\underbrace{(R_1+R_2+R_3)}_{\mathbf Z_l}j_1
+=\underbrace{(R_2+R_3)i_s}_{+\mathbf B\mathbf Z_b\mathbf i_{sb}}
++\underbrace{(-v_s)}_{-\mathbf B\mathbf v_{sb}}
+$$
+
+ตัดวงเล็บ $+(-v_s)$ ให้เป็น $-v_s$:
 
 $$
 \boxed{R_Tj_1=(R_2+R_3)i_s-v_s}
@@ -359,11 +547,29 @@ $$
 
 ## 6.2 แรงดันกิ่ง
 
+![บันไดการแทนค่าจากกระแสวงรอบไปแรงดันกิ่ง](solution-2/assets/fig-07-substitution-ladder.svg)
+
 กำหนด $K=v_s+R_1i_s$ เพื่อลดความยาวของนิพจน์ จากกิ่งที่ 1
 
 $$
 v_1=R_3(j_1-i_s)
-=R_3\frac{(R_2+R_3)i_s-v_s-R_Ti_s}{R_T}
+$$
+
+แทน $j_1$ และเขียน $i_s=R_Ti_s/R_T$ เพื่อทำส่วนร่วม
+
+$$
+v_1
+=R_3\left[
+\frac{(R_2+R_3)i_s-v_s}{R_T}-\frac{R_Ti_s}{R_T}
+\right]
+$$
+
+$$
+=R_3\frac{(R_2+R_3)i_s-v_s-(R_1+R_2+R_3)i_s}{R_T}
+$$
+
+$$
+=R_3\frac{-v_s-R_1i_s}{R_T}
 =-\frac{R_3(v_s+R_1i_s)}{R_T}
 $$
 
@@ -371,16 +577,37 @@ $$
 \boxed{v_1=-\frac{R_3K}{R_T}}
 $$
 
-ในทำนองเดียวกัน
+กิ่งที่ 2 มีวงเล็บ $j_1-i_s$ ชุดเดียวกับกิ่ง 1 แต่คูณด้วย $R_2$
+
+$$
+v_2=R_2(j_1-i_s)
+=R_2\frac{-v_s-R_1i_s}{R_T}
+=-\frac{R_2(v_s+R_1i_s)}{R_T}
+$$
 
 $$
 \boxed{v_2=-\frac{R_2K}{R_T}}
 $$
 
-และจากกิ่งที่ 3
+กิ่งที่ 3 ใช้ $i_3=-j_1$ ก่อน แล้วทำส่วนร่วมอย่างชัดเจน
 
 $$
 v_3=R_1(-j_1)-v_s
+$$
+
+$$
+=-R_1\frac{(R_2+R_3)i_s-v_s}{R_T}-\frac{R_Tv_s}{R_T}
+$$
+
+$$
+=\frac{-R_1(R_2+R_3)i_s+R_1v_s-(R_1+R_2+R_3)v_s}{R_T}
+$$
+
+$$
+=\frac{-R_1(R_2+R_3)i_s-(R_2+R_3)v_s}{R_T}
+$$
+
+$$
 =-\frac{(R_2+R_3)(v_s+R_1i_s)}{R_T}
 $$
 
