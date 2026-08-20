@@ -1,0 +1,39 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 790" role="img" aria-label="แบบจำลองกิ่งและเวกเตอร์กิ่ง" font-family="'Noto Sans Thai','Sarabun','IBM Plex Sans Thai','Segoe UI',sans-serif">
+<title>แบบจำลองกิ่งและเวกเตอร์กิ่ง</title><defs><marker id="arr-ink" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0 L10 5 L0 10 Z" fill="#172033"/></marker><marker id="arr-blue" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0 L10 5 L0 10 Z" fill="#2563eb"/></marker><marker id="arr-red" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0 L10 5 L0 10 Z" fill="#dc2626"/></marker><marker id="arr-green" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0 L10 5 L0 10 Z" fill="#059669"/></marker><marker id="arr-purple" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0 L10 5 L0 10 Z" fill="#7c3aed"/></marker><marker id="arr-amber" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0 L10 5 L0 10 Z" fill="#b45309"/></marker><marker id="arr-cyan" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0 L10 5 L0 10 Z" fill="#0891b2"/></marker><marker id="arr-pink" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0 L10 5 L0 10 Z" fill="#db2777"/></marker></defs>
+<rect width="1200" height="790" fill="#ffffff"/>
+<text x="54.0" y="55.0" font-size="29" fill="#172033" text-anchor="start" font-weight="800" font-family="'Noto Sans Thai','Sarabun','IBM Plex Sans Thai','Segoe UI',sans-serif">Branch Cards ก่อนคูณเมทริกซ์</text>
+<text x="54.0" y="86.0" font-size="16" fill="#64748b" text-anchor="start" font-weight="400" font-family="'Noto Sans Thai','Sarabun','IBM Plex Sans Thai','Segoe UI',sans-serif">ทุกแถวของ V=ZI+Vₛ−ZIₛ มองเห็นได้จากการ์ด</text>
+<line x1="54" y1="105" x2="1146" y2="105" stroke="#cbd5e1" stroke-width="1.5" stroke-linecap="round"/>
+<rect x="55" y="150" width="250" height="235" rx="18" fill="#fef2f2" stroke="#dc2626" stroke-width="1.7"/>
+<rect x="75" y="170" width="170" height="38" rx="19" fill="#dc2626" stroke="#dc2626" stroke-width="1"/>
+<text x="160.0" y="195.0" font-size="14" fill="#ffffff" text-anchor="middle" font-weight="700" font-family="'Noto Sans Thai','Sarabun','IBM Plex Sans Thai','Segoe UI',sans-serif">กิ่ง 1 · Thévenin</text>
+<text x="79.0" y="250.0" font-size="17" fill="#172033" text-anchor="start" font-weight="600" font-family="'STIX Two Math','Cambria Math','Times New Roman',serif">Z₁=R₁</text>
+<text x="79.0" y="288.0" font-size="17" fill="#172033" text-anchor="start" font-weight="600" font-family="'STIX Two Math','Cambria Math','Times New Roman',serif">Vsb,1=+V₀</text>
+<text x="79.0" y="326.0" font-size="17" fill="#172033" text-anchor="start" font-weight="600" font-family="'STIX Two Math','Cambria Math','Times New Roman',serif">V₁=R₁I₁+V₀</text>
+<rect x="335" y="150" width="250" height="235" rx="18" fill="#eff6ff" stroke="#2563eb" stroke-width="1.7"/>
+<rect x="355" y="170" width="170" height="38" rx="19" fill="#2563eb" stroke="#2563eb" stroke-width="1"/>
+<text x="440.0" y="195.0" font-size="14" fill="#ffffff" text-anchor="middle" font-weight="700" font-family="'Noto Sans Thai','Sarabun','IBM Plex Sans Thai','Segoe UI',sans-serif">กิ่ง 2 · Norton</text>
+<text x="359.0" y="250.0" font-size="17" fill="#172033" text-anchor="start" font-weight="600" font-family="'STIX Two Math','Cambria Math','Times New Roman',serif">Z₂=R₂</text>
+<text x="359.0" y="288.0" font-size="17" fill="#172033" text-anchor="start" font-weight="600" font-family="'STIX Two Math','Cambria Math','Times New Roman',serif">Isb,2=+jI₀</text>
+<text x="359.0" y="326.0" font-size="17" fill="#172033" text-anchor="start" font-weight="600" font-family="'STIX Two Math','Cambria Math','Times New Roman',serif">V₂=R₂(I₂−jI₀)</text>
+<rect x="615" y="150" width="250" height="235" rx="18" fill="#ecfdf5" stroke="#059669" stroke-width="1.7"/>
+<rect x="635" y="170" width="170" height="38" rx="19" fill="#059669" stroke="#059669" stroke-width="1"/>
+<text x="720.0" y="195.0" font-size="14" fill="#ffffff" text-anchor="middle" font-weight="700" font-family="'Noto Sans Thai','Sarabun','IBM Plex Sans Thai','Segoe UI',sans-serif">กิ่ง 3 · Capacitor</text>
+<text x="639.0" y="250.0" font-size="17" fill="#172033" text-anchor="start" font-weight="600" font-family="'STIX Two Math','Cambria Math','Times New Roman',serif">Z₃=−jXC</text>
+<text x="639.0" y="288.0" font-size="17" fill="#172033" text-anchor="start" font-weight="600" font-family="'STIX Two Math','Cambria Math','Times New Roman',serif">ไม่มี source</text>
+<text x="639.0" y="326.0" font-size="17" fill="#172033" text-anchor="start" font-weight="600" font-family="'STIX Two Math','Cambria Math','Times New Roman',serif">V₃=ZCI₃</text>
+<rect x="895" y="150" width="250" height="235" rx="18" fill="#fff7ed" stroke="#b45309" stroke-width="1.7"/>
+<rect x="915" y="170" width="170" height="38" rx="19" fill="#b45309" stroke="#b45309" stroke-width="1"/>
+<text x="1000.0" y="195.0" font-size="14" fill="#ffffff" text-anchor="middle" font-weight="700" font-family="'Noto Sans Thai','Sarabun','IBM Plex Sans Thai','Segoe UI',sans-serif">กิ่ง 4 · Inductor</text>
+<text x="919.0" y="250.0" font-size="17" fill="#172033" text-anchor="start" font-weight="600" font-family="'STIX Two Math','Cambria Math','Times New Roman',serif">Z₄=+jXL</text>
+<text x="919.0" y="288.0" font-size="17" fill="#172033" text-anchor="start" font-weight="600" font-family="'STIX Two Math','Cambria Math','Times New Roman',serif">ไม่มี source</text>
+<text x="919.0" y="326.0" font-size="17" fill="#172033" text-anchor="start" font-weight="600" font-family="'STIX Two Math','Cambria Math','Times New Roman',serif">V₄=ZLI₄</text>
+<line x1="600" y1="405" x2="600" y2="455" stroke="#0891b2" stroke-width="4" stroke-linecap="round" marker-end="url(#arr-cyan)"/>
+<rect x="95" y="470" width="1010" height="250" rx="20" fill="#f8fafc" stroke="#cbd5e1" stroke-width="1.5"/>
+<rect x="125" y="495" width="170" height="38" rx="19" fill="#7c3aed" stroke="#7c3aed" stroke-width="1"/>
+<text x="210.0" y="520.0" font-size="14" fill="#ffffff" text-anchor="middle" font-weight="700" font-family="'Noto Sans Thai','Sarabun','IBM Plex Sans Thai','Segoe UI',sans-serif">VECTOR ASSEMBLY</text>
+<text x="600.0" y="565.0" font-size="24" fill="#172033" text-anchor="middle" font-weight="700" font-family="'STIX Two Math','Cambria Math','Times New Roman',serif">Zᵦ = diag(R₁, R₂, ZC, ZL)</text>
+<text x="600.0" y="615.0" font-size="21" fill="#172033" text-anchor="middle" font-weight="600" font-family="'STIX Two Math','Cambria Math','Times New Roman',serif">Vₛᵦ = [ V₀  0  0  0 ]ᵀ     Iₛᵦ = [ 0  jI₀  0  0 ]ᵀ</text>
+<text x="600.0" y="675.0" font-size="22" fill="#7c3aed" text-anchor="middle" font-weight="700" font-family="'STIX Two Math','Cambria Math','Times New Roman',serif">Vᵦ = [ R₁I₁+V₀,  R₂(I₂−jI₀),  ZCI₃,  ZLI₄ ]ᵀ</text>
+<text x="600.0" y="760.0" font-size="16" fill="#64748b" text-anchor="middle" font-weight="600" font-family="'Noto Sans Thai','Sarabun','IBM Plex Sans Thai','Segoe UI',sans-serif">เครื่องหมาย +jI₀ เกิดจาก sine phase และการกลับทิศลูกศรอย่างละหนึ่งครั้ง</text>
+</svg>

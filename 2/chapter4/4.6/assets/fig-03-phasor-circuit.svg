@@ -1,0 +1,56 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 800" role="img" aria-label="วงจรสมมูลในโดเมนเฟสเซอร์" font-family="'Noto Sans Thai','Sarabun','IBM Plex Sans Thai','Segoe UI',sans-serif">
+<title>วงจรสมมูลในโดเมนเฟสเซอร์</title><defs><marker id="arr-ink" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0 L10 5 L0 10 Z" fill="#172033"/></marker><marker id="arr-blue" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0 L10 5 L0 10 Z" fill="#2563eb"/></marker><marker id="arr-red" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0 L10 5 L0 10 Z" fill="#dc2626"/></marker><marker id="arr-green" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0 L10 5 L0 10 Z" fill="#059669"/></marker><marker id="arr-purple" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0 L10 5 L0 10 Z" fill="#7c3aed"/></marker><marker id="arr-amber" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0 L10 5 L0 10 Z" fill="#b45309"/></marker><marker id="arr-cyan" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0 L10 5 L0 10 Z" fill="#0891b2"/></marker><marker id="arr-pink" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0 L10 5 L0 10 Z" fill="#db2777"/></marker></defs>
+<rect width="1200" height="800" fill="#ffffff"/>
+<text x="54.0" y="55.0" font-size="29" fill="#172033" text-anchor="start" font-weight="800" font-family="'Noto Sans Thai','Sarabun','IBM Plex Sans Thai','Segoe UI',sans-serif">วงจรสมมูลในโดเมนความถี่</text>
+<text x="54.0" y="86.0" font-size="16" fill="#64748b" text-anchor="start" font-weight="400" font-family="'Noto Sans Thai','Sarabun','IBM Plex Sans Thai','Segoe UI',sans-serif">cosine reference และ peak phasor</text>
+<line x1="54" y1="105" x2="1146" y2="105" stroke="#cbd5e1" stroke-width="1.5" stroke-linecap="round"/>
+<rect x="45" y="135" width="1110" height="570" rx="18" fill="#faf5ff" stroke="#7c3aed" stroke-width="1.5"/>
+<line x1="170" y1="625" x2="970" y2="625" stroke="#172033" stroke-width="2.7" stroke-linecap="round"/>
+<line x1="170" y1="245" x2="300" y2="245" stroke="#172033" stroke-width="2.7" stroke-linecap="round"/>
+<line x1="720" y1="245" x2="820" y2="245" stroke="#172033" stroke-width="2.7" stroke-linecap="round"/>
+<line x1="170" y1="245" x2="170" y2="340" stroke="#172033" stroke-width="2.7" stroke-linecap="round"/>
+<circle cx="170" cy="420" r="30" fill="#ffffff" stroke="#2563eb" stroke-width="2.7"/>
+<line x1="170" y1="435" x2="170" y2="405" stroke="#2563eb" stroke-width="2.5" stroke-linecap="round" marker-end="url(#arr-blue)"/>
+<text x="127.0" y="426.0" font-size="19" fill="#2563eb" text-anchor="end" font-weight="700" font-family="'STIX Two Math','Cambria Math','Times New Roman',serif">−jI₀</text>
+<line x1="170" y1="450" x2="170" y2="625" stroke="#172033" stroke-width="2.7" stroke-linecap="round"/>
+<line x1="300" y1="245" x2="300" y2="330" stroke="#172033" stroke-width="2.7" stroke-linecap="round"/>
+<polyline points="300.0,330.0 289.0,343.6 311.0,357.1 289.0,370.7 311.0,384.3 289.0,397.9 311.0,411.4 289.0,425.0 311.0,438.6 289.0,452.1 311.0,465.7 289.0,479.3 311.0,492.9 289.0,506.4 300.0,520.0" fill="none" stroke="#172033" stroke-width="2.8" stroke-linejoin="round"/>
+<text x="342.0" y="430.0" font-size="21" fill="#172033" text-anchor="middle" font-weight="700" font-family="'STIX Two Math','Cambria Math','Times New Roman',serif">R₂</text>
+<line x1="300" y1="520" x2="300" y2="625" stroke="#172033" stroke-width="2.7" stroke-linecap="round"/>
+<line x1="300" y1="245" x2="500.0" y2="245" stroke="#172033" stroke-width="2.7" stroke-linecap="round"/>
+<line x1="500.0" y1="220" x2="500.0" y2="270" stroke="#172033" stroke-width="3.3" stroke-linecap="round"/>
+<line x1="520.0" y1="220" x2="520.0" y2="270" stroke="#172033" stroke-width="3.3" stroke-linecap="round"/>
+<line x1="520.0" y1="245" x2="720" y2="245" stroke="#172033" stroke-width="2.7" stroke-linecap="round"/>
+<text x="510.0" y="203.0" font-size="21" fill="#172033" text-anchor="middle" font-weight="700" font-family="'STIX Two Math','Cambria Math','Times New Roman',serif">ZC=−jXC</text>
+<line x1="720" y1="245" x2="720" y2="330" stroke="#172033" stroke-width="2.7" stroke-linecap="round"/>
+<line x1="720" y1="330" x2="720" y2="366" stroke="#172033" stroke-width="2.7" stroke-linecap="round"/>
+<path d="M 720 366 C 743 371.31, 743 390.19, 720 395.5 C 743 400.81, 743 419.69, 720 425.0 C 743 430.31, 743 449.19, 720 454.5 C 743 459.81, 743 478.69, 720 484.0 " fill="none" stroke="#172033" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round"/>
+<line x1="720" y1="484" x2="720" y2="520" stroke="#172033" stroke-width="2.7" stroke-linecap="round"/>
+<text x="762.0" y="430.0" font-size="21" fill="#172033" text-anchor="start" font-weight="700" font-family="'STIX Two Math','Cambria Math','Times New Roman',serif">ZL=+jXL</text>
+<line x1="720" y1="520" x2="720" y2="625" stroke="#172033" stroke-width="2.7" stroke-linecap="round"/>
+<polyline points="820.0,245.0 830.7,256.0 841.4,234.0 852.1,256.0 862.9,234.0 873.6,256.0 884.3,234.0 895.0,256.0 905.7,234.0 916.4,256.0 927.1,234.0 937.9,256.0 948.6,234.0 959.3,256.0 970.0,245.0" fill="none" stroke="#172033" stroke-width="2.8" stroke-linejoin="round"/>
+<text x="895.0" y="210.0" font-size="21" fill="#172033" text-anchor="middle" font-weight="700" font-family="'STIX Two Math','Cambria Math','Times New Roman',serif">R₁</text>
+<line x1="970" y1="245" x2="970" y2="340" stroke="#172033" stroke-width="2.7" stroke-linecap="round"/>
+<circle cx="970" cy="420" r="31" fill="#ffffff" stroke="#7c3aed" stroke-width="2.7"/>
+<line x1="962" y1="409" x2="978" y2="409" stroke="#7c3aed" stroke-width="2.4" stroke-linecap="round"/>
+<line x1="970" y1="401" x2="970" y2="417" stroke="#7c3aed" stroke-width="2.4" stroke-linecap="round"/>
+<line x1="962" y1="432" x2="978" y2="432" stroke="#7c3aed" stroke-width="2.4" stroke-linecap="round"/>
+<text x="1014.0" y="426.0" font-size="19" fill="#7c3aed" text-anchor="start" font-weight="700" font-family="'STIX Two Math','Cambria Math','Times New Roman',serif">V₀</text>
+<line x1="970" y1="451" x2="970" y2="625" stroke="#172033" stroke-width="2.7" stroke-linecap="round"/>
+<circle cx="300" cy="245" r="7" fill="#172033" stroke="#172033" stroke-width="1"/>
+<text x="300.0" y="225.0" font-size="21" fill="#172033" text-anchor="middle" font-weight="700" font-family="'STIX Two Math','Cambria Math','Times New Roman',serif">A</text>
+<circle cx="720" cy="245" r="7" fill="#172033" stroke="#172033" stroke-width="1"/>
+<text x="720.0" y="225.0" font-size="21" fill="#172033" text-anchor="middle" font-weight="700" font-family="'STIX Two Math','Cambria Math','Times New Roman',serif">B</text>
+<circle cx="510" cy="625" r="7" fill="#172033" stroke="#172033" stroke-width="1"/>
+<text x="510.0" y="657.0" font-size="21" fill="#172033" text-anchor="middle" font-weight="700" font-family="'STIX Two Math','Cambria Math','Times New Roman',serif">O</text>
+<line x1="830" y1="210" x2="935" y2="210" stroke="#dc2626" stroke-width="2.6" stroke-linecap="round" marker-end="url(#arr-red)"/>
+<text x="882.0" y="193.0" font-size="18" fill="#dc2626" text-anchor="middle" font-weight="700" font-family="'STIX Two Math','Cambria Math','Times New Roman',serif">I₁</text>
+<line x1="335" y1="340" x2="335" y2="485" stroke="#2563eb" stroke-width="2.6" stroke-linecap="round" marker-end="url(#arr-blue)"/>
+<text x="352.0" y="417.0" font-size="18" fill="#2563eb" text-anchor="start" font-weight="700" font-family="'STIX Two Math','Cambria Math','Times New Roman',serif">I₂</text>
+<line x1="405" y1="205" x2="615" y2="205" stroke="#059669" stroke-width="2.6" stroke-linecap="round" marker-end="url(#arr-green)"/>
+<text x="510.0" y="187.0" font-size="18" fill="#059669" text-anchor="middle" font-weight="700" font-family="'STIX Two Math','Cambria Math','Times New Roman',serif">I₃</text>
+<line x1="755" y1="340" x2="755" y2="485" stroke="#b45309" stroke-width="2.6" stroke-linecap="round" marker-end="url(#arr-amber)"/>
+<text x="773.0" y="417.0" font-size="18" fill="#b45309" text-anchor="start" font-weight="700" font-family="'STIX Two Math','Cambria Math','Times New Roman',serif">I₄</text>
+<rect x="80" y="720" width="1040" height="54" rx="13" fill="#f8fafc" stroke="#cbd5e1" stroke-width="1.5"/>
+<text x="600.0" y="755.0" font-size="18" fill="#172033" text-anchor="middle" font-weight="700" font-family="'STIX Two Math','Cambria Math','Times New Roman',serif">Vₛ=V₀∠0°   ·   Iₛ(up)=I₀∠−90°=−jI₀   ·   Iₛ(branch 2)=+jI₀</text>
+</svg>
